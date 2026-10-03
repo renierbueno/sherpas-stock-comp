@@ -1,0 +1,18 @@
+# Platform captures: screenshots, HTML, network JSON. Confidential, never in git.
+captures/*
+!captures/.keep
+inputs/
+*.rtf
+*.har
+.env
+.env.*
+node_modules/
+dist/
+.DS_Store
+.playwright-mcp/
+test-results/
+playwright-report/
+
+# Private local context (loaded by Claude Code, never committed)
+CLAUDE.local.md
+private/

@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "ask": [
+      "mcp__claude-in-chrome__computer",
+      "mcp__claude-in-chrome__form_input",
+      "mcp__claude-in-chrome__javascript_tool",
+      "mcp__claude-in-chrome__file_upload",
+      "mcp__claude-in-chrome__shortcuts_execute",
+      "mcp__claude-in-chrome__browser_batch",
+      "Bash(git push:*)",
+      "Bash(gh repo create:*)",
+      "Bash(gh repo edit:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(git remote add:*)"
+    ],
+    "deny": [
+      "Bash(git commit --no-verify:*)",
+      "Bash(git commit -n:*)",
+      "Bash(git config core.hooksPath:*)"
+    ]
+  }
+}

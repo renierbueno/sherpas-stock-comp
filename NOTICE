@@ -1,0 +1,12 @@
+sherpas-stock-comp
+Copyright 2026 Renier Bueno
+
+The skills in .claude/skills/ are adapted from three sources:
+
+1. product-sdd and a private derivative of it (Renier Bueno's own spec-driven harnesses), the base for structure, checkpoints,
+   evidence labels and "done when" criteria.
+2. Cursor-for-Product-Managers by jinjin1 (https://github.com/jinjin1/Cursor-for-Product-Managers),
+   licensed under the Apache License, Version 2.0. Output formats (interview snapshots, ICE scoring,
+   one-pager) are adapted from it. Changes: rewritten for this case, English only, file paths,
+   evidence labels and chaining changed. A copy of the license is in
+   third_party/jinjin1-Cursor-for-Product-Managers/LICENSE.

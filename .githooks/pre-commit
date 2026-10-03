@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Blocks commits that would put confidential or secret material in git history.
+# Enabled with: git config core.hooksPath .githooks
+# Patterns are written as regexes so this file never contains the literal values it blocks.
+set -euo pipefail
+
+fail=0
+block() { echo "pre-commit BLOCKED: $1" >&2; fail=1; }
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$staged" ] && exit 0
+
+# 1. Paths: original inputs, platform captures, network dumps, screenshots outside our own prototype.
+while IFS= read -r f; do
+  case "$f" in
+    *.rtf|*.RTF)                 block "$f · original brief file (contains credentials)";;
+    captures/.keep)              ;;
+    captures/*|inputs/*)         block "$f · platform captures and inputs stay out of git";;
+    CLAUDE.local.md|private/*)   block "$f · private local context";;
+    *.har)                       block "$f · network capture";;
+    prototype/*)                 ;;
+    *.png|*.jpg|*.jpeg|*.webp|*.gif|*.heic|*.pdf|*.mov|*.mp4)
+                                 block "$f · image/video outside prototype/ (platform screenshots stay in captures/)";;
+  esac
+done <<< "$staged"
+
+# 2. Content of added lines. The hook file itself is skipped.
+patterns=(
+  'fact-finder/form/[^ )"]*[?&]t='        # one-use questionnaire link with its token
+  '[Bb]earer [A-Za-z0-9._~+/-]{20,}'      # auth tokens from network captures
+  '[Aa]uthorization: '
+  '[Cc]ookie: '
+  'sk-ant-[A-Za-z0-9_-]{10,}'
+  'gh[pousr]_[A-Za-z0-9]{30,}'
+  'AKIA[0-9A-Z]{16}'
+  '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+  '"(password|passwd|secret|api_key|access_token)"[[:space:]]*:'
+)
+# Case-specific values (demo user, password, tenant domain) live in a local, ignored file so
+# this committed hook never spells them out. One extended regex per line; # starts a comment.
+local_patterns="$(git rev-parse --show-toplevel)/private/hook-patterns.txt"
+if [ -f "$local_patterns" ]; then
+  while IFS= read -r line; do
+    line="${line%%#*}"; line="$(echo "$line" | sed 's/[[:space:]]*$//')"
+    [ -n "$line" ] && patterns+=("$line")
+  done < "$local_patterns"
+else
+  echo "pre-commit WARNING: private/hook-patterns.txt not found; case-specific values are not checked" >&2
+fi
+
+added=$(git diff --cached -U0 -- . ':(exclude).githooks' | grep '^+' | grep -v '^+++' || true)
+for p in "${patterns[@]}"; do
+  hit=$(grep -E -n -- "$p" <<< "$added" | head -3 || true)
+  [ -n "$hit" ] && block "content matches /$p/:"$'\n'"$hit"
+done
+
+if [ "$fail" -ne 0 ]; then
+  echo "Fix the staged changes. Do not bypass this hook (--no-verify is denied in .claude/settings.json)." >&2
+  exit 1
+fi
+exit 0
