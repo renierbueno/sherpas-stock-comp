@@ -8,7 +8,7 @@ Sherpas technical exercise: integrate stock compensation into the platform. Brie
 - Anything simulated (personas, interviews, data) is labelled `SIMULATED` in its title and first line. Never presented as real.
 
 ## Decisions and phases
-- Phases: F0 setup · F1 understand · F2 discovery · F3 decide · F4 spec · F5 prototype + tests · F6 delivery. Polish only after F6, timeboxed.
+- Phases: F0 setup · F1 understand · F2 discovery · F3 decide · F4 spec · F5 flow review · F6 prototype + tests · F7 delivery (D-053). Polish only after F7, timeboxed.
 - Every decision → `docs/03_decision_log.md` (what, why, date, who confirmed).
 - Every phase ends with `/check <phase>` and then Renier's gate. Do not start the next phase without his OK.
 - Timebox each phase. Two iterations without progress → stop and ask Renier.

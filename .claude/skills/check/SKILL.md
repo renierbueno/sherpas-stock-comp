@@ -1,6 +1,6 @@
 ---
 name: check
-description: Run with /check <phase> (F0–F6) before asking Renier to close a phase gate. Audits the repo against the case rules and the phase's "done when" criteria and writes a pass/fail report with evidence. Read-only on everything except its report.
+description: Run with /check <phase> (F0–F7) before asking Renier to close a phase gate. Audits the repo against the case rules and the phase's "done when" criteria and writes a pass/fail report with evidence. Read-only on everything except its report.
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ Goal: a gate is closed on evidence, not on assertion. Every line of the report p
 
 ## Input
 
-- The phase to check (argument: `F0` … `F6`).
+- The phase to check (argument: `F0` … `F7`).
 - The "Done when" section of each skill used in that phase.
 
 ## Steps

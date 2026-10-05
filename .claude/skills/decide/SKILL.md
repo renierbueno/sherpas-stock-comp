@@ -16,7 +16,7 @@ Goal: every choice in the proposal is Renier's, taken between real alternatives,
 ## Steps
 
 1. **Block.** Decisions run in four blocks, in order: scope, model, intake, analysis. Before each block, tell Renier what it covers.
-2. **Options.** For each decision, write the entry with the template below: the question in plain words, three options that are real alternatives (not a straw man and two variants), trade-offs, the evidence for each, and a recommendation with why it beats the other two. Check each option against D-023 and against what the platform already does (cite `data_model.md` or `questionnaire_map.md`).
+2. **Options.** For each decision, write the entry with the template below: the question in plain words, three options that are real alternatives (not a straw man and two variants), trade-offs, the evidence for each, and a recommendation with why it beats the other two. Check each option against D-023 and against what the platform already does (cite `data_model.md` or `questionnaire_map.md`). If no option solves the problem well, do not recommend: generate or combine more options and say which gap each closes (D-046).
 3. **Explain.** In chat, explain every domain term in plain Spanish at the moment of deciding.
 4. **Choose.** Renier chooses, edits or rejects. Only then record it: a `D-NNN` in `03_decision_log.md` (what, why, date, "Confirmed by: Renier") and the chosen option marked in `06_direction.md`. Never write "Confirmed by" before he confirms.
 5. **Unknowns.** A fact a decision needs that no source gives goes to `02_open_questions.md` after the D-020 check, with the assumption the work proceeds on.

@@ -23,16 +23,29 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 
 ## Case terms
 
-| Term | Meaning |
-|---|---|
+| Term | Meaning | Source |
+|---|---|---|
 | Stock compensation | Shares or rights to shares in the client's employer, received as part of pay. [brief] Types and terms are defined in `research.md`. |
 | RSU (restricted stock unit) | An unfunded promise by the employer to deliver shares (or their cash value) once a vesting condition is met. Taxed as wages when settled. [R-001] |
 | SIMULATED | Any persona, interview or data set that is not real. Always labelled; never presented as real. |
 | Stock pay | Our product label for stock compensation in the questionnaire and the analysis ("stock pay reported, detail pending"). | D-030, D-035 |
 | Employer flag | A mark on a held position saying it is stock of the person's employer, whatever its origin. | D-024 |
 | Employer exposure | Held employer shares summed across accounts by issuer; in the report, with unvested grants and salary from the same employer as context. | D-040 |
-| Withholding gap | Tax owed on a vest minus tax withheld at vest; federal always, state only when the advisor enters it. | D-033 |
+| Withholding gap | Tax owed on a vest minus tax withheld at vest; federal always, state only when the advisor enters the rate; FICA shown outside it. | D-033, D-051 |
 | Detail pending | State of a grant the client reported but the advisor has not completed; kept out of figures. | D-035 |
+| Proposed grant | A grant extracted from a plan statement and not yet confirmed by the advisor; kept out of figures. | D-042 |
+| Firm setting | "Stock compensation": one setting per firm that turns every stock-pay feature on or off. | D-049 |
+| Feature (spec) | One advisor outcome that can be built, tested and released on its own (F-A to F-F). | D-047 |
+| EARS | A fixed way to write a requirement: one testable sentence per behaviour, with five patterns (always; when an event; while a state; if something unwanted, then; where a feature is enabled). | `.claude/skills/spec/SKILL.md` |
+| Acceptance criterion | A yes/no check that a requirement is met; ID `AC-<feature>-NN`, linked to a test. | D-004, D-047 |
+| Edge case | An unusual but possible situation that tends to break the logic; ID `EC-<feature>-NN`. | `.claude/skills/spec/SKILL.md` |
+| Instrumentation event | What the system records so a metric can be measured; ID `EV-<feature>-NN`. | D-043 |
+| Parameter (`P-…`) | A part of the score that is not public (a check's curve, threshold or horizon); SIMULATED values in tests. | [brief]; `spec/00_index.md` |
+| Relation test | A test that checks a relation that must always hold (two accounts equal one position) instead of an absolute score. | `spec/00_index.md` |
+| Success metric | A measurable signal that the feature works, with a window, a target and a decision rule; ID `M-NN`. | D-043 |
+| Guardrail | A metric that must not get worse rather than improve; ID `GR-NN`. | D-043 |
+| Design partner | A firm in the pilot that turns the setting on and gives weekly feedback. | D-043 |
+| Pilot readout | The weekly table of metrics, grouped advisor corrections and the decision taken. | D-043 |
 
 ## Stock compensation terms
 

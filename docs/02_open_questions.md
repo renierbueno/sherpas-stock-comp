@@ -22,6 +22,10 @@ What we do not know. Do not guess an answer anywhere else in the repo. When one 
 - How is "concentration in the largest position" measured: by holding, by issuer, or by sector with fund look-through? And is its threshold suitable for a single company as well as a fund line? (riskiest assumption 2 in `06_direction.md`)
 - The questionnaire link we received was already completed on 2026-09-21 by another test household. Could you reset it or send a new one, so we can go through it as a client would?
 - After a client completes the questionnaire, what turns it into a profile and an analysis: the advisor's "Submit and continue", an automatic step, or both? How long does it take, and does the advisor edit the answers first?
+- Do you track proposal-to-client conversion and time to proposal per advisor or firm, and can it be joined to whether a household reports stock pay? It is the primary success metric (D-043); the work proceeds on [ASSUMPTION: confirm].
+- Does the platform record when an analysis or report is shared with the client, and the edits an advisor makes to generated observations and recommendations before sharing? Secondary metrics in `07_success_criteria.md` read them (D-043).
+- Can pilot advisors tag their past opportunities as with or without stock pay, and does the platform keep free-text answers and uploaded documents that would help? It gives the baseline of the primary metric (`07_success_criteria.md`, M-01).
+- Can an advisor send an existing client the questionnaire again, or a single question from it? It decides how existing households are asked about stock pay after the MVP (`spec/00_index.md`, existing households).
 - When a client enters the same household twice (questionnaire, then advisor edits in Data & Assumptions), which wins, and is each version kept?
 
 ## For public research (answer with research)
@@ -38,6 +42,7 @@ What we do not know. Do not guess an answer anywhere else in the repo. When one 
 - Prevalence among advisors' client households, not companies: R-016 covers companies only.
 - Insider status: trading windows, planned selling programmes and hedging limits for employees who are insiders (V02, V26). Changes advice on when to sell, not the MVP model (D-031).
 - Vesting acceleration on leaving or on a sale of the company, and clawbacks: how common, and what they change in a schedule.
+- How is FICA (Social Security and Medicare) withheld at vest on supplemental wages, including above the Social Security wage base? `spec/F-C` shows FICA owed outside the gap until this is researched (AC-C-14).
 - State supplemental withholding rules at vest (D-033: the MVP uses an optional advisor-entered rate instead).
 - What large firms' compliance review requires of a report shared with the client.
 - URLs of the Reddit threads read in Spanish machine translation (cited by title in `discovery/voices.md`).
