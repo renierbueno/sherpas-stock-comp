@@ -53,6 +53,7 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 | AC-C-25 | If the household has no complete grant of a listed employer, then the system shall compute tax lines, the Liquidity check and the report exactly as today. | D-023 | unit | (F6) |
 | AC-C-26 | While a household has future vests this year, the cash flow statement shall show below its total, under the stock compensation income category, "Stock compensation (vests this year), not in the totals above: $<value>, estimated tax $<owed>." | D-054, D-058 | e2e | (F6) |
 | AC-C-27 | While a household has future vests, View more shall show "Savings rate and debt ratios read reported income; vests are shown separately." | D-054 | e2e | (F6) |
+| AC-C-29 | The system shall show the per-vest figures of AC-C-03, AC-C-10 to AC-C-12, AC-C-14 to AC-C-16 in a collapsible "Tax on each vest" in Savings & Expenses, after the bullets of AC-C-23, one group per vest, as "Estimated tax on this vest: $<total> (federal $<a>, Social Security and Medicare $<b>, state $<c>), at the <analysis date> price and today's tax rules." and "Estimated gap after withholding: $<gap>, at the <analysis date> price and today's tax rules."; performance unit figures add "at target (range $<min> to $<max>)". | D-069 | e2e | (F6) |
 | AC-C-28 | The system shall offer the line of AC-C-24 as a candidate for the Summary recommendations, chosen by the platform's existing logic and phrased as a fact (AC-G-06). | D-039, D-060 | e2e | (F6) |
 
 ## Edge cases

@@ -26,7 +26,7 @@ describe('F-C · screens', () => {
     expect(within(screen.getByLabelText('Recommendations')).getByText(look.textContent!)).toBeInTheDocument();
   });
 
-  it('AC-C-04 · AC-C-06 · AC-C-12 · AC-C-14 · tax on each vest: price date and tax rules, withholding label, federal-only state line, FICA apart', async () => {
+  it('AC-C-29 · AC-C-04 · AC-C-06 · AC-C-12 · AC-C-14 · tax on each vest, collapsible in Savings & Expenses: price date and tax rules, withholding label, federal-only state line, FICA apart', async () => {
     render(<App initialHousehold="H2" households={[NEAR]} />);
     const each = screen.getByLabelText('Tax on each vest');
     expect(within(each).getByText('Federal withholding estimated at the supplemental rate (22%, 37% above $1 million).')).toBeInTheDocument();

@@ -341,3 +341,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: AC-B-19 applies to every grant of a private employer, whether or not the advisor entered vest dates; it stays out of every figure (AC-G-05). Option in `10_flow_review.md` pass 2: leaving it "pending detail", which shows the client "<Name> reported pay in <company> stock. It is not yet included in these figures." for a grant the advisor entered in full.
 - Why: a private RSU usually needs a liquidity event as well as time to settle (R-011, double trigger); the status and the line the client reads should say that, not that detail is missing.
 - Date: 2026-10-05 · Confirmed by: Renier
+
+## D-069 · Per-vest tax lines: where they show and how they read (GAP-31)
+- What: new AC-C-29. The tax owed by level, the gap and the PSU range of each vest show in a collapsible "Tax on each vest" in Savings & Expenses, after the per-year bullets (AC-C-23), one group per vest, with the labels written in AC-C-29. Option in `10_flow_review.md` pass 2: one line per vest in the per-year bullets (ten or more lines in the section most clients read first).
+- Why: F-C required the figures but quoted no label and named no surface; collapsing them keeps the per-year bullet as the reading line and the detail one click away, and every label still names the price date (AC-G-15).
+- Date: 2026-10-05 · Confirmed by: Renier
