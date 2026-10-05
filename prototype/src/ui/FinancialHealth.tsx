@@ -58,6 +58,23 @@ function Bullets({ lines, label }: { lines: ReportLine[]; label: string }) {
   );
 }
 
+/** AC-B-27: after the asset totals; absent without grants (AC-B-26). */
+function GrantBlock({ lines }: { lines: ReportLine[] }) {
+  if (lines.length === 0) return null;
+  const groups = [...new Set(lines.map((l) => l.group ?? ''))];
+  return (
+    <div className="grantblock" aria-label="Stock compensation not yet vested">
+      <h3>Stock compensation not yet vested (not in net worth)</h3>
+      {groups.map((g) => (
+        <div key={g}>
+          <div className="caps">{g}</div>
+          <Bullets lines={lines.filter((l) => (l.group ?? '') === g)} label={g} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function ViewMore({ analysis, household, lines, onClose }: { analysis: Analysis; household: Household; lines: ReportLine[]; onClose: () => void }) {
   const conc = analysis.score.concentration;
   const concLines = on(lines, 'viewMore.concentration');
@@ -131,6 +148,7 @@ export function FinancialHealth({ household, analysis, mode }: { household: Hous
             <div className="card"><div className="caps">Investable assets</div><div className="v">{money(investableAssets(household))}</div></div>
           </div>
           <Bullets lines={on(lines, 'assets.bullets')} label="Assets observations" />
+          <GrantBlock lines={on(lines, 'assets.grants')} />
           {lookInto.length > 0 && (
             <div className="lookinto" aria-label="We should look into">
               <h3>We should look into</h3>

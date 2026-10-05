@@ -107,7 +107,7 @@ describe('F-A · employer stock counted in concentration', () => {
     let h = H2_FLAGGED;
     h = removeFlag(h, 'h2-hldn-brk', ON);
     h = removeFlag(h, 'h2-hldn-401k', ON);
-    expect(analyze(h, ON).lines).toEqual([]);
+    expect(analyze(h, ON).lines.filter((l) => l.ac.startsWith('AC-A'))).toEqual([]);
   });
 
   it('EC-A-05 · EC-A-06 · former or unknown employer: counted in exposure, no pay line', () => {

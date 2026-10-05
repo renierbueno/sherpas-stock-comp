@@ -1,7 +1,8 @@
 // SIMULATED households H1 to H7 (docs/10_flow_review.md, walk-throughs).
 // SIMULATED: every name, company, ticker, price and figure here is invented. Not Sherpas data,
 // not real people or companies.
-import type { Household } from './types';
+import { generateTranches } from './grants';
+import type { Grant, Household } from './types';
 
 export const ANALYSIS_DATE = '2026-10-05';
 
@@ -29,6 +30,8 @@ const base = (id: string, name: string, people: Household['people']): Household 
   cash: 0,
   employers: [],
   flags: [],
+  grants: [],
+  incomeIncludesVests: {},
   untouchedChecks: { ...UNTOUCHED },
 });
 
@@ -74,7 +77,24 @@ export const H2: Household = {
       { id: 'h2-bnd', ticker: 'SIMBD', name: 'Aggregate bond fund', value: 200_000 },
     ] },
   ],
+  // Reported in the questionnaire: employer only plus estimates; pending detail (AC-E-07).
+  grants: [{ id: 'h2-g1', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'RSU', employerId: 'halden',
+    tranches: [], source: 'questionnaire', reportedOn: '2026-09-28',
+    clientEstimate: { type: 'RSU', unvestedValue: 120_000, frequency: 'quarterly' } }],
+  incomeIncludesVests: { p1: 'no' },
 };
+
+/**
+ * H2 after the advisor completes the grant: 4,000 units granted 2025-03-01, four years,
+ * quarterly, one-year cliff (EC-B-01 shape). Three tranches are past; ten are future.
+ */
+export const H2_GRANT: Grant = {
+  ...H2.grants[0],
+  grantDate: '2025-03-01',
+  units: 4_000,
+  tranches: generateTranches('2025-03-01', 4_000, { lengthMonths: 48, frequencyMonths: 3, cliffMonths: 12 }),
+};
+export const H2_COMPLETE: Household = { ...H2, grants: [H2_GRANT] };
 
 /** H3 · With PSU. Listed employer; employer shares held in one account. */
 export const H3: Household = {
@@ -87,6 +107,11 @@ export const H3: Household = {
       { id: 'h3-tmf', ticker: 'SIMTM', name: 'Total market index fund', value: 300_000 },
     ] },
   ],
+  grants: [{ id: 'h3-psu', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'PSU', employerId: 'arvo',
+    grantDate: '2025-02-15', units: 1_200, source: 'advisor', reportedOn: '2026-09-20',
+    psu: { condition: 'Relative total shareholder return against a sector index', periodEnd: '2027-12-31', rangeMin: 0, rangeMax: 2 },
+    tranches: [{ id: 't1', date: '2028-02-15', units: 1_200 }] }],
+  incomeIncludesVests: { p1: 'no' },
 };
 
 /** H4 · Private employer. Private shares held as a free-text instrument (EC-A-07). */
@@ -100,6 +125,9 @@ export const H4: Household = {
       { id: 'h4-tmf', ticker: 'SIMTM', name: 'Total market index fund', value: 250_000 },
     ] },
   ],
+  grants: [{ id: 'h4-g1', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'RSU', employerId: 'lumen',
+    grantDate: '2023-05-01', units: 8_000, source: 'advisor', tranches: [] }],
+  incomeIncludesVests: { p1: 'no' },
 };
 
 /** H5 · Detail pending. The client knows only the employer. */
@@ -112,6 +140,9 @@ export const H5: Household = {
       { id: 'h5-tdf', ticker: 'SIMTD', name: 'Target date 2050 fund', value: 310_000 },
     ] },
   ],
+  grants: [{ id: 'h5-g1', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'RSU', employerId: 'kestrel',
+    tranches: [], source: 'questionnaire', reportedOn: '2026-10-01', clientEstimate: { type: 'not sure', frequency: 'not sure' } }],
+  incomeIncludesVests: { p1: 'not sure' },
 };
 
 /** H6 · Co-client with stock pay: both work for the same employer and both hold its shares (EC-A-03). */
@@ -132,6 +163,13 @@ export const H6: Household = {
       { id: 'h6-bnd', ticker: 'SIMBD', name: 'Aggregate bond fund', value: 160_000 },
     ] },
   ],
+  grants: [
+    { id: 'h6-g1', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'RSU', employerId: 'halden',
+      grantDate: '2026-02-01', units: 2_400, source: 'advisor', tranches: generateTranches('2026-02-01', 2_400, { lengthMonths: 36, frequencyMonths: 12, cliffMonths: 12 }) },
+    { id: 'h6-g2', category: 'stockCompensation', subType: 'RSU', ownerId: 'p2', type: 'RSU', employerId: 'halden',
+      grantDate: '2026-04-01', units: 1_200, source: 'advisor', tranches: generateTranches('2026-04-01', 1_200, { lengthMonths: 24, frequencyMonths: 6, cliffMonths: 6 }) },
+  ],
+  incomeIncludesVests: { p1: 'yes', p2: 'no' },
 };
 
 /** H7 · Existing household, analysed before the setting was on, with a manual score adjustment. */

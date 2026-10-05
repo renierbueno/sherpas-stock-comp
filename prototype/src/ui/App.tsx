@@ -2,9 +2,11 @@ import { useMemo, useRef, useState } from 'react';
 import { afterSave, removeFlag, setFlag } from '../model/actions';
 import { analyze, type Analysis } from '../model/analysis';
 import { EventLog } from '../model/events';
+import { addGrant, saveGrant } from '../model/grants';
 import { HOUSEHOLDS } from '../model/households';
 import type { EmployerFlag, Firm, Household } from '../model/types';
 import { FinancialHealth, visibleLines, type Mode } from './FinancialHealth';
+import { GrantsPanel, type GrantSave } from './GrantEditor';
 import { HoldingsEditor } from './HoldingsEditor';
 import { InvestmentAnalysis } from './InvestmentAnalysis';
 
@@ -32,6 +34,15 @@ export function App({ initialHousehold = 'H2', households: seed = HOUSEHOLDS }: 
   };
   const saveFlag = (f: EmployerFlag) => reprocess(afterSave(setFlag(household, f, firm, log)));
   const dropFlag = (positionId: string) => reprocess(afterSave(removeFlag(household, positionId, firm, log)));
+  const saveGrantEdit = ({ grant, employer, incomeAnswer, generated }: GrantSave) => {
+    const base: Household = {
+      ...household,
+      employers: household.employers.map((e) => (e.id === employer.id ? employer : e)),
+      incomeIncludesVests: { ...household.incomeIncludesVests, [grant.ownerId]: incomeAnswer },
+    };
+    const isNew = !household.grants.some((g) => g.id === grant.id);
+    reprocess(afterSave(isNew ? addGrant(base, grant, firm, log) : saveGrant(base, grant, firm, log, generated)));
+  };
 
   const tabs: [Tab, string][] = useMemo(() => {
     const t: [Tab, string][] = [['health', 'Financial health'], ['investment', 'Investment analysis']];
@@ -80,7 +91,10 @@ export function App({ initialHousehold = 'H2', households: seed = HOUSEHOLDS }: 
         <main><HoldingsEditor household={household} firm={firm} where="Investments (advisor mode)" onSaveFlag={saveFlag} onRemoveFlag={dropFlag} /></main>
       )}
       {mode === 'advisor' && activeTab === 'data' && (
-        <main><HoldingsEditor household={household} firm={firm} where="Data & Assumptions · Holdings" onSaveFlag={saveFlag} onRemoveFlag={dropFlag} /></main>
+        <main>
+          <GrantsPanel household={household} enabled={firm.stockComp} onSave={saveGrantEdit} />
+          <HoldingsEditor household={household} firm={firm} where="Data & Assumptions · Holdings" onSaveFlag={saveFlag} onRemoveFlag={dropFlag} />
+        </main>
       )}
     </>
   );

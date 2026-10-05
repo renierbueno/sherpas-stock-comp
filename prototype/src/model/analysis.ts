@@ -1,7 +1,7 @@
 // Reprocessing: turns a household into an analysis (score plus report lines). An analysis is
 // a snapshot: it changes only when the advisor saves and the household is reprocessed.
 import type { EventLog } from './events';
-import { linesFA, type ReportLine } from './lines';
+import { linesFA, linesFB, type ReportLine } from './lines';
 import { simulateScore, type ScoreResult } from './score';
 import type { Firm, Household } from './types';
 
@@ -23,7 +23,7 @@ export function analyze(h: Household, firm: Firm, log?: EventLog): Analysis {
     analysisDate: h.analysisDate,
     firmStockComp: firm.stockComp,
     score,
-    lines: [...linesFA(h, firm, score)],
+    lines: [...linesFA(h, firm, score), ...linesFB(h, firm)],
   };
 }
 

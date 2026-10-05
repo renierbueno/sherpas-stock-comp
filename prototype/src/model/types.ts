@@ -50,6 +50,59 @@ export interface EmployerFlag {
   costBasis?: Money;
 }
 
+export type IncomeAnswer = 'yes' | 'no' | 'not sure';
+
+/** One vest of a grant (AC-B-07 to AC-B-14). A PSU tranche holds target units. */
+export interface Tranche {
+  id: string;
+  date: IsoDate;
+  units: number;
+  forfeited?: boolean;
+  /** Recorded when known, never estimated (AC-B-14, D-050). */
+  sharesKept?: number;
+  costBasis?: Money;
+}
+
+/** PSU terms (AC-B-16, AC-B-17); the payout range is a share of target, 0 to 2 by default. */
+export interface PsuTerms {
+  condition: string;
+  periodEnd: IsoDate;
+  rangeMin: number;
+  rangeMax: number;
+}
+
+/** What the client told in the questionnaire: shown to the advisor, never used in figures (AC-E-14). */
+export interface ClientEstimate {
+  type?: 'RSU' | 'PSU' | 'other' | 'not sure';
+  unvestedValue?: Money;
+  frequency?: 'monthly' | 'quarterly' | 'every six months' | 'yearly' | 'not sure';
+}
+
+/**
+ * A grant: an element of the platform's stock compensation asset category, sub-type RSU;
+ * a PSU is an RSU with performance terms (AC-B-31, D-058). Unvested value is never net worth.
+ */
+export interface Grant {
+  id: string;
+  category: 'stockCompensation';
+  subType: 'RSU';
+  /** One person, never joint (AC-B-02). */
+  ownerId: PersonId;
+  type: 'RSU' | 'PSU';
+  employerId: string;
+  grantDate?: IsoDate;
+  units?: number;
+  tranches: Tranche[];
+  psu?: PsuTerms;
+  source: 'advisor' | 'questionnaire' | 'extraction';
+  /** Extracted from a statement and not yet confirmed (F-F). */
+  proposed?: { document: string };
+  /** State withholding rate per grant, 0 to 1 (AC-C-07). */
+  stateWithholdingRate?: number;
+  clientEstimate?: ClientEstimate;
+  reportedOn?: IsoDate;
+}
+
 export interface Household {
   id: string;
   /** Title; SIMULATED households say so in their name. */
@@ -60,6 +113,9 @@ export interface Household {
   cash: Money;
   employers: Employer[];
   flags: EmployerFlag[];
+  grants: Grant[];
+  /** Per person: "Does the salary on file include stock that vested this year?" (AC-B-29, AC-E-05). */
+  incomeIncludesVests: Record<PersonId, IncomeAnswer | undefined>;
   /** Manual score adjustment made by the advisor, if any (AC-B-06, AC-G-12). */
   manualAdjustment?: { points: number; reason: string };
   /** Score checks the change does not touch: fixed SIMULATED values, 0 to 100 (D-063). */

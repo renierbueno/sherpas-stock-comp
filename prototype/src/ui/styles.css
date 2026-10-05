@@ -75,3 +75,6 @@ td { border-top: 1px solid var(--border); padding: 8px; vertical-align: top; }
 
 .print main { max-width: 760px; }
 .print .section { break-inside: avoid; }
+
+.grantblock { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 12px; }
+.grantblock h3 { font-size: 18px; margin: 0 0 8px; }
