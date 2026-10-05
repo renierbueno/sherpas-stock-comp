@@ -92,6 +92,13 @@ describe('F-B · grant and schedule', () => {
     expect(simulateScore(H4, ON)).toEqual(simulateScore({ ...H4, grants: [] }, ON));
   });
 
+  it('AC-B-19 · a private grant with vest dates is also awaiting a liquidity event (D-068)', () => {
+    const dated = withGrant(H4, { tranches: [{ id: 't1', date: '2027-05-01', units: 2_000 }] });
+    expect(statusOf(dated, dated.grants[0])).toBe('awaiting a liquidity event');
+    expect(text(dated, 'AC-E-10')).toEqual([]);
+    expect(countedGrants(dated, ON)).toEqual([]);
+  });
+
   it('AC-B-18 · a private grant saves without vest dates', () => {
     const h = addGrant(H4, { id: 'p', ownerId: 'p1', type: 'RSU', employerId: 'lumen', units: 100, tranches: [], source: 'advisor' }, ON);
     expect(h.grants.find((g) => g.id === 'p')?.tranches).toEqual([]);

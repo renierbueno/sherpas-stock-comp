@@ -49,7 +49,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
 | AC-B-18 | Where the employer is private, the system shall let the advisor save an RSU grant without vest dates. | D-025; R-011 (double trigger) | e2e | (F6) |
-| AC-B-19 | Where the employer is private and the grant has no vest dates, the system shall show the grant as "Awaiting a liquidity event". | D-025 | e2e | (F6) |
+| AC-B-19 | Where the employer is private, with or without vest dates, the system shall show the grant as "Awaiting a liquidity event". | D-025, D-068 | e2e | (F6) |
 | AC-B-20 | Where the employer is private, the system shall let the advisor enter the latest 409A value and its date. | D-025; R-017 | e2e | (F6) |
 | AC-B-21 | Where a 409A value is entered, the system shall show "409A value <$> per share as of <date>, for information only; not counted in the figures." | D-025; R-017 | e2e | (F6) |
 

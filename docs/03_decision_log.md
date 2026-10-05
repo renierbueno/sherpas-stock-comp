@@ -336,3 +336,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: built in this order: (1) the simulator and unit tests of all six features; (2) screens and component tests of F-A, F-B and F-C, each with its scene (D-065); (3) the end-to-end walk of H2; (4) screens of F-D, F-E and F-F. What is not built by the limit is marked "spec only" in the traceability table with its reason.
 - Why: the calculations are where the spec's precision is tested and cost little; F7 (proposal, video, delivery) must keep its morning.
 - Date: 2026-10-05 · Confirmed by: Renier
+
+## D-068 · A private employer's grant is "Awaiting a liquidity event" with or without vest dates (GAP-30)
+- What: AC-B-19 applies to every grant of a private employer, whether or not the advisor entered vest dates; it stays out of every figure (AC-G-05). Option in `10_flow_review.md` pass 2: leaving it "pending detail", which shows the client "<Name> reported pay in <company> stock. It is not yet included in these figures." for a grant the advisor entered in full.
+- Why: a private RSU usually needs a liquidity event as well as time to settle (R-011, double trigger); the status and the line the client reads should say that, not that detail is missing.
+- Date: 2026-10-05 · Confirmed by: Renier
