@@ -91,3 +91,23 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: before every commit, Claude shows Renier the files, what they affect, why, and the message. The commit happens only after his OK on that exact set; any change after the OK needs a new OK. Added to the Git rules in `CLAUDE.md`.
 - Why: the git history is part of the delivery and will be read by Sherpas (D-009), so each commit must be one Renier has seen and stands behind; the pre-commit hook guards confidentiality, not content or wording.
 - Date: 2026-10-04 · Confirmed by: Renier
+
+## D-019 · F2 plan: research first, discovery from real public sources and SIMULATED material, timeboxed for the 2026-10-07 delivery
+- What: F2 runs research first (about 12 `R-NNN` entries in three parallel blocks: types with lifecycle and federal tax; vesting models; advisor practice, tools and prevalence), then discovery, then a synthesis for F3. Discovery uses real public voices (advisor and employee posts, surveys, product reviews, with URL and date) and SIMULATED personas and interviews; real interviews only if they arrive in time. Evidence weight: real > real public voice > SIMULATED; no assumption is marked validated on SIMULATED material alone. The `discovery` skill is written just before its block, with a dry run (D-002). Miro is connected at the synthesis step. Timebox: about 3.5 hours of working time.
+- Why: the interview questions depend on knowing which types and states exist; parallel research blocks fit the delivery date; simulated interviews can only generate hypotheses, so the weight of each source is stated up front.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-020 · A question goes to Sherpas only after checking every source we already have
+- What: before a question enters "For Sherpas" in `02_open_questions.md`, it is checked against the brief (including the four points of the assignment and the score article), `01_context.md`, the F1 docs and `research.md`. It goes only if it changes a decision in F3 to F5 and no stated assumption lets the work proceed. Each question records what it was checked against and the decision it changes. The existing list is re-audited with this rule at the end of F2.
+- Why: questions already answered by the brief, or that are the exercise itself (for example how stock compensation changes the score), cost the hiring manager's time and the proposal's credibility.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-021 · Public voices are filtered by who speaks and what kind of claim it is
+- What: every public post, comment, review or press quote used in discovery is labelled by speaker (verified professional, self-declared professional, lived experience, no stated basis) and by claim (rule, behaviour, opinion). Rule claims are checked against `research.md`; ones that contradict it count as evidence of confusion, never as facts. Items with no stated basis and opinions are excluded from the evidence. An assumption is validated only by behaviour or rule-consistent items from two independent speakers with a professional or lived basis. Machine-translated text is never quoted as verbatim. The filter lives in the `discovery` skill and applies to every public source.
+- Why: forums and reviews mix professionals, people with real experience and people with no basis; without a filter, noise and popular opinion would pass as evidence.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-022 · Miro is connected only when a task needs it (supersedes the Miro line of D-019)
+- What: the Miro board is not connected at the F2 synthesis. It is connected the first time a task needs a visual board, and the markdown in the repo stays the source of truth. D-011 still holds for anything that reaches Sherpas' board.
+- Why: the F2 synthesis reads well as tables in markdown; connecting a tool with nothing that needs it adds setup and a second place to keep in sync.
+- Date: 2026-10-05 · Confirmed by: Renier

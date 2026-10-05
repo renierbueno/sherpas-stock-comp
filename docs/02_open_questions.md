@@ -25,16 +25,25 @@ What we do not know. Do not guess an answer anywhere else in the repo. When one 
 
 ## For public research (answer with research)
 
-- Which stock-compensation types matter most for the households these advisors serve?
-- US federal tax treatment and timing for each type that makes the cut.
-- Lifecycle states of each candidate type (for example granted, vested, settled, exercised, expired, forfeited) and what changes at each state: ownership, income, tax, risk.
-- Which vesting models exist and which are common: monthly, quarterly or annual schedules, a cliff, back-loaded schedules, performance conditions, double trigger.
-- What minimum data an advisor needs per type to plan (grant, schedule, strike price, expiry, cost basis).
-- How advisors and planning tools handle stock compensation today.
-- How should employer-stock concentration be judged when the same employer also pays the salary (income and portfolio tied to one company)?
+- Which stock-compensation types matter most for the households these advisors serve? Company-level data only (R-016: RSUs near universal, options a falling minority, ESPP about half); household-level data not found (R-015); also asked of Sherpas.
+- How do advisors handle stock compensation today, in their own words? Real-voice sources to read in F2 discovery (R-012 to R-014 cover tools and guidance only).
+- Does MoneyGuide model equity compensation, and does eMoney support RSUs today? Not found (R-012).
+- Do Plaid, Yodlee or the stock-plan platforms (Carta, Shareworks, Fidelity, Schwab, E*Trade) pass unvested grants to aggregators? Not documented (R-013).
+- 2026 AMT exemption amounts (only tax year 2025 found, R-004); Pub 15-T conditions for the optional 22% flat rate (R-008); deadline for giving Forms 3921 and 3922 to employees (R-004, R-005).
+- Primary sources for back-loaded schedules at large employers (Amazon, Alphabet) and for the 90-day post-termination window as common practice (R-010, R-011, R-003).
+- Tax reason for double-trigger RSUs (§83, §409A) from IRS text, and post-IPO lock-up of those shares (R-011).
+- How common RSA, SAR and phantom stock are among public-company employees (R-006).
+- Can clients or advisors get the latest 409A value for private-company shares, and how old is it in practice? (R-017)
+- Prevalence among advisors' client households, not companies: R-016 covers companies only.
+- URLs of the Reddit threads read in Spanish machine translation (cited by title in `discovery/voices.md`).
 
 ## Answered
 
+- Which stock-compensation types exist, their lifecycle states, and what each state changes? RSU and PSU, NSO, ISO, ESPP, RSA, SAR and phantom stock, ESOP. [R-002 to R-007]
+- US federal tax treatment and timing for each type? [R-001 to R-006, R-008]
+- Which vesting models exist? Time-based (cliff, even, unequal), back-loaded, performance, double trigger, with filing examples. [R-009 to R-011]
+- What minimum data does an advisor need per type? The "Data an advisor needs" line of each type entry, and the planning tools' field lists. [R-002 to R-007, R-012]
+- How should employer-stock concentration be judged when the same employer pays the salary? No rule; 10% of investment assets is the most cited rule of thumb, and FINRA names the double exposure. The threshold is a product decision. [R-014]
 - Is the demo on the new score or the old one? New: the demo shows "View more". [demo, 2026-10-03, Renier]
 - Who sees the Financial Health analysis? The end client has its own login and sees the full analysis read only: three tabs (Financial health, Investment analysis, Statements), the score breakdown and the reports the advisor shares. [FACT: captures/client/01-financial-health, 05-avatar-menu]
 - What does the end client get? The live analysis in the portal plus PDF reports the advisor shares (one investment analysis PDF in the demo), downloadable. [FACT: captures/client/06-reports]
