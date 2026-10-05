@@ -111,3 +111,103 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: the Miro board is not connected at the F2 synthesis. It is connected the first time a task needs a visual board, and the markdown in the repo stays the source of truth. D-011 still holds for anything that reaches Sherpas' board.
 - Why: the F2 synthesis reads well as tables in markdown; connecting a tool with nothing that needs it adds setup and a second place to keep in sync.
 - Date: 2026-10-05 · Confirmed by: Renier
+
+## D-023 · Nothing that works today gets worse for a household without stock compensation
+- What: a household with no stock compensation sees the same questionnaire, the same analysis and the same score as today. Any new question, field or check appears only when it applies, and where possible only for firms that enable it. Every F3 option is judged against this rule first.
+- Why: the questionnaire and the analysis already work for most households; the feature serves a segment (A-01), so its cost in friction must fall on that segment only. A score that moved for everyone would also need the whole score recalibrated.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-024 · MVP types: RSU and PSU, plus an employer flag on any held position
+- What: the MVP models RSU and PSU grants in full (grant, schedule, future vests; a PSU adds a condition and a payout range). Any position the client already holds can be flagged as employer stock, whatever its origin (RSU, ESPP, exercised options). Future ESPP purchases and unexercised options are not projected in the MVP. Options in `06_direction.md` F3-01.
+- Why: RSUs and performance units are granted by almost every responding company (R-016) and share one model (R-002, R-011); the flag makes the concentration analysis correct for every type once it is shares. ESPP and options each need their own tax logic for a smaller segment (R-003 to R-005, V20, V28).
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-025 · Private-company equity is recorded and shown, but kept out of score figures until it has a price
+- What: grants and shares of a private employer are recorded and shown in the analysis. They are left out of the score figures (net worth, concentration) until there is a market price. Double-trigger RSUs show as "awaiting a liquidity event", with no projected vest dates. A known 409A value is shown with its date, for information only. Options in `06_direction.md` F3-02.
+- Why: the score article says a figure Sherpas does not have "is not treated as a zero" and is left out [brief]; a 409A value is a tax value up to 12 months old, not a sale price (R-017), and double-trigger RSUs deliver nothing until the liquidity event (R-011). Excluding private employers would leave the brief's problem unsolved for startup employees.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-026 · Unvested grants are future income and future shares by dated tranche, not current net worth
+- What: an unvested RSU or PSU is a new grant element whose tranches each carry a date, a share count and their future income. On the vest date a tranche becomes wages for that year and a held position flagged as employer stock; sold shares become cash; forfeited tranches are removed. Unvested value is not counted in current net worth. Options in `06_direction.md` F3-03.
+- Why: unvested RSUs are neither income nor an owned asset until settlement (R-001, R-002); advisors model them as future income or a separate entry, not as net worth (V07, V08); counting them now would put in the figures a value that is lost on leaving, against the same logic as D-025.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-027 · The vesting schedule is a list of dated tranches, generated from a pattern and editable
+- What: a grant stores its schedule as tranches (date, share count). The list is generated from a simple pattern (length, frequency, cliff) and can be edited tranche by tranche. A PSU adds its performance condition and a payout range (0% to 200% of target). Options in `06_direction.md` F3-04.
+- Why: filings show cliff, even, unequal and back-loaded schedules (R-009, R-010); a total plus frequency would misstate year-by-year income, tax and concentration; a rule engine is more than an MVP needs. A dated list is also what a plan statement provides.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-028 · Vest income and vested shares are counted once
+- What: only households that say they have stock pay are asked whether their gross income includes stock that vested this year; vest income is counted once, inside or beside salary, by the answer. Past tranches exist only as held positions; the grant contributes future tranches only. Options in `06_direction.md` F3-05.
+- Why: vest value is W-2 wages (R-001), and clients and tools double count it (V06, V38 to V41). Changing the income question for everyone would break D-023.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-029 · Each tranche keeps the shares left after withholding and their cost basis
+- What: on vest, a tranche records the shares the employee keeps after shares are withheld or sold for tax, and their cost basis (value at vest). Completes D-026. Entry in `06_direction.md` F3-05b.
+- Why: net settlement and sell-to-cover leave fewer shares than vest (R-011, V39), so counting all vested shares would overstate holdings and concentration; basis equals the value included in income (R-002), and the questionnaire today loses it for held shares.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-030 · Intake: the client gives what they know, the advisor completes the detail
+- What: the client answers a yes/no question and, if yes, type, employer, rough unvested value, vest frequency and the D-028 question. The advisor completes tranches through advisor mode and Data & Assumptions. The firm can switch the block off. Document upload of the plan statement is the next route; the model takes a list of tranches so it can feed it. Options in `06_direction.md` F3-06.
+- Why: clients know totals, not schedules (A-05); aggregators miss unvested grants (R-013); both advisor routes already exist [FACT: questionnaire_map; brief]; D-023.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-031 · The employer and its ticker are asked per person inside the stock-pay block
+- What: employer name, and ticker if listed, per person with stock pay. No insider flag; insider rules are listed as considered and not researched. Options in `06_direction.md` F3-07.
+- Why: employer exposure needs salary, grants and held shares joined by employer (A-09, R-014); the insider evidence is one signal and one interpretation (V02, V26), with no research entry.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-032 · The stock-pay block sits in Income, after gross income
+- What: a yes/no question right after the gross income question opens the block. Options in `06_direction.md` F3-08.
+- Why: RSU value is pay (R-001); the questionnaire already branches the same way for pension and annuity [FACT: questionnaire_map]; the D-028 question belongs next to income. A-08 remains an assumption.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-033 · State withholding is an optional advisor field; the tax gap says when it is federal only
+- What: the platform's tax engine computes tax owed on vest income, state included. The advisor may enter a state withholding rate per grant (not mandatory; hidden when state tax is zero). With it, the gap is complete; without it, the gap is federal only and labelled so, and the unknown state part is left out of any score figure. Terms for model, analysis, advisor, client and UX in `06_direction.md` F3-09.
+- Why: federal withholding follows a researched rule (R-008); state rules were not researched; a mandatory field would invite a false zero, against the platform's missing-data rule [brief].
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-034 · Ask once for an advisor demo login, accepting a no as part of the exercise
+- What: the message to the hiring manager asks for an advisor login to the demo (no video), saying that if working from the client view is part of the exercise, the work continues as is. Until an answer arrives, advisor-side decisions rest on what the questionnaire definition, the opportunity record, the reports and the score article show (role-based display, advisor mode, firm settings, opportunity alerts, Data & Assumptions), and the deliverable states that the advisor screens were not seen. If access arrives in time, the advisor side is captured with `capture-platform` (pipeline and opportunity, advisor mode, Data & Assumptions, View more and score adjustment, sharing a report) and decisions it contradicts are superseded.
+- Why: the brief gives the diagnosis "tal como lo ve el cliente final" [brief], so the client view may be a deliberate constraint; but advisors are the users [brief] and most F4 and F5 advisor-side work depends on screens we have not seen. One question, with the constraint acknowledged, passes the D-020 check.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-035 · A reported grant without detail stays out of the figures until the advisor completes it
+- What: when a household reports stock pay but the tranches are not complete, the grant is left out of the score and the analysis figures; the analysis says "stock pay reported, detail pending"; the advisor sees an estimate from the client's answers only as a guide. Completing the detail reprocesses the analysis. Options in `06_direction.md` F3-A1.
+- Why: the platform's rule for missing figures [brief]; a rough estimate would move the score and the shared report; blocking the analysis would break D-023.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-036 · Missing stock-pay detail raises an alert on the opportunity
+- What: an alert "stock pay: detail pending" on the opportunity, of the same kind as the existing automatic alerts. In advisor mode the stock-pay block opens the full tranche editor. Options in `06_direction.md` F3-A2.
+- Why: the platform already alerts advisors at opportunity level [FACT: captures/questionnaire/02-opportunity]; D-035 only works if the advisor learns the detail is missing.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-037 · No vest conversion in the MVP; next, the system proposes and the advisor confirms
+- What: the MVP analysis is computed as of a date (past vests are held positions as entered, the grant adds future tranches, D-028). Next: on each vest date the tranche becomes "vested, pending confirmation"; the advisor records kept, sold or forfeited; PSUs wait for certification and double-trigger RSUs for the liquidity event; linked accounts are matched instead of assumed; unconfirmed tranches stay out of the figures. Options in `06_direction.md` F3-A3.
+- Why: vesting is automatic only if the employee is still employed (R-002); PSU payout, double trigger, withholding and the decision to sell are not known in advance (R-011, V39, V35, V36); assuming them would show holdings and concentration that may not exist.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-038 · Three analyses: employer exposure, tax at vest and its withholding gap, vest proceeds as dated cash
+- What: the advisor gets employer exposure, the expected tax at vest with the gap against withholding (D-033), and future vest proceeds as dated cash available for goals. The vest calendar shows as data, with no reminders. Options in `06_direction.md` F3-10.
+- Why: each answers an assumption validated in F2 (A-09, A-04, A-10) with data the MVP collects; sell-or-hold and AMT depend on options, out by D-024.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-039 · The analyses live inside existing checks and report parts; the score structure does not change
+- What: the Investing concentration check recognises employer stock (F3-12); the Liquidity near-term commitments check counts the tax gap of vests within its horizon, leaving out an unknown state part; the report adds bullets, "We should look into" and a recommendation when they apply; future vests appear as dated inflows in the projection; View more says why the score moved. Private equity and grants pending detail do not score. Options in `06_direction.md` F3-11.
+- Why: a score that ignored employer stock would mislead (A-09); a new area would change every household's weights, against D-023; existing checks and report parts are already understood by advisors [FACT: platform_map].
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-040 · The concentration check reads held employer stock summed by issuer, on its existing threshold
+- What: the Investing concentration check reads employer exposure: held employer shares (vested, kept after withholding, listed only) summed across all accounts. It keeps its existing scale and threshold. Unvested grants and salary from the same employer show in the report as context, not in the score. Options in `06_direction.md` F3-12.
+- Why: FINRA names the double exposure (R-014); measured by holding, employer stock split across accounts would hide; scoring unvested value would contradict D-026; the threshold is a product choice with no rule behind it (R-014), so the proposal reuses the platform's own. Whether that threshold fits a single company is a riskiest assumption.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-041 · MVP cut, gaps not researched, and the three riskiest assumptions
+- What: the MVP cut, the "Considered, not researched" list and the three riskiest assumptions in `06_direction.md` are confirmed, including four placements not decided before: ESOP never (a retirement plan), RSA, SAR and phantom stock later, personalised tax, exercise or sale advice never, a separate score area never.
+- Why: each MVP row comes from a confirmed decision (D-024 to D-040); ESOP is a qualified retirement plan (R-007); restricted stock is granted by few companies and SAR and phantom are often cash-settled (R-006, R-016); the analysis states facts and gaps, advice stays with the advisor (A-04); a new area would change every household's weights (D-023).
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-042 · The advisor can upload the plan statement in the MVP; extracted tranches need the advisor's confirmation (partly supersedes D-030)
+- What: in the MVP the advisor has a second route to complete a grant: upload the equity plan statement; the existing document extraction proposes the tranches; nothing reaches the figures until the advisor confirms them. D-030 stays for the client questions and the manual advisor route; its "document upload next" line is superseded. That extraction reads plan statements is an assumption. The client questionnaire and the placement of D-032 are rechecked when the questionnaire link is reset. Options in `06_direction.md` F3-06b.
+- Why: the website shows document upload with custom extraction [web: https://sherpaswealth.com/data-extraction, accessed 2026-10-05]; grant detail lives in documents (V01, V29) and aggregators miss unvested grants (R-013); confirming extracted data follows D-037 and guards against extraction errors. It lowers riskiest assumption 1.
+- Date: 2026-10-05 · Confirmed by: Renier
