@@ -1,6 +1,6 @@
 # F-F · Upload a plan statement and confirm the extracted tranches
 
-Decisions: D-037, D-042 · Depends on: F-B · Release: after F-B, behind the firm setting (D-030, D-043)
+Decisions: D-037, D-042, D-057 · Depends on: F-B · Release: after F-B, behind the firm setting (D-030, D-043)
 
 ## Context
 
@@ -26,6 +26,7 @@ As an advisor, I want to upload a client's plan statement and confirm the grants
 | AC-F-10 | Where the statement shows past vests, the system shall propose them as past tranches with the prompt of AC-B-12. | D-028, D-037 | e2e | (F6) |
 | AC-F-11 | The system shall not create held positions from a statement. | D-037 (no automatic conversion) | unit | (F6) |
 | AC-F-12 | The system shall label every proposed value "Extracted from <document>, not confirmed". | D-042 | e2e | (F6) |
+| AC-F-13 | When the client uploads a plan statement in the questionnaire's documents step, the system shall process it as in AC-F-02 to AC-F-12, as a proposal the advisor confirms. | D-057; [FACT: questionnaire_map, 2026-10-05, uploads go to the opportunity's context] | e2e | (F6) |
 
 ## Edge cases
 
@@ -53,7 +54,7 @@ As an advisor, I want to upload a client's plan statement and confirm the grants
 
 ## Out of scope
 
-- Upload from the client questionnaire (D-042).
+- Client confirmation of extracted values: the advisor confirms (D-042).
 - How extraction works and its accuracy: engineering and the riskiest assumption 1 test (`07_success_criteria.md`).
 
 ## Owned by engineering

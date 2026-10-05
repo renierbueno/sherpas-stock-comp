@@ -1,10 +1,10 @@
 # F-E · The client reports stock pay
 
-Decisions: D-023, D-028, D-030, D-031, D-032, D-035, D-036 · Depends on: F-B · Release: after F-B, behind the firm setting (D-030, D-043)
+Decisions: D-023, D-028, D-030, D-031, D-035, D-036, D-056, D-057 · Depends on: F-B · Release: after F-B, behind the firm setting (D-030, D-043)
 
 ## Context
 
-The questionnaire asks for one gross annual income per person and nothing about stock pay [FACT: questionnaire_map]. Clients know totals, not schedules (A-05), and the value that vests is W-2 wages, so it may already be inside the income they report (R-001; V38 to V41). The questionnaire already branches with a yes/no for pension and annuity [FACT: questionnaire_map].
+The questionnaire asks for one gross annual income per person and nothing about stock pay [FACT: questionnaire_map]. Clients know totals, not schedules (A-05), and the value that vests is W-2 wages, so it may already be inside the income they report (R-001; V38 to V41). The Income screen adds every extra income type (pension, business, royalty and others) as a chip that opens a row with owner, amount and frequency, and the client can upload documents in a documents step [FACT: questionnaire_map, 2026-10-05].
 
 ## User story
 
@@ -16,12 +16,15 @@ As a client, I want to say that part of my pay comes in company stock with what 
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-E-01 | Where the firm has enabled stock compensation, the Income section shall ask, right after the gross income question, "Does part of your pay come in company stock, such as RSUs?" (yes or no). | D-030, D-032 | e2e | (F6) |
-| AC-E-02 | When the answer is yes, the system shall ask which person (client, co-client, or both) and open one row per person. | D-031; [FACT: questionnaire_map, every answer belongs to someone] | e2e | (F6) |
-| AC-E-03 | The system shall ask in each row: employer, ticker if listed (security search), type (RSU, PSU, other, not sure), approximate value of unvested stock, how often it vests (monthly, quarterly, every six months, yearly, not sure). | D-030, D-031 | e2e | (F6) |
+| AC-E-01 | Where the firm has enabled stock compensation, the Income section shall offer a "Stock compensation" chip among "other current income". | D-030, D-056 | e2e | (F6) |
+| AC-E-02 | Where the firm has enabled stock compensation, the system shall show under the employment income field the helper line "Paid partly in company stock? Add it below as Stock compensation." | D-056 | e2e | (F6) |
+| AC-E-03 | When the client selects the chip, the system shall add a row with: owner (one person), employer, ticker if listed (security search), type (RSU, PSU, other, not sure), approximate value of unvested stock, how often it vests (monthly, quarterly, every six months, yearly, not sure); each selection adds one row, as for other chips. | D-030, D-031, D-056; [FACT: questionnaire_map, 2026-10-05] | e2e | (F6) |
 | AC-E-04 | The system shall require the employer in each row and accept "not sure" or empty for every other field. | D-030; A-05 | unit + e2e | (F6) |
-| AC-E-05 | The system shall ask in each row "Does the gross income you entered include stock that vested this year?" (yes, no, not sure). | D-028 | e2e | (F6) |
-| AC-E-06 | When the answer to AC-E-01 is no, the system shall continue the questionnaire exactly as today. | D-023 | e2e | (F6) |
+| AC-E-05 | The system shall ask in each row "Does your employment income above include stock that vested this year?" (yes, no, not sure). | D-028, D-056 | e2e | (F6) |
+| AC-E-06 | If the client adds no stock compensation row, then the system shall continue the questionnaire exactly as today. | D-023 | e2e | (F6) |
+| AC-E-19 | The row shall show "Upload your plan statement if you have it" with a link to the documents step; an uploaded statement enters F-F as a proposal (AC-F-13). | D-057 | e2e | (F6) |
+| AC-E-20 | The system shall never block completing the questionnaire or generating the analysis because a grant is pending detail. | D-035, D-060 | e2e | (F6) |
+| AC-E-21 | The system shall add the chip to any Financial Health template the firm uses [ASSUMPTION: the income widget is shared by the firm's templates]. | D-056, D-060 | e2e | (F6) |
 
 ### What it creates
 
@@ -45,12 +48,12 @@ As a client, I want to say that part of my pay comes in company stock with what 
 | ID | Case | Expected | Covered by |
 |---|---|---|---|
 | EC-E-01 | Firm has not enabled stock compensation | No question; questionnaire as today | AC-G-01 |
-| EC-E-02 | The client and the co-client both have stock pay, same employer | Two rows, two grants, one employer | AC-E-02, AC-E-07 |
+| EC-E-02 | The client and the co-client both have stock pay, same employer | Two rows (one per owner), two grants, one employer | AC-E-03, AC-E-07 |
 | EC-E-03 | Client knows only the employer | Saved; grant pending; alert | AC-E-04, AC-E-07, AC-E-08 |
 | EC-E-04 | Client answers "not sure" to the income question | Grant stays pending even after the tranches are complete, until the advisor answers it | AC-E-13 |
 | EC-E-05 | Client's employer is private | No ticker; grant pending; then private handling | AC-E-03; F-B (AC-B-18 to AC-B-21) |
 | EC-E-06 | Client reports ESPP or options as "other" | Recorded; advisor notice; held shares can be flagged | AC-E-16; F-A |
-| EC-E-07 | Firm uses the "benefit plan income" block instead of the income questions | Placement unknown | out: asked in `02` (fields of that block not visible) |
+| EC-E-07 | Firm uses the "benefit plan income" block instead of the income questions | The chip goes in that block too | [ASSUMPTION: the block uses the same income rows], `02` (D-059) |
 | EC-E-08 | Advisor fills the questionnaire in advisor mode | Full editor instead of the client rows | AC-E-15 |
 | EC-E-09 | Client says yes, advisor finds no grant (misunderstanding) | Advisor deletes the grant; alert removed | AC-E-09; F-B |
 
@@ -58,7 +61,7 @@ As a client, I want to say that part of my pay comes in company stock with what 
 
 | ID | Event (EARS) | Feeds | Verify | Test |
 |---|---|---|---|---|
-| EV-E-01 | When the stock-pay question is answered, the system shall record the answer with the firm. | M-06 | unit | (F6) |
+| EV-E-01 | When a stock compensation row is added or removed, the system shall record it with the firm. | M-06 | unit | (F6) |
 | EV-E-02 | When a questionnaire is completed, the system shall keep the stock-pay answer with the completion it already stores. | GR-01; [FACT: questionnaire_map, progress stored per section] | unit | (F6) |
 | EV-E-03 | When the alert "Stock pay: detail pending" is raised or removed, the system shall record the time. | M-02 | unit | (F6) |
 
@@ -69,7 +72,7 @@ As a client, I want to say that part of my pay comes in company stock with what 
 
 ## Out of scope
 
-- Document upload from the client questionnaire (D-042, not chosen).
+- Counting a client's upload before the advisor confirms it (D-042, D-057).
 - Asking the client for tranche dates or terms (D-030).
 
 ## Owned by engineering

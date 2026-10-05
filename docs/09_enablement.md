@@ -6,7 +6,7 @@ Material for advisors and for Client Success, ready with each release. Advisor s
 
 ### Five-minute guide
 
-1. **Find it.** A client said yes to the stock-pay question, or the opportunity shows "Stock pay: detail pending".
+1. **Find it.** A client added a Stock compensation row, or the opportunity shows "Stock pay: detail pending".
 2. **Complete it.** In advisor mode or Data & Assumptions, open the grant. Either upload the plan statement and confirm what is proposed, or enter the pattern and adjust the tranches. The client's own answers are shown as a guide only.
 3. **Check two things.** Whether the reported income already includes this year's vests (answered by the client, or by you). The state withholding rate, if you have the paystub or plan statement.
 4. **Mark held shares.** Any position in the employer's stock, in any account, marked as employer stock.
@@ -20,7 +20,7 @@ Material for advisors and for Client Success, ready with each release. Advisor s
 | "<Name>'s pay comes from the same company" | Investments and income depend on one company (FINRA names this risk, R-014) |
 | "$150K at target (range $0 to $300K)" | A PSU: the award names a target; the final number of shares is known only at certification |
 | "Gap shown is federal only" | State withholding was not entered; the state tax is still estimated and shown |
-| "$X after estimated tax ($Y before tax)" | Value on the vest date at today's price, after the tax the platform estimates |
+| "$X after estimated tax ($Y before tax)" | Value on the vest date at the price on the analysis date, after the tax the platform estimates |
 | "Stock pay reported, not yet included in these figures" | Detail pending; the score does not use it |
 
 ### Talking with the client
@@ -29,7 +29,7 @@ The analysis states facts and gaps; the advice is yours (D-041). Lines the repor
 
 - "About 30% of your investments is in your employer's stock, and your salary comes from the same company."
 - "Tax on the March vest may be about $10,000 more than what is withheld."
-- "Your vests before the home purchase add up to about $80,000 after estimated tax, at today's price."
+- "Your vests before the home purchase add up to about $80,000 after estimated tax, at the price on the analysis date."
 
 What the analysis does not do: tell the client to sell, hold or exercise, or give a tax plan.
 

@@ -4,29 +4,30 @@ What we do not know. Do not guess an answer anywhere else in the repo. When one 
 
 ## For the platform (answer in F1 with capture-platform)
 
-- What does the advisor view show and allow? The demo login is the end client's view; the advisor workspace (pipeline, Data & Assumptions, score adjustment) is not reachable from it. Asked once, accepting that the client view may be part of the exercise (D-034).
 - What do the advisor and the client call the end client in the product? The client view says "household" on screen and "opportunity" in its data; Sherpas' public announcement says "investor intake".
-- What does each questionnaire step look like on screen, and what exactly does the account and holdings block ask (cost basis, purchase date, account type list)? The link we received was already completed; only the definition and one set of answers were readable. (See "For Sherpas".)
-- Can the document extraction read an equity plan statement (grant, vest schedule, PSU terms) into tranches, and how does the advisor review extracted data? The website names other document types only (D-042). Work proceeds on [ASSUMPTION: confirm]; not asked of Sherpas (D-020).
-- When the questionnaire link is reset: does the client questionnaire accept document uploads, and does the Income section fit the stock-pay block as decided (D-032, D-042)?
-- What does the "benefit plan income" block ask, the variant that replaces the income questions when a firm enables it?
+- Can the document extraction read an equity plan statement (grant, vest schedule, PSU terms) into tranches? Unknown from the client side; see the assumptions below (D-042, D-057).
 
-## For Sherpas (send at the end of F1)
+## Assumptions we work on (D-059)
 
-- Final list drafted after the capture: only what the platform and public research cannot answer.
-- Candidates so far: how Sherpas charges (per seat, per firm, per analysis); what share of their advisors' clients hold employer equity, and which types (RSU, options, ESPP, other); whether advisors already ask for this (how often, in which segment).
-- Could you share the element schema (asset, liability, income and expense types and their fields)? It would let the proposal name exactly where a new type goes.
-- An advisor login to the demo; if the client view is part of the exercise, the work continues as is (D-034).
-- A copy of the Help Center articles linked from the score panel ("Why does the score not match the sum of the areas?", "What does the Financial Health Score mean?", "How does it compare to a Monte Carlo analysis?"). They need a login the demo account does not have.
-- The demo shows different figures for the same thing across screens (net worth $1.9M / $1.865M / about $1.35M; equity share 79.5% / 58.5% / about 70%; concentration "VTI 45%" vs "39% Financial Services" with no financial stock in the holdings; a cash yield of about 7,210%). Are these known demo-data issues, or do sections compute from different inputs? It matters because a stock-compensation analysis would read the same numbers.
-- How is "concentration in the largest position" measured: by holding, by issuer, or by sector with fund look-through? And is its threshold suitable for a single company as well as a fund line? (riskiest assumption 2 in `06_direction.md`)
-- The questionnaire link we received was already completed on 2026-09-21 by another test household. Could you reset it or send a new one, so we can go through it as a client would?
-- After a client completes the questionnaire, what turns it into a profile and an analysis: the advisor's "Submit and continue", an automatic step, or both? How long does it take, and does the advisor edit the answers first?
-- Do you track proposal-to-client conversion and time to proposal per advisor or firm, and can it be joined to whether a household reports stock pay? It is the primary success metric (D-043); the work proceeds on [ASSUMPTION: confirm].
-- Does the platform record when an analysis or report is shared with the client, and the edits an advisor makes to generated observations and recommendations before sharing? Secondary metrics in `07_success_criteria.md` read them (D-043).
-- Can pilot advisors tag their past opportunities as with or without stock pay, and does the platform keep free-text answers and uploaded documents that would help? It gives the baseline of the primary metric (`07_success_criteria.md`, M-01).
-- Can an advisor send an existing client the questionnaire again, or a single question from it? It decides how existing households are asked about stock pay after the MVP (`spec/00_index.md`, existing households).
-- When a client enters the same household twice (questionnaire, then advisor edits in Data & Assumptions), which wins, and is each version kept?
+No more questions go to Sherpas, and none are left for the follow-up session. Each former question is an assumption the work stands on, with what changes if it is false.
+
+| Assumption | If it is false |
+|---|---|
+| The analysis does not use the stock compensation categories of the platform's type lists today (D-058). | The mapping holds; only the net worth treatment needs checking so unvested value stays out (D-026). |
+| Concentration is measured by holding, not by issuer or by sector with fund look-through (D-040). | By issuer: AC-A-04 changes nothing new. With look-through: EC-A-09 moves into the MVP. |
+| The existing concentration threshold suits a single company (riskiest assumption 2). | An employer-specific threshold moves from next to the MVP (D-041). |
+| The document extraction can read an equity plan statement into tranches (riskiest assumption 1, D-042, D-057). | F-F and the client upload fall back to manual entry; the riskiest-assumption test in `07_success_criteria.md` says so early. |
+| The score article in the brief describes the score as it runs; the other Help Center articles add nothing the spec depends on. | The simulator parameters stay labelled `P-…`; only their SIMULATED values change. |
+| The figures that differ across demo screens (net worth, equity share, concentration, cash yield) are demo-data issues. | The spec reads check inputs, not displayed figures, so it holds; the prototype uses its own SIMULATED household. |
+| The advisor's "Submit and continue" turns a completed questionnaire into a profile and an analysis. | Grants are created at whichever step creates the profile (AC-E-07 is unchanged in substance). |
+| Proposal conversion and time to proposal can be tracked per household (M-01). | The instrumentation events of the spec add it; the baseline comes from the first weekly readout. |
+| Sharing an analysis and the advisor's edits to generated lines are not recorded today. | EV-A-04 and EV-D-01 add them; if they exist, the events reuse them. |
+| Pilot advisors can tag past opportunities as with or without stock pay. | The M-01 baseline starts at the first weekly readout instead. |
+| An advisor cannot resend the questionnaire, or one question of it, to an existing client. | If they can, asking existing households moves from next to the MVP (D-052). |
+| When the same household is entered twice (questionnaire, then Data & Assumptions), the advisor's last save wins and versions are kept. | The reprocessing rules of AC-G-12 still apply; only which version the grant reads changes. |
+| The "benefit plan income" variant of Income uses the same income rows, so the chip fits there too (EC-E-07). | The chip is added to that block separately. |
+| Stock pay is common enough among these advisors' clients to matter (R-015, R-016 cover companies only). | The pilot shows it in M-06; the feature stays behind the firm setting (D-030). |
+| How Sherpas charges does not change the MVP. | Only the business lens (`05_business_lens.md`) changes. |
 
 ## For public research (answer with research)
 
@@ -49,6 +50,9 @@ What we do not know. Do not guess an answer anywhere else in the repo. When one 
 
 ## Answered
 
+- What does each questionnaire step show, and does the client questionnaire accept uploads? Seen on 2026-10-05: income as chips with owner, amount and frequency; a documents step and per-account statement upload; holdings as instrument and balance, no cost basis. Placement changed to a chip (D-056); client upload added (D-057). [FACT: questionnaire_map, 2026-10-05]
+- What does the advisor view show and allow? Not available: the exercise is designed to be worked from the client side only, so the advisor side is specified from the brief and the client view (D-034). [brief, §4]
+- Could the completed questionnaire link be reset? Sherpas sent a new, unused link (2026-10-05). [brief, §4]
 - Which stock-compensation types exist, their lifecycle states, and what each state changes? RSU and PSU, NSO, ISO, ESPP, RSA, SAR and phantom stock, ESOP. [R-002 to R-007]
 - US federal tax treatment and timing for each type? [R-001 to R-006, R-008]
 - Which vesting models exist? Time-based (cliff, even, unequal), back-loaded, performance, double trigger, with filing examples. [R-009 to R-011]

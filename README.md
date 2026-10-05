@@ -17,7 +17,7 @@ The work runs in phases. Each phase ends with a check (`/check`) and a human gat
 | F2 · Discovery | Personas and interviews (SIMULATED unless real ones are possible, with their limits) | done |
 | F3 · Decide | Three options, a recommendation, and the MVP cut: now / next / later / never, each with its reason | done |
 | F4 · Spec | Feature specs with EARS acceptance criteria and edge cases, success criteria, release notes and enablement | done |
-| F5 · Flow review | What the change touches that no requirement covers: screens, figures, shared reports, user flows | not started |
+| F5 · Flow review | What the change touches that no requirement covers: screens, figures, shared reports, user flows | in progress |
 | F6 · Prototype | A pull request implementing the MVP as a reference: input, model, score simulator, analysis view; each criterion linked to its test | not started |
 | F7 · Delivery | Notion write-up, this README, the video script; flow review on the prototype | not started |
 
@@ -38,6 +38,7 @@ docs/
   07_success_criteria.md  how we will know it works: pilot, metrics, readout
   08_release_notes.md   what advisors are told, release by release
   09_enablement.md      advisor guide, FAQ, pilot playbook
+  10_flow_review.md     what the change touches: surfaces, data paths, walk-throughs, gaps
   spec/                 the feature specs: index plus one file per feature
   discovery/            assumptions, real public voices, SIMULATED personas and interviews
   checks/               the /check report that closed each phase

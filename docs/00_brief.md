@@ -114,3 +114,13 @@ Any adjustment you made by hand is replaced in that process, so finalize your da
 Will the same client always get the same score?
 Yes, from the same data. The calculation always works the same way, so re-running the analysis on unchanged data returns the same number.
 It moves when the data moves, when you adjust it by hand, or when Sherpas updates the calculation itself, which is being tuned while the new score is in beta.
+
+## 4. Follow-up email, 2026-10-05 (original, Spanish; excerpt)
+
+Only the sentences about the case; the link is not reproduced.
+
+Aquí tienes un enlace nuevo al cuestionario, recién creado y sin usar: [REDACTED: private link]
+
+Como el anterior, es de un solo uso, así que explóralo con calma antes de enviarlo.
+
+Sobre el acceso de asesor: el ejercicio está pensado para que trabajes solo desde la parte del cliente, así que sigue tal cual.

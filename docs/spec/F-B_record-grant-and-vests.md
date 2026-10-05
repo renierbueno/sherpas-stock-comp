@@ -4,7 +4,7 @@ Decisions: D-024, D-025, D-026, D-027, D-029, D-036, D-037, D-045, D-050 · Depe
 
 ## Context
 
-An unvested RSU or PSU is neither an asset nor income yet; it becomes wages and shares on each vest date, and a PSU's share count is known only at certification (R-001, R-002, R-011). The platform has no element for it: only workarounds such as a generic future income, which loses shares, price and schedule [FACT: questionnaire_map]. Real schedules include cliffs, unequal and back-loaded tranches (R-009, R-010).
+An unvested RSU or PSU is neither an asset nor income yet; it becomes wages and shares on each vest date, and a PSU's share count is known only at certification (R-001, R-002, R-011). The questionnaire has no place for it: only workarounds such as a generic future income, which loses shares, price and schedule [FACT: questionnaire_map]. The platform's type lists already name a stock compensation asset category with an RSU sub-type, with no grant, schedule or tax logic behind it [FACT: data_model, 2026-10-05]; this feature fills that slot (D-058). Real schedules include cliffs, unequal and back-loaded tranches (R-009, R-010).
 
 ## User story
 
@@ -58,10 +58,20 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
 | AC-B-22 | The system shall leave unvested tranches out of current net worth. | D-026 | unit | (F6) |
-| AC-B-23 | While a household has a complete grant of a listed employer, the analysis shall list each future tranche with its date, units and value at today's price. | D-038 (vest calendar as data), D-045 | e2e | (F6) |
+| AC-B-23 | While a household has a complete grant of a listed employer, the analysis shall list each future tranche with its date, units and value at the <analysis date> price. | D-038 (vest calendar as data), D-045 | e2e | (F6) |
 | AC-B-24 | Where a tranche is a performance unit tranche, the list shall show its value at target followed by "(range $<min> to $<max>)". | D-045 | unit + e2e | (F6) |
 | AC-B-25 | The system shall not send reminders or notifications for vest dates. | D-038 | manual (absence; nothing to show) | (F6) |
 | AC-B-26 | If the household has no grant, then the system shall show no grant section in the analysis. | D-023 | e2e | (F6) |
+| AC-B-27 | The analysis shall show grants in the Assets & Investments section, in a block "Stock compensation not yet vested (not in net worth)" after the asset totals, holding the tranche list (AC-B-23), "Awaiting a liquidity event" (AC-B-19) and the pending line (AC-E-10). | D-026, D-060 | e2e | (F6) |
+
+### Completeness, price and storage
+
+| ID | Requirement (EARS) | From | Verify | Test |
+|---|---|---|---|---|
+| AC-B-28 | The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one future tranche with date and units, PSU terms for a PSU, and a yes or no to the income question (AC-B-29). | D-035, D-060 | unit | (F6) |
+| AC-B-29 | The grant editor shall ask, per person, "Does the salary on file include stock that vested this year?" (yes, no, not sure), prefilled with the client's answer (AC-E-05), and apply AC-E-11 to AC-E-13 to the answer. | D-028, D-051, D-060 | unit + e2e | (F6) |
+| AC-B-30 | If the employer's ticker has no market price, then the system shall leave the grant out of every figure and show the advisor "Price not available for <ticker>: grant not counted." | [brief] missing data; D-060 | unit + e2e | (F6) |
+| AC-B-31 | The system shall store a grant as an element of the platform's stock compensation asset category, sub-type RSU, and a PSU as an RSU with its performance terms; unvested value stays out of net worth (AC-B-22). | D-058, D-026 | unit | (F6) |
 
 ## Edge cases
 
@@ -82,6 +92,8 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | EC-B-13 | Dividend equivalents | Not modelled | out: D-041 (later) |
 | EC-B-14 | ESPP purchases, unexercised options, RSA, SAR, phantom stock | Not offered as grant types; shares already held can be flagged (F-A) | out: D-024, D-041 |
 | EC-B-15 | A tranche vests after the analysis date and the analysis is reopened months later | Shown as vested with the prompt; no automatic conversion | AC-B-11, AC-B-12; D-037 (conversion next) |
+| EC-B-16 | PSU certified at the end of its period | The advisor edits the tranche units and sets the range to 100% | AC-B-08, AC-B-17 |
+| EC-B-17 | Grant entered by the advisor for an existing household, nobody has answered the income question | Stays pending until the advisor answers it | AC-B-28, AC-B-29 |
 
 ## Instrumentation
 

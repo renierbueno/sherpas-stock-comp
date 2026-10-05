@@ -19,10 +19,11 @@ As an advisor, I want future vests shown as dated inflows beside the client's go
 | AC-D-03 | The projected net worth chart shall show a marker for each year with vests, beside the goal markers. | D-039; [FACT: captures/client/01-financial-health, goal markers] | e2e | (F6) |
 | AC-D-04 | Where a year's vests include performance units, the chart shall show a line at target and a shaded band for their range. | D-045 | e2e | (F6) |
 | AC-D-05 | The system shall not count a tranche in liquid assets, months of reserve or near-term cash before its vest date. | D-039 | unit | (F6) |
-| AC-D-06 | The Retirement & Goals section shall add the bullet "<Company> vests: $<X> after estimated tax ($<Y> before tax) between <first date> and <last date>, at today's price." | D-038, D-045 | e2e | (F6) |
+| AC-D-06 | The Retirement & Goals section shall add the bullet "<Company> vests: $<X> after estimated tax ($<Y> before tax) between <first date> and <last date>, at the <analysis date> price." | D-038, D-045 | e2e | (F6) |
 | AC-D-07 | Where a goal's year falls on or after a vest, the system shall add "Vests before <goal> (<year>): $<X> after estimated tax." | D-038; A-10 | e2e | (F6) |
 | AC-D-08 | The system shall add to the vest bullets "Value on the vest date; whether shares are sold or kept is the client's decision." | D-037, D-041 (no advice) | e2e | (F6) |
 | AC-D-09 | If the household has no complete grant of a listed employer, then the system shall show the projection, the goal markers and the Retirement & Goals section exactly as today. | D-023 | unit + e2e | (F6) |
+| AC-D-10 | The projection shall count each vest once, as the inflow of AC-D-01, and not again through the year's income; after its vest date it shall project the after-tax amount as the platform projects cash savings. | D-054, D-060 | unit | (F6) |
 
 ## Edge cases
 
@@ -34,7 +35,7 @@ As an advisor, I want future vests shown as dated inflows beside the client's go
 | EC-D-04 | Grant pending detail | No inflows, markers or bullets | AC-G-04 |
 | EC-D-05 | Private employer, awaiting a liquidity event | No inflows | AC-G-05 |
 | EC-D-06 | Vest income already inside reported salary | Projection must not count it twice | F-E (AC-E-11, AC-E-12) |
-| EC-D-07 | After the vest date, the projected value of kept shares | Projected as the platform projects a held position | [INFERENCE: data_model]; checked in `flow-review` |
+| EC-D-07 | After the vest date, what the inflow becomes in the projection | Projected as cash savings; shares the advisor records as held positions are projected as positions | AC-D-10; AC-B-12 |
 
 ## Instrumentation
 

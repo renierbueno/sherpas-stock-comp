@@ -26,12 +26,19 @@ The prototype pull request (F6) is a reference implementation that shows the spe
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
 | AC-G-01 | Where the firm has not enabled stock compensation, the system shall show the questionnaire, the analysis and the score exactly as today. | D-023, D-030 | unit + e2e | (F6) |
-| AC-G-02 | Where the firm has enabled stock compensation, the system shall add to the questionnaire of a household that answers "no" only the stock-pay yes/no question. | D-023, D-030, D-032 | e2e | (F6) |
+| AC-G-02 | Where the firm has enabled stock compensation, the system shall add to the questionnaire only the "Stock compensation" income chip and its helper line; a household that adds no stock compensation row sees no new question. | D-023, D-030, D-056 | e2e | (F6) |
 | AC-G-03 | While a household has no grant and no position flagged as employer stock, the system shall compute every score check, figure and report line exactly as today. | D-023 | unit | (F6) |
 | AC-G-04 | The system shall leave out of every score figure any grant that is pending detail. | D-035, D-039 | unit | (F6) |
 | AC-G-05 | The system shall leave out of every score figure any grant or share of a private employer. | D-025, D-039 | unit | (F6) |
 | AC-G-06 | The system shall phrase every new report line as a fact about the household, without a sell, hold, exercise or tax instruction. | D-041 (personalised advice: never); A-04 | manual (wording review) | (F6) |
 | AC-G-07 | The system shall let the advisor edit or delete every new report line before sharing, as for other generated lines. | [web: https://sherpaswealth.com/financial-health, advisors edit generated observations] | e2e | (F6) |
+| AC-G-10 | The system shall show every new client-facing line with the same text in the live client view and in the shared PDF, including the advisor's edits and, for performance units, the range beside the number. | D-045, D-060 | e2e | (F6) |
+| AC-G-11 | The system shall show the advisor notices of AC-A-08, AC-B-10, AC-B-12, AC-B-30, AC-C-13, AC-E-13, AC-E-16, AC-E-17, AC-F-08 and AC-F-12, the client's estimates (AC-E-14) and proposed grants only in advisor mode and Data & Assumptions, never in the client view or the shared PDF. | D-060; [FACT: platform_map, the client sees the analysis live] | e2e | (F6) |
+| AC-G-12 | When the advisor saves any stock-pay change (a flag, a grant, a tranche, a state withholding rate, the income question, a confirmed extraction), the system shall reprocess the analysis and, if it has a manual score adjustment, first show the warning of AC-B-06. | [brief]; D-049, D-060 | e2e | (F6) |
+| AC-G-13 | When a firm turns the setting off, the system shall keep its stock-pay data, hide it and leave it out of every figure from the next reprocessing, leaving analyses already generated and PDFs already shared unchanged; turning the setting on again shall restore it. | D-030, D-060 | unit + e2e | (F6) |
+| AC-G-14 | The system shall add no new score limit; existing limits read the checks as today. | D-039, D-060 | unit | (F6) |
+| AC-G-15 | The system shall label every value of a future vest with the price date: "at the <analysis date> price". | D-045, D-060 | e2e | (F6) |
+| AC-G-16 | The system shall compute the savings rate, fixed commitments, debt-to-income, housing ratio, life cover need, Social Security estimate and contributions from reported income as today, never adding vest income. | D-054 | unit | (F6) |
 
 One firm setting, "stock compensation", turns everything on or off for a firm; the pilot runs on firms that turn it on (D-030, D-043, D-049). The stock-pay question always ships with the feature: it is how stock pay enters from the client (D-030, D-032).
 
@@ -51,21 +58,21 @@ After the MVP (D-052): asking existing clients the stock-pay question without th
 | Feature | Advisor outcome | Decisions | Depends on | Release order |
 |---|---|---|---|---|
 | [F-A](F-A_employer-stock-concentration.md) | Concentration sees employer stock as one position, and View more shows the double exposure | D-024, D-040, D-044, D-045 | none | 1 |
-| [F-B](F-B_record-grant-and-vests.md) | The advisor records an RSU or PSU grant and sees its future vests | D-024 to D-027, D-029, D-025, D-036, D-037, D-045 | none (F-A for the context lines) | 2 |
+| [F-B](F-B_record-grant-and-vests.md) | The advisor records an RSU or PSU grant and sees its future vests | D-024 to D-027, D-029, D-025, D-036, D-037, D-045, D-058 | none (F-A for the context lines) | 2 |
 | [F-C](F-C_tax-at-vest.md) | Tax at each vest and the withholding gap; Liquidity counts it | D-033, D-038, D-039 | F-B | 3 |
 | [F-D](F-D_vest-proceeds-dated-cash.md) | Vest proceeds as dated cash beside the goals | D-038, D-039, D-045 | F-B | 3 |
-| [F-E](F-E_client-reports-stock-pay.md) | The client reports stock pay in Income; the grant stays pending and the opportunity shows an alert | D-028, D-030 to D-032, D-035, D-036 | F-B | 3 |
-| [F-F](F-F_upload-plan-statement.md) | The advisor uploads a plan statement and confirms the extracted tranches | D-042 | F-B | 3 |
+| [F-E](F-E_client-reports-stock-pay.md) | The client reports stock pay in Income with a chip; the grant stays pending and the opportunity shows an alert | D-028, D-030, D-031, D-035, D-036, D-056, D-057 | F-B | 3 |
+| [F-F](F-F_upload-plan-statement.md) | The advisor or the client uploads a plan statement; the advisor confirms the extracted tranches | D-042, D-057 | F-B | 3 |
 
 ## Shared data
 
-Described in product terms; field names and storage are engineering's call.
+Described in product terms; field names and storage are engineering's call. The platform's type lists already hold a stock compensation asset category (sub-type RSU used here) and a stock compensation income category (RSU inflow used here); grants and vest income map onto them, and what the lists do not hold (PSU terms, tranches, status, the employer flag) is added (D-058) [ASSUMPTION: the analysis does not use these categories today].
 
 | Object | Holds | From |
 |---|---|---|
 | Employer | Name; listed or private; ticker when listed; latest 409A value and its date, when private and known | D-025, D-031 |
 | Employer flag on a held position | Employer; person whose employer it is; current employer: yes, no or unknown; cost basis when known | D-024, D-029, D-031 |
-| Grant | Owner (one person, never joint); type (RSU or PSU); employer; grant date; units; status (complete, pending detail, awaiting a liquidity event); source (advisor, questionnaire, extraction) | D-024 to D-027, D-035, D-042 |
+| Grant | Owner (one person, never joint); type (RSU, or PSU: an RSU with performance terms); employer; grant date; units; status (complete, pending detail, awaiting a liquidity event); source (advisor, questionnaire, extraction) | D-024 to D-027, D-035, D-042 |
 | PSU terms | Performance condition; end of the performance period; payout range, 0% to 200% of target unless the award says otherwise | D-027; R-002, R-011 |
 | Tranche | Vest date; units (PSU: target units); shares kept after withholding and cost basis, when known | D-027, D-029 |
 

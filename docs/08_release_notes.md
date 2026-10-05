@@ -22,7 +22,7 @@ For advisors in firms that turn on "stock compensation". One note per release, i
 - Add a client's RSU or PSU grant in advisor mode or Data & Assumptions: enter the schedule as a pattern (for example, four years, quarterly, one-year cliff) and edit any tranche.
 - PSUs keep their performance condition and payout range (0% to 200% of target unless you change it). Figures show the target value with the range beside it.
 - Private-company grants are recorded and shown, "awaiting a liquidity event", and are not counted in the figures. A 409A value can be added for information.
-- The analysis lists upcoming vests with their value at today's price. No reminders are sent.
+- The analysis lists upcoming vests with their value at the price on the analysis date. No reminders are sent.
 
 **Before you save**
 - Saving a grant reprocesses the analysis and replaces any manual score adjustment. Finish your data edits before adjusting the score.
@@ -39,14 +39,15 @@ For advisors in firms that turn on "stock compensation". One note per release, i
 - The Liquidity check counts the gap of upcoming vests as a near-term commitment. View more says so.
 
 **Dated cash for goals**
-- The projection shows vests as dated inflows beside the goal markers, after estimated tax and before tax, at today's price. They are not counted as liquid before they arrive.
+- The projection shows vests as dated inflows beside the goal markers, after estimated tax and before tax, at the price on the analysis date. They are not counted as liquid before they arrive.
 
 **Client questionnaire**
-- After the gross income question, clients are asked whether part of their pay comes in company stock. If yes: employer, ticker, type, an approximate value, how often it vests, and whether their reported income already includes this year's vests.
+- Income has a new "Stock compensation" chip, with a helper line under employment income. The row asks the owner, employer, ticker, type, an approximate value, how often it vests, and whether their employment income already includes this year's vests, and invites the client to upload the plan statement.
 - Their answers create a grant "pending detail", kept out of the figures, and an alert on the opportunity: "Stock pay: detail pending". Complete the grant to include it.
 
 **Plan statements**
 - Upload a client's plan statement in the grant editor. Proposed grants and tranches appear next to the document; nothing is counted until you confirm them.
+- Clients can also upload their plan statement from the questionnaire; it arrives as a proposal for you to confirm.
 
 **Why a score may change**
 - Households with complete grants: the Liquidity check may count tax due on upcoming vests. Households with grants pending detail, private grants or proposed grants: no change.

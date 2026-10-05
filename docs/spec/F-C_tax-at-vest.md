@@ -16,16 +16,16 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-C-01 | While a household has a complete grant of a listed employer, the system shall add the value of each future tranche at vest to the owner's wages of the tranche's year. | D-026; R-001 | unit | (F6) |
+| AC-C-01 | While a household has a complete grant of a listed employer, the system shall add the value of each future tranche at vest to the owner's wages of the tranche's year, for the tax of AC-C-03 and the projection of F-D only (AC-G-16). | D-026; R-001 | unit | (F6) |
 | AC-C-02 | The system shall value a tranche at vest at today's market price; a performance unit tranche at target. | D-045 | unit | (F6) |
 | AC-C-03 | The system shall compute the tax owed on each vest as the household's tax with the vest income minus its tax without it, with the platform's tax engine, by level (federal, FICA, state). | D-033; [FACT: data_model, tax lines]; [INFERENCE: the engine can take vest income like salary] | unit | (F6) |
-| AC-C-04 | The system shall label every tax figure on a future vest "at today's price and tax rules". | D-045; R-008 (rates by tax year) | e2e | (F6) |
+| AC-C-04 | The system shall label every tax figure on a future vest "at the <analysis date> price and today's tax rules". | D-045; R-008 (rates by tax year) | e2e | (F6) |
 
 ### Withholding and gap
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-C-05 | The system shall estimate federal withholding on each vest at 22% of its value, and at 37% on the part of the year's vest income from that employer above $1 million. | R-008 (rate STRONG; per employer WEAK); D-051 | unit | (F6) |
+| AC-C-05 | The system shall estimate federal withholding on each vest at 22% of its value, and at 37% on the part of the person's vest income from that employer in the year above $1 million. | R-008 (rate STRONG; per employer WEAK); D-051 | unit | (F6) |
 | AC-C-06 | The system shall label the estimate "Federal withholding estimated at the supplemental rate (22%, 37% above $1 million)." | R-008 | e2e | (F6) |
 | AC-C-07 | Where the platform computes state tax above zero for the household, the system shall let the advisor enter a state withholding rate per grant, with the helper text "From the paystub or plan statement". | D-033 | e2e | (F6) |
 | AC-C-08 | If the platform computes zero state tax for the household, then the system shall hide the state withholding field. | D-033 | e2e | (F6) |
@@ -51,6 +51,9 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 | AC-C-23 | While a household has future vests, the Savings & Expenses section shall add, per year, the bullet "<Year> vests: $<value> of income, estimated tax $<owed>, gap after withholding $<gap>." | D-038 | e2e | (F6) |
 | AC-C-24 | When a positive gap falls within the check's horizon, the "We should look into" box shall add "Tax on the <month year> vest may exceed withholding by $<gap>." | D-039 | e2e | (F6) |
 | AC-C-25 | If the household has no complete grant of a listed employer, then the system shall compute tax lines, the Liquidity check and the report exactly as today. | D-023 | unit | (F6) |
+| AC-C-26 | While a household has future vests this year, the cash flow statement shall show below its total, under the stock compensation income category, "Stock compensation (vests this year), not in the totals above: $<value>, estimated tax $<owed>." | D-054, D-058 | e2e | (F6) |
+| AC-C-27 | While a household has future vests, View more shall show "Savings rate and debt ratios read reported income; vests are shown separately." | D-054 | e2e | (F6) |
+| AC-C-28 | The system shall offer the line of AC-C-24 as a candidate for the Summary recommendations, chosen by the platform's existing logic and phrased as a fact (AC-G-06). | D-039, D-060 | e2e | (F6) |
 
 ## Edge cases
 
@@ -65,7 +68,7 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 | EC-C-07 | PSU vest within the horizon | Counted at target; range shown | AC-C-16, AC-C-19, AC-C-22 |
 | EC-C-08 | Vest income already included in reported salary (D-028 "yes") | This year's past vests are not added again | F-E (AC-E-11) |
 | EC-C-09 | Private employer | No tax lines until it has dates and a price | AC-G-05; F-B (AC-B-19) |
-| EC-C-10 | Two grants from different employers in the same year | The $1 million rule applies per employer | AC-C-05 (per employer, WEAK) |
+| EC-C-10 | Two grants from different employers in the same year | The $1 million rule applies per person and employer | AC-C-05 (per employer, WEAK) |
 | EC-C-11 | Saving a state rate after a manual score adjustment | Warning; the adjustment is replaced | F-B (AC-B-06) |
 
 ## Instrumentation
@@ -87,6 +90,7 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 - State withholding rules applied automatically (D-033, D-041 later).
 - AMT and option exercise (D-024).
 - Personalised tax advice (D-041 never).
+- Vest income in this year's checks, the Social Security estimate and contributions: they read reported income (D-054, AC-G-16).
 
 ## Owned by engineering
 
