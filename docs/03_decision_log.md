@@ -346,3 +346,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: new AC-C-29. The tax owed by level, the gap and the PSU range of each vest show in a collapsible "Tax on each vest" in Savings & Expenses, after the per-year bullets (AC-C-23), one group per vest, with the labels written in AC-C-29. Option in `10_flow_review.md` pass 2: one line per vest in the per-year bullets (ten or more lines in the section most clients read first).
 - Why: F-C required the figures but quoted no label and named no surface; collapsing them keeps the per-year bullet as the reading line and the detail one click away, and every label still names the price date (AC-G-15).
 - Date: 2026-10-05 · Confirmed by: Renier
+
+## D-070 · One flag suggestion per employer, naming every account (GAP-32)
+- What: AC-E-17 shows the advisor one suggestion per employer the client gave: "<Company> (<ticker>) is held in <accounts>. Flag as employer stock?"; flagging stays one position at a time, after the advisor confirms (AC-E-18). Options in `10_flow_review.md` pass 2: one suggestion per position (near-identical notices when shares sit in several accounts), only highlighting the positions in the holdings list (missed if the advisor does not open it).
+- Why: one notice states the whole fact, including that the shares are split across accounts, which is the problem F-A solves; confirmation per position keeps D-042's guard.
+- Date: 2026-10-05 · Confirmed by: Renier

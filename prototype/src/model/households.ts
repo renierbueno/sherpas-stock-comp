@@ -32,6 +32,8 @@ const base = (id: string, name: string, people: Household['people']): Household 
   flags: [],
   grants: [],
   incomeIncludesVests: {},
+  goals: [],
+  annualSavings: 30_000,
   salary: Object.fromEntries(people.map((p) => [p.id, 120_000])),
   filingStatus: people.length > 1 ? 'joint' : 'single',
   stateTaxRate: 0.05,
@@ -87,6 +89,7 @@ export const H2: Household = {
     clientEstimate: { type: 'RSU', unvestedValue: 120_000, frequency: 'quarterly' } }],
   incomeIncludesVests: { p1: 'no' },
   salary: { p1: 260_000, p2: 90_000 },
+  goals: [{ id: 'home', name: 'Home purchase', year: 2028, amount: 250_000 }, { id: 'college', name: 'College (Leo)', year: 2026, amount: 40_000 }],
   stateTaxRate: 0.06,
   nearTermCommitments: 60_000,
 };

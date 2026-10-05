@@ -104,6 +104,13 @@ export interface Grant {
   completedOn?: IsoDate;
 }
 
+export interface Goal {
+  id: string;
+  name: string;
+  year: number;
+  amount: Money;
+}
+
 export interface Household {
   id: string;
   /** Title; SIMULATED households say so in their name. */
@@ -117,6 +124,9 @@ export interface Household {
   grants: Grant[];
   /** Per person: "Does the salary on file include stock that vested this year?" (AC-B-29, AC-E-05). */
   incomeIncludesVests: Record<PersonId, IncomeAnswer | undefined>;
+  goals: Goal[];
+  /** SIMULATED yearly savings the projection adds today (the platform's projection is not public). */
+  annualSavings: Money;
   /** Reported gross employment income per person, as the questionnaire stores it (salary). */
   salary: Record<PersonId, Money>;
   filingStatus: 'joint' | 'single';

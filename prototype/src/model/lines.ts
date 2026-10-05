@@ -5,6 +5,8 @@ import { dateLabel, money, pct } from './format';
 import { countedFutureVests, countedGrants, employerOf, pastTranches, statusOf, trancheUnitsMismatch } from './grants';
 import { priceOf } from './market';
 import { totalOwed, vestTaxes } from './vestTax';
+import { vestInflows } from './projection';
+import { flagSuggestions } from './intake';
 import type { ScoreResult } from './score';
 import type { Firm, Household } from './types';
 
@@ -21,6 +23,7 @@ export type Surface =
   | 'viewMore.liquidity'
   | 'viewMore.cashFlow'
   | 'statements.cashflow'
+  | 'goals.bullets'
   | 'advisor.notices';
 
 export interface ReportLine {
@@ -149,7 +152,7 @@ const monthYear = (iso: string) => {
   return new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 };
 
-/** F-C lines. Wording of the per-vest tax and gap lines is ours: logged as GAP-31. */
+/** F-C lines. Per-vest tax and gap lines as written in AC-C-29 (D-069). */
 export function linesFC(h: Household, firm: Firm, score: ScoreResult): ReportLine[] {
   const taxes = vestTaxes(h, firm);
   if (taxes.length === 0) return []; // AC-C-25
@@ -223,6 +226,53 @@ export function linesFC(h: Household, firm: Firm, score: ScoreResult): ReportLin
     const owed = now.reduce((s, t) => s + totalOwed(t.owed), 0);
     out.push({ id: 'C-26', ac: 'AC-C-26', surface: 'statements.cashflow', audience: 'shared',
       text: `Stock compensation (vests this year), not in the totals above: ${money(value)}, estimated tax ${money(owed)}.` });
+  }
+  return out;
+}
+
+/** F-D lines in Retirement & Goals (AC-D-06 to AC-D-08). */
+export function linesFD(h: Household, firm: Firm): ReportLine[] {
+  const inflows = vestInflows(h, firm);
+  if (inflows.length === 0) return []; // AC-D-09
+  const out: ReportLine[] = [];
+  const range = (a: number, b: number) => ` (range ${money(a)} to ${money(b)})`;
+  for (const company of [...new Set(inflows.map((i) => i.company))]) {
+    const xs = inflows.filter((i) => i.company === company);
+    const after = xs.reduce((s, i) => s + i.after, 0);
+    const before = xs.reduce((s, i) => s + i.before, 0);
+    const psu = xs.some((i) => i.psu);
+    const r = psu ? ` at target${range(xs.reduce((s, i) => s + (i.psu ? i.min : i.after), 0), xs.reduce((s, i) => s + (i.psu ? i.max : i.after), 0))}` : '';
+    const span = xs.length === 1 ? `on ${dateLabel(xs[0].date)}` : `between ${dateLabel(xs[0].date)} and ${dateLabel(xs[xs.length - 1].date)}`;
+    out.push({ id: `D-06-${company}`, ac: 'AC-D-06', surface: 'goals.bullets', audience: 'shared',
+      text: `${company} vests: ${money(after)} after estimated tax${r} (${money(before)} before tax) ${span}, ${atPrice(h)}.` });
+  }
+  for (const g of [...h.goals].sort((a, b) => a.year - b.year)) {
+    const xs = inflows.filter((i) => Number(i.date.slice(0, 4)) <= g.year);
+    if (xs.length === 0) continue; // EC-D-02
+    out.push({ id: `D-07-${g.id}`, ac: 'AC-D-07', surface: 'goals.bullets', audience: 'shared',
+      text: `Vests before ${g.name} (${g.year}): ${money(xs.reduce((s, i) => s + i.after, 0))} after estimated tax.` });
+  }
+  out.push({ id: 'D-08', ac: 'AC-D-08', surface: 'goals.bullets', audience: 'shared',
+    text: "Value on the vest date; whether shares are sold or kept is the client's decision." });
+  return out;
+}
+
+/** F-E advisor notices (AC-E-13, AC-E-16, AC-E-17); never shared (AC-G-11). */
+export function linesFE(h: Household, firm: Firm): ReportLine[] {
+  if (!firm.stockComp) return [];
+  const out: ReportLine[] = [];
+  for (const p of h.people) {
+    if (h.incomeIncludesVests[p.id] === 'not sure' && h.grants.some((g) => g.ownerId === p.id && !g.proposed)) {
+      out.push({ id: `E-13-${p.id}`, ac: 'AC-E-13', surface: 'advisor.notices', audience: 'advisor',
+        text: 'Check whether the reported income includes stock that vested this year.' });
+    }
+  }
+  for (const g of h.grants.filter((x) => x.clientEstimate?.type === 'other')) {
+    out.push({ id: `E-16-${g.id}`, ac: 'AC-E-16', surface: 'advisor.notices', audience: 'advisor',
+      text: 'This type is not modelled in this version; flag any shares already held as employer stock.' });
+  }
+  for (const s of flagSuggestions(h, firm)) {
+    out.push({ id: `E-17-${s.employerId}`, ac: 'AC-E-17', surface: 'advisor.notices', audience: 'advisor', text: s.label });
   }
   return out;
 }

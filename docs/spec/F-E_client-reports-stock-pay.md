@@ -40,7 +40,7 @@ As a client, I want to say that part of my pay comes in company stock with what 
 | AC-E-14 | The grant editor shall show the client's answers labelled "Client estimate, not used in the figures". | D-035 | e2e | (F6) |
 | AC-E-15 | In advisor mode, the stock-pay block shall open the full grant editor of F-B. | D-036 | e2e | (F6) |
 | AC-E-16 | Where the type is "other", the system shall show the advisor "This type is not modelled in this version; flag any shares already held as employer stock." | D-024 | e2e | (F6) |
-| AC-E-17 | When a held position has the ticker given for an employer, the system shall suggest to the advisor flagging it as employer stock. | D-024, D-031, D-051 | e2e | (F6) |
+| AC-E-17 | When held positions have the ticker given for an employer, the system shall show the advisor one suggestion per employer naming every account that holds them: "<Company> (<ticker>) is held in <accounts>. Flag as employer stock?" | D-024, D-031, D-051, D-070 | e2e | (F6) |
 | AC-E-18 | The system shall flag a suggested position only after the advisor confirms. | D-042, D-051 | unit | (F6) |
 
 ## Edge cases
