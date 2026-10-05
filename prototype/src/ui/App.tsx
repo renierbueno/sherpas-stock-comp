@@ -2,15 +2,15 @@ import { useMemo, useRef, useState } from 'react';
 import { afterSave, removeFlag, setFlag } from '../model/actions';
 import { analyze, type Analysis } from '../model/analysis';
 import { EventLog } from '../model/events';
-import { addGrant, saveGrant } from '../model/grants';
+import { addGrant, saveGrant, setStateWithholding } from '../model/grants';
 import { HOUSEHOLDS } from '../model/households';
 import type { EmployerFlag, Firm, Household } from '../model/types';
-import { FinancialHealth, visibleLines, type Mode } from './FinancialHealth';
+import { FinancialHealth, Statements, visibleLines, type Mode } from './FinancialHealth';
 import { GrantsPanel, type GrantSave } from './GrantEditor';
 import { HoldingsEditor } from './HoldingsEditor';
 import { InvestmentAnalysis } from './InvestmentAnalysis';
 
-type Tab = 'health' | 'investment' | 'questionnaire' | 'data';
+type Tab = 'health' | 'investment' | 'statements' | 'questionnaire' | 'data';
 
 const byId = <T extends { id: string }>(xs: T[]) => Object.fromEntries(xs.map((x) => [x.id, x]));
 
@@ -41,11 +41,14 @@ export function App({ initialHousehold = 'H2', households: seed = HOUSEHOLDS }: 
       incomeIncludesVests: { ...household.incomeIncludesVests, [grant.ownerId]: incomeAnswer },
     };
     const isNew = !household.grants.some((g) => g.id === grant.id);
-    reprocess(afterSave(isNew ? addGrant(base, grant, firm, log) : saveGrant(base, grant, firm, log, generated)));
+    const before = household.grants.find((g) => g.id === grant.id)?.stateWithholdingRate;
+    let next = isNew ? addGrant(base, { ...grant, stateWithholdingRate: undefined }, firm, log) : saveGrant(base, { ...grant, stateWithholdingRate: before }, firm, log, generated);
+    if (grant.stateWithholdingRate !== before) next = setStateWithholding(next, grant.id, grant.stateWithholdingRate, household.analysisDate, log);
+    reprocess(afterSave(next));
   };
 
   const tabs: [Tab, string][] = useMemo(() => {
-    const t: [Tab, string][] = [['health', 'Financial health'], ['investment', 'Investment analysis']];
+    const t: [Tab, string][] = [['health', 'Financial health'], ['investment', 'Investment analysis'], ['statements', 'Statements']];
     if (mode === 'advisor') t.push(['questionnaire', 'Questionnaire · Investments'], ['data', 'Data & Assumptions']);
     return t;
   }, [mode]);
@@ -87,6 +90,7 @@ export function App({ initialHousehold = 'H2', households: seed = HOUSEHOLDS }: 
       )}
       {(mode === 'print' || activeTab === 'health') && <FinancialHealth household={household} analysis={analysis} mode={mode} />}
       {mode !== 'print' && activeTab === 'investment' && <InvestmentAnalysis household={household} analysis={analysis} firm={firm} mode={mode} />}
+      {mode !== 'print' && activeTab === 'statements' && <Statements analysis={analysis} mode={mode} />}
       {mode === 'advisor' && activeTab === 'questionnaire' && (
         <main><HoldingsEditor household={household} firm={firm} where="Investments (advisor mode)" onSaveFlag={saveFlag} onRemoveFlag={dropFlag} /></main>
       )}

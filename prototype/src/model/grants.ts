@@ -134,10 +134,14 @@ export function addGrant(h: Household, g: Omit<Grant, 'category' | 'subType'>, f
  */
 export function saveGrant(h: Household, g: Grant, firm: Firm, log?: EventLog, generated?: Tranche[]): Household {
   const before = h.grants.find((x) => x.id === g.id);
-  const next = { ...h, grants: [...h.grants.filter((x) => x.id !== g.id), g] };
-  if (before && statusOf(h, before) !== 'complete' && statusOf(next, g) === 'complete' && g.reportedOn) {
-    const days = (Date.parse(h.analysisDate) - Date.parse(g.reportedOn)) / 86_400_000;
-    log?.record('EV-B-02', h.id, { grant: g.id, daysSinceReported: days });
+  let next = { ...h, grants: [...h.grants.filter((x) => x.id !== g.id), g] };
+  if (statusOf(next, g) === 'complete' && !g.completedOn) {
+    const done = { ...g, completedOn: h.analysisDate };
+    next = { ...next, grants: next.grants.map((x) => (x.id === g.id ? done : x)) };
+    if (before && statusOf(h, before) !== 'complete' && g.reportedOn) {
+      const days = (Date.parse(h.analysisDate) - Date.parse(g.reportedOn)) / 86_400_000;
+      log?.record('EV-B-02', h.id, { grant: g.id, daysSinceReported: days });
+    }
   }
   if (generated) {
     const changed = g.tranches.filter((t) => { const o = generated.find((x) => x.id === t.id); return !o || o.date !== t.date || o.units !== t.units; }).length
@@ -145,4 +149,15 @@ export function saveGrant(h: Household, g: Grant, firm: Firm, log?: EventLog, ge
     if (changed > 0) log?.record('EV-B-03', h.id, { grant: g.id, tranchesChanged: changed });
   }
   return next;
+}
+
+/** AC-C-07, EV-C-01: the advisor enters a state withholding rate for a grant (0 to 1). */
+export function setStateWithholding(h: Household, grantId: string, rate: number | undefined, today: IsoDate, log?: EventLog): Household {
+  const g = h.grants.find((x) => x.id === grantId);
+  if (!g) return h;
+  if (rate !== undefined) {
+    const days = g.completedOn ? (Date.parse(today) - Date.parse(g.completedOn)) / 86_400_000 : null;
+    log?.record('EV-C-01', h.id, { grant: grantId, daysSinceCompleted: days });
+  }
+  return { ...h, grants: h.grants.map((x) => (x.id === grantId ? { ...x, stateWithholdingRate: rate } : x)) };
 }

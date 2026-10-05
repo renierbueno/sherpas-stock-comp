@@ -115,6 +115,13 @@ export function GrantForm({ household, grant, onSave, onCancel }: { household: H
         <button className="link" onClick={() => set({ tranches: [...g.tranches, { id: `n${Date.now()}`, date: household.analysisDate, units: 0 }] })}>Add tranche</button>
       </div>
       {mismatch && <div className="notice" data-ac="AC-B-10">Tranches add up to {mismatch.sum.toLocaleString('en-US')} of {mismatch.units.toLocaleString('en-US')} units.</div>}
+      {household.stateTaxRate > 0 && (
+        <label>State withholding rate (%)
+          <input inputMode="decimal" value={g.stateWithholdingRate === undefined ? '' : String(+(g.stateWithholdingRate * 100).toFixed(2))}
+            onChange={(e) => set({ stateWithholdingRate: e.target.value === '' ? undefined : Number(e.target.value) / 100 })} />
+          <span className="caps">From the paystub or plan statement</span>
+        </label>
+      )}
       <fieldset>
         <legend>Does the salary on file include stock that vested this year?{owner ? ` (${owner})` : ''}</legend>
         {(['yes', 'no', 'not sure'] as const).map((v) => (

@@ -58,6 +58,38 @@ function Bullets({ lines, label }: { lines: ReportLine[]; label: string }) {
   );
 }
 
+/** F-C: Savings & Expenses carries the vest bullets, the tax on each vest and its look-into. */
+function SavingsSection({ lines }: { lines: ReportLine[] }) {
+  const bullets = on(lines, 'savings.bullets');
+  if (bullets.length === 0) return <Unchanged title="Savings & Expenses" />;
+  const perVest = on(lines, 'savings.vestTax');
+  const groups = [...new Set(perVest.filter((l) => l.group).map((l) => l.group!))];
+  const look = on(lines, 'savings.lookInto');
+  return (
+    <section className="section" aria-label="Savings & Expenses">
+      <h2>Savings & Expenses</h2>
+      <p className="caps">Income flow: unchanged, as today</p>
+      <Bullets lines={bullets} label="Vests by year" />
+      <details className="grantblock" aria-label="Tax on each vest">
+        <summary><strong>Tax on each vest</strong></summary>
+        <Bullets lines={perVest.filter((l) => !l.group)} label="Withholding estimate" />
+        {groups.map((g) => (
+          <div key={g}>
+            <div className="caps">{g}</div>
+            <Bullets lines={perVest.filter((l) => l.group === g)} label={g} />
+          </div>
+        ))}
+      </details>
+      {look.length > 0 && (
+        <div className="lookinto" aria-label="We should look into (savings)">
+          <h3>We should look into</h3>
+          <Bullets lines={look} label="Look into" />
+        </div>
+      )}
+    </section>
+  );
+}
+
 /** AC-B-27: after the asset totals; absent without grants (AC-B-26). */
 function GrantBlock({ lines }: { lines: ReportLine[] }) {
   if (lines.length === 0) return null;
@@ -97,6 +129,16 @@ export function ViewMore({ analysis, household, lines, onClose }: { analysis: An
               {Object.keys(a.checks).map((c) => (
                 <li key={c}>
                   {CHECK_LABEL[c] ?? c}
+                  {c === 'nearTermCommitments' && on(lines, 'viewMore.liquidity').length > 0 && (
+                    <ul aria-label="Near-term commitments reading">
+                      {on(lines, 'viewMore.liquidity').map((l) => <li key={l.id} data-line={l.id}>{l.text}</li>)}
+                    </ul>
+                  )}
+                  {c === 'savingsRate' && on(lines, 'viewMore.cashFlow').length > 0 && (
+                    <ul aria-label="Savings rate reading">
+                      {on(lines, 'viewMore.cashFlow').map((l) => <li key={l.id} data-line={l.id}>{l.text}</li>)}
+                    </ul>
+                  )}
                   {c === 'concentration' && (
                     <ul aria-label="Concentration reading">
                       {concLines.length === 0 && conc.largest && (
@@ -157,16 +199,30 @@ export function FinancialHealth({ household, analysis, mode }: { household: Hous
           )}
         </section>
         <Unchanged title="Debt management" />
-        <Unchanged title="Savings & Expenses" />
+        <SavingsSection lines={lines} />
         <Unchanged title="Insurance & Protection" />
         {mode === 'print' && (
           <section className="section" aria-label="Score breakdown">
             <h2>Score breakdown</h2>
-            <Bullets lines={on(lines, 'viewMore.concentration')} label="Concentration reading" />
+            <Bullets lines={[...on(lines, 'viewMore.concentration'), ...on(lines, 'viewMore.liquidity'), ...on(lines, 'viewMore.cashFlow')]} label="Score readings" />
           </section>
         )}
       </main>
       {panel && <ViewMore analysis={analysis} household={household} lines={lines} onClose={() => setPanel(false)} />}
     </div>
+  );
+}
+
+/** Statements tab: only the cash flow line of AC-C-26 is new. */
+export function Statements({ analysis, mode }: { analysis: Analysis; mode: Mode }) {
+  const l = on(visibleLines(analysis, mode), 'statements.cashflow');
+  return (
+    <main>
+      <section className="section" aria-label="Cash flow statement">
+        <h2>Cash flow statement</h2>
+        <p className="caps">Inflows, taxes, outflows and totals: unchanged, as today</p>
+        <Bullets lines={l} label="Below the totals" />
+      </section>
+    </main>
   );
 }

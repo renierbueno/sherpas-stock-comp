@@ -1,6 +1,7 @@
 // Score simulator. Reproduces only what the score article makes public [brief]; the rest is
 // a P- parameter (params.ts). Checks the change does not touch are fixed SIMULATED values.
-import { AREA_CHECKS, AREA_WEIGHTS, areaMix, pConc, type Area } from './params';
+import { AREA_CHECKS, AREA_WEIGHTS, areaMix, pConc, pLiq, type Area } from './params';
+import { countedVestGaps } from './vestTax';
 import { concentration, type ConcentrationReading } from './exposure';
 import type { Firm, Household } from './types';
 
@@ -15,11 +16,19 @@ export interface ScoreResult {
   score: number;
   areas: AreaResult[];
   concentration: ConcentrationReading;
+  /** Near-term commitments the Liquidity check reads: today's plus counted vest gaps (AC-C-17). */
+  liquidity: { commitments: number; vestGaps: number; federalOnly: boolean; psu: boolean };
 }
 
 export function simulateScore(h: Household, firm: Firm): ScoreResult {
   const conc = concentration(h, firm);
-  const checks: Record<string, number> = { ...h.untouchedChecks, concentration: pConc(conc.figure) };
+  const gaps = countedVestGaps(h, firm);
+  const commitments = h.nearTermCommitments + gaps.total;
+  const checks: Record<string, number> = {
+    ...h.untouchedChecks,
+    concentration: pConc(conc.figure),
+    nearTermCommitments: pLiq(commitments > 0 ? h.cash / commitments : Infinity),
+  };
   const areas = (Object.keys(AREA_WEIGHTS) as Area[]).map((area) => {
     const scores = AREA_CHECKS[area].map((c) => {
       if (checks[c] === undefined) throw new Error(`SIMULATED check value missing: ${c}`);
@@ -31,5 +40,5 @@ export function simulateScore(h: Household, firm: Firm): ScoreResult {
   });
   // No new score limit (AC-G-14): P-LIMITS are left out of the simulator, as labelled in the spec.
   const score = Math.round(areas.reduce((s, a) => s + a.points, 0));
-  return { score, areas, concentration: conc };
+  return { score, areas, concentration: conc, liquidity: { commitments, vestGaps: gaps.total, federalOnly: gaps.federalOnly, psu: gaps.psu } };
 }

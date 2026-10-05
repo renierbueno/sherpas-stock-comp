@@ -101,6 +101,7 @@ export interface Grant {
   stateWithholdingRate?: number;
   clientEstimate?: ClientEstimate;
   reportedOn?: IsoDate;
+  completedOn?: IsoDate;
 }
 
 export interface Household {
@@ -116,6 +117,13 @@ export interface Household {
   grants: Grant[];
   /** Per person: "Does the salary on file include stock that vested this year?" (AC-B-29, AC-E-05). */
   incomeIncludesVests: Record<PersonId, IncomeAnswer | undefined>;
+  /** Reported gross employment income per person, as the questionnaire stores it (salary). */
+  salary: Record<PersonId, Money>;
+  filingStatus: 'joint' | 'single';
+  /** SIMULATED flat state income tax rate; 0 for a state with no income tax. */
+  stateTaxRate: number;
+  /** Near-term commitments the Liquidity check reads today (SIMULATED amount, D-063). */
+  nearTermCommitments: Money;
   /** Manual score adjustment made by the advisor, if any (AC-B-06, AC-G-12). */
   manualAdjustment?: { points: number; reason: string };
   /** Score checks the change does not touch: fixed SIMULATED values, 0 to 100 (D-063). */

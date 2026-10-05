@@ -4,6 +4,7 @@ import { employerExposures, investableAssets, unpricedFlagged } from './exposure
 import { dateLabel, money, pct } from './format';
 import { countedFutureVests, countedGrants, employerOf, pastTranches, statusOf, trancheUnitsMismatch } from './grants';
 import { priceOf } from './market';
+import { totalOwed, vestTaxes } from './vestTax';
 import type { ScoreResult } from './score';
 import type { Firm, Household } from './types';
 
@@ -14,6 +15,12 @@ export type Surface =
   | 'assets.lookInto'
   | 'summary.candidates'
   | 'investment.snapshot'
+  | 'savings.bullets'
+  | 'savings.vestTax'
+  | 'savings.lookInto'
+  | 'viewMore.liquidity'
+  | 'viewMore.cashFlow'
+  | 'statements.cashflow'
   | 'advisor.notices';
 
 export interface ReportLine {
@@ -133,6 +140,89 @@ export function linesFA(h: Household, firm: Firm, score: ScoreResult): ReportLin
   for (const p of unpricedFlagged(h, firm)) {
     out.push({ id: `A-08-${p.id}`, ac: 'AC-A-08', surface: 'advisor.notices', audience: 'advisor',
       text: `Price not available for ${p.ticker ?? p.name}: not counted in concentration.` });
+  }
+  return out;
+}
+
+const monthYear = (iso: string) => {
+  const [y, m] = iso.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+};
+
+/** F-C lines. Wording of the per-vest tax and gap lines is ours: logged as GAP-31. */
+export function linesFC(h: Household, firm: Firm, score: ScoreResult): ReportLine[] {
+  const taxes = vestTaxes(h, firm);
+  if (taxes.length === 0) return []; // AC-C-25
+  const out: ReportLine[] = [];
+  const rules = `at the ${dateLabel(h.analysisDate)} price and today's tax rules`; // AC-C-04
+  const range = (a: number, b: number) => ` (range ${money(a)} to ${money(b)})`;
+
+  // AC-C-23: per year
+  const years = [...new Set(taxes.map((t) => t.vest.tranche.date.slice(0, 4)))];
+  for (const y of years) {
+    const ts = taxes.filter((t) => t.vest.tranche.date.startsWith(y));
+    const value = ts.reduce((s, t) => s + t.vest.value, 0);
+    const owed = ts.reduce((s, t) => s + totalOwed(t.owed), 0);
+    const gap = ts.reduce((s, t) => s + t.gap, 0);
+    out.push({ id: `C-23-${y}`, ac: 'AC-C-23', surface: 'savings.bullets', audience: 'shared',
+      text: `${y} vests: ${money(value)} of income, estimated tax ${money(owed)}, gap after withholding ${money(gap)}.` });
+  }
+
+  // Per vest (AC-C-03 to AC-C-16)
+  out.push({ id: 'C-06', ac: 'AC-C-06', surface: 'savings.vestTax', audience: 'shared',
+    text: 'Federal withholding estimated at the supplemental rate (22%, 37% above $1 million).' });
+  for (const t of taxes) {
+    const g = `${dateLabel(t.vest.tranche.date)} vest`;
+    const id = `${t.vest.grant.id}-${t.vest.tranche.id}`;
+    const owed = totalOwed(t.owed);
+    out.push({ id: `C-03-${id}`, ac: t.vest.psu ? 'AC-C-16' : 'AC-C-03', surface: 'savings.vestTax', audience: 'shared', group: g,
+      text: `Estimated tax on this vest: ${money(owed)}${t.range ? ` at target${range(t.range.min.owed, t.range.max.owed)}` : ''} (federal ${money(t.owed.federal)}, Social Security and Medicare ${money(t.owed.fica)}, state ${money(t.owed.state)}), ${rules}.` });
+    if (t.gap <= 0) {
+      out.push({ id: `C-15-${id}`, ac: 'AC-C-15', surface: 'savings.vestTax', audience: 'shared', group: g, text: 'Withholding covers the estimated tax on this vest.' });
+    } else {
+      out.push({ id: `C-10-${id}`, ac: t.vest.psu ? 'AC-C-16' : 'AC-C-10', surface: 'savings.vestTax', audience: 'shared', group: g,
+        text: `Estimated gap after withholding: ${money(t.gap)}${t.range ? ` at target${range(t.range.min.gap, t.range.max.gap)}` : ''}, ${rules}.` });
+    }
+    if (t.stateGap === null && t.owed.state > 0) {
+      out.push({ id: `C-12-${id}`, ac: 'AC-C-12', surface: 'savings.vestTax', audience: 'shared', group: g,
+        text: `Estimated state tax on this vest: ${money(t.owed.state)}. Your state withholding was not provided, so the gap shown is federal only.` });
+    }
+    out.push({ id: `C-14-${id}`, ac: 'AC-C-14', surface: 'savings.vestTax', audience: 'shared', group: g,
+      text: `Social Security and Medicare tax on this vest: ${money(t.owed.fica)}, not included in the gap.` });
+  }
+
+  // AC-C-13: advisor notice per grant
+  for (const g of [...new Set(taxes.map((t) => t.vest.grant))]) {
+    if (g.stateWithholdingRate === undefined && h.stateTaxRate > 0) {
+      const company = employerOf(h, g)?.name;
+      out.push({ id: `C-13-${g.id}`, ac: 'AC-C-13', surface: 'advisor.notices', audience: 'advisor', text: `State withholding not entered for ${company} ${g.type}.` });
+    }
+  }
+
+  // Score: View more (AC-C-20 to AC-C-22, AC-C-27)
+  const liq = score.liquidity;
+  if (liq.vestGaps > 0) {
+    out.push({ id: 'C-20', ac: liq.federalOnly ? 'AC-C-21' : 'AC-C-20', surface: 'viewMore.liquidity', audience: 'shared',
+      text: `Tax due on upcoming vests counted in near-term commitments: ${money(liq.vestGaps)}.${liq.federalOnly ? ' (federal only; state withholding not entered)' : ''}` });
+    if (liq.psu) out.push({ id: 'C-22', ac: 'AC-C-22', surface: 'viewMore.liquidity', audience: 'shared', text: 'Performance units counted at target.' });
+  }
+  out.push({ id: 'C-27', ac: 'AC-C-27', surface: 'viewMore.cashFlow', audience: 'shared', text: 'Savings rate and debt ratios read reported income; vests are shown separately.' });
+
+  // AC-C-24, AC-C-28: look into and Summary candidate
+  for (const t of taxes.filter((x) => x.withinHorizon && x.gap > 0)) {
+    const text = `Tax on the ${monthYear(t.vest.tranche.date)} vest may exceed withholding by ${money(t.gap)}.`;
+    out.push({ id: `C-24-${t.vest.grant.id}-${t.vest.tranche.id}`, ac: 'AC-C-24', surface: 'savings.lookInto', audience: 'shared', text });
+    out.push({ id: `C-28-${t.vest.grant.id}-${t.vest.tranche.id}`, ac: 'AC-C-28', surface: 'summary.candidates', audience: 'shared', text });
+  }
+
+  // AC-C-26: cash flow statement, vests this year
+  const thisYear = h.analysisDate.slice(0, 4);
+  const now = taxes.filter((t) => t.vest.tranche.date.startsWith(thisYear));
+  if (now.length > 0) {
+    const value = now.reduce((s, t) => s + t.vest.value, 0);
+    const owed = now.reduce((s, t) => s + totalOwed(t.owed), 0);
+    out.push({ id: 'C-26', ac: 'AC-C-26', surface: 'statements.cashflow', audience: 'shared',
+      text: `Stock compensation (vests this year), not in the totals above: ${money(value)}, estimated tax ${money(owed)}.` });
   }
   return out;
 }

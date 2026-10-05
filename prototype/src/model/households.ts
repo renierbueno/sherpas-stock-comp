@@ -7,6 +7,7 @@ import type { Grant, Household } from './types';
 export const ANALYSIS_DATE = '2026-10-05';
 
 /** Checks the change does not touch: fixed SIMULATED values (D-063). */
+// nearTermCommitments is computed by the simulator (F-C); the rest stay fixed.
 const UNTOUCHED = {
   savingsRate: 70,
   fixedCommitments: 80,
@@ -15,7 +16,6 @@ const UNTOUCHED = {
   coverVsNeed: 60,
   umbrella: 0,
   monthsOfReserve: 80,
-  nearTermCommitments: 90,
   allocationVsTarget: 70,
   idleCash: 60,
   taxLocation: 80,
@@ -32,6 +32,10 @@ const base = (id: string, name: string, people: Household['people']): Household 
   flags: [],
   grants: [],
   incomeIncludesVests: {},
+  salary: Object.fromEntries(people.map((p) => [p.id, 120_000])),
+  filingStatus: people.length > 1 ? 'joint' : 'single',
+  stateTaxRate: 0.05,
+  nearTermCommitments: 40_000,
   untouchedChecks: { ...UNTOUCHED },
 });
 
@@ -82,6 +86,9 @@ export const H2: Household = {
     tranches: [], source: 'questionnaire', reportedOn: '2026-09-28',
     clientEstimate: { type: 'RSU', unvestedValue: 120_000, frequency: 'quarterly' } }],
   incomeIncludesVests: { p1: 'no' },
+  salary: { p1: 260_000, p2: 90_000 },
+  stateTaxRate: 0.06,
+  nearTermCommitments: 60_000,
 };
 
 /**
@@ -170,6 +177,8 @@ export const H6: Household = {
       grantDate: '2026-04-01', units: 1_200, source: 'advisor', tranches: generateTranches('2026-04-01', 1_200, { lengthMonths: 24, frequencyMonths: 6, cliffMonths: 6 }) },
   ],
   incomeIncludesVests: { p1: 'yes', p2: 'no' },
+  salary: { p1: 210_000, p2: 180_000 },
+  stateTaxRate: 0, // a state with no income tax (EC-C-03)
 };
 
 /** H7 · Existing household, analysed before the setting was on, with a manual score adjustment. */

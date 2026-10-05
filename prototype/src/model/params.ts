@@ -41,3 +41,16 @@ export function pConc(figure: number): number {
   if (figure >= hi) return 0;
   return 100 * (1 - (figure - lo) / (hi - lo));
 }
+
+/** P-LIQ-HORIZON · SIMULATED: "near-term" in the Liquidity commitments check, in months. */
+export const P_LIQ_HORIZON_MONTHS = 12;
+
+/**
+ * P-LIQ · SIMULATED curve of the near-term commitments check: cash held over near-term
+ * commitments to a 0-100 score. 0 at 0.5 or less, 100 at 1.5 or more, linear between.
+ */
+export function pLiq(cover: number): number {
+  if (cover >= 1.5) return 100;
+  if (cover <= 0.5) return 0;
+  return 100 * (cover - 0.5);
+}
