@@ -241,3 +241,12 @@ Recommendation: A. The other sub-types (options, ESPP) stay out of the MVP: thei
 ## Open questions from this pass (D-020 check)
 
 None go to Sherpas (D-059): the one below became an assumption in `02_open_questions.md`. It was drafted as: "Your type lists include a stock compensation asset category (RSU, options, ESPP) and a stock compensation income category. Are they used today on the advisor side or in the analysis, and how do they count in net worth and cash flow?" It changes how F-B and F-C map (GAP-27); the brief, `01_context.md`, the F1 docs and `research.md` do not answer it; the work proceeds on [ASSUMPTION: confirm]. GAP-03 and GAP-05 are settled by the GAP-02 rule; GAP-13 proceeds on a stated assumption; the bucket logic of GAP-11 is not needed for option B.
+
+## Pass 2 · gaps found while building (F6)
+
+Found while building the prototype (`prototype/`, D-062). Each goes back to the spec and the log; none is fixed silently in code. The full pass 2 on the prototype runs in F7.
+
+| ID | What | Where | Resolution | Status |
+|---|---|---|---|---|
+| GAP-28 | The parameter table says how each check reads a figure and how areas are weighted, but not how the check scores of one area combine into its points; the simulator cannot compute an area without it | `00_index` parameters | A parameter `P-AREA-MIX`, not public, SIMULATED as equal weights within an area [ASSUMPTION: confirm] | Resolved, D-066: `00_index` parameters |
+| GAP-29 | AC-A-14 reads "held across <n> accounts"; with employer stock in one account (H3, H7) it renders "held across 1 accounts" | F-A AC-A-14, AC-A-22 | With one account, "<Company> stock held in 1 account: $<value>, <Y>% of investable assets." | Resolved, D-066: AC-A-14 |

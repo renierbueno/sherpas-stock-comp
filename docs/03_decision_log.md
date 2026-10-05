@@ -301,3 +301,38 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: GAP-04, GAP-06 to GAP-10, GAP-12 to GAP-24 of `10_flow_review.md` are resolved as written there: shared lines read the same live and in the PDF; new findings can become Summary recommendations; the grant section lives in Assets & Investments; each vest counts once in the projection; advisor notices never reach the client view or PDF; every stock-pay save warns about a manual adjustment; turning the setting off keeps the data and hides it; the question goes into any Financial Health template [ASSUMPTION: confirm]; when a grant is complete; the income question in the grant editor; a grant without a market price; the $1 million rule per person and employer; labels name the price date; an employer stock tag on holdings; no new score limit; pending detail never blocks; where the flag is set; the private-shares edge case. GAP-23 closes with D-056 (owner selector).
 - Why: each is a gap between confirmed decisions and the screens, figures or flows they touch; none changes a decision.
 - Date: 2026-10-05 · Confirmed by: Renier
+
+## D-061 · The prototype is not deployed in F6; it is built as a static site so a password-protected deploy stays possible in F7 (settles D-008's timing)
+- What: in F6 the prototype runs locally; the pull request carries screenshots and the video shows it. It is built as static files any host can serve. Whether to deploy, behind a real password (D-008), is decided in F7 with the prototype in front of us. Options: deploy now behind a password (Sherpas tries it in one click, but needs an account set up and an outward-facing step), never deploy (reviewers must clone and run it).
+- Why: no confidentiality exposure while it is being built; keeping it static costs nothing and leaves the deploy option open.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-062 · Prototype stack: Vite, React and TypeScript; Vitest for unit and component tests; one Playwright end-to-end test
+- What: the score simulator and the household model are a TypeScript module with no UI. Vitest runs the simulator's unit tests (relations per feature) and component tests that render each screen without a browser and assert its text and states. Acceptance criteria marked `e2e` in the spec are proved by a component test on the rendered screen, or by the single Playwright test, which walks H2 in a real browser from the client questionnaire to the advisor and the shared view. The Test column names which. Options: one browser test per `e2e` criterion (about 95 walks, does not fit the timebox), plain HTML and JavaScript (screen states harder to test).
+- Why: component tests check the same rendered text and states as a browser walk, at a fraction of the time; one real-browser walk proves the screens connect.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-063 · Prototype scope: all six features as vertical slices; what is SIMULATED and what stays in the spec only
+- What: every `unit` criterion is built in the simulator. Screens are built for what the SIMULATED households H1 to H7 touch: the Income chip and row, the grant editor and the employer flag, the analysis sections that change, View more, the client view against advisor mode, and the shared PDF as a print view of the same lines. SIMULATED and labelled: the households, market prices, a simplified tax engine (brackets are not in `research.md`; the platform's engine is not public), the values of the `P-` parameters, the score areas and figures the change does not touch, and the extraction of F-F (a fixed result per sample document). Spec only, with the reason in the traceability table: the firm settings screen (a switch in the prototype), the opportunity record (a badge in the prototype) and the Investment analysis tab (its one new line only).
+- Why: the calculations are cheap and are where the spec's precision is tested; screens are costly, so they cover the paths the walk-throughs use. Options: F-A to F-D only (leaves out how the client's data enters), every criterion on screen (does not fit the day).
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-064 · Prototype look: faithful only where the change lands
+- What: the surfaces the change touches (top bar and tabs, hero, the affected analysis sections, "We should look into" boxes, the View more side panel, the questionnaire Income step, the advisor editors) imitate the platform from `design_tokens.md`, with screenshots as visual reference only, in our own code (D-012, D-015). Surfaces that do not change show as a grey block "Unchanged, as today". Options: imitate every section (hours on screens with nothing new), a neutral wireframe (hard to see the fit with the platform).
+- Why: keeps the reader's eye on what is new and the build inside the day.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-065 · The prototype explains itself: a "Start here" page with guided scenes, a before/after switch and "New" marks
+- What: the prototype opens on a "Start here" page: the problem in three lines and five scenes, one per idea (employer stock in two accounts, a grant that vests, the withholding gap, vests that fund a goal, the client reports stock pay). Each scene says what to look at, has a before/after switch, and marks every new line "New" with a link to its requirement in the spec. The prototype controls (household, view, firm setting) move to an "Explore freely" panel after the scenes. The video follows the same scenes. Options: only the before/after switch and "New" marks (no entry point: a reader still does not know where to start); the prototype as it is plus the README and the video (a reader who opens the link without the video understands nothing).
+- Why: the prototype will be opened by people who did not build it, without a guide, and shown in a video of three to five minutes; each scene answers "what changed and why it matters" in under a minute.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-066 · Build gaps GAP-28 and GAP-29 resolved as proposed
+- What: GAP-28: a new parameter `P-AREA-MIX`, how the check scores of one area combine into its points; not public, SIMULATED as equal weights [ASSUMPTION: confirm]. GAP-29: with employer stock in one account, AC-A-14 reads "<Company> stock held in 1 account: $<value>, <Y>% of investable assets." Options in `10_flow_review.md` pass 2: other invented weights (pretends a number we do not have); dropping the account count (loses the fact that matters when holdings are split).
+- Why: the simulator's tests are relations (for example, flagging employer stock never raises the score), which hold for any positive weights, so equal weights change no conclusion; the count of accounts is the point of the line.
+- Date: 2026-10-05 · Confirmed by: Renier
+
+## D-067 · F6 cut order, with a time limit of 23:00 on 2026-10-05
+- What: built in this order: (1) the simulator and unit tests of all six features; (2) screens and component tests of F-A, F-B and F-C, each with its scene (D-065); (3) the end-to-end walk of H2; (4) screens of F-D, F-E and F-F. What is not built by the limit is marked "spec only" in the traceability table with its reason.
+- Why: the calculations are where the spec's precision is tested and cost little; F7 (proposal, video, delivery) must keep its morning.
+- Date: 2026-10-05 · Confirmed by: Renier

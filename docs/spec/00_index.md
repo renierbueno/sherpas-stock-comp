@@ -89,6 +89,7 @@ The simulator reproduces only what the score article makes public [brief]; every
 | `P-CONC-BASE` | The base of the concentration figure ("investable assets") | Name only [FACT: captures/client/02-score-breakdown] | SIMULATED: listed investments plus cash |
 | `P-LIQ-HORIZON` | What "near-term" means in the Liquidity commitments check | No | SIMULATED, [ASSUMPTION: confirm] |
 | `P-LIQ` | Curve of the near-term commitments check | No | SIMULATED, [ASSUMPTION: confirm] |
+| `P-AREA-MIX` | How the check scores of one area combine into its points | No | SIMULATED: equal weights, [ASSUMPTION: confirm] (D-066) |
 | `P-STAGE` | Weights of a household in transition | No ("values in between") | SIMULATED |
 | `P-LIMITS` | Serious issues that hold the score down | No | Left out of the simulator, labelled |
 
