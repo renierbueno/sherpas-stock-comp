@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import type { Analysis } from '../model/analysis';
 import { investableAssets } from '../model/exposure';
 import { dateLabel, money, pct } from '../model/format';
@@ -49,17 +49,31 @@ function Unchanged({ title }: { title: string }) {
   );
 }
 
+/** Line IDs to mark "New" in a guided scene (D-065); null outside the scenes. */
+export const NewLines = createContext<Set<string> | null>(null);
+
+function Line({ l }: { l: ReportLine }) {
+  const fresh = useContext(NewLines)?.has(l.id);
+  return (
+    <li data-line={l.id} className={fresh ? 'new' : undefined}>
+      {fresh && <span className="newbadge" title={`Requirement ${l.ac} in the spec`}>New · {l.ac}</span>}
+      {l.text}
+    </li>
+  );
+}
+
 function Bullets({ lines, label }: { lines: ReportLine[]; label: string }) {
   if (lines.length === 0) return null;
   return (
     <ul className="bullets" aria-label={label}>
-      {lines.map((l) => <li key={l.id} data-line={l.id}>{l.text}</li>)}
+      {lines.map((l) => <Line key={l.id} l={l} />)}
     </ul>
   );
 }
 
 /** F-C: Savings & Expenses carries the vest bullets, the tax on each vest and its look-into. */
 function SavingsSection({ lines }: { lines: ReportLine[] }) {
+  const scene = useContext(NewLines);
   const bullets = on(lines, 'savings.bullets');
   if (bullets.length === 0) return <Unchanged title="Savings & Expenses" />;
   const perVest = on(lines, 'savings.vestTax');
@@ -70,7 +84,7 @@ function SavingsSection({ lines }: { lines: ReportLine[] }) {
       <h2>Savings & Expenses</h2>
       <p className="caps">Income flow: unchanged, as today</p>
       <Bullets lines={bullets} label="Vests by year" />
-      <details className="grantblock" aria-label="Tax on each vest">
+      <details className="grantblock" aria-label="Tax on each vest" open={!!scene}>
         <summary><strong>Tax on each vest</strong></summary>
         <Bullets lines={perVest.filter((l) => !l.group)} label="Withholding estimate" />
         {groups.map((g) => (
@@ -178,7 +192,7 @@ export function FinancialHealth({ household, analysis, mode }: { household: Hous
           <div className="caps">Recommendations</div>
           <ul className="bullets" aria-label="Recommendations">
             <li>Other recommendations: unchanged, as today (SIMULATED).</li>
-            {on(lines, 'summary.candidates').map((l) => <li key={l.id} data-line={l.id}>{l.text}</li>)}
+            {on(lines, 'summary.candidates').map((l) => <Line key={l.id} l={l} />)}
           </ul>
         </section>
         <Unchanged title="Retirement & Goals" />

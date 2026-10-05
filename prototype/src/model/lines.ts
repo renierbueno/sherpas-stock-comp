@@ -114,7 +114,7 @@ export function linesFA(h: Household, firm: Firm, score: ScoreResult): ReportLin
 
   if (exposures.length > 0) {
     if (largest) {
-      const label = largest.position.ticker ?? largest.position.name;
+      const label = largest.position.name; // AC-A-12 names the position
       out.push({ id: 'A-12-largest', ac: 'AC-A-12', surface: 'viewMore.concentration', audience: 'shared',
         text: `Largest position: ${label} ${pct(largest.share)}.` });
     }

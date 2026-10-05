@@ -88,7 +88,7 @@ describe('F-A · screens', () => {
     await user().selectOptions(screen.getByLabelText('View'), 'client');
     await user().click(screen.getByRole('button', { name: 'View more' }));
     const reading = screen.getByLabelText('Concentration reading');
-    expect(within(reading).getByText('Largest position: SIMTM 20%.')).toBeInTheDocument();
+    expect(within(reading).getByText('Largest position: Total market index fund 20%.')).toBeInTheDocument();
     expect(within(reading).getByText('Employer stock (Halden Robotics): 30% of investable assets, counted as one position across all accounts.')).toBeInTheDocument();
     expect(within(reading).getByText("Maya's pay comes from the same company.")).toBeInTheDocument();
   });

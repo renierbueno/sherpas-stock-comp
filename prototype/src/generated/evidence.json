@@ -1,0 +1,2371 @@
+{
+ "generatedAt": "2026-10-05T18:36:15.702Z",
+ "features": {
+  "G": "Rules for every feature",
+  "A": "F-A · Employer stock counted in concentration",
+  "B": "F-B · Record a grant and its vests",
+  "C": "F-C · Tax at vest and the withholding gap",
+  "D": "F-D · Vest proceeds as dated cash for goals",
+  "E": "F-E · The client reports stock pay",
+  "F": "F-F · Upload a plan statement"
+ },
+ "totals": {
+  "tests": 159,
+  "passed": 159,
+  "unit": 116,
+  "component": 42,
+  "e2e": 1,
+  "requirements": 159,
+  "withPassingTest": 138,
+  "notTestable": 3,
+  "noTestYet": 18
+ },
+ "relations": [
+  {
+   "title": "flagging a single position that is already the largest leaves the score unchanged",
+   "status": "passed"
+  },
+  {
+   "title": "employer stock split across two accounts scores as one position of the sum",
+   "status": "passed"
+  },
+  {
+   "title": "adding a private-employer position never changes the concentration figure",
+   "status": "passed"
+  },
+  {
+   "title": "the concentration figure with employer exposure is never lower than today's",
+   "status": "passed"
+  },
+  {
+   "title": "with and without a grant: same current net worth",
+   "status": "passed"
+  },
+  {
+   "title": "a private grant, or one with every tranche past, changes no score figure",
+   "status": "passed"
+  },
+  {
+   "title": "forfeiting a tranche never raises a figure that counts future vests",
+   "status": "passed"
+  },
+  {
+   "title": "a larger gap never raises the Liquidity score",
+   "status": "passed"
+  },
+  {
+   "title": "a state rate equal to the state tax owed leaves the counted gap equal to the federal gap",
+   "status": "passed"
+  },
+  {
+   "title": "a household without grants gets the same Liquidity figure as today",
+   "status": "passed"
+  },
+  {
+   "title": "a vest outside the horizon changes no score figure",
+   "status": "passed"
+  },
+  {
+   "title": "adding a future tranche never changes current net worth or months of reserve",
+   "status": "passed"
+  },
+  {
+   "title": "a household without grants gets the same projection as today",
+   "status": "passed"
+  },
+  {
+   "title": "with \"income includes vests\", this year's total income equals reported income (see F-C, AC-E-11)",
+   "status": "passed"
+  },
+  {
+   "title": "with \"not sure\", no score figure changes",
+   "status": "passed"
+  },
+  {
+   "title": "a proposed grant changes no figure until it is confirmed",
+   "status": "passed"
+  },
+  {
+   "title": "confirming a proposal gives the same figures as entering the same tranches by hand",
+   "status": "passed"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "AC-G-01",
+   "feature": "G",
+   "text": "Where the firm has not enabled stock compensation, the system shall show the questionnaire, the analysis and the score exactly as today.",
+   "tests": [
+    {
+     "title": "with the setting off, no flag is offered",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "setting off: flags are kept but read as absent",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "with the setting off, rows create nothing",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-02",
+   "feature": "G",
+   "text": "Where the firm has enabled stock compensation, the system shall add to the questionnaire only the \"Stock compensation\" income chip and its helper line; a household that adds no stock compensation row sees no new question.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-G-03",
+   "feature": "G",
+   "text": "While a household has no grant and no position flagged as employer stock, the system shall compute every score check, figure and report line exactly as today.",
+   "tests": [
+    {
+     "title": "no flag: concentration and score exactly as today",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "no complete grant: tax lines, Liquidity and report as today",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "no row: the household and its analysis are exactly as today",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-04",
+   "feature": "G",
+   "text": "The system shall leave out of every score figure any grant that is pending detail.",
+   "tests": [
+    {
+     "title": "a \"not sure\" answer keeps the grant pending and out of every figure",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "no complete listed grant: projection and goals as today",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-05",
+   "feature": "G",
+   "text": "The system shall leave out of every score figure any grant or share of a private employer.",
+   "tests": [
+    {
+     "title": "private employer: awaiting a liquidity event, 409A for information only, out of the figures",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "no line for a private employer or a pending grant",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "no complete listed grant: projection and goals as today",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-06",
+   "feature": "G",
+   "text": "The system shall phrase every new report line as a fact about the household, without a sell, hold, exercise or tax instruction.",
+   "tests": [],
+   "status": "not tested: wording review, manual; every new line is copied from the spec"
+  },
+  {
+   "id": "AC-G-07",
+   "feature": "G",
+   "text": "The system shall let the advisor edit or delete every new report line before sharing, as for other generated lines.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-G-08",
+   "feature": "G",
+   "text": "When a firm turns the setting on, the system shall change no existing analysis until the advisor adds a flag or a grant.",
+   "tests": [
+    {
+     "title": "existing household: nothing changes until the advisor adds a grant; the save warns about the manual adjustment",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-09",
+   "feature": "G",
+   "text": "The system shall let the advisor add flags, grants and plan statements to an existing household through advisor mode and Data & Assumptions (F-A, F-B, F-F).",
+   "tests": [
+    {
+     "title": "existing household: nothing changes until the advisor adds a grant; the save warns about the manual adjustment",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "H2 from advisor to client: flag, complete the grant, share",
+     "kind": "e2e",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-10",
+   "feature": "G",
+   "text": "The system shall show every new client-facing line with the same text in the live client view and in the shared PDF, including the advisor's edits and, for performance units, the range beside the number.",
+   "tests": [
+    {
+     "title": "the shared PDF (print view) carries the same lines as the live client view",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "H2 from advisor to client: flag, complete the grant, share",
+     "kind": "e2e",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-11",
+   "feature": "G",
+   "text": "The system shall show the advisor notices of AC-A-08, AC-B-10, AC-B-12, AC-B-30, AC-C-13, AC-E-13, AC-E-16, AC-E-17, AC-F-08 and AC-F-12, the client's estimates (AC-E-14) and proposed grants only in advisor mode and Data & Assumptions, never in the client view or the shared PDF.",
+   "tests": [
+    {
+     "title": "the missing-price notice shows in advisor mode only",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "the vested prompt shows in advisor mode, never in the client view or the PDF",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "F-E notices never reach the shared view",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "H2 from advisor to client: flag, complete the grant, share",
+     "kind": "e2e",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-12",
+   "feature": "G",
+   "text": "When the advisor saves any stock-pay change (a flag, a grant, a tranche, a state withholding rate, the income question, a confirmed extraction), the system shall reprocess the analysis and, if it has a manual score adjustment, first show the warning of AC-B-06.",
+   "tests": [
+    {
+     "title": "saving a flag on a household with a manual adjustment warns first",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "removing a flag also warns first while a manual adjustment exists",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "H2 from advisor to client: flag, complete the grant, share",
+     "kind": "e2e",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-13",
+   "feature": "G",
+   "text": "When a firm turns the setting off, the system shall keep its stock-pay data, hide it and leave it out of every figure from the next reprocessing, leaving analyses already generated and PDFs already shared unchanged; turning the setting on again shall restore it.",
+   "tests": [
+    {
+     "title": "turning the setting off leaves the generated analysis unchanged until reprocessing",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "setting off: flags are kept but read as absent",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-14",
+   "feature": "G",
+   "text": "The system shall add no new score limit; existing limits read the checks as today.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-G-15",
+   "feature": "G",
+   "text": "The system shall label every value of a future vest with the price date: \"at the <analysis date> price\".",
+   "tests": [
+    {
+     "title": "saving reprocesses: the block lists future tranches after the asset totals, priced at the analysis date",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "each future tranche with date, units and value at the analysis date price",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "Retirement & Goals bullet with the price date, and the sell-or-keep note",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-G-16",
+   "feature": "G",
+   "text": "The system shall compute the savings rate, fixed commitments, debt-to-income, housing ratio, life cover need, Social Security estimate and contributions from reported income as today, never adding vest income.",
+   "tests": [
+    {
+     "title": "checks that read income (savings rate, debt, cover) never change with vests",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-01",
+   "feature": "A",
+   "text": "Where the firm has enabled stock compensation, the system shall let the advisor flag a held position as employer stock, naming the employer and the person.",
+   "tests": [
+    {
+     "title": "the flag names employer and person, asks current employer, takes cost basis",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "flagging is refused when the firm has not enabled stock compensation",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-02",
+   "feature": "A",
+   "text": "When the advisor flags a position, the system shall ask whether it is the person's current employer (yes, no, unknown).",
+   "tests": [
+    {
+     "title": "the flag names employer and person, asks current employer, takes cost basis",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "the flag keeps current employer and cost basis",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-03",
+   "feature": "A",
+   "text": "When the advisor flags a position, the system shall let the advisor enter its cost basis.",
+   "tests": [
+    {
+     "title": "the flag names employer and person, asks current employer, takes cost basis",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "the flag keeps current employer and cost basis",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-04",
+   "feature": "A",
+   "text": "The system shall compute employer exposure for each issuer as the market value of every held position flagged as employer stock of that issuer, summed across all accounts and all owners in the household.",
+   "tests": [
+    {
+     "title": "sums flagged positions of one issuer across accounts: $300K, 30%",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "client and co-client shares of the same employer make one exposure",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "two employers make two exposures; the check reads the largest",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-05",
+   "feature": "A",
+   "text": "The system shall leave positions of a private employer out of employer exposure.",
+   "tests": [
+    {
+     "title": "positions of a private employer stay out of exposure",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-06",
+   "feature": "A",
+   "text": "The system shall leave unvested tranches out of employer exposure.",
+   "tests": [
+    {
+     "title": "unvested tranches stay out of employer exposure and the check",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-07",
+   "feature": "A",
+   "text": "If a position flagged as employer stock has no market price, then the system shall leave it out of employer exposure.",
+   "tests": [
+    {
+     "title": "a flagged position without a market price stays out of exposure",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-08",
+   "feature": "A",
+   "text": "If a position flagged as employer stock has no market price, then the system shall show the advisor \"Price not available for <ticker>: not counted in concentration.\"",
+   "tests": [
+    {
+     "title": "the missing-price notice shows in advisor mode only",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-09",
+   "feature": "A",
+   "text": "When the Investing concentration check runs, the system shall read the larger of today's largest-position figure and the largest employer exposure, on the same base (`P-CONC-BASE`).",
+   "tests": [
+    {
+     "title": "the check reads 30% instead of the 20% fund line",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "a larger fund line still wins: reads today's figure",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "two employers make two exposures; the check reads the largest",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-10",
+   "feature": "A",
+   "text": "The system shall score the figure of AC-A-09 on the check's existing curve (`P-CONC`).",
+   "tests": [
+    {
+     "title": "the employer figure is scored on the existing curve: same figure, same check score",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-11",
+   "feature": "A",
+   "text": "If no held position is flagged as employer stock, then the system shall compute the concentration check exactly as today.",
+   "tests": [
+    {
+     "title": "no flag: concentration and score exactly as today",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-12",
+   "feature": "A",
+   "text": "While the household has employer exposure, View more shall show \"Largest position: <name> <X>%.\" beside \"Employer stock (<company>): <Y>% of investable assets, counted as one position across all accounts.\"",
+   "tests": [
+    {
+     "title": "View more shows both readings and the pay link",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-13",
+   "feature": "A",
+   "text": "Where a flagged position is the current employer of its person, View more shall add \"<Name>'s pay comes from the same company.\"",
+   "tests": [
+    {
+     "title": "View more shows both readings and the pay link",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-14",
+   "feature": "A",
+   "text": "When employer exposure is above zero, the Assets & Investments section shall add the bullet \"<Company> stock held across <n> accounts: $<value>, <Y>% of investable assets.\", or with one account \"<Company> stock held in 1 account: $<value>, <Y>% of investable assets.\"",
+   "tests": [
+    {
+     "title": "Assets bullet and \"We should look into\" line",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "the Investment analysis snapshot adds the AC-A-14 line",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "one account reads \"held in 1 account\" (D-066)",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-15",
+   "feature": "A",
+   "text": "When the concentration check reads employer exposure, the \"We should look into\" box shall add \"<Y>% of investable assets is in <company> stock.\"",
+   "tests": [
+    {
+     "title": "Assets bullet and \"We should look into\" line",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-16",
+   "feature": "A",
+   "text": "Where the household has unvested tranches of a listed employer (F-B), the report shall add \"If every scheduled grant vests, <company> stock would be <Z>% of investable assets, at the <analysis date> price, before shares withheld for tax.\"",
+   "tests": [
+    {
+     "title": "the vest-all line shows in Assets & Investments",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "Z = (exposure + unvested) / (investable + unvested), labelled with the price date",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "no line for a private employer or a pending grant",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-17",
+   "feature": "A",
+   "text": "Where those tranches include performance units, the line of AC-A-16 shall state the figure at target followed by its range: \"<Z>% at target (range <Zmin>% to <Zmax>%)\".",
+   "tests": [
+    {
+     "title": "PSU: terms in the editor; target value with its range in the block and the vest-all line",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "performance units: target followed by the range",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-18",
+   "feature": "A",
+   "text": "The system shall compute Z as (employer exposure + value of unvested tranches) / (investable assets + value of unvested tranches).",
+   "tests": [
+    {
+     "title": "Z = (exposure + unvested) / (investable + unvested), labelled with the price date",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-19",
+   "feature": "A",
+   "text": "The system shall not show a threshold or target for employer stock.",
+   "tests": [
+    {
+     "title": "no threshold or target for employer stock is shown",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-20",
+   "feature": "A",
+   "text": "The system shall offer the flag of AC-A-01 on each held position in Data & Assumptions and in the advisor-mode Investments block.",
+   "tests": [
+    {
+     "title": "the flag is offered in Data & Assumptions and in the advisor-mode Investments block",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-21",
+   "feature": "A",
+   "text": "While a position is flagged, the holdings panel shall show the tag \"Employer stock (<Name>)\" on it.",
+   "tests": [
+    {
+     "title": "a flagged position shows the tag \"Employer stock (<Name>)\" in the holdings panel",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-22",
+   "feature": "A",
+   "text": "When employer exposure is above zero, the Investment analysis snapshot and its PDF shall add the line of AC-A-14; purpose buckets, targets and the proposal shall not change.",
+   "tests": [
+    {
+     "title": "the Investment analysis snapshot adds the AC-A-14 line",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "the shared PDF (print view) carries the same lines as the live client view",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-A-23",
+   "feature": "A",
+   "text": "The system shall offer the line of AC-A-15 as a candidate for the Summary recommendations, chosen by the platform's existing logic and phrased as a fact (AC-G-06).",
+   "tests": [
+    {
+     "title": "the look-into line is offered as a Summary recommendation, phrased as a fact",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-A-01",
+   "feature": "A",
+   "text": "When the advisor flags or unflags a position, the system shall record the firm, the household, the issuer and whether it is listed.",
+   "tests": [
+    {
+     "title": "flagging and unflagging record firm, household, issuer and listed",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-A-02",
+   "feature": "A",
+   "text": "When the concentration check reads employer exposure instead of today's figure, the system shall record it with the household.",
+   "tests": [
+    {
+     "title": "recorded when the check reads employer exposure, not otherwise",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-A-03",
+   "feature": "A",
+   "text": "When the advisor adjusts the score of a household with employer exposure, the system shall record the adjustment and its reason with a \"stock pay\" tag.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "EV-A-04",
+   "feature": "A",
+   "text": "When an analysis with employer exposure is shared, the system shall record whether any F-A line was edited or deleted before sharing.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-B-01",
+   "feature": "B",
+   "text": "Where the firm has enabled stock compensation, the system shall let the advisor add a grant in advisor mode and in Data & Assumptions.",
+   "tests": [
+    {
+     "title": "the advisor adds a grant in Data & Assumptions, RSU or PSU, and generates tranches",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "adding a grant is refused when the firm has not enabled stock compensation",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-02",
+   "feature": "B",
+   "text": "The system shall assign each grant to one person of the household, never joint.",
+   "tests": [
+    {
+     "title": "a grant belongs to one person; joint or unknown owners are refused",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-03",
+   "feature": "B",
+   "text": "The system shall offer RSU and PSU as grant types.",
+   "tests": [
+    {
+     "title": "the advisor adds a grant in Data & Assumptions, RSU or PSU, and generates tranches",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-04",
+   "feature": "B",
+   "text": "The system shall record for each grant its employer, grant date and units (target units for a PSU).",
+   "tests": [
+    {
+     "title": "stored as stock compensation, sub-type RSU; a PSU keeps its terms with the 0% to 200% default",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-05",
+   "feature": "B",
+   "text": "When the advisor saves a grant, the system shall reprocess the analysis.",
+   "tests": [
+    {
+     "title": "saving reprocesses: the block lists future tranches after the asset totals, priced at the analysis date",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-06",
+   "feature": "B",
+   "text": "If the analysis has a manual score adjustment, then the system shall show \"Saving reprocesses the analysis and replaces your manual score adjustment.\" before the advisor saves a grant.",
+   "tests": [
+    {
+     "title": "saving a flag on a household with a manual adjustment warns first",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "existing household: nothing changes until the advisor adds a grant; the save warns about the manual adjustment",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-07",
+   "feature": "B",
+   "text": "When the advisor enters a pattern (length, frequency, cliff), the system shall generate the dated tranches.",
+   "tests": [
+    {
+     "title": "the advisor adds a grant in Data & Assumptions, RSU or PSU, and generates tranches",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "four years, quarterly, one-year cliff: 13 tranches, the first with a quarter of the units",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-08",
+   "feature": "B",
+   "text": "The system shall let the advisor edit the date and units of each tranche.",
+   "tests": [
+    {
+     "title": "edit, delete and add tranches; a mismatch shows the notice without blocking",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-09",
+   "feature": "B",
+   "text": "The system shall let the advisor add and delete tranches.",
+   "tests": [
+    {
+     "title": "edit, delete and add tranches; a mismatch shows the notice without blocking",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-10",
+   "feature": "B",
+   "text": "If the units of all tranches differ from the grant's units, then the system shall show \"Tranches add up to <n> of <m> units.\" without blocking the save.",
+   "tests": [
+    {
+     "title": "edit, delete and add tranches; a mismatch shows the notice without blocking",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "tranches that do not add up raise the notice without blocking",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-11",
+   "feature": "B",
+   "text": "If a tranche's date is on or before the analysis date, then the system shall leave it out of the grant's figures.",
+   "tests": [
+    {
+     "title": "past tranches stay out of the figures, with the prompt",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "a grant with every tranche in the past contributes nothing",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-12",
+   "feature": "B",
+   "text": "If a tranche's date is on or before the analysis date, then the system shall show \"Vested on <date>: record the shares kept as a held position.\"",
+   "tests": [
+    {
+     "title": "the vested prompt shows in advisor mode, never in the client view or the PDF",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "past tranches stay out of the figures, with the prompt",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-13",
+   "feature": "B",
+   "text": "When the advisor marks a tranche as forfeited, the system shall remove it from the grant's figures.",
+   "tests": [
+    {
+     "title": "forfeited tranches leave the figures",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-14",
+   "feature": "B",
+   "text": "The system shall let the advisor record, per tranche, the shares kept after withholding and their cost basis.",
+   "tests": [
+    {
+     "title": "shares kept and cost basis are recorded per tranche",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-15",
+   "feature": "B",
+   "text": "Dropped: shares kept are not estimated; they are recorded when known (AC-B-14).",
+   "tests": [],
+   "status": "not tested: dropped in the spec (D-050)"
+  },
+  {
+   "id": "AC-B-16",
+   "feature": "B",
+   "text": "Where the grant is a PSU, the system shall record its performance condition and the end of its performance period.",
+   "tests": [
+    {
+     "title": "PSU: terms in the editor; target value with its range in the block and the vest-all line",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-17",
+   "feature": "B",
+   "text": "Where the grant is a PSU, the system shall record its payout range, 0% to 200% of target unless the advisor changes it.",
+   "tests": [
+    {
+     "title": "stored as stock compensation, sub-type RSU; a PSU keeps its terms with the 0% to 200% default",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "the advisor range is used instead of the default",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-18",
+   "feature": "B",
+   "text": "Where the employer is private, the system shall let the advisor save an RSU grant without vest dates.",
+   "tests": [
+    {
+     "title": "private employer: saved without dates, awaiting, 409A for information",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "a private grant saves without vest dates",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-19",
+   "feature": "B",
+   "text": "Where the employer is private, with or without vest dates, the system shall show the grant as \"Awaiting a liquidity event\".",
+   "tests": [
+    {
+     "title": "private employer: saved without dates, awaiting, 409A for information",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "private employer: awaiting a liquidity event, 409A for information only, out of the figures",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "a private grant with vest dates is also awaiting a liquidity event (D-068)",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-20",
+   "feature": "B",
+   "text": "Where the employer is private, the system shall let the advisor enter the latest 409A value and its date.",
+   "tests": [
+    {
+     "title": "private employer: saved without dates, awaiting, 409A for information",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-21",
+   "feature": "B",
+   "text": "Where a 409A value is entered, the system shall show \"409A value <$> per share as of <date>, for information only; not counted in the figures.\"",
+   "tests": [
+    {
+     "title": "private employer: saved without dates, awaiting, 409A for information",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "private employer: awaiting a liquidity event, 409A for information only, out of the figures",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-22",
+   "feature": "B",
+   "text": "The system shall leave unvested tranches out of current net worth.",
+   "tests": [
+    {
+     "title": "unvested tranches stay out of current net worth",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-23",
+   "feature": "B",
+   "text": "While a household has a complete grant of a listed employer, the analysis shall list each future tranche with its date, units and value at the <analysis date> price.",
+   "tests": [
+    {
+     "title": "saving reprocesses: the block lists future tranches after the asset totals, priced at the analysis date",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "each future tranche with date, units and value at the analysis date price",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-24",
+   "feature": "B",
+   "text": "Where a tranche is a performance unit tranche, the list shall show its value at target followed by \"(range $<min> to $<max>)\".",
+   "tests": [
+    {
+     "title": "PSU: terms in the editor; target value with its range in the block and the vest-all line",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "a performance unit tranche shows target value and range",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-25",
+   "feature": "B",
+   "text": "The system shall not send reminders or notifications for vest dates.",
+   "tests": [],
+   "status": "not tested: absence of reminders: nothing to build or show (manual)"
+  },
+  {
+   "id": "AC-B-26",
+   "feature": "B",
+   "text": "If the household has no grant, then the system shall show no grant section in the analysis.",
+   "tests": [
+    {
+     "title": "no grant, no grant block",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "no grant, no grant section",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-27",
+   "feature": "B",
+   "text": "The analysis shall show grants in the Assets & Investments section, in a block \"Stock compensation not yet vested (not in net worth)\" after the asset totals, holding the tranche list (AC-B-23), \"Awaiting a liquidity event\" (AC-B-19) and the pending line (AC-E-10).",
+   "tests": [
+    {
+     "title": "saving reprocesses: the block lists future tranches after the asset totals, priced at the analysis date",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-28",
+   "feature": "B",
+   "text": "The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one future tranche with date and units, PSU terms for a PSU, and a yes or no to the income question (AC-B-29).",
+   "tests": [
+    {
+     "title": "complete only with owner, type, listed employer with ticker, units, a future tranche, PSU terms and a yes or no",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-29",
+   "feature": "B",
+   "text": "The grant editor shall ask, per person, \"Does the salary on file include stock that vested this year?\" (yes, no, not sure), prefilled with the client's answer (AC-E-05), and apply AC-E-11 to AC-E-13 to the answer.",
+   "tests": [
+    {
+     "title": "the income question is asked per person, prefilled with the client answer",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "a \"not sure\" answer keeps the grant pending and out of every figure",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-30",
+   "feature": "B",
+   "text": "If the employer's ticker has no market price, then the system shall leave the grant out of every figure and show the advisor \"Price not available for <ticker>: grant not counted.\"",
+   "tests": [
+    {
+     "title": "a grant whose ticker has no price: advisor notice only",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "a grant whose ticker has no market price leaves the figures, with the advisor notice",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-B-31",
+   "feature": "B",
+   "text": "The system shall store a grant as an element of the platform's stock compensation asset category, sub-type RSU, and a PSU as an RSU with its performance terms; unvested value stays out of net worth (AC-B-22).",
+   "tests": [
+    {
+     "title": "stored as stock compensation, sub-type RSU; a PSU keeps its terms with the 0% to 200% default",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-B-01",
+   "feature": "B",
+   "text": "When a grant is created, the system shall record the firm, the household, the type and the source (advisor, questionnaire, extraction).",
+   "tests": [
+    {
+     "title": "creating a grant records firm, type and source",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-B-02",
+   "feature": "B",
+   "text": "When a grant changes from pending detail to complete, the system shall record the time since it was reported.",
+   "tests": [
+    {
+     "title": "pending to complete records days since reported",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-B-03",
+   "feature": "B",
+   "text": "When the advisor edits generated tranches, the system shall record how many tranches were changed.",
+   "tests": [
+    {
+     "title": "editing generated tranches records how many changed",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-01",
+   "feature": "C",
+   "text": "While a household has a complete grant of a listed employer, the system shall add the value of each future tranche at vest to the owner's wages of the tranche's year, for the tax of AC-C-03 and the projection of F-D only (AC-G-16).",
+   "tests": [
+    {
+     "title": "tax owed is tax with the vest income minus tax without it, by level, at today's price",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-02",
+   "feature": "C",
+   "text": "The system shall value a tranche at vest at today's market price; a performance unit tranche at target.",
+   "tests": [
+    {
+     "title": "tax owed is tax with the vest income minus tax without it, by level, at today's price",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-03",
+   "feature": "C",
+   "text": "The system shall compute the tax owed on each vest as the household's tax with the vest income minus its tax without it, with the platform's tax engine, by level (federal, FICA, state).",
+   "tests": [
+    {
+     "title": "tax owed is tax with the vest income minus tax without it, by level, at today's price",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-04",
+   "feature": "C",
+   "text": "The system shall label every tax figure on a future vest \"at the <analysis date> price and today's tax rules\".",
+   "tests": [
+    {
+     "title": "tax on each vest, collapsible in Savings & Expenses: price date and tax rules, withholding label, federal-only state line, FICA apart",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "labels name the price date and tax rules; FICA shown apart from the gap",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-05",
+   "feature": "C",
+   "text": "The system shall estimate federal withholding on each vest at 22% of its value, and at 37% on the part of the person's vest income from that employer in the year above $1 million.",
+   "tests": [
+    {
+     "title": "32% household, $100K vest, no state rate: federal gap about $10K, labelled federal only",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "37% on the part of a person's vest income from one employer above $1 million",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "the $1 million rule applies per person and employer",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-06",
+   "feature": "C",
+   "text": "The system shall label the estimate \"Federal withholding estimated at the supplemental rate (22%, 37% above $1 million).\"",
+   "tests": [
+    {
+     "title": "tax on each vest, collapsible in Savings & Expenses: price date and tax rules, withholding label, federal-only state line, FICA apart",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-07",
+   "feature": "C",
+   "text": "Where the platform computes state tax above zero for the household, the system shall let the advisor enter a state withholding rate per grant, with the helper text \"From the paystub or plan statement\".",
+   "tests": [
+    {
+     "title": "the state withholding field and its notice, in advisor mode; entering it removes the federal-only label",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-08",
+   "feature": "C",
+   "text": "If the platform computes zero state tax for the household, then the system shall hide the state withholding field.",
+   "tests": [
+    {
+     "title": "no state field where the state has no income tax; never in the client view",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "state withholding notice for the advisor only, and none where the state has no income tax",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-09",
+   "feature": "C",
+   "text": "The system shall show the state withholding field in advisor mode and Data & Assumptions only, never in the client questionnaire.",
+   "tests": [
+    {
+     "title": "no state field where the state has no income tax; never in the client view",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-10",
+   "feature": "C",
+   "text": "The system shall compute the federal gap of each vest as federal tax owed minus estimated federal withholding.",
+   "tests": [
+    {
+     "title": "32% household, $100K vest, no state rate: federal gap about $10K, labelled federal only",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-11",
+   "feature": "C",
+   "text": "Where a state withholding rate is entered, the system shall compute the state gap as state tax owed minus the rate times the vest value.",
+   "tests": [
+    {
+     "title": "a state rate gives a state gap; 0% counts the full state tax as gap",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-12",
+   "feature": "C",
+   "text": "If no state withholding rate is entered, then the system shall show \"Estimated state tax on this vest: $<X>. Your state withholding was not provided, so the gap shown is federal only.\"",
+   "tests": [
+    {
+     "title": "tax on each vest, collapsible in Savings & Expenses: price date and tax rules, withholding label, federal-only state line, FICA apart",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-13",
+   "feature": "C",
+   "text": "If no state withholding rate is entered, then the system shall show the advisor \"State withholding not entered for <grant>.\" in Data & Assumptions.",
+   "tests": [
+    {
+     "title": "the state withholding field and its notice, in advisor mode; entering it removes the federal-only label",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "state withholding notice for the advisor only, and none where the state has no income tax",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-14",
+   "feature": "C",
+   "text": "The system shall show FICA owed on each vest with \"Social Security and Medicare tax on this vest: $<X>, not included in the gap.\"",
+   "tests": [
+    {
+     "title": "tax on each vest, collapsible in Savings & Expenses: price date and tax rules, withholding label, federal-only state line, FICA apart",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "labels name the price date and tax rules; FICA shown apart from the gap",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-15",
+   "feature": "C",
+   "text": "If a gap is zero or below, then the system shall show it as \"Withholding covers the estimated tax on this vest.\" and count nothing.",
+   "tests": [
+    {
+     "title": "a household whose withholding covers the tax says so",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "a household at 22% or lower: withholding covers it and nothing is counted",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-16",
+   "feature": "C",
+   "text": "Where a vest includes performance units, the system shall show its tax owed and gap at target followed by their range.",
+   "tests": [
+    {
+     "title": "a PSU vest shows tax and gap at target with the range",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "a PSU vest shows tax and gap at target with the range; counted at target",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-17",
+   "feature": "C",
+   "text": "When the Liquidity near-term commitments check runs, the system shall add the positive gaps of vests within its horizon (`P-LIQ-HORIZON`) to the commitments it reads.",
+   "tests": [
+    {
+     "title": "positive gaps within the horizon are added to near-term commitments; state part only when entered",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "a vest outside the horizon is in the report, not in the check",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-18",
+   "feature": "C",
+   "text": "The system shall leave the state part of a gap out of the check when no state withholding rate is entered.",
+   "tests": [
+    {
+     "title": "positive gaps within the horizon are added to near-term commitments; state part only when entered",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-19",
+   "feature": "C",
+   "text": "The system shall count a performance unit tranche at target in the check.",
+   "tests": [
+    {
+     "title": "a PSU vest shows tax and gap at target with the range; counted at target",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-20",
+   "feature": "C",
+   "text": "When the check counts a vest gap, View more shall show \"Tax due on upcoming vests counted in near-term commitments: $<X>.\"",
+   "tests": [
+    {
+     "title": "View more: tax counted in near-term commitments, federal only; reported-income note",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "View more, look into and Summary candidate for a gap within the horizon",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-21",
+   "feature": "C",
+   "text": "Where the gap counted is federal only, the line of AC-C-20 shall end with \"(federal only; state withholding not entered)\".",
+   "tests": [
+    {
+     "title": "View more: tax counted in near-term commitments, federal only; reported-income note",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "View more, look into and Summary candidate for a gap within the horizon",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-22",
+   "feature": "C",
+   "text": "Where any performance units are counted, View more shall add \"Performance units counted at target.\"",
+   "tests": [
+    {
+     "title": "View more says performance units are counted at target",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "performance units counted: View more says so",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-23",
+   "feature": "C",
+   "text": "While a household has future vests, the Savings & Expenses section shall add, per year, the bullet \"<Year> vests: $<value> of income, estimated tax $<owed>, gap after withholding $<gap>.\"",
+   "tests": [
+    {
+     "title": "Savings & Expenses: per-year bullet and the look-into; the line is a Summary candidate",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "per-year bullet, this year's line under the cash flow statement, and the reported-income note",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-24",
+   "feature": "C",
+   "text": "When a positive gap falls within the check's horizon, the \"We should look into\" box shall add \"Tax on the <month year> vest may exceed withholding by $<gap>.\"",
+   "tests": [
+    {
+     "title": "Savings & Expenses: per-year bullet and the look-into; the line is a Summary candidate",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "View more, look into and Summary candidate for a gap within the horizon",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-25",
+   "feature": "C",
+   "text": "If the household has no complete grant of a listed employer, then the system shall compute tax lines, the Liquidity check and the report exactly as today.",
+   "tests": [
+    {
+     "title": "no complete grant: tax lines, Liquidity and report as today",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-26",
+   "feature": "C",
+   "text": "While a household has future vests this year, the cash flow statement shall show below its total, under the stock compensation income category, \"Stock compensation (vests this year), not in the totals above: $<value>, estimated tax $<owed>.\"",
+   "tests": [
+    {
+     "title": "the cash flow statement shows this year's vests below its total",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "per-year bullet, this year's line under the cash flow statement, and the reported-income note",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-27",
+   "feature": "C",
+   "text": "While a household has future vests, View more shall show \"Savings rate and debt ratios read reported income; vests are shown separately.\"",
+   "tests": [
+    {
+     "title": "View more: tax counted in near-term commitments, federal only; reported-income note",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "per-year bullet, this year's line under the cash flow statement, and the reported-income note",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-28",
+   "feature": "C",
+   "text": "The system shall offer the line of AC-C-24 as a candidate for the Summary recommendations, chosen by the platform's existing logic and phrased as a fact (AC-G-06).",
+   "tests": [
+    {
+     "title": "Savings & Expenses: per-year bullet and the look-into; the line is a Summary candidate",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "View more, look into and Summary candidate for a gap within the horizon",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-C-29",
+   "feature": "C",
+   "text": "The system shall show the per-vest figures of AC-C-03, AC-C-10 to AC-C-12, AC-C-14 to AC-C-16 in a collapsible \"Tax on each vest\" in Savings & Expenses, after the bullets of AC-C-23, one group per vest, as \"Estimated tax on this vest: $<total> (federal $<a>, Social Security and Medicare $<b>, state $<c>), at the <analysis date> price and today's tax rules.\" and \"Estimated gap after withholding: $<gap>, at the <analysis date> price and today's tax rules.\"; performance unit figures add \"at target (range $<min> to $<max>)\".",
+   "tests": [
+    {
+     "title": "tax on each vest, collapsible in Savings & Expenses: price date and tax rules, withholding label, federal-only state line, FICA apart",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-C-01",
+   "feature": "C",
+   "text": "When the advisor enters a state withholding rate, the system shall record the grant and the time since the grant was completed.",
+   "tests": [
+    {
+     "title": "entering a state rate records the grant and the days since it was completed",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-C-02",
+   "feature": "C",
+   "text": "When the Liquidity check counts a vest gap, the system shall record it with the household.",
+   "tests": [
+    {
+     "title": "recorded when the Liquidity check counts a vest gap",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-01",
+   "feature": "D",
+   "text": "While a household has a complete grant of a listed employer, the projection shall add each future tranche as an inflow on its vest date.",
+   "tests": [
+    {
+     "title": "one inflow per future tranche, on its date, after the tax computed in F-C",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-02",
+   "feature": "D",
+   "text": "The system shall show each inflow as \"$<X> after estimated tax ($<Y> before tax)\", with the tax computed for that vest in F-C.",
+   "tests": [
+    {
+     "title": "one inflow per future tranche, on its date, after the tax computed in F-C",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-03",
+   "feature": "D",
+   "text": "The projected net worth chart shall show a marker for each year with vests, beside the goal markers.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-D-04",
+   "feature": "D",
+   "text": "Where a year's vests include performance units, the chart shall show a line at target and a shaded band for their range.",
+   "tests": [
+    {
+     "title": "the projection carries a band where a year's vests include performance units",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-05",
+   "feature": "D",
+   "text": "The system shall not count a tranche in liquid assets, months of reserve or near-term cash before its vest date.",
+   "tests": [
+    {
+     "title": "a tranche counts in no liquid figure before its vest date",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-06",
+   "feature": "D",
+   "text": "The Retirement & Goals section shall add the bullet \"<Company> vests: $<X> after estimated tax ($<Y> before tax) between <first date> and <last date>, at the <analysis date> price.\"",
+   "tests": [
+    {
+     "title": "Retirement & Goals bullet with the price date, and the sell-or-keep note",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "a PSU vest shows the target figure with its range",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-07",
+   "feature": "D",
+   "text": "Where a goal's year falls on or after a vest, the system shall add \"Vests before <goal> (<year>): $<X> after estimated tax.\"",
+   "tests": [
+    {
+     "title": "vests before the goal: both years, after tax ($80K before tax)",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "a goal before the first vest gets no line",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-08",
+   "feature": "D",
+   "text": "The system shall add to the vest bullets \"Value on the vest date; whether shares are sold or kept is the client's decision.\"",
+   "tests": [
+    {
+     "title": "Retirement & Goals bullet with the price date, and the sell-or-keep note",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-09",
+   "feature": "D",
+   "text": "If the household has no complete grant of a listed employer, then the system shall show the projection, the goal markers and the Retirement & Goals section exactly as today.",
+   "tests": [
+    {
+     "title": "no complete listed grant: projection and goals as today",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-D-10",
+   "feature": "D",
+   "text": "The projection shall count each vest once, as the inflow of AC-D-01, and not again through the year's income; after its vest date it shall project the after-tax amount as the platform projects cash savings.",
+   "tests": [
+    {
+     "title": "each vest enters once, after tax, then grows as cash savings",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-D-01",
+   "feature": "D",
+   "text": "When an analysis with vest inflows is shared, the system shall record whether any F-D line was edited or deleted before sharing.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-E-01",
+   "feature": "E",
+   "text": "Where the firm has enabled stock compensation, the Income section shall offer a \"Stock compensation\" chip among \"other current income\".",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-E-02",
+   "feature": "E",
+   "text": "Where the firm has enabled stock compensation, the system shall show under the employment income field the helper line \"Paid partly in company stock? Add it below as Stock compensation.\"",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-E-03",
+   "feature": "E",
+   "text": "When the client selects the chip, the system shall add a row with: owner (one person), employer, ticker if listed (security search), type (RSU, PSU, other, not sure), approximate value of unvested stock, how often it vests (monthly, quarterly, every six months, yearly, not sure); each selection adds one row, as for other chips.",
+   "tests": [
+    {
+     "title": "client and co-client with the same employer: two rows, two grants, one employer",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "a private employer (no ticker) is recorded as not listed",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-04",
+   "feature": "E",
+   "text": "The system shall require the employer in each row and accept \"not sure\" or empty for every other field.",
+   "tests": [
+    {
+     "title": "only the employer is required; every other field may be empty or \"not sure\"",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-05",
+   "feature": "E",
+   "text": "The system shall ask in each row \"Does your employment income above include stock that vested this year?\" (yes, no, not sure).",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-E-06",
+   "feature": "E",
+   "text": "If the client adds no stock compensation row, then the system shall continue the questionnaire exactly as today.",
+   "tests": [
+    {
+     "title": "no row: the household and its analysis are exactly as today",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-07",
+   "feature": "E",
+   "text": "When the questionnaire is submitted with a row, the system shall create a grant for that person with status \"pending detail\" and source \"questionnaire\".",
+   "tests": [
+    {
+     "title": "submitting a row creates a grant pending detail, source questionnaire, with the client estimate",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-08",
+   "feature": "E",
+   "text": "While a grant is pending detail, the opportunity shall show the alert \"Stock pay: detail pending\".",
+   "tests": [
+    {
+     "title": "the alert shows while a grant is pending and goes when none is",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-09",
+   "feature": "E",
+   "text": "When no grant of the household is pending detail, the system shall remove the alert.",
+   "tests": [
+    {
+     "title": "the alert shows while a grant is pending and goes when none is",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-10",
+   "feature": "E",
+   "text": "While a grant is pending detail, the analysis shall show \"<Name> reported pay in <company> stock. It is not yet included in these figures.\"",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-E-11",
+   "feature": "E",
+   "text": "Where the answer to AC-E-05 is yes, the system shall add no income for tranches dated in the current year, and from the next year use as salary the reported income minus the current year's vest value.",
+   "tests": [
+    {
+     "title": "\"yes\": nothing added this year; from next year salary is reported income minus this year's vests",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
+     "title": "with \"income includes vests\", this year's total income equals reported income (see F-C, AC-E-11)",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-12",
+   "feature": "E",
+   "text": "Where the answer to AC-E-05 is no, the system shall add every future tranche, including those of the current year, beside the reported salary.",
+   "tests": [
+    {
+     "title": "\"no\": every future tranche, this year's included, is added beside salary",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-13",
+   "feature": "E",
+   "text": "Where the answer to AC-E-05 is \"not sure\", the system shall keep the grant pending detail and show the advisor \"Check whether the reported income includes stock that vested this year.\"",
+   "tests": [
+    {
+     "title": "\"not sure\" keeps the grant pending and tells the advisor",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-14",
+   "feature": "E",
+   "text": "The grant editor shall show the client's answers labelled \"Client estimate, not used in the figures\".",
+   "tests": [
+    {
+     "title": "the client estimate is shown, labelled as not used in the figures",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-15",
+   "feature": "E",
+   "text": "In advisor mode, the stock-pay block shall open the full grant editor of F-B.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-E-16",
+   "feature": "E",
+   "text": "Where the type is \"other\", the system shall show the advisor \"This type is not modelled in this version; flag any shares already held as employer stock.\"",
+   "tests": [
+    {
+     "title": "type \"other\": advisor notice to flag held shares instead",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-17",
+   "feature": "E",
+   "text": "When held positions have the ticker given for an employer, the system shall show the advisor one suggestion per employer naming every account that holds them: \"<Company> (<ticker>) is held in <accounts>. Flag as employer stock?\"",
+   "tests": [
+    {
+     "title": "one suggestion per employer naming every account; flagged only after the advisor confirms each position",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-18",
+   "feature": "E",
+   "text": "The system shall flag a suggested position only after the advisor confirms.",
+   "tests": [
+    {
+     "title": "one suggestion per employer naming every account; flagged only after the advisor confirms each position",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-19",
+   "feature": "E",
+   "text": "The row shall show \"Upload your plan statement if you have it\" with a link to the documents step; an uploaded statement enters F-F as a proposal (AC-F-13).",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-E-20",
+   "feature": "E",
+   "text": "The system shall never block completing the questionnaire or generating the analysis because a grant is pending detail.",
+   "tests": [
+    {
+     "title": "a pending grant never blocks submitting or generating the analysis",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-E-21",
+   "feature": "E",
+   "text": "The system shall add the chip to any Financial Health template the firm uses [ASSUMPTION: the income widget is shared by the firm's templates].",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "EV-E-01",
+   "feature": "E",
+   "text": "When a stock compensation row is added or removed, the system shall record it with the firm.",
+   "tests": [
+    {
+     "title": "adding or removing a row is recorded with the firm",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-E-02",
+   "feature": "E",
+   "text": "When a questionnaire is completed, the system shall keep the stock-pay answer with the completion it already stores.",
+   "tests": [
+    {
+     "title": "the completion keeps the stock-pay answer",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-E-03",
+   "feature": "E",
+   "text": "When the alert \"Stock pay: detail pending\" is raised or removed, the system shall record the time.",
+   "tests": [
+    {
+     "title": "the alert being raised and removed is recorded with the time",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-01",
+   "feature": "F",
+   "text": "Where the firm has enabled stock compensation, the grant editor shall let the advisor upload a plan statement.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-F-02",
+   "feature": "F",
+   "text": "When a statement is uploaded, the system shall propose one grant per grant found, with its tranches, with status \"proposed\".",
+   "tests": [
+    {
+     "title": "one proposed grant per grant found: two RSU and one PSU",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-03",
+   "feature": "F",
+   "text": "While a grant is proposed, the system shall leave it out of every figure.",
+   "tests": [
+    {
+     "title": "a proposed grant stays out of every figure",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-04",
+   "feature": "F",
+   "text": "The system shall show the uploaded document next to the proposed values.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-F-05",
+   "feature": "F",
+   "text": "The system shall let the advisor edit any proposed field before confirming.",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-F-06",
+   "feature": "F",
+   "text": "When the advisor confirms a proposed grant, the system shall mark it complete and reprocess the analysis.",
+   "tests": [
+    {
+     "title": "confirming marks the grant complete and it enters the figures",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-07",
+   "feature": "F",
+   "text": "When the advisor rejects a proposed grant, the system shall discard it and change nothing else.",
+   "tests": [
+    {
+     "title": "rejecting discards the proposal and changes nothing else",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-08",
+   "feature": "F",
+   "text": "If the extraction finds no grant, then the system shall show \"No grants found in this document. Enter them by hand.\"",
+   "tests": [
+    {
+     "title": "nothing found: no proposal",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-09",
+   "feature": "F",
+   "text": "If a proposed grant has the same employer and grant date as an existing grant, then the system shall show both and let the advisor choose which to keep.",
+   "tests": [
+    {
+     "title": "same employer and grant date as an existing grant: both kept until the advisor chooses",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-10",
+   "feature": "F",
+   "text": "Where the statement shows past vests, the system shall propose them as past tranches with the prompt of AC-B-12.",
+   "tests": [
+    {
+     "title": "past vests are proposed as past tranches with shares kept; no held position is created",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-11",
+   "feature": "F",
+   "text": "The system shall not create held positions from a statement.",
+   "tests": [
+    {
+     "title": "past vests are proposed as past tranches with shares kept; no held position is created",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "AC-F-12",
+   "feature": "F",
+   "text": "The system shall label every proposed value \"Extracted from <document>, not confirmed\".",
+   "tests": [],
+   "status": "no test yet"
+  },
+  {
+   "id": "AC-F-13",
+   "feature": "F",
+   "text": "When the client uploads a plan statement in the questionnaire's documents step, the system shall process it as in AC-F-02 to AC-F-12, as a proposal the advisor confirms.",
+   "tests": [
+    {
+     "title": "a client upload in the questionnaire becomes the same proposal for the advisor to confirm",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-F-01",
+   "feature": "F",
+   "text": "When a statement is uploaded, the system shall record whether any grant was found.",
+   "tests": [
+    {
+     "title": "upload records whether any grant was found",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-F-02",
+   "feature": "F",
+   "text": "When a proposed grant is confirmed, the system shall record how many fields the advisor changed.",
+   "tests": [
+    {
+     "title": "confirming records how many fields the advisor changed",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  },
+  {
+   "id": "EV-F-03",
+   "feature": "F",
+   "text": "When a proposed grant is rejected, the system shall record it.",
+   "tests": [
+    {
+     "title": "rejecting is recorded",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
+  }
+ ]
+}

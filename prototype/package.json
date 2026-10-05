@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "e2e": "playwright test",
-    "trace": "tsx scripts/trace.ts"
+    "trace": "tsx scripts/trace.ts",
+    "evidence": "vitest run --reporter=json --outputFile=evidence/vitest.json; PLAYWRIGHT_JSON_OUTPUT_NAME=evidence/e2e.json playwright test --reporter=json > /dev/null; tsx scripts/evidence.ts"
   },
   "dependencies": {
     "react": "^18.3.1",
