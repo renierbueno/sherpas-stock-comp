@@ -16,6 +16,7 @@ Sherpas technical exercise: integrate stock compensation into the platform. Brie
 
 ## Git
 - main: one commit per closed gate, message explains why. PR work: its own branch, small commits tied to acceptance-criterion IDs. No "wip" commits.
+- Before every commit, show Renier the files, what they affect, why, and the message; commit only after his OK on that exact set. Any change after his OK needs a new OK.
 - The history will be read by Sherpas. Remote, push, PR creation and merge only with Renier's OK at that moment.
 - Never bypass the pre-commit hook.
 - No `Co-Authored-By` trailer in this repo's commits or PRs.
@@ -24,9 +25,9 @@ Sherpas technical exercise: integrate stock compensation into the platform. Brie
 ## Safety
 - Questionnaire link is single-use: move between steps only with an approved click; never submit or press the last step. Renier submits, if he decides to.
 - Never type a password. Renier logs in; then navigate.
-- Their systems: read only. Network data re-read with same-origin GET only.
-- `captures/` (screenshots, HTML, JSON) never enters git; only derived notes in `docs/`. Never copy their JavaScript or source; the prototype is our own code imitating the design.
-- Notion and Miro belong to Sherpas and are live: publish only with Renier's OK. Notion = clean content at each gate; Miro = working board.
+- Their systems: read only. Network data re-read with GET only (the app and its own API, with the page's session); never POST, PUT, PATCH or DELETE. Tokens are never saved, printed or committed; API paths and IDs never leave `captures/` (D-013).
+- `captures/` (screenshots, HTML, JSON) never enters git; only derived notes in `docs/`. Their HTML and JavaScript may be saved in `captures/` to understand how the app works, never in git or the prototype; the prototype is our own code imitating the design (D-012).
+- Notion and Miro belong to Sherpas and are live: one upload each at the end, only after Renier's review and OK (D-011). Until then Miro is the thinking board in every phase, on Renier's own account.
 - A deployed prototype that imitates their UI is always password-protected.
 
 ## Writing

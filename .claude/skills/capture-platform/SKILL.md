@@ -16,9 +16,9 @@ Goal: know the product and the advisor flow from the real screens, so the propos
 ## Hard rules
 
 - **Questionnaire is one-use.** Moving between steps is allowed; every click goes through the "ask" permission. Never click submit, send, finish or the last step. If a button's effect is unclear, ask first.
-- **Read only on their systems.** Network data is re-read with same-origin `GET` only. Never POST, PUT, PATCH or DELETE. Never edit a field on the advisor view unless Renier asks for that specific edit.
-- **Nothing raw in git.** Screenshots, HTML, text dumps and JSON go to `captures/` (ignored and blocked by the pre-commit hook). Strip auth headers, cookies and tokens before saving anything.
-- **No copied code.** Never save or reuse their JavaScript or source. Design tokens are values (colours, fonts, sizes), not code.
+- **Read only on their systems.** Network data is re-read with `GET` only: the app's own routes and its API, using the page's session. Never POST, PUT, PATCH or DELETE, even for an endpoint that only reads. Never edit a field unless Renier asks for that specific edit.
+- **Nothing raw in git.** Screenshots, HTML, text dumps and JSON go to `captures/` (ignored and blocked by the pre-commit hook). Strip auth headers, cookies and tokens before saving anything: after each save, replace any JWT (`eyJ…`) with `[REDACTED_JWT]` and check `grep -r eyJ captures/` is empty. Delete leftovers in `~/Downloads`.
+- **No copied code.** Their HTML and JavaScript may be saved in `captures/` to understand how the app works; never reuse them in the prototype or put them in git. Design tokens are values (colours, fonts, sizes), not code. In `docs/`, describe the data in our own words: no API paths, internal IDs or tokens.
 
 ## Steps (per screen)
 
@@ -28,7 +28,7 @@ Goal: know the product and the advisor flow from the real screens, so the propos
 2. `get_page_text` → `page.txt`. `read_page` (filter all) → `tree.txt`.
 3. Screenshot with `save_to_disk` (saved as JPEG in a temp folder; move it to `shot-1.jpg`); scroll and repeat (`shot-2.jpg`, …) until the full page is covered.
 4. Key views only (the analysis, the score breakdown, each questionnaire section): `document.documentElement.outerHTML` → `page.html`.
-5. `read_network_requests` (filter to the app's own API host). It returns method, URL and status only, with no headers or bodies. For the analysis and the questionnaire payloads, re-read the JSON with a same-origin `fetch` GET → `network/<name>.json`. Keep the request list (method, path, status) in `network/requests.txt`, without headers.
+5. `read_network_requests` (filter to the app's own API host). It returns method, URL and status only, with no headers or bodies. For the analysis and the questionnaire payloads, re-read the JSON with a `fetch` GET (the app or its API, with the page session; tokens never saved) → `network/<name>.json`. Keep the request list (method, path, status) in `network/requests.txt`, without headers.
 6. One line per screen in `docs/platform_map.md`: view, NN-slug, what it shows, what the user can do there, which open question it answers. Tag each line `[FACT: captures/<view>/NN-slug]`.
 
 ## Steps (once per view)
