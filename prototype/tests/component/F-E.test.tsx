@@ -1,0 +1,105 @@
+// F-E component tests: the client's Income step and what the advisor sees after (D-062). SIMULATED.
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { H1, H2 } from '../../src/model/households';
+import type { Firm } from '../../src/model/types';
+import { App } from '../../src/ui/App';
+import { IncomeStep } from '../../src/ui/Questionnaire';
+
+const user = () => userEvent.setup();
+const ON: Firm = { id: 'firm-sim', stockComp: true };
+
+describe('F-E · screens', () => {
+  it('AC-E-01 · AC-E-02 · AC-G-02 · with the setting on, the Income step adds only the chip and the helper line', () => {
+    render(<IncomeStep household={H1} firm={ON} template="T" onSubmit={() => {}} />);
+    expect(within(screen.getByLabelText('Other current income')).getByRole('button', { name: '+ Stock compensation' })).toBeInTheDocument();
+    expect(screen.getAllByText('Paid partly in company stock? Add it below as Stock compensation.')).toHaveLength(2);
+    expect(screen.queryByText(/vested this year/)).toBeNull();
+  });
+
+  it('AC-G-01 · with the setting off, no chip and no helper line', () => {
+    render(<IncomeStep household={H1} firm={{ ...ON, stockComp: false }} template="T" onSubmit={() => {}} />);
+    expect(screen.queryByRole('button', { name: '+ Stock compensation' })).toBeNull();
+    expect(screen.queryByText(/Paid partly in company stock/)).toBeNull();
+  });
+
+  it('AC-E-03 · AC-E-05 · AC-E-19 · each click adds a row: owner, employer, ticker, type, value, frequency, the income question and the upload prompt', async () => {
+    render(<IncomeStep household={H2} firm={ON} template="T" onSubmit={() => {}} />);
+    await user().click(screen.getByRole('button', { name: '+ Stock compensation' }));
+    await user().click(screen.getByRole('button', { name: '+ Stock compensation' }));
+    const rows = screen.getAllByLabelText('Stock compensation row');
+    expect(rows).toHaveLength(2);
+    const r = rows[0];
+    for (const l of ['Owner', 'Employer', 'Ticker, if listed', 'Type', 'Approximate value of unvested stock', 'How often it vests']) expect(within(r).getByLabelText(l)).toBeInTheDocument();
+    expect(within(r).getByLabelText('How often it vests')).toHaveTextContent('MonthlyQuarterlyEvery six monthsYearlyNot sure');
+    expect(within(r).getByText('Does your employment income above include stock that vested this year?')).toBeInTheDocument();
+    expect(within(r).getByText(/Upload your plan statement if you have it/)).toBeInTheDocument();
+  });
+
+  it('AC-E-04 · the employer is required; the rest may stay empty', async () => {
+    const submit = vi.fn();
+    render(<IncomeStep household={H2} firm={ON} template="T" onSubmit={submit} />);
+    await user().click(screen.getByRole('button', { name: '+ Stock compensation' }));
+    await user().click(screen.getByRole('button', { name: 'Submit questionnaire' }));
+    expect(screen.getByText('Employer is required')).toBeInTheDocument();
+    expect(submit).not.toHaveBeenCalled();
+    fireEvent.change(screen.getByLabelText('Employer'), { target: { value: 'Halden Robotics' } });
+    await user().click(screen.getByRole('button', { name: 'Submit questionnaire' }));
+    expect(submit).toHaveBeenCalledOnce();
+  });
+
+  it('AC-E-06 · no row: the questionnaire continues as today', async () => {
+    const submit = vi.fn();
+    render(<IncomeStep household={H1} firm={ON} template="T" onSubmit={submit} />);
+    await user().click(screen.getByRole('button', { name: 'Submit questionnaire' }));
+    expect(submit).toHaveBeenCalledWith({ rows: [], documents: [] });
+  });
+
+  it('AC-E-21 · the same Income widget, with the chip, serves any Financial Health template', () => {
+    for (const t of ['Financial Health & Portfolio Questionnaire', 'Financial Health quick check (SIMULATED)']) {
+      const { unmount } = render(<IncomeStep household={H1} firm={ON} template={t} onSubmit={() => {}} />);
+      expect(screen.getByText(`${t} · Income`)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '+ Stock compensation' })).toBeInTheDocument();
+      unmount();
+    }
+  });
+
+  it('AC-E-07 · AC-E-08 · AC-E-10 · AC-E-20 · submitting creates a pending grant: the advisor sees the alert, the client the pending line', async () => {
+    render(<App initialHousehold="H1" households={[H1]} />);
+    await user().click(screen.getByRole('tab', { name: 'Questionnaire' }));
+    await user().click(screen.getByRole('button', { name: '+ Stock compensation' }));
+    fireEvent.change(screen.getByLabelText('Employer'), { target: { value: 'Sim Startup' } });
+    await user().click(screen.getByRole('button', { name: 'Submit questionnaire' }));
+    expect(screen.getByText('Thank you for providing your information!')).toBeInTheDocument();
+    await user().click(screen.getByRole('tab', { name: 'Financial health' }));
+    expect(screen.getByText('Ana reported pay in Sim Startup stock. It is not yet included in these figures.')).toBeInTheDocument();
+    await user().selectOptions(screen.getByLabelText('View'), 'advisor');
+    expect(within(screen.getByLabelText('Opportunity alerts')).getByText('Stock pay: detail pending')).toBeInTheDocument();
+  });
+
+  it('AC-E-15 · AC-E-14 · in advisor mode, the stock-pay block opens the full grant editor with the client estimate', async () => {
+    render(<App initialHousehold="H2" />);
+    await user().selectOptions(screen.getByLabelText('View'), 'advisor');
+    await user().click(screen.getByRole('tab', { name: 'Questionnaire · Investments' }));
+    await user().click(within(screen.getByLabelText('Stock compensation grants')).getByRole('button', { name: 'Edit' }));
+    const ed = screen.getByLabelText('Grant editor');
+    expect(within(ed).getByText(/^Client estimate, not used in the figures/)).toBeInTheDocument();
+    expect(within(ed).getByRole('button', { name: 'Generate tranches' })).toBeInTheDocument();
+  });
+
+  it('AC-E-13 · AC-E-16 · AC-E-17 · AC-G-11 · advisor notices show in advisor mode only', async () => {
+    render(<App initialHousehold="H2" />);
+    expect(screen.queryByText(/Flag as employer stock\?/)).toBeNull();
+    await user().selectOptions(screen.getByLabelText('View'), 'advisor');
+    expect(screen.getByText('Halden Robotics (HLDN) is held in Maya brokerage and Maya 401(k). Flag as employer stock?')).toBeInTheDocument();
+  });
+
+  it('AC-E-09 · EC-E-09 · the advisor deletes a grant reported by mistake; the alert goes', async () => {
+    render(<App initialHousehold="H2" />);
+    await user().selectOptions(screen.getByLabelText('View'), 'advisor');
+    expect(screen.getByLabelText('Opportunity alerts')).toBeInTheDocument();
+    await user().click(screen.getByRole('tab', { name: 'Data & Assumptions' }));
+    await user().click(screen.getByRole('button', { name: 'Delete grant' }));
+    expect(screen.queryByLabelText('Opportunity alerts')).toBeNull();
+  });
+});

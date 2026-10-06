@@ -40,6 +40,7 @@ const KEYS: Record<number, KeyNumber[]> = {
   4: [
     { label: 'Vests after tax, by 2028', value: (h) => money(vestInflows(h, FIRM).filter((i) => i.date < '2029').reduce((s, i) => s + i.after, 0)) },
     { label: 'Projected net worth, 2028', value: (h) => money(projection(h, FIRM).find((p) => p.year === 2028)!.netWorth) },
+    { label: 'Score', value: (_, a) => String(a.score.score) },
   ],
   5: [],
 };

@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { ADJUSTMENT_WARNING } from '../model/actions';
 import { money } from '../model/format';
 import { generateTranches, PSU_DEFAULT_RANGE, statusOf, trancheUnitsMismatch } from '../model/grants';
+import { duplicateOf, NO_GRANTS, proposedLabel, SAMPLE_DOCUMENTS } from '../model/extraction';
+import { dateLabel } from '../model/format';
 import type { Employer, Grant, Household, IncomeAnswer, Tranche } from '../model/types';
 
 export interface GrantSave {
@@ -22,7 +24,7 @@ function estimateText(g: Grant): string | null {
   return parts.length ? parts.join(', ') : 'employer only';
 }
 
-export function GrantForm({ household, grant, onSave, onCancel }: { household: Household; grant: Grant; onSave: (s: GrantSave) => void; onCancel: () => void }) {
+export function GrantForm({ household, grant, onSave, onCancel, saveLabel = 'Save grant' }: { household: Household; grant: Grant; onSave: (s: GrantSave) => void; onCancel: () => void; saveLabel?: string }) {
   const [g, setG] = useState<Grant>(grant);
   const [employer, setEmployer] = useState<Employer>(household.employers.find((e) => e.id === grant.employerId) ?? household.employers[0]);
   const [answer, setAnswer] = useState<IncomeAnswer | undefined>(household.incomeIncludesVests[grant.ownerId]);
@@ -44,6 +46,7 @@ export function GrantForm({ household, grant, onSave, onCancel }: { household: H
 
   return (
     <div className="form" aria-label="Grant editor">
+      {grant.proposed && <div className="notice" data-ac="AC-F-12">{proposedLabel(grant.proposed.document)}</div>}
       {estimate && <div className="notice" data-ac="AC-E-14">Client estimate, not used in the figures: {estimate}.</div>}
       <div className="row">
         <label>Owner
@@ -60,7 +63,7 @@ export function GrantForm({ household, grant, onSave, onCancel }: { household: H
         <label>Employer
           <input value={employer.name} readOnly />
         </label>
-        <label className="row"><input type="checkbox" checked={employer.listed} onChange={(e) => setEmployer({ ...employer, listed: e.target.checked })} /> Listed</label>
+        <label className="row"><input type="checkbox" checked={employer.listed} onChange={(e) => setEmployer({ ...employer, listed: e.target.checked, listedUnknown: undefined })} /> Listed{employer.listedUnknown ? ' (not known yet: the client gave no ticker)' : ''}</label>
         {employer.listed && <label>Ticker<input value={employer.ticker ?? ''} onChange={(e) => setEmployer({ ...employer, ticker: e.target.value.toUpperCase() })} /></label>}
       </div>
       {!employer.listed && (
@@ -130,16 +133,42 @@ export function GrantForm({ household, grant, onSave, onCancel }: { household: H
       </fieldset>
       {confirming && <div className="warning" role="alert">{ADJUSTMENT_WARNING}</div>}
       <div className="row">
-        <button className="btn" onClick={save}>{confirming ? 'Save and reprocess' : 'Save grant'}</button>
+        <button className="btn" onClick={save}>{confirming ? 'Save and reprocess' : saveLabel}</button>
         <button className="btn secondary" onClick={onCancel}>Cancel</button>
       </div>
     </div>
   );
 }
 
-export function GrantsPanel({ household, onSave, enabled }: { household: Household; onSave: (s: GrantSave) => void; enabled: boolean }) {
+/** F-F: what the extraction found, shown as the document's own lines (SIMULATED), beside the proposal (AC-F-04). */
+function DocumentPreview({ household, doc }: { household: Household; doc: string }) {
+  const found = (SAMPLE_DOCUMENTS[doc] ?? (() => []))(household);
+  return (
+    <div className="docpreview" aria-label={`Document ${doc}`}>
+      <div className="caps">{doc}</div>
+      {found.length === 0 ? <div className="small">[unreadable scan]</div> : found.map((f, i) => (
+        <div key={i} className="small">
+          Award {i + 1} · {f.type} · granted {f.grantDate ? dateLabel(f.grantDate) : '?'} · {f.units?.toLocaleString('en-US')} units
+          {f.tranches.map((t) => <div key={t.id}>&nbsp;&nbsp;{dateLabel(t.date)} · {t.units.toLocaleString('en-US')} units{t.sharesKept ? ` · ${t.sharesKept} shares kept after withholding` : ''}</div>)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export interface ProposalActions {
+  onUpload: (doc: string) => void;
+  onConfirm: (s: GrantSave, keep?: 'proposed' | 'existing') => void;
+  onReject: (id: string) => void;
+}
+
+export function GrantsPanel({ household, onSave, enabled, proposals, onDelete }: { household: Household; onSave: (s: GrantSave) => void; enabled: boolean; proposals?: ProposalActions; onDelete?: (id: string) => void }) {
   const [editing, setEditing] = useState<Grant | null>(null);
+  const [doc, setDoc] = useState(Object.keys(SAMPLE_DOCUMENTS)[0]);
+  const [lastUpload, setLastUpload] = useState<{ doc: string; found: number } | null>(null);
+  const [reviewing, setReviewing] = useState<Grant | null>(null);
   if (!enabled) return null;
+  const proposed = household.grants.filter((g) => g.proposed);
   const blank = (): Grant => ({ id: `g${Date.now()}`, category: 'stockCompensation', subType: 'RSU', ownerId: household.people[0].id, type: 'RSU',
     employerId: household.employers[0]?.id ?? '', tranches: [], source: 'advisor' });
   return (
@@ -153,13 +182,60 @@ export function GrantsPanel({ household, onSave, enabled }: { household: Househo
               <td>{household.employers.find((e) => e.id === g.employerId)?.name} {g.type}{g.units ? ` · ${g.units.toLocaleString('en-US')} units` : ''}</td>
               <td>{household.people.find((p) => p.id === g.ownerId)?.name}</td>
               <td>{statusOf(household, g)}</td>
-              <td><button className="link" onClick={() => setEditing(g)}>Edit</button></td>
+              <td className="row"><button className="link" onClick={() => setEditing(g)}>Edit</button>{onDelete && <button className="link" onClick={() => onDelete(g.id)}>Delete grant</button>}</td>
             </tr>
           ))}
         </tbody>
       </table>
       {household.employers.length > 0 && !editing && <button className="btn secondary" onClick={() => setEditing(blank())}>Add grant</button>}
       {editing && <GrantForm key={editing.id} household={household} grant={editing} onCancel={() => setEditing(null)} onSave={(s) => { onSave(s); setEditing(null); }} />}
+      {proposals && (
+        <div className="upload" aria-label="Plan statement">
+          <h3>Plan statement</h3>
+          <div className="row">
+            <select aria-label="Sample document" value={doc} onChange={(e) => setDoc(e.target.value)}>
+              {Object.keys(SAMPLE_DOCUMENTS).map((d) => <option key={d} value={d}>{d}</option>)}
+            </select>
+            <button className="btn secondary" onClick={() => { proposals.onUpload(doc); setLastUpload({ doc, found: (SAMPLE_DOCUMENTS[doc] ?? (() => []))(household).length }); }}>Upload plan statement</button>
+          </div>
+          {lastUpload && lastUpload.found === 0 && <div className="notice" data-ac="AC-F-08">{NO_GRANTS}</div>}
+          {proposed.length > 0 && (
+            <div className="proposals" aria-label="Proposed grants">
+              {[...new Set(proposed.map((g) => g.proposed!.document))].map((d) => (
+                <div key={d} className="split">
+                  <DocumentPreview household={household} doc={d} />
+                  <div>
+                    {proposed.filter((g) => g.proposed!.document === d).map((g) => {
+                      const dup = duplicateOf(household, g);
+                      const past = g.tranches.filter((t) => t.date <= household.analysisDate);
+                      return (
+                        <div key={g.id} className="proposal" aria-label="Proposed grant">
+                          <div className="notice">{proposedLabel(d)}</div>
+                          <div className="small">{household.employers.find((e) => e.id === g.employerId)?.name} {g.type} · {g.units?.toLocaleString('en-US')} units · granted {g.grantDate && dateLabel(g.grantDate)} · {g.tranches.length} tranches</div>
+                          {past.map((t) => <div key={t.id} className="small" data-ac="AC-F-10">Vested on {dateLabel(t.date)}: record the shares kept as a held position.</div>)}
+                          {dup && <div className="warning" data-ac="AC-F-09">Same employer and grant date as an existing grant. Choose which to keep.</div>}
+                          <div className="row">
+                            {dup ? (
+                              <>
+                                <button className="btn" onClick={() => proposals.onConfirm({ grant: g, employer: household.employers.find((e) => e.id === g.employerId)!, incomeAnswer: household.incomeIncludesVests[g.ownerId] }, 'proposed')}>Keep extracted</button>
+                                <button className="btn secondary" onClick={() => proposals.onConfirm({ grant: g, employer: household.employers.find((e) => e.id === g.employerId)!, incomeAnswer: household.incomeIncludesVests[g.ownerId] }, 'existing')}>Keep existing</button>
+                              </>
+                            ) : (
+                              <button className="btn" onClick={() => setReviewing(g)}>Review and confirm</button>
+                            )}
+                            <button className="btn secondary" onClick={() => proposals.onReject(g.id)}>Reject</button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {reviewing && <GrantForm key={reviewing.id} household={household} grant={reviewing} saveLabel="Confirm grant" onCancel={() => setReviewing(null)} onSave={(s) => { proposals.onConfirm(s); setReviewing(null); }} />}
+        </div>
+      )}
     </section>
   );
 }

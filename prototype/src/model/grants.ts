@@ -20,7 +20,7 @@ export function pastTranches(h: Household, g: Grant): Tranche[] {
 }
 
 /** AC-B-19: private employer, with or without vest dates (D-068). */
-const awaiting = (h: Household, g: Grant) => employerOf(h, g)?.listed === false;
+const awaiting = (h: Household, g: Grant) => employerOf(h, g)?.listed === false && !employerOf(h, g)?.listedUnknown;
 
 /** AC-B-28: complete when every field the figures need is there. */
 export function isComplete(h: Household, g: Grant): boolean {

@@ -111,3 +111,45 @@ tr.hl td { background: #fff6cc; }
 .divider { max-width: 960px; margin: 8px auto 0; padding: 0 16px; }
 .divider span { display: block; border-top: 2px solid var(--border-strong); padding-top: 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); }
 
+.chart { margin: 0 0 8px; }
+.chart figcaption { font-size: 13px; color: var(--text-2); gap: 14px; margin-bottom: 6px; }
+.legend { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+.sw { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+.sw.line { height: 2px; background: #4666d7; }
+.sw.vest { width: 10px; border-radius: 50%; background: #c2410c; }
+.sw.goal { width: 9px; height: 9px; background: #15161a; transform: rotate(45deg); border-radius: 1px; }
+.sw.band { background: rgb(70 102 215 / 0.15); }
+.chartwrap { position: relative; }
+.chartwrap svg { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--border); stroke-width: 1; }
+.chart .tick { font-size: 11px; fill: var(--muted); }
+.chart .line { fill: none; stroke: #4666d7; stroke-width: 2; }
+.chart .band { fill: rgb(70 102 215 / 0.15); }
+.chart .vest { fill: #c2410c; stroke: var(--card); stroke-width: 2; }
+.chart .goal { fill: #15161a; stroke: var(--card); stroke-width: 2; }
+.chart .glabel { font-size: 11px; fill: var(--text-2); }
+.chart .cross { stroke: var(--border-strong); stroke-width: 1; }
+.tip { position: absolute; top: 8px; transform: translateX(-50%); background: var(--card); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 10px; font-size: 12px; line-height: 16px; pointer-events: none; white-space: nowrap; box-shadow: 0 4px 12px rgb(0 0 0 / 0.08); }
+
+.q h2 { font-family: Poppins, sans-serif; }
+.qfield { margin: 12px 0; display: grid; gap: 6px; font-size: 14px; }
+.qfield label { display: grid; gap: 4px; }
+.helper { font-size: 13px; color: var(--blue); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1px solid var(--border-strong); background: var(--card); border-radius: 999px; padding: 4px 12px; font-size: 13px; }
+.qrow { border: 1px solid var(--border); border-radius: var(--r); padding: 12px; margin: 8px 0; display: grid; gap: 8px; font-size: 14px; }
+.qrow label { display: grid; gap: 4px; }
+.upload { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 12px; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+@media (max-width: 720px) { .split { grid-template-columns: 1fr; } }
+.docpreview { background: #fafafa; border: 1px dashed var(--border-strong); border-radius: var(--r); padding: 12px; font-family: ui-monospace, monospace; }
+.proposal { border: 1px solid var(--border); border-radius: var(--r); padding: 10px; margin-bottom: 8px; display: grid; gap: 6px; }
+
+.lineactions { margin-left: 8px; display: inline-flex; gap: 8px; font-size: 12px; }
+li.deleted { text-decoration: line-through; color: var(--muted); }
+
+.embed { border: 1px solid var(--border); border-radius: var(--r-card); background: var(--page); }
+.embed main { padding: 12px; }
+
+.qrow fieldset label, .form fieldset label { display: flex; gap: 6px; align-items: center; }
+fieldset { border: 1px solid var(--border); border-radius: var(--r); padding: 8px 12px; }

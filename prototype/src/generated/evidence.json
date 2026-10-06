@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-05T18:36:15.702Z",
+ "generatedAt": "2026-10-05T18:49:04.787Z",
  "features": {
   "G": "Rules for every feature",
   "A": "F-A · Employer stock counted in concentration",
@@ -10,15 +10,15 @@
   "F": "F-F · Upload a plan statement"
  },
  "totals": {
-  "tests": 159,
-  "passed": 159,
-  "unit": 116,
-  "component": 42,
+  "tests": 186,
+  "passed": 186,
+  "unit": 120,
+  "component": 65,
   "e2e": 1,
   "requirements": 159,
-  "withPassingTest": 138,
+  "withPassingTest": 156,
   "notTestable": 3,
-  "noTestYet": 18
+  "noTestYet": 0
  },
  "relations": [
   {
@@ -102,6 +102,11 @@
      "status": "passed"
     },
     {
+     "title": "with the setting off, no chip and no helper line",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "setting off: flags are kept but read as absent",
      "kind": "unit",
      "status": "passed"
@@ -118,8 +123,14 @@
    "id": "AC-G-02",
    "feature": "G",
    "text": "Where the firm has enabled stock compensation, the system shall add to the questionnaire only the \"Stock compensation\" income chip and its helper line; a household that adds no stock compensation row sees no new question.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "with the setting on, the Income step adds only the chip and the helper line",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-G-03",
@@ -196,8 +207,19 @@
    "id": "AC-G-07",
    "feature": "G",
    "text": "The system shall let the advisor edit or delete every new report line before sharing, as for other generated lines.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "the advisor edits and deletes new lines; the client view and the PDF show the edited text",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "edited lines show their new text; deleted lines show nowhere",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-G-08",
@@ -241,6 +263,16 @@
      "status": "passed"
     },
     {
+     "title": "the advisor edits and deletes new lines; the client view and the PDF show the edited text",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "edited lines show their new text; deleted lines show nowhere",
+     "kind": "unit",
+     "status": "passed"
+    },
+    {
      "title": "H2 from advisor to client: flag, complete the grant, share",
      "kind": "e2e",
      "status": "passed"
@@ -260,6 +292,11 @@
     },
     {
      "title": "the vested prompt shows in advisor mode, never in the client view or the PDF",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "advisor notices show in advisor mode only",
      "kind": "component",
      "status": "passed"
     },
@@ -288,6 +325,11 @@
     },
     {
      "title": "removing a flag also warns first while a manual adjustment exists",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "the advisor adjusts the score; the next stock-pay save warns first",
      "kind": "component",
      "status": "passed"
     },
@@ -321,8 +363,14 @@
    "id": "AC-G-14",
    "feature": "G",
    "text": "The system shall add no new score limit; existing limits read the checks as today.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "no new score limit: the score is the sum of the area points, with employer exposure and vest gaps",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-G-15",
@@ -331,6 +379,11 @@
    "tests": [
     {
      "title": "saving reprocesses: the block lists future tranches after the asset totals, priced at the analysis date",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "Retirement & Goals bullets with the price date and the sell-or-keep note",
      "kind": "component",
      "status": "passed"
     },
@@ -754,15 +807,32 @@
    "id": "EV-A-03",
    "feature": "A",
    "text": "When the advisor adjusts the score of a household with employer exposure, the system shall record the adjustment and its reason with a \"stock pay\" tag.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "the advisor adjusts the score; the next stock-pay save warns first",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
+     "title": "adjusting the score of a household with employer exposure records it with a \"stock pay\" tag",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "EV-A-04",
    "feature": "A",
    "text": "When an analysis with employer exposure is shared, the system shall record whether any F-A line was edited or deleted before sharing.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "sharing records whether F-A and F-D lines were edited or deleted",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-B-01",
@@ -1792,14 +1862,25 @@
    "id": "AC-D-03",
    "feature": "D",
    "text": "The projected net worth chart shall show a marker for each year with vests, beside the goal markers.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "the projection marks each year with vests, beside the goal markers",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-D-04",
    "feature": "D",
    "text": "Where a year's vests include performance units, the chart shall show a line at target and a shaded band for their range.",
    "tests": [
+    {
+     "title": "a band where a year's vests include performance units",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "the projection carries a band where a year's vests include performance units",
      "kind": "unit",
@@ -1827,6 +1908,11 @@
    "text": "The Retirement & Goals section shall add the bullet \"<Company> vests: $<X> after estimated tax ($<Y> before tax) between <first date> and <last date>, at the <analysis date> price.\"",
    "tests": [
     {
+     "title": "Retirement & Goals bullets with the price date and the sell-or-keep note",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "Retirement & Goals bullet with the price date, and the sell-or-keep note",
      "kind": "unit",
      "status": "passed"
@@ -1844,6 +1930,11 @@
    "feature": "D",
    "text": "Where a goal's year falls on or after a vest, the system shall add \"Vests before <goal> (<year>): $<X> after estimated tax.\"",
    "tests": [
+    {
+     "title": "Retirement & Goals bullets with the price date and the sell-or-keep note",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "vests before the goal: both years, after tax ($80K before tax)",
      "kind": "unit",
@@ -1863,6 +1954,11 @@
    "text": "The system shall add to the vest bullets \"Value on the vest date; whether shares are sold or kept is the client's decision.\"",
    "tests": [
     {
+     "title": "Retirement & Goals bullets with the price date and the sell-or-keep note",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "Retirement & Goals bullet with the price date, and the sell-or-keep note",
      "kind": "unit",
      "status": "passed"
@@ -1875,6 +1971,11 @@
    "feature": "D",
    "text": "If the household has no complete grant of a listed employer, then the system shall show the projection, the goal markers and the Retirement & Goals section exactly as today.",
    "tests": [
+    {
+     "title": "no complete grant: Retirement & Goals as today",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "no complete listed grant: projection and goals as today",
      "kind": "unit",
@@ -1900,22 +2001,40 @@
    "id": "EV-D-01",
    "feature": "D",
    "text": "When an analysis with vest inflows is shared, the system shall record whether any F-D line was edited or deleted before sharing.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "sharing records whether F-A and F-D lines were edited or deleted",
+     "kind": "unit",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-E-01",
    "feature": "E",
    "text": "Where the firm has enabled stock compensation, the Income section shall offer a \"Stock compensation\" chip among \"other current income\".",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "with the setting on, the Income step adds only the chip and the helper line",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-E-02",
    "feature": "E",
    "text": "Where the firm has enabled stock compensation, the system shall show under the employment income field the helper line \"Paid partly in company stock? Add it below as Stock compensation.\"",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "with the setting on, the Income step adds only the chip and the helper line",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-E-03",
@@ -1923,12 +2042,17 @@
    "text": "When the client selects the chip, the system shall add a row with: owner (one person), employer, ticker if listed (security search), type (RSU, PSU, other, not sure), approximate value of unvested stock, how often it vests (monthly, quarterly, every six months, yearly, not sure); each selection adds one row, as for other chips.",
    "tests": [
     {
+     "title": "each click adds a row: owner, employer, ticker, type, value, frequency, the income question and the upload prompt",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "client and co-client with the same employer: two rows, two grants, one employer",
      "kind": "unit",
      "status": "passed"
     },
     {
-     "title": "a private employer (no ticker) is recorded as not listed",
+     "title": "no ticker: listed or private is unknown, so the grant stays pending until the advisor says",
      "kind": "unit",
      "status": "passed"
     }
@@ -1941,6 +2065,11 @@
    "text": "The system shall require the employer in each row and accept \"not sure\" or empty for every other field.",
    "tests": [
     {
+     "title": "the employer is required; the rest may stay empty",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "only the employer is required; every other field may be empty or \"not sure\"",
      "kind": "unit",
      "status": "passed"
@@ -1952,14 +2081,25 @@
    "id": "AC-E-05",
    "feature": "E",
    "text": "The system shall ask in each row \"Does your employment income above include stock that vested this year?\" (yes, no, not sure).",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "each click adds a row: owner, employer, ticker, type, value, frequency, the income question and the upload prompt",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-E-06",
    "feature": "E",
    "text": "If the client adds no stock compensation row, then the system shall continue the questionnaire exactly as today.",
    "tests": [
+    {
+     "title": "no row: the questionnaire continues as today",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "no row: the household and its analysis are exactly as today",
      "kind": "unit",
@@ -1974,6 +2114,11 @@
    "text": "When the questionnaire is submitted with a row, the system shall create a grant for that person with status \"pending detail\" and source \"questionnaire\".",
    "tests": [
     {
+     "title": "submitting creates a pending grant: the advisor sees the alert, the client the pending line",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "submitting a row creates a grant pending detail, source questionnaire, with the client estimate",
      "kind": "unit",
      "status": "passed"
@@ -1986,6 +2131,11 @@
    "feature": "E",
    "text": "While a grant is pending detail, the opportunity shall show the alert \"Stock pay: detail pending\".",
    "tests": [
+    {
+     "title": "submitting creates a pending grant: the advisor sees the alert, the client the pending line",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "the alert shows while a grant is pending and goes when none is",
      "kind": "unit",
@@ -2000,6 +2150,11 @@
    "text": "When no grant of the household is pending detail, the system shall remove the alert.",
    "tests": [
     {
+     "title": "the advisor deletes a grant reported by mistake; the alert goes",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "the alert shows while a grant is pending and goes when none is",
      "kind": "unit",
      "status": "passed"
@@ -2011,8 +2166,14 @@
    "id": "AC-E-10",
    "feature": "E",
    "text": "While a grant is pending detail, the analysis shall show \"<Name> reported pay in <company> stock. It is not yet included in these figures.\"",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "submitting creates a pending grant: the advisor sees the alert, the client the pending line",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-E-11",
@@ -2051,6 +2212,11 @@
    "text": "Where the answer to AC-E-05 is \"not sure\", the system shall keep the grant pending detail and show the advisor \"Check whether the reported income includes stock that vested this year.\"",
    "tests": [
     {
+     "title": "advisor notices show in advisor mode only",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "\"not sure\" keeps the grant pending and tells the advisor",
      "kind": "unit",
      "status": "passed"
@@ -2067,6 +2233,11 @@
      "title": "the client estimate is shown, labelled as not used in the figures",
      "kind": "component",
      "status": "passed"
+    },
+    {
+     "title": "in advisor mode, the stock-pay block opens the full grant editor with the client estimate",
+     "kind": "component",
+     "status": "passed"
     }
    ],
    "status": "passed"
@@ -2075,14 +2246,25 @@
    "id": "AC-E-15",
    "feature": "E",
    "text": "In advisor mode, the stock-pay block shall open the full grant editor of F-B.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "in advisor mode, the stock-pay block opens the full grant editor with the client estimate",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-E-16",
    "feature": "E",
    "text": "Where the type is \"other\", the system shall show the advisor \"This type is not modelled in this version; flag any shares already held as employer stock.\"",
    "tests": [
+    {
+     "title": "advisor notices show in advisor mode only",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "type \"other\": advisor notice to flag held shares instead",
      "kind": "unit",
@@ -2096,6 +2278,11 @@
    "feature": "E",
    "text": "When held positions have the ticker given for an employer, the system shall show the advisor one suggestion per employer naming every account that holds them: \"<Company> (<ticker>) is held in <accounts>. Flag as employer stock?\"",
    "tests": [
+    {
+     "title": "advisor notices show in advisor mode only",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "one suggestion per employer naming every account; flagged only after the advisor confirms each position",
      "kind": "unit",
@@ -2121,14 +2308,25 @@
    "id": "AC-E-19",
    "feature": "E",
    "text": "The row shall show \"Upload your plan statement if you have it\" with a link to the documents step; an uploaded statement enters F-F as a proposal (AC-F-13).",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "each click adds a row: owner, employer, ticker, type, value, frequency, the income question and the upload prompt",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-E-20",
    "feature": "E",
    "text": "The system shall never block completing the questionnaire or generating the analysis because a grant is pending detail.",
    "tests": [
+    {
+     "title": "submitting creates a pending grant: the advisor sees the alert, the client the pending line",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "a pending grant never blocks submitting or generating the analysis",
      "kind": "unit",
@@ -2141,8 +2339,14 @@
    "id": "AC-E-21",
    "feature": "E",
    "text": "The system shall add the chip to any Financial Health template the firm uses [ASSUMPTION: the income widget is shared by the firm's templates].",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "the same Income widget, with the chip, serves any Financial Health template",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "EV-E-01",
@@ -2187,14 +2391,25 @@
    "id": "AC-F-01",
    "feature": "F",
    "text": "Where the firm has enabled stock compensation, the grant editor shall let the advisor upload a plan statement.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "the advisor uploads a statement; each grant found is proposed beside the document, labelled not confirmed",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-F-02",
    "feature": "F",
    "text": "When a statement is uploaded, the system shall propose one grant per grant found, with its tranches, with status \"proposed\".",
    "tests": [
+    {
+     "title": "the advisor uploads a statement; each grant found is proposed beside the document, labelled not confirmed",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "one proposed grant per grant found: two RSU and one PSU",
      "kind": "unit",
@@ -2209,6 +2424,11 @@
    "text": "While a grant is proposed, the system shall leave it out of every figure.",
    "tests": [
     {
+     "title": "proposals stay out of the analysis; the advisor edits, confirms and the analysis is reprocessed",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "a proposed grant stays out of every figure",
      "kind": "unit",
      "status": "passed"
@@ -2220,21 +2440,38 @@
    "id": "AC-F-04",
    "feature": "F",
    "text": "The system shall show the uploaded document next to the proposed values.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "the advisor uploads a statement; each grant found is proposed beside the document, labelled not confirmed",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-F-05",
    "feature": "F",
    "text": "The system shall let the advisor edit any proposed field before confirming.",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "proposals stay out of the analysis; the advisor edits, confirms and the analysis is reprocessed",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-F-06",
    "feature": "F",
    "text": "When the advisor confirms a proposed grant, the system shall mark it complete and reprocess the analysis.",
    "tests": [
+    {
+     "title": "proposals stay out of the analysis; the advisor edits, confirms and the analysis is reprocessed",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "confirming marks the grant complete and it enters the figures",
      "kind": "unit",
@@ -2249,6 +2486,11 @@
    "text": "When the advisor rejects a proposed grant, the system shall discard it and change nothing else.",
    "tests": [
     {
+     "title": "rejecting discards the proposal",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "rejecting discards the proposal and changes nothing else",
      "kind": "unit",
      "status": "passed"
@@ -2261,6 +2503,11 @@
    "feature": "F",
    "text": "If the extraction finds no grant, then the system shall show \"No grants found in this document. Enter them by hand.\"",
    "tests": [
+    {
+     "title": "nothing found: the advisor is told to enter the grants by hand",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "nothing found: no proposal",
      "kind": "unit",
@@ -2275,6 +2522,11 @@
    "text": "If a proposed grant has the same employer and grant date as an existing grant, then the system shall show both and let the advisor choose which to keep.",
    "tests": [
     {
+     "title": "a duplicate of an existing grant: both shown, the advisor chooses",
+     "kind": "component",
+     "status": "passed"
+    },
+    {
      "title": "same employer and grant date as an existing grant: both kept until the advisor chooses",
      "kind": "unit",
      "status": "passed"
@@ -2287,6 +2539,11 @@
    "feature": "F",
    "text": "Where the statement shows past vests, the system shall propose them as past tranches with the prompt of AC-B-12.",
    "tests": [
+    {
+     "title": "past vests are proposed with the prompt to record held shares",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "past vests are proposed as past tranches with shares kept; no held position is created",
      "kind": "unit",
@@ -2312,14 +2569,25 @@
    "id": "AC-F-12",
    "feature": "F",
    "text": "The system shall label every proposed value \"Extracted from <document>, not confirmed\".",
-   "tests": [],
-   "status": "no test yet"
+   "tests": [
+    {
+     "title": "the advisor uploads a statement; each grant found is proposed beside the document, labelled not confirmed",
+     "kind": "component",
+     "status": "passed"
+    }
+   ],
+   "status": "passed"
   },
   {
    "id": "AC-F-13",
    "feature": "F",
    "text": "When the client uploads a plan statement in the questionnaire's documents step, the system shall process it as in AC-F-02 to AC-F-12, as a proposal the advisor confirms.",
    "tests": [
+    {
+     "title": "a client upload in the questionnaire reaches the advisor as a proposal",
+     "kind": "component",
+     "status": "passed"
+    },
     {
      "title": "a client upload in the questionnaire becomes the same proposal for the advisor to confirm",
      "kind": "unit",

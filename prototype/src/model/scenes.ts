@@ -73,7 +73,7 @@ export const SCENES: Scene[] = [
     advisorDid: 'Nothing new: the goal and the grant were already there.',
     lookAt: 'Retirement & Goals shows the vests after tax beside the goal, and the projection marks the years with vests.',
     before: { ...H2_GOAL, grants: [] }, after: H2_GOAL,
-    tryIt: { household: 'H2', mode: 'client' }, ready: false,
+    tryIt: { household: 'H2', mode: 'client' }, ready: true,
   },
   {
     id: 5, title: 'The client reports it', feature: 'F-E, F-F', spec: 'docs/spec/F-E_client-reports-stock-pay.md',
@@ -81,6 +81,6 @@ export const SCENES: Scene[] = [
     advisorDid: 'The client picks a "Stock compensation" chip in Income and says what they know; the advisor sees an alert and completes the detail, by hand or from the plan statement.',
     lookAt: 'One new chip and one helper line for everyone; nothing else changes for households without stock pay.',
     before: H2_NO_GRANT, after: H2,
-    tryIt: { household: 'H2', mode: 'client' }, ready: false,
+    tryIt: { household: 'H1', mode: 'client' }, ready: true,
   },
 ];

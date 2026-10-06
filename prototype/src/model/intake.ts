@@ -41,7 +41,7 @@ export function submitQuestionnaire(h: Household, rows: StockPayRow[], firm: Fir
     if (rowErrors(r).length) continue;
     const id = r.employer.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const known = next.employers.find((e) => e.id === id || e.name.toLowerCase() === r.employer.trim().toLowerCase());
-    const employer = known ?? { id, name: r.employer.trim(), listed: !!r.ticker, ticker: r.ticker };
+    const employer = known ?? { id, name: r.employer.trim(), listed: !!r.ticker, ticker: r.ticker, ...(r.ticker ? {} : { listedUnknown: true }) };
     next = {
       ...next,
       employers: known ? next.employers : [...next.employers, employer],

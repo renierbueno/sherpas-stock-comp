@@ -1,7 +1,8 @@
 import type { Analysis } from '../model/analysis';
 import { money } from '../model/format';
 import type { Firm, Household } from '../model/types';
-import { visibleLines, type Mode } from './FinancialHealth';
+import { useContext } from 'react';
+import { Edits, visibleLines, type Mode } from './FinancialHealth';
 
 /** Tag on a flagged position (AC-A-21); hidden when the setting is off (AC-G-13). */
 export function employerTag(h: Household, firm: Firm, positionId: string): string | null {
@@ -14,7 +15,7 @@ export function employerTag(h: Household, firm: Firm, positionId: string): strin
 
 /** Investment analysis tab: only the snapshot line is new (AC-A-22, D-063); the rest is as today. */
 export function InvestmentAnalysis({ household, analysis, firm, mode }: { household: Household; analysis: Analysis; firm: Firm; mode: Mode }) {
-  const snapshot = visibleLines(analysis, mode).filter((l) => l.surface === 'investment.snapshot');
+  const snapshot = visibleLines(analysis, mode, useContext(Edits)?.edits).filter((l) => l.surface === 'investment.snapshot');
   return (
     <main>
       <section className="section" aria-label="Investment snapshot">

@@ -33,9 +33,12 @@ describe('F-E · questionnaire rows', () => {
     expect(h.employers.filter((e) => e.name === 'Halden Robotics')).toHaveLength(1);
   });
 
-  it('AC-E-03 · EC-E-05 · a private employer (no ticker) is recorded as not listed', () => {
+  it('AC-E-03 · EC-E-05 · no ticker: listed or private is unknown, so the grant stays pending until the advisor says', () => {
     const h = submitQuestionnaire(H1, [row({ employer: 'Sim Startup' })], ON, '2026-09-28');
-    expect(h.employers.find((e) => e.name === 'Sim Startup')).toMatchObject({ listed: false });
+    expect(h.employers.find((e) => e.name === 'Sim Startup')).toMatchObject({ listed: false, listedUnknown: true });
+    expect(statusOf(h, h.grants[0])).toBe('pending detail');
+    const priv = { ...h, employers: h.employers.map((e) => (e.name === 'Sim Startup' ? { ...e, listedUnknown: undefined } : e)) };
+    expect(statusOf(priv, priv.grants[0])).toBe('awaiting a liquidity event');
   });
 
   it('AC-E-06 · AC-G-03 · no row: the household and its analysis are exactly as today', () => {

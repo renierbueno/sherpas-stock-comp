@@ -34,6 +34,8 @@ export interface Employer {
   id: string;
   name: string;
   listed: boolean;
+  /** Set when the client gave no ticker: listed or private is not known until the advisor says (EC-E-05). */
+  listedUnknown?: boolean;
   ticker?: string;
   /** Latest 409A value per share, private employers only (AC-B-20). */
   fmv409a?: { value: Money; date: IsoDate };

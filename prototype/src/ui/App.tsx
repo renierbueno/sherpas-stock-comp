@@ -5,12 +5,16 @@ import { EventLog } from '../model/events';
 import { addGrant, saveGrant, setStateWithholding } from '../model/grants';
 import { HOUSEHOLDS } from '../model/households';
 import type { EmployerFlag, Firm, Household } from '../model/types';
-import { FinancialHealth, Statements, visibleLines, type Mode } from './FinancialHealth';
-import { GrantsPanel, type GrantSave } from './GrantEditor';
+import { Edits, FinancialHealth, Statements, visibleLines, type Mode } from './FinancialHealth';
+import { adjustScore, shareAnalysis, type LineEdits } from '../model/sharing';
+import { GrantsPanel, type GrantSave, type ProposalActions } from './GrantEditor';
+import { IncomeStep, type QuestionnaireSubmit } from './Questionnaire';
+import { confirmProposed, rejectProposed, uploadStatement } from '../model/extraction';
+import { opportunityAlerts, recordAlertChange, recordRowChange, submitQuestionnaire } from '../model/intake';
 import { HoldingsEditor } from './HoldingsEditor';
 import { InvestmentAnalysis } from './InvestmentAnalysis';
 
-type Tab = 'health' | 'investment' | 'statements' | 'questionnaire' | 'data';
+type Tab = 'health' | 'investment' | 'statements' | 'income' | 'questionnaire' | 'data';
 
 const byId = <T extends { id: string }>(xs: T[]) => Object.fromEntries(xs.map((x) => [x.id, x]));
 
@@ -25,10 +29,20 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
   const [mode, setMode] = useState<Mode>(initialMode);
   const [tab, setTab] = useState<Tab>('health');
 
+  const [edits, setEdits] = useState<Record<string, LineEdits>>({});
+  const [shared, setShared] = useState<string | null>(null);
+  const [adjust, setAdjust] = useState({ points: '', reason: '' });
   const household = households[hid];
+  const lineEdits = edits[hid] ?? {};
+  const setEdit = (id: string, text: string | null | undefined) => setEdits((all) => {
+    const mine = { ...(all[hid] ?? {}) };
+    if (text === undefined) delete mine[id]; else mine[id] = text;
+    return { ...all, [hid]: mine };
+  });
   const analysis = analyses[hid];
 
   const reprocess = (h: Household) => {
+    recordAlertChange(households[h.id], h, firm, h.analysisDate, log); // EV-E-03
     setHouseholds((all) => ({ ...all, [h.id]: h }));
     setAnalyses((all) => ({ ...all, [h.id]: analyze(h, firm, log) }));
   };
@@ -47,14 +61,31 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
     reprocess(afterSave(next));
   };
 
+  const proposals: ProposalActions = {
+    onUpload: (doc) => reprocess(uploadStatement(household, doc, 'advisor', log).household),
+    onConfirm: ({ grant, employer, incomeAnswer }, keep) => reprocess(afterSave(confirmProposed({
+      ...household,
+      employers: household.employers.map((e) => (e.id === employer.id ? employer : e)),
+      incomeIncludesVests: { ...household.incomeIncludesVests, [grant.ownerId]: incomeAnswer },
+    }, grant, log, keep))),
+    onReject: (id) => reprocess(rejectProposed(household, id, log)),
+  };
+  const submitClient = ({ rows, documents }: QuestionnaireSubmit) => {
+    let h = submitQuestionnaire(household, rows, firm, household.analysisDate, log);
+    for (const d of documents) h = uploadStatement(h, d, 'client', log).household; // AC-F-13
+    reprocess(h);
+  };
+
   const tabs: [Tab, string][] = useMemo(() => {
     const t: [Tab, string][] = [['health', 'Financial health'], ['investment', 'Investment analysis'], ['statements', 'Statements']];
+    if (mode === 'client') t.push(['income', 'Questionnaire']);
     if (mode === 'advisor') t.push(['questionnaire', 'Questionnaire · Investments'], ['data', 'Data & Assumptions']);
     return t;
   }, [mode]);
   const activeTab = tabs.some(([t]) => t === tab) ? tab : 'health';
 
   const notices = visibleLines(analysis, mode).filter((l) => l.surface === 'advisor.notices');
+  const alerts = mode === 'advisor' ? opportunityAlerts(household, firm) : [];
 
   return (
     <>
@@ -75,6 +106,16 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
         <label><input type="checkbox" checked={firm.stockComp} onChange={(e) => setFirm({ ...firm, stockComp: e.target.checked })} />
           Firm setting: stock compensation</label>
         {mode === 'advisor' && <button className="btn secondary" onClick={() => reprocess(household)}>Reprocess analysis</button>}
+        {mode === 'advisor' && <button className="btn secondary" onClick={() => { shareAnalysis(household, analysis.lines, lineEdits, log); setShared(hid); }}>Share with client</button>}
+        {mode === 'advisor' && (
+          <span className="row">
+            <input aria-label="Adjustment points" placeholder="± points" size={6} value={adjust.points} onChange={(e) => setAdjust({ ...adjust, points: e.target.value })} />
+            <input aria-label="Adjustment reason" placeholder="Reason" size={18} value={adjust.reason} onChange={(e) => setAdjust({ ...adjust, reason: e.target.value })} />
+            <button className="btn secondary" disabled={!adjust.points || !adjust.reason}
+              onClick={() => { setHouseholds((all) => ({ ...all, [hid]: adjustScore(household, Number(adjust.points), adjust.reason, firm, log) })); setAdjust({ points: '', reason: '' }); }}>Adjust score</button>
+          </span>
+        )}
+        {mode === 'advisor' && shared === hid && <span>Shared with the client.</span>}
       </div>
       {mode !== 'print' && (
         <nav className="topbar" role="tablist">
@@ -83,20 +124,34 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
           ))}
         </nav>
       )}
+      {alerts.length > 0 && (
+        <div style={{ maxWidth: 960, margin: '16px auto 0', padding: '0 16px' }} aria-label="Opportunity alerts">
+          {alerts.map((a) => <div key={a} className="warning"><strong>Opportunity alert:</strong> {a}</div>)}
+        </div>
+      )}
       {mode === 'advisor' && notices.length > 0 && (
         <div style={{ maxWidth: 960, margin: '16px auto 0', padding: '0 16px' }}>
           {notices.map((n) => <div key={n.id} className="notice" data-line={n.id}>{n.text}</div>)}
         </div>
       )}
+      <Edits.Provider value={{ edits: lineEdits, setEdit, canEdit: mode === 'advisor' }}>
       {(mode === 'print' || activeTab === 'health') && <FinancialHealth household={household} analysis={analysis} mode={mode} />}
       {mode !== 'print' && activeTab === 'investment' && <InvestmentAnalysis household={household} analysis={analysis} firm={firm} mode={mode} />}
       {mode !== 'print' && activeTab === 'statements' && <Statements analysis={analysis} mode={mode} />}
+      </Edits.Provider>
+      {mode === 'client' && activeTab === 'income' && (
+        <IncomeStep key={hid} household={household} firm={firm} template="Financial Health & Portfolio Questionnaire"
+          onSubmit={submitClient} onRowChange={(a) => recordRowChange(household, firm, a, log)} />
+      )}
       {mode === 'advisor' && activeTab === 'questionnaire' && (
-        <main><HoldingsEditor household={household} firm={firm} where="Investments (advisor mode)" onSaveFlag={saveFlag} onRemoveFlag={dropFlag} /></main>
+        <main>
+          <GrantsPanel household={household} enabled={firm.stockComp} onSave={saveGrantEdit} proposals={proposals} onDelete={(id) => reprocess(afterSave({ ...household, grants: household.grants.filter((g) => g.id !== id) }))} />
+          <HoldingsEditor household={household} firm={firm} where="Investments (advisor mode)" onSaveFlag={saveFlag} onRemoveFlag={dropFlag} />
+        </main>
       )}
       {mode === 'advisor' && activeTab === 'data' && (
         <main>
-          <GrantsPanel household={household} enabled={firm.stockComp} onSave={saveGrantEdit} />
+          <GrantsPanel household={household} enabled={firm.stockComp} onSave={saveGrantEdit} proposals={proposals} onDelete={(id) => reprocess(afterSave({ ...household, grants: household.grants.filter((g) => g.id !== id) }))} />
           <HoldingsEditor household={household} firm={firm} where="Data & Assumptions · Holdings" onSaveFlag={saveFlag} onRemoveFlag={dropFlag} />
         </main>
       )}

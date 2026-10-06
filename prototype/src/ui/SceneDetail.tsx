@@ -7,7 +7,9 @@ import { countedFutureVests, netWorth } from '../model/grants';
 import { priceOf } from '../model/market';
 import type { Scene } from '../model/scenes';
 import type { Firm, Household } from '../model/types';
-import { vestTaxes } from '../model/vestTax';
+import { totalOwed, vestTaxes } from '../model/vestTax';
+import { projection } from '../model/projection';
+import { IncomeStep } from './Questionnaire';
 
 const FIRM: Firm = { id: 'firm-sim', stockComp: true };
 const check = (h: Household, name: string) => Math.round(analyze(h, FIRM).score.areas.flatMap((a) => Object.entries(a.checks)).find(([c]) => c === name)![1]);
@@ -122,8 +124,61 @@ function Scene3({ scene }: { scene: Scene }) {
   );
 }
 
+function Scene4({ scene }: { scene: Scene }) {
+  const h = scene.after;
+  const goal = h.goals[0];
+  const taxes = vestTaxes(h, FIRM);
+  const before = taxes.filter((t) => Number(t.vest.tranche.date.slice(0, 4)) <= goal.year);
+  const after = before.reduce((s, t) => s + t.vest.value - totalOwed(t.owed), 0);
+  const p = (hh: Household) => projection(hh, FIRM).find((x) => x.year === goal.year)!.netWorth;
+  return (
+    <>
+      <h3>The goal and the vests (inputs, SIMULATED)</h3>
+      <table aria-label="Vests">
+        <thead><tr><th>Vest date</th><th>Value at today’s price</th><th>Estimated tax (F-C)</th><th>After tax</th></tr></thead>
+        <tbody>
+          {taxes.map((t) => (
+            <tr key={t.vest.tranche.id} className="hl">
+              <td>{dateLabel(t.vest.tranche.date)}</td><td>{money(t.vest.value)}</td><td>{money(totalOwed(t.owed))}</td><td>{money(t.vest.value - totalOwed(t.owed))}</td>
+            </tr>
+          ))}
+          <tr><td colSpan={4}>Goal: {goal.name} in {goal.year}, {money(goal.amount)}</td></tr>
+        </tbody>
+      </table>
+      <h3>How it is computed</h3>
+      <Steps steps={[
+        ['Each vest is an inflow on its date, after the tax computed for it in F-C.', 'AC-D-01, AC-D-02'],
+        [`Vests on or before ${goal.year}: ${before.map((t) => money(t.vest.value - totalOwed(t.owed))).join(' + ')} = ${money(after)} after tax, beside the goal.`, 'AC-D-07'],
+        [`Projected net worth in ${goal.year}: ${money(p(scene.before))} without the vests, ${money(p(h))} with them. Each vest counts once; after its date it grows as cash savings (growth SIMULATED).`, 'AC-D-10'],
+        ['Nothing is counted as cash before its vest date, and whether to sell or keep the shares stays the client’s decision.', 'AC-D-05, AC-D-08'],
+      ]} />
+    </>
+  );
+}
+
+function Scene5({ scene }: { scene: Scene }) {
+  const g = scene.after.grants[0];
+  return (
+    <>
+      <h3>What the client fills in (the questionnaire's Income step, SIMULATED answers)</h3>
+      <div className="embed">
+        <IncomeStep household={scene.after} firm={FIRM} template="Financial Health & Portfolio Questionnaire" onSubmit={() => {}}
+          initialRows={[{ id: 'r1', ownerId: g.ownerId, employer: 'Halden Robotics', ticker: 'HLDN', type: 'RSU', unvestedValue: g.clientEstimate?.unvestedValue, frequency: 'quarterly', incomeIncludesVests: 'no' }]} />
+      </div>
+      <h3>What happens next</h3>
+      <Steps steps={[
+        ['Households without stock pay see one more chip and one helper line; nothing else changes.', 'AC-G-02, AC-E-06'],
+        ['On submit, the row becomes a grant "pending detail" with the client’s estimate; nothing blocks the questionnaire or the analysis.', 'AC-E-07, AC-E-20'],
+        ['The advisor sees the alert "Stock pay: detail pending" and the estimate, labelled as not used in the figures.', 'AC-E-08, AC-E-14'],
+        ['The advisor completes the grant by hand, or uploads the plan statement and confirms what was extracted (extraction SIMULATED).', 'AC-B-01, AC-F-02, AC-F-06'],
+        ['Until then the client’s analysis says so in one line, and no figure uses the estimate. Once complete, scenes 2 to 4 apply.', 'AC-E-10, AC-G-04'],
+      ]} />
+    </>
+  );
+}
+
 export function SceneDetail({ scene }: { scene: Scene }) {
-  const body = scene.id === 1 ? <Scene1 scene={scene} /> : scene.id === 2 ? <Scene2 scene={scene} /> : scene.id === 3 ? <Scene3 scene={scene} /> : null;
+  const body = scene.id === 5 ? <Scene5 scene={scene} /> : scene.id === 1 ? <Scene1 scene={scene} /> : scene.id === 2 ? <Scene2 scene={scene} /> : scene.id === 3 ? <Scene3 scene={scene} /> : scene.id === 4 ? <Scene4 scene={scene} /> : null;
   if (!body) return null;
   return <main><section className="section detail" aria-label="Inputs and calculation">{body}</section></main>;
 }

@@ -1,16 +1,25 @@
 import { createContext, useContext, useState } from 'react';
+import { applyEdits, type LineEdits } from '../model/sharing';
 import type { Analysis } from '../model/analysis';
 import { investableAssets } from '../model/exposure';
 import { dateLabel, money, pct } from '../model/format';
 import type { ReportLine, Surface } from '../model/lines';
 import type { Area } from '../model/params';
 import type { Household } from '../model/types';
+import { projection } from '../model/projection';
+import { ProjectionChart } from './ProjectionChart';
 
 export type Mode = 'client' | 'advisor' | 'print';
 
-/** Lines a mode may show: advisor notices never reach the client view or the PDF (AC-G-11). */
-export function visibleLines(a: Analysis, mode: Mode): ReportLine[] {
-  return mode === 'advisor' ? a.lines : a.lines.filter((l) => l.audience === 'shared');
+/** Advisor edits of new lines (AC-G-07); provided by the app, absent in the scenes. */
+export const Edits = createContext<{ edits: LineEdits; setEdit: (id: string, text: string | null | undefined) => void; canEdit: boolean } | null>(null);
+
+/**
+ * Lines a mode may show: advisor notices never reach the client view or the PDF (AC-G-11);
+ * the client view and the PDF show the advisor's edits (AC-G-07, AC-G-10).
+ */
+export function visibleLines(a: Analysis, mode: Mode, edits: LineEdits = {}): ReportLine[] {
+  return mode === 'advisor' ? a.lines : applyEdits(a.lines.filter((l) => l.audience === 'shared'), edits);
 }
 
 const on = (lines: ReportLine[], s: Surface) => lines.filter((l) => l.surface === s);
@@ -54,6 +63,30 @@ export const NewLines = createContext<Set<string> | null>(null);
 
 function Line({ l }: { l: ReportLine }) {
   const fresh = useContext(NewLines)?.has(l.id);
+  const ed = useContext(Edits);
+  const [editing, setEditing] = useState(false);
+  const edit = ed?.canEdit && l.audience === 'shared' ? ed.edits[l.id] : undefined;
+  if (ed?.canEdit && l.audience === 'shared') {
+    // Advisor mode: every new client-facing line can be edited or deleted before sharing (AC-G-07)
+    return (
+      <li data-line={l.id} className={edit === null ? 'deleted' : undefined}>
+        {editing ? (
+          <span className="row">
+            <input aria-label={`Edit line ${l.id}`} defaultValue={edit ?? l.text} size={60}
+              onKeyDown={(e) => { if (e.key === 'Enter') { ed.setEdit(l.id, (e.target as HTMLInputElement).value); setEditing(false); } }} />
+            <button className="link" onClick={() => setEditing(false)}>Done</button>
+          </span>
+        ) : (
+          <>{edit ?? l.text}</>
+        )}
+        <span className="lineactions">
+          {edit === null
+            ? <button className="link" onClick={() => ed.setEdit(l.id, undefined)}>Restore</button>
+            : <><button className="link" onClick={() => setEditing(true)}>Edit</button><button className="link" onClick={() => ed.setEdit(l.id, null)}>Delete</button></>}
+        </span>
+      </li>
+    );
+  }
   return (
     <li data-line={l.id} className={fresh ? 'new' : undefined}>
       {fresh && <span className="newbadge" title={`Requirement ${l.ac} in the spec`}>New · {l.ac}</span>}
@@ -68,6 +101,20 @@ function Bullets({ lines, label }: { lines: ReportLine[]; label: string }) {
     <ul className="bullets" aria-label={label}>
       {lines.map((l) => <Line key={l.id} l={l} />)}
     </ul>
+  );
+}
+
+/** F-D: Retirement & Goals shows the vests beside the goals (AC-D-03 to AC-D-08). */
+function GoalsSection({ household, analysis, lines }: { household: Household; analysis: Analysis; lines: ReportLine[] }) {
+  const bullets = on(lines, 'goals.bullets');
+  if (bullets.length === 0) return <Unchanged title="Retirement & Goals" />;
+  const firm = { id: 'view', stockComp: analysis.firmStockComp };
+  return (
+    <section className="section" aria-label="Retirement & Goals">
+      <h2>Retirement & Goals</h2>
+      <ProjectionChart points={projection(household, firm)} goals={household.goals} />
+      <Bullets lines={bullets} label="Vests and goals" />
+    </section>
   );
 }
 
@@ -174,8 +221,9 @@ export function ViewMore({ analysis, household, lines, onClose }: { analysis: An
 
 export function FinancialHealth({ household, analysis, mode }: { household: Household; analysis: Analysis; mode: Mode }) {
   const [panel, setPanel] = useState(false);
-  const lines = visibleLines(analysis, mode);
-  const s = analysis.score.score;
+  const ed = useContext(Edits);
+  const lines = visibleLines(analysis, mode, ed?.edits);
+  const s = analysis.score.score + (household.manualAdjustment?.points ?? 0);
   const investments = household.accounts.flatMap((a) => a.positions).reduce((t, p) => t + (p.value ?? 0), 0);
   const lookInto = on(lines, 'assets.lookInto');
   return (
@@ -184,6 +232,7 @@ export function FinancialHealth({ household, analysis, mode }: { household: Hous
         <div className="meta">{household.name} · Analysis of {dateLabel(analysis.analysisDate)}</div>
         <h1>Financial health</h1>
         <div className={`score ${scoreColour(s)}`} aria-label="Score">{s}</div>
+        {household.manualAdjustment && mode === 'advisor' && <div className="meta">Includes a manual adjustment of {household.manualAdjustment.points > 0 ? '+' : ''}{household.manualAdjustment.points}: {household.manualAdjustment.reason}</div>}
         {mode !== 'print' && <button className="link" onClick={() => setPanel(true)}>View more</button>}
       </div>
       <main>
@@ -195,7 +244,7 @@ export function FinancialHealth({ household, analysis, mode }: { household: Hous
             {on(lines, 'summary.candidates').map((l) => <Line key={l.id} l={l} />)}
           </ul>
         </section>
-        <Unchanged title="Retirement & Goals" />
+        <GoalsSection household={household} analysis={analysis} lines={lines} />
         <section className="section" aria-label="Assets & Investments">
           <h2>Assets & Investments</h2>
           <div className="totals">
@@ -215,7 +264,7 @@ export function FinancialHealth({ household, analysis, mode }: { household: Hous
         <Unchanged title="Debt management" />
         <SavingsSection lines={lines} />
         <Unchanged title="Insurance & Protection" />
-        {mode === 'print' && (
+        {mode === 'print' && [...on(lines, 'viewMore.concentration'), ...on(lines, 'viewMore.liquidity'), ...on(lines, 'viewMore.cashFlow')].length > 0 && (
           <section className="section" aria-label="Score breakdown">
             <h2>Score breakdown</h2>
             <Bullets lines={[...on(lines, 'viewMore.concentration'), ...on(lines, 'viewMore.liquidity'), ...on(lines, 'viewMore.cashFlow')]} label="Score readings" />
@@ -229,7 +278,7 @@ export function FinancialHealth({ household, analysis, mode }: { household: Hous
 
 /** Statements tab: only the cash flow line of AC-C-26 is new. */
 export function Statements({ analysis, mode }: { analysis: Analysis; mode: Mode }) {
-  const l = on(visibleLines(analysis, mode), 'statements.cashflow');
+  const l = on(visibleLines(analysis, mode, useContext(Edits)?.edits), 'statements.cashflow');
   return (
     <main>
       <section className="section" aria-label="Cash flow statement">
