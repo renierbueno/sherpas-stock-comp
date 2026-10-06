@@ -7,7 +7,8 @@ Targets marked "proposed" are our proposal for the pilot, in absolute numbers be
 ## Pilot
 
 - **Who:** 3 to 5 advisory firms that turn on the "stock compensation" setting (D-030, D-049), ideally with corporate or tech clients (riskiest assumption 3).
-- **Order:** F-A first (needs no grant), then F-B, then F-C to F-F (`spec/00_index.md`).
+- **Before building:** the three test cards below and five interviews with advisors of the pilot firms run first; no public voice of Sherpas' customers confirms the demand (D-080).
+- **Order:** F-A first (needs no grant), then F-B, F-C, F-E, F-F and the text lines of F-D together (D-080, `spec/00_index.md`).
 - **Cadence:** a readout every week, a decision every two weeks (continue, change, stop), a verdict in four to six weeks. A proposal cycle takes hours to days, not months ("8-10 hours" per client before, "20 min" with Sherpas [web: https://sherpaswealth.com, accessed 2026-10-05]), so the primary metric can be read within the pilot.
 - **Comparison:** within the pilot firms, households with stock pay before and after the feature, and against households without stock pay at the same time; for the guardrail, each firm before and after turning the setting on.
 - **Baseline:** the platform has no record of which past households had stock pay [FACT: questionnaire_map], so before the pilot each pilot advisor tags their opportunities of the last 3 to 6 months (stock pay: yes or no), helped by what the platform already keeps (free-text answers, uploaded documents) [ASSUMPTION: confirm, asked in `02`]. This gives conversion and time to proposal of households with stock pay before the feature.

@@ -39,6 +39,7 @@ The prototype pull request (F6) is a reference implementation that shows the spe
 | AC-G-14 | The system shall add no new score limit; existing limits read the checks as today. | D-039, D-060 | unit | (F6) |
 | AC-G-15 | The system shall label every value of a future vest with the price date: "at the <analysis date> price". | D-045, D-060 | e2e | (F6) |
 | AC-G-16 | The system shall compute the savings rate, fixed commitments, debt-to-income, housing ratio, life cover need, Social Security estimate and contributions from reported income as today, never adding vest income. | D-054 | unit | (F6) |
+| AC-G-17 | The paragraphs the platform writes for each section and the score explanation shall use the stock-pay facts of the new lines (AC-A-14 to AC-A-16, AC-C-23, AC-C-24, AC-D-06, AC-D-07, AC-E-10) the way they use other holdings and figures today, never contradicting those lines and phrased as AC-G-06 requires. | D-075 | manual (wording review) | (F6) |
 
 One firm setting, "stock compensation", turns everything on or off for a firm; the pilot runs on firms that turn it on (D-030, D-043, D-049). The stock-pay question always ships with the feature: it is how stock pay enters from the client (D-030, D-032).
 
@@ -59,10 +60,14 @@ After the MVP (D-052): asking existing clients the stock-pay question without th
 |---|---|---|---|---|
 | [F-A](F-A_employer-stock-concentration.md) | Concentration sees employer stock as one position, and View more shows the double exposure | D-024, D-040, D-044, D-045 | none | 1 |
 | [F-B](F-B_record-grant-and-vests.md) | The advisor records an RSU or PSU grant and sees its future vests | D-024 to D-027, D-029, D-025, D-036, D-037, D-045, D-058 | none (F-A for the context lines) | 2 |
-| [F-C](F-C_tax-at-vest.md) | Tax at each vest and the withholding gap; Liquidity counts it | D-033, D-038, D-039 | F-B | 3 |
-| [F-D](F-D_vest-proceeds-dated-cash.md) | Vest proceeds as dated cash beside the goals | D-038, D-039, D-045 | F-B | 3 |
-| [F-E](F-E_client-reports-stock-pay.md) | The client reports stock pay in Income with a chip; the grant stays pending and the opportunity shows an alert | D-028, D-030, D-031, D-035, D-036, D-056, D-057 | F-B | 3 |
-| [F-F](F-F_upload-plan-statement.md) | The advisor or the client uploads a plan statement; the advisor confirms the extracted tranches | D-042, D-057 | F-B | 3 |
+| [F-C](F-C_tax-at-vest.md) | Tax at each vest and the withholding gap; Liquidity counts it | D-033, D-038, D-039 | F-B | 2 |
+| [F-D](F-D_vest-proceeds-dated-cash.md) | Vest proceeds as dated cash beside the goals | D-038, D-039, D-045 | F-B | 2 (text lines; projection Next) |
+| [F-E](F-E_client-reports-stock-pay.md) | The client reports stock pay in Income with a chip; the grant stays pending and the opportunity shows an alert | D-028, D-030, D-031, D-035, D-036, D-056, D-057 | F-B | 2 |
+| [F-F](F-F_upload-plan-statement.md) | The advisor or the client uploads a plan statement; the advisor confirms the extracted tranches | D-042, D-057 | F-B | 2 |
+
+## First release and Next (D-080)
+
+Release 1 is F-A; release 2 is F-B, F-C, F-E, F-F and the text lines of F-D, together. These requirements are for the release after (Next); they stay specified and the prototype keeps them, labelled: AC-A-03, AC-B-14, AC-B-20, AC-B-21, AC-D-01, AC-D-03, AC-D-04, AC-D-10, AC-D-11. AC-C-01 feeds the projection only from Next; AC-E-11 uses "from the next year" only with the projection.
 
 ## Shared data
 

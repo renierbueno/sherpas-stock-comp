@@ -28,6 +28,7 @@ Households in the walk-throughs are SIMULATED.
 | SF-18 | Automatic Social Security income at 67 | [FACT: questionnaire_map, created without a question] |
 | SF-19 | Retirement and savings contributions (401k, cash savings) | [FACT: platform_map, 04c-statements-cashflow] |
 | SF-20 | Firm settings: the per-firm settings that already change the questionnaire and its end screen; home of the "stock compensation" setting (D-049) | [FACT: questionnaire_map, per-firm settings]; the settings screen itself was not seen |
+| SF-21 | Advisor review and share: edit or delete generated lines, advisor-only notices, share the analysis and PDFs with the client (added in F6, D-073) | [web: https://sherpaswealth.com/financial-health, advisors edit generated observations]; [brief] |
 
 The client sees SF-01 to SF-14 live, read only, plus the PDFs the advisor shares [FACT: platform_map, scope]. So any text placed in those surfaces reaches the client unless a requirement says otherwise (GAP-09).
 
@@ -125,7 +126,7 @@ Firm has the setting on unless stated. Each step names the requirement that defi
 | Household (SIMULATED) | Steps |
 |---|---|
 | H1 No stock pay | Adds no stock compensation row (E-06) → questionnaire as today → analysis identical to today (G-03) |
-| H2 RSU only, listed | Reads the helper line (E-02) → selects the chip (E-01) → row: owner, employer, ticker, type, value, frequency (E-03, E-04); upload prompt (E-19) → "income includes this year's vests?" (E-05) → submits; nothing blocks on missing detail (GAP-21) → later sees the analysis with the pending line (E-10), then, once the advisor completes it, the vest lines (C-23, D-06) in the live view and the shared PDF (GAP-04) |
+| H2 RSU only, listed | Reads the helper line (E-02) → selects the chip (E-01) → row: employer, owner, optional amount per year (E-03, E-04; D-076); no income question, the advisor asks it (E-05, B-29) → submits; nothing blocks on missing detail (GAP-21) → later sees the analysis with the pending line (E-10), then, once the advisor completes it, the vest lines (C-23, D-06) in the live view and the shared PDF (GAP-04) |
 | H3 With PSU | As H2, type PSU → sees target figures with their range (A-17, B-24, C-16, D-04) |
 | H4 Private employer | As H2, no ticker (E-03) → sees "Awaiting a liquidity event" in the grant section (B-19, GAP-07); nothing in the figures (G-05) |
 | H5 Detail pending | As H2, knows only the employer (E-04) → sees the pending line only (E-10); no advisor notice reaches the client (GAP-09) |
@@ -242,6 +243,151 @@ Recommendation: A. The other sub-types (options, ESPP) stay out of the MVP: thei
 
 None go to Sherpas (D-059): the one below became an assumption in `02_open_questions.md`. It was drafted as: "Your type lists include a stock compensation asset category (RSU, options, ESPP) and a stock compensation income category. Are they used today on the advisor side or in the analysis, and how do they count in net worth and cash flow?" It changes how F-B and F-C map (GAP-27); the brief, `01_context.md`, the F1 docs and `research.md` do not answer it; the work proceeds on [ASSUMPTION: confirm]. GAP-03 and GAP-05 are settled by the GAP-02 rule; GAP-13 proceeds on a stated assumption; the bucket logic of GAP-11 is not needed for option B.
 
+## Touchpoints, line by line (D-073)
+
+Every element on each captured screen, walked in the order of the platform's flow. Each line reads as a path: where it is > what it is > what happens, and why. Where the outcome depends on a state (on or off, yes or no), each state gets its own line. The reference in brackets at the end is for traceability: touchpoint ID, then what covers it, then the category (**A** main flow, in the prototype · **B** in the MVP, not in the prototype · **C** outside the main flow, flagged on the board with a possible solution · **Next** specified, but not in the first release, D-080). A screen not yet walked says so.
+
+### Financial health > Summary (dry run, 2026-10-06)
+
+Seen 2026-10-03, `captures/client/01-financial-health`.
+
+- Summary > Household card > no change: the people and their ages stay the same. [TP-SF01-01]
+- Summary > Income card > no change: it shows the income the client declared; vests appear beside it, in Savings & Expenses. [TP-SF01-02 · D-054, AC-G-16]
+- Summary > Net worth card > no change: shares already received are already counted; shares not yet received are not wealth. [TP-SF01-03 · D-026, AC-B-22]
+- Summary > Debt card > no change: nothing new is owed. [TP-SF01-04]
+- Summary > Six written paragraphs > can change: the platform writes them from the household data; they use the facts of the new lines the way they already name holdings such as VTI. [TP-SF01-05 · GAP-42, AC-G-17 · B]
+- Summary > Five recommendations > can change: "<Y>% of investable assets is in <company> stock" and the tax gap on a vest enter as candidates; the platform's own logic picks the five. [TP-SF01-06 · AC-A-23, AC-C-28 · A]
+
+### Financial health > header, sections and View more (2026-10-06)
+
+Seen 2026-10-03, `captures/client/01-financial-health`, `02-score-breakdown`.
+
+Header
+- Header > Household name and analysis date > no change. [TP-SF08-01]
+- Header > Score > can move, only for households with employer stock or vest tax due soon; same scale and colours. [TP-SF08-02 · AC-A-09, AC-C-17, AC-G-14 · A]
+- Header > Two-sentence score explanation (written by the platform) > can change: same rule as the paragraphs. [TP-SF08-03 · AC-G-17 · B]
+- Header > Disclaimer "This reflects the data you've shared..." > no change. [TP-SF08-04]
+- Header > Section links (six sections) > no change: no new section. [TP-SF08-05 · D-039]
+
+Retirement & Goals
+- Retirement & Goals > Numbered goals > no change. [TP-SF02-01]
+- Retirement & Goals > "Current net worth" > no change: unvested shares are not wealth. [TP-SF02-02 · AC-B-22]
+- Retirement & Goals > "Net worth at retirement", "End of plan" > no change in the first release; from Next they include future vests after tax, with a label (D-074). [TP-SF02-03 · AC-D-11, D-080 · Next]
+- Retirement & Goals > Projected net worth chart > no change in the first release; from Next, a marker for each year with vests, a band for performance units, and the line includes vests after tax. [TP-SF02-04 · AC-D-01, AC-D-03, AC-D-04, D-080 · Next]
+- Retirement & Goals > Written paragraphs (shortfall, share of retirement income covered, age when assets run out, extra saving needed) > no change in the first release; from Next they read a projection that includes vests. [TP-SF02-05 · AC-D-11, AC-G-17, D-080 · Next]
+- Retirement & Goals > New bullets "<Company> vests: $X after estimated tax..." and "Vests before <goal>..." > new. [TP-SF02-06 · AC-D-06 to AC-D-08 · A]
+- Retirement & Goals > "We should look into" > no change. [TP-SF02-07]
+
+Assets & Investments
+- Assets & Investments > Assets bar and its breakdown (bank accounts, investable assets, real estate, vehicles, other) > no change: employer shares are already inside investable assets; unvested is not an asset. [TP-SF03-01 · AC-B-22]
+- Assets & Investments > Written paragraphs (largest holding, equity share, account mix) > can change: employer stock named as VTI is today. [TP-SF03-02 · AC-G-17 · B]
+- Assets & Investments > New bullet "<Company> stock held across <n> accounts..." > new, when shares are flagged. [TP-SF03-03 · AC-A-14 · A]
+- Assets & Investments > New line "If every scheduled grant vests, <company> stock would be <Z>%..." > new, when there are unvested grants. [TP-SF03-04 · AC-A-16 · A]
+- Assets & Investments > New block "Stock compensation not yet vested (not in net worth)" > new: the vest list, "Awaiting a liquidity event" for a private employer, or the pending line. [TP-SF03-05 · AC-B-23, AC-B-27, AC-B-19, AC-E-10 · A]
+- Assets & Investments > "We should look into" > changed: adds "<Y>% of investable assets is in <company> stock." [TP-SF03-06 · AC-A-15 · A]
+
+Debt management
+- Debt management > Debt-to-income, housing ratio, monthly payment > no change: they read declared income. [TP-SF04-01 · AC-G-16]
+- Debt management > Liabilities by category > no change. [TP-SF04-02]
+- Debt management > Written paragraphs, "We should look into" > no change expected; covered by the rule for paragraphs. [TP-SF04-03 · AC-G-17]
+
+Savings & Expenses
+- Savings & Expenses > Flow from income to taxes, housing, debt, savings, expenses, free cash flow > no change: declared income and today's tax lines. [TP-SF05-01 · D-054]
+- Savings & Expenses > New bullet per year "<Year> vests: $X of income, estimated tax $Y, gap after withholding $Z." > new. [TP-SF05-02 · AC-C-23 · A]
+- Savings & Expenses > New collapsible "Tax on each vest" > new. [TP-SF05-03 · AC-C-29 · A]
+- Savings & Expenses > Written paragraphs > can change: vest tax named as other figures are. [TP-SF05-04 · AC-G-17 · B]
+- Savings & Expenses > "We should look into" > changed: adds "Tax on the <month year> vest may exceed withholding by $X." when it falls soon. [TP-SF05-05 · AC-C-24 · A]
+
+Insurance & Protection
+- Insurance & Protection > Emergency fund (months of reserve) > no change: a vest is not cash until it arrives. [TP-SF06-01 · AC-D-05]
+- Insurance & Protection > Life insurance need per person > no change: reads declared income. [TP-SF06-02 · AC-G-16]
+- Insurance & Protection > Umbrella against net worth > no change: unvested is not net worth. [TP-SF06-03 · AC-B-22]
+- Insurance & Protection > Written paragraphs, "We should look into" > no change expected. [TP-SF06-04 · AC-G-17]
+
+View more
+- View more > Key takeaways (written by the platform) > can change: picked from the checks, so they may name employer stock or vest tax. [TP-SF08-06 · D-039]
+- View more > Cash flow row > changed: adds "Savings rate and debt ratios read reported income; vests are shown separately." [TP-SF08-07 · AC-C-27 · A]
+- View more > Debt and Protection rows > no change. [TP-SF08-08 · AC-G-16]
+- View more > Liquidity row > changed: adds the tax due on upcoming vests, federal only when the state rate is missing, and performance units at target. [TP-SF08-09 · AC-C-20 to AC-C-22 · A]
+- View more > Investing row, concentration > changed: "Largest position" beside "Employer stock (<company>)...", and the pay line when it is the current employer. [TP-SF08-10 · AC-A-12, AC-A-13 · A]
+- View more > Limits line > no change: no new limit. [TP-SF08-11 · AC-G-14]
+- View more > "Give feedback on this score" > no change. [TP-SF08-12]
+- View more > Help Center links > not defined yet: the article "How is the score calculated?" would no longer describe the concentration and liquidity checks fully. Proposal: an article update in the release notes. [TP-SF08-13 · GAP-44 · C]
+
+### Questionnaire, client (2026-10-06)
+
+Seen 2026-10-05, `captures/questionnaire/03-fresh` (screenshots and notes). Firm setting on; with it off, every step is exactly as today (AC-G-01).
+
+- Welcome > Title, text, "Get your score" > no change. [TP-SF15-01]
+- Documents > Drop zone and eight categories > changed behind the screen: a plan statement uploaded here, under "Investment & retirement accounts", becomes a proposal the advisor confirms; the step itself does not change. A category of its own is for after the MVP. [TP-SF15-02 · AC-F-13, D-077 · A]
+- Documents > Continue without uploading > no change: uploading stays optional. [TP-SF15-03]
+- Personal information > Names, co-client, birth dates, dependents > no change; the people listed here are the owners offered in the stock row. [TP-SF15-04]
+- Personal information > Zip code > no change on screen; it sets the state used for tax on each vest. [TP-SF15-05 · F-C]
+- Goals > Retirement age, college, goal picker, goal rows > no change on screen; the goals are what vests are compared against. [TP-SF15-06 · AC-D-07]
+- Income > Employment income per person > changed: a helper line below it, "Paid partly in company stock? Add it below as Stock compensation." [TP-SF15-07 · AC-E-02 · A]
+- Income > "What other current income?" chips > new chip "Stock compensation". [TP-SF15-08 · AC-E-01 · A]
+- Income > Stock compensation row > new, with the same fields as every other chip row: the employer as its name, the owner, and an optional amount per year. The advisor completes the rest. [TP-SF15-09 · AC-E-03 to AC-E-05, D-076 · A]
+- Income > Row validation > new: only the employer is required; an empty amount is fine; nothing blocks the questionnaire. [TP-SF15-10 · AC-E-04, AC-E-20 · A]
+- Income > "Other income" chips (current and future) > not defined yet: a client may enter stock pay there instead of the new chip; the helper line points to the chip, but nothing tells the advisor. [TP-SF15-11 · GAP-45 · C]
+- Income > Social Security prefilled at 67 > no change: it reads declared income. [TP-SF15-12 · AC-G-16]
+- Income > "Benefit plan income" block (firm setting) > changed: the chip goes there too. [TP-SF15-13 · EC-E-07 · B]
+- Every step > "Anything to add about..." chat > no change; stock pay mentioned only there is not picked up. [TP-SF15-14 · GAP-40 · C]
+- Investments > Account rows (name, type, custodian, owner, balance) > no change: no account type for equity compensation is added. [TP-SF15-15 · D-058]
+- Investments > Holdings search and balance > no change on screen; employer shares are entered as any stock and flagged later by the advisor. [TP-SF15-16 · AC-A-20, AC-E-17]
+- Investments > Link account, Upload statement > no change; held shares that arrive this way are the open question of GAP-39. [TP-SF15-17 · GAP-39 · C]
+- Investments > Risk level > no change. [TP-SF15-18]
+- Expenses, Real estate, Liabilities, Insurance > every field > no change. [TP-SF15-19]
+- End > "Thank you" screen and its options > no change. [TP-SF15-20]
+- End > On submit, behind the screen > new: each stock row becomes a grant "pending detail" and the opportunity gets the alert "Stock pay: detail pending"; an uploaded statement becomes a proposal. [TP-SF15-21 · AC-E-07, AC-E-08, AC-F-13 · A]
+
+### Advisor (2026-10-06)
+
+Not seen: the exercise has no advisor login [brief, section 4]. Steps rebuilt from the score article, the questionnaire definition, the opportunity record and the website (frame A on the board). Firm setting on.
+
+- A1 Send the questionnaire > Opportunity and link > no change; with the setting on, the client's Income step shows the chip. [TP-SF16-01 · AC-E-01]
+- A2 Receive the answers > Opportunity alerts > new: "Stock pay: detail pending" while any grant is pending; removed when none is. [TP-SF16-02 · AC-E-08, AC-E-09 · A]
+- A2 Receive the answers > "Submit and continue" and processing > changed behind the screen: each stock row becomes a grant pending detail; the analysis is generated anyway. [TP-SF16-03 · AC-E-07, AC-E-20 · A]
+- A3 Advisor mode > Stock compensation row > changed: opens the full grant editor instead of the client row. [TP-SF17-01 · AC-E-15 · A]
+- A3 Advisor mode > Investments block > changed: "Flag as employer stock" on each held position. [TP-SF17-02 · AC-A-20 · A]
+- A4 Data & Assumptions > Held position > new action "Flag as employer stock": employer, person, current employer (yes, no, unknown); cost basis from Next. [TP-SF17-03 · AC-A-01, AC-A-02 · A; AC-A-03 · Next]
+- A4 Data & Assumptions > Suggestion "<Company> (<ticker>) is held in <accounts>. Flag as employer stock?" > new: one per employer, flagged only when the advisor confirms. [TP-SF17-04 · AC-E-17, AC-E-18 · A]
+- A4 Data & Assumptions > Notice "Price not available for <ticker>: not counted in concentration." > new. [TP-SF17-05 · AC-A-08 · A]
+- A4 Data & Assumptions > Grant editor > new: owner, type (RSU or PSU), employer and ticker, grant date, units; a pattern (length, frequency, cliff) that generates dated tranches, each editable; PSU condition and range; private employer with or without dates; the 409A value from Next. [TP-SF17-06 · AC-B-01 to AC-B-04, AC-B-07 to AC-B-10, AC-B-16 to AC-B-20 · A]
+- A4 Data & Assumptions > Grant editor > Client estimate > new: the client's employer and amount, labelled "Client estimate, not used in the figures". [TP-SF17-07 · AC-E-14 · A]
+- A4 Data & Assumptions > Grant editor > Income question > new: "Does the salary on file include stock that vested this year?", unanswered until the advisor answers. [TP-SF17-08 · AC-B-29 · A]
+- A4 Data & Assumptions > Grant editor > State withholding rate > new, optional, hidden when the household pays no state tax; a notice while it is missing. [TP-SF17-09 · AC-C-07, AC-C-08, AC-C-13 · A]
+- A4 Data & Assumptions > Grant editor > Past and forfeited tranches > new: "Vested on <date>: record the shares kept as a held position."; forfeited tranches leave the figures; shares kept and cost basis per tranche from Next (AC-B-14). [TP-SF17-10 · AC-B-11 to AC-B-14 · A]
+- A4 Data & Assumptions > Grant editor > Reported grant notice > new: "Only RSU and PSU are modelled in this version..." [TP-SF17-11 · AC-E-16 · A]
+- A4 Data & Assumptions > Save > changed: saving a stock change reprocesses the analysis, after a warning when a manual score adjustment would be replaced. [TP-SF17-12 · AC-B-05, AC-B-06, AC-G-12 · A]
+- A5 Documents > Upload in the grant editor > new: extraction proposes grants and tranches next to the document, labelled "Extracted from <document>, not confirmed"; the advisor edits, confirms or rejects; nothing counts until confirmed; no held positions are created. [TP-SF17-13 · AC-F-01 to AC-F-12 · A]
+- A5 Documents > Statement for a grant the client already reported > changed: confirming it completes the pending grant; no second grant. [TP-SF17-14 · AC-F-14 · A]
+- A5 Documents > Statement uploaded where the advisor uploads documents today (the opportunity's documents) > changed behind the screen: processed like one uploaded in the grant editor. [TP-SF16-04 · AC-F-15 · B]
+- A6 Review > Score and View more > changed, as in Financial health. [TP-SF08 · see Financial health]
+- A6 Review > Manual score adjustment (within 10 points) > no change; a later stock save replaces it, after the warning. [TP-SF08-14 · AC-B-06]
+- A6 Review > Edit or delete each new line before sharing > changed: the new lines can be edited or deleted like other generated lines. [TP-SF21-01 · AC-G-07 · A]
+- A6 Review > Advisor notices > new, shown only to the advisor. [TP-SF21-02 · AC-G-11 · A]
+- A7 Share > Live view and PDF > changed: the same new lines, with the advisor's edits, in both; no advisor notice in either. [TP-SF21-03 · AC-G-10, AC-G-11 · A]
+
+### Investment analysis, Statements, reports, firm settings and the rest (2026-10-06)
+
+Seen 2026-10-03 (`captures/client/03-*`, `04-*`, `06-reports`), except the firm settings screen, which was not seen.
+
+- Investment analysis > Summary cards (allocation, return, risk, current against proposed) > no change: holdings and the proposal do not change. [TP-SF09-01 · D-055]
+- Investment analysis > Written paragraphs > can change: same rule as the Financial health paragraphs, limited to the snapshot line below; to confirm that the rule covers this tab. [TP-SF09-02 · GAP-47 · B]
+- Investment analysis > Snapshot (amount invested, accounts by type and holder) > changed: adds the employer stock line when shares are flagged. [TP-SF09-03 · AC-A-22 · A]
+- Investment analysis > Purpose buckets, including "concentrated stock risk" > no change: a single large employer position reaches the bucket as today. [TP-SF09-04 · D-055, EC-A-13]
+- Investment analysis > Performance, allocation, stress scenarios > no change. [TP-SF09-05]
+- Investment analysis > Accounts and holdings panel > changed: a flagged position shows "Employer stock (<Name>)". [TP-SF10-01 · AC-A-21 · A]
+- Investment analysis > Portfolio deep dive (cash, allocation) and target allocation > no change: a vest is not cash before it arrives; targets do not change. [TP-SF11-01 · AC-D-05, D-055]
+- Statements > Balance sheet, household and per owner > no change: flagged shares keep their value; unvested is not net worth. [TP-SF12-01 · AC-B-22]
+- Statements > Cash flow statement > changed: a line below the total, "Stock compensation (vests this year), not in the totals above: $X, estimated tax $Y." Wording when the salary already includes the vests: GAP-41. [TP-SF13-01 · AC-C-26, GAP-41 · A]
+- Reports > Summary PDF > changed: the cover score can move; the same new lines as the live view, with the advisor's edits; no advisor notice. [TP-SF14-01 · AC-G-10, AC-G-11 · A]
+- Reports > Investment analysis PDF > changed: the employer stock line of the snapshot. [TP-SF14-02 · AC-A-22 · B]
+- Reports > Report list, viewer, download > no change. [TP-SF14-03]
+- Social Security estimate and contributions > no change: they read declared income. [TP-SF18-01, TP-SF19-01 · AC-G-16]
+- Firm settings > "Stock compensation" setting > new: on, the feature appears; off, everything as today; off after use, data kept and hidden, figures back to today's from the next reprocessing. Who turns it on (a firm admin) is inferred. [TP-SF20-01 · AC-G-01, AC-G-02, AC-G-13 · A]
+- Existing households > no change until the advisor adds data. Not covered, after the MVP: the advisor has no list of existing clients with stock pay; options are suggesting households that hold single stocks, resending only the Income section, or reading CRM notes already attached to the opportunity. [TP-SF16-05 · D-052 · C]
+
 ## Pass 2 · gaps found while building (F6)
 
 Found while building the prototype (`prototype/`, D-062). Each goes back to the spec and the log; none is fixed silently in code. The full pass 2 on the prototype runs in F7.
@@ -253,9 +399,18 @@ Found while building the prototype (`prototype/`, D-062). Each goes back to the 
 | GAP-30 | A private employer's grant with vest dates (time condition entered, double trigger) is neither "awaiting" (AC-B-19 needs no dates) nor complete (AC-B-28 needs a listed employer), so it falls to "pending detail" and the client sees "<Name> reported pay in <company> stock. It is not yet included in these figures." (AC-E-10), which reads wrong for a grant the advisor entered in full | F-B AC-B-19 | A private employer's grant shows "Awaiting a liquidity event" with or without vest dates; it stays out of every figure (AC-G-05) | Resolved, D-068: AC-B-19 |
 | GAP-31 | F-C asks to show, for each vest, the tax owed by level (AC-C-03), the gap (AC-C-10, AC-C-11) and the PSU range (AC-C-16), but quotes no label for them and names no surface; AC-C-12, AC-C-14 and AC-C-15 quote labels without a surface | F-C | A collapsible "Tax on each vest" in Savings & Expenses, after the per-year bullets (AC-C-23), one group per vest, with "Estimated tax on this vest: $<total> (federal $<a>, Social Security and Medicare $<b>, state $<c>), at the <analysis date> price and today's tax rules." and "Estimated gap after withholding: $<gap>, at the <analysis date> price and today's tax rules."; PSU figures add "at target (range $<min> to $<max>)" | Resolved, D-069: AC-C-29 |
 | GAP-32 | AC-E-17 asks to suggest flagging a held position with the employer's ticker but quotes no label; one suggestion per position repeats near-identical notices when the shares sit in several accounts | F-E AC-E-17 | One suggestion per employer naming every account: "<Company> (<ticker>) is held in <accounts>. Flag as employer stock?"; the advisor still confirms each position (AC-E-18) | Resolved, D-070: AC-E-17 |
-| GAP-33 | A client reports stock pay (a grant pending detail, no grant date) and the advisor then confirms the same grant from the plan statement: AC-F-09 matches duplicates by employer and grant date, so the pending grant stays beside the confirmed one, the alert stays, and the client still reads "<Name> reported pay in <company> stock. It is not yet included in these figures." until the advisor deletes it | F-F AC-F-09, F-E AC-E-09 | Proposed: confirming a proposal with the same owner and employer as a grant pending detail completes that grant (keeps its client estimate and report date) instead of adding a second one | Decision for Renier |
-| GAP-34 | The questionnaire's "Stock compensation" row asks for employer, ticker, award type, unvested value, frequency, the salary question (D-028) and an upload prompt; every other Income chip opens a row with type, name, one owner and an amount with a frequency, and accounts come in the next step (Investments). The row may add friction and a pattern the client does not see elsewhere | F-E AC-E-03, D-030, D-031, D-056; `questionnaire_map.md` "Seen on screen, 2026-10-05" | Compare against their Income flow (F6 flows review, D-072); options for Renier, any spec change as a new D-NNN | Open |
-| GAP-35 | The prototype opens the documents step from the Income row, after Income; in their questionnaire the documents step comes first, before Personal information, and already takes "Investment & retirement accounts". The client should upload there; if they do not, the advisor uploads, as designed (D-057) | F-E AC-E-19 to AC-E-21, F-F AC-F-13 | Place the plan statement in their existing documents step; no second upload point unless the flows review shows a need | Open |
+| GAP-33 | A client reports stock pay (a grant pending detail, no grant date) and the advisor then confirms the same grant from the plan statement: AC-F-09 matches duplicates by employer and grant date, so the pending grant stays beside the confirmed one, the alert stays, and the client still reads "<Name> reported pay in <company> stock. It is not yet included in these figures." until the advisor deletes it | F-F AC-F-09, F-E AC-E-09 | Proposed: confirming a proposal with the same owner and employer as a grant pending detail completes that grant (keeps its client estimate and report date) instead of adding a second one | Resolved, D-078: AC-F-14 |
+| GAP-34 | The questionnaire's "Stock compensation" row asks for employer, ticker, award type, unvested value, frequency, the salary question (D-028) and an upload prompt; every other Income chip opens a row with type, name, one owner and an amount with a frequency, and accounts come in the next step (Investments). The row may add friction and a pattern the client does not see elsewhere | F-E AC-E-03, D-030, D-031, D-056; `questionnaire_map.md` "Seen on screen, 2026-10-05" | Compare against their Income flow (F6 flows review, D-072); options for Renier, any spec change as a new D-NNN | Resolved, D-076: AC-E-03 to AC-E-05 |
+| GAP-35 | The prototype opens the documents step from the Income row, after Income; in their questionnaire the documents step comes first, before Personal information, and already takes "Investment & retirement accounts". The client should upload there; if they do not, the advisor uploads, as designed (D-057) | F-E AC-E-19 to AC-E-21, F-F AC-F-13 | Place the plan statement in their existing documents step; no second upload point unless the flows review shows a need | Resolved, D-077: AC-E-19 |
 | GAP-36 | The guided scenes follow the features (F-A first), not the order things happen; a reader meets the analysis before the client has reported anything. Titles read as isolated cases, not as touchpoints of one feature | `prototype/src/model/scenes.ts`, D-065 | Order scenes by the flow (questionnaire, advisor completes the grant, flag held shares, concentration, tax at vest, vests and goals, then review, edit and share) and title each as a touchpoint ("1 · Questionnaire: the client says they are paid in stock") | Open |
 | GAP-37 | The six analysis sections are all on Financial health, the unchanged ones grey "Unchanged, as today" (D-064), but a reader does not see which sections a scene changes and which it leaves alone | `prototype/src/ui/FinancialHealth.tsx`, `SceneDetail.tsx` | A section index at the top of each scene: changed, unchanged and why | Open |
 | GAP-38 | The projection chart in Retirement & Goals exists today [FACT: platform_map, 01-financial-health]; the prototype draws our imitation and does not say so, so a reader may take the whole chart as new. What F-D adds is the vest markers (AC-D-03) and the PSU band (AC-D-04) | F-D, `ProjectionChart.tsx` | A note on the chart: "The platform's chart, imitated. New: vest markers and the PSU band." | Open |
+| GAP-39 | Held employer shares can arrive from a linked account (Plaid) or an uploaded account statement, not only by hand; AC-E-17 suggests the flag for "a held position with the employer's ticker" but does not say whether it applies whatever the source | F-E AC-E-17; `questionnaire_map.md` Investments | Proposed: the suggestion applies to every held position, whatever its source; unvested grants never arrive this way (R-013) | Open |
+| GAP-40 | Each questionnaire section opens an "Anything to add" chat; a client may mention stock pay only there. Whether that text reaches the analysis is not known | F-E; `questionnaire_map.md` "Seen on screen" | Proposed: no change, the Income chip is the route; the enablement material tells advisors to read the chat for stock pay | Open |
+| GAP-41 | AC-C-26 writes "Stock compensation (vests this year), not in the totals above" for every household with vests this year. Where the client answered that their reported income already includes this year's vests (AC-E-05 yes, AC-E-11), those vests are inside the salary line, so "not in the totals above" may be wrong for them. To verify against AC-E-11 and the prototype (`src/model/lines.ts`) | F-C AC-C-26, F-E AC-E-11 | Proposed: on "yes", the line reads "Stock compensation (vests this year), included in salary above: $<value>, estimated tax $<owed>."; on "no" or "not sure", as today | Open, to verify |
+| GAP-42 | Each section of Financial health opens with paragraphs the platform writes from the household data (six in Summary). No requirement says whether they mention employer stock, the tax at vest or stock pay pending detail, so the narrative and the new lines below it may disagree | SF-01 to SF-06; TP-SF01-05 | Proposed: the paragraphs may use only the facts of the new lines (AC-A-14, AC-A-15, AC-C-23, AC-C-24, AC-E-10), phrased as facts (AC-G-06); the prototype shows them as fixed text, not generated | Resolved, D-075: AC-G-17 |
+| GAP-43 | Vests enter the projection as inflows (AC-D-01), so the projected line and every figure read from it would move: "Net worth at retirement", "End of plan", the retirement shortfall, the share of retirement income covered, the age when liquid assets run out and the extra saving needed. No requirement says whether they move; the prototype raises the line but the platform's other figures would not follow, so one screen could show two stories | F-D AC-D-01; SF-02; TP-SF02-03 to TP-SF02-05 | Decision for Renier: (a) every projection figure includes vests after tax; (b) the line and its figures stay as today and vests show as markers and bullets beside them; (c) both, today's line plus a second "with vests" line | Resolved, D-074: AC-D-11 |
+| GAP-44 | The score article in the Help Center describes the concentration check as "concentration in the largest position" and does not mention tax due on vests in Liquidity; after the change it would no longer describe what View more shows | SF-08; TP-SF08-13 | Proposed: the release notes ask for the article to be updated (`08_release_notes.md`) | Open |
+| GAP-45 | A client may report stock pay under "Other income" (current or future) instead of the "Stock compensation" chip. The amount then enters as ordinary income, no grant is created and the advisor is not told | F-E; TP-SF15-11 | Proposed: none in the MVP beyond the helper line (AC-E-02); the enablement material asks advisors to check "Other income" rows for stock pay; after the MVP, suggest the chip when an "Other income" name mentions stock, RSU or shares | Open |
+| GAP-46 | Advisors upload documents to the opportunity today, and the platform classifies them [FACT: questionnaire_map, 2026-10-05]. A plan statement uploaded there, rather than in the grant editor, is not covered: AC-F-01 names the grant editor and AC-F-13 the client's documents step | F-F; TP-SF16-04 | Proposed: a plan statement is processed the same way whatever the upload point (grant editor, opportunity documents, client documents step) | Resolved, D-079: AC-F-15 |
+| GAP-47 | The Investment analysis tab opens with paragraphs the platform writes (for example on concentration in Financial Services). AC-G-17 names "each section" and the score explanation, which reads as Financial health only | SF-09; TP-SF09-02 | Proposed: AC-G-17 covers every paragraph the platform writes for the client, including the Investment analysis tab, limited there to the snapshot line of AC-A-22 | Open |

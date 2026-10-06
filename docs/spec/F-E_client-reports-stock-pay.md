@@ -1,6 +1,6 @@
 # F-E · The client reports stock pay
 
-Decisions: D-023, D-028, D-030, D-031, D-035, D-036, D-056, D-057 · Depends on: F-B · Release: after F-B, behind the firm setting (D-030, D-043)
+Decisions: D-023, D-028, D-030, D-031, D-035, D-036, D-056, D-057, D-076, D-077 · Depends on: F-B · Release: after F-B, behind the firm setting (D-030, D-043)
 
 ## Context
 
@@ -8,7 +8,7 @@ The questionnaire asks for one gross annual income per person and nothing about 
 
 ## User story
 
-As a client, I want to say that part of my pay comes in company stock with what I know, so that my advisor can complete it; as an advisor, I want to know it was reported and that detail is missing.
+As a client, I want to say that part of my pay comes in company stock, the same way I add any other income, so that my advisor can complete it; as an advisor, I want to know it was reported and that detail is missing.
 
 ## Requirements
 
@@ -18,11 +18,11 @@ As a client, I want to say that part of my pay comes in company stock with what 
 |---|---|---|---|---|
 | AC-E-01 | Where the firm has enabled stock compensation, the Income section shall offer a "Stock compensation" chip among "other current income". | D-030, D-056 | e2e | (F6) |
 | AC-E-02 | Where the firm has enabled stock compensation, the system shall show under the employment income field the helper line "Paid partly in company stock? Add it below as Stock compensation." | D-056 | e2e | (F6) |
-| AC-E-03 | When the client selects the chip, the system shall add a row with: owner (one person), employer, ticker if listed (security search), type (RSU, PSU, other, not sure), approximate value of unvested stock, how often it vests (monthly, quarterly, every six months, yearly, not sure); each selection adds one row, as for other chips. | D-030, D-031, D-056; [FACT: questionnaire_map, 2026-10-05] | e2e | (F6) |
-| AC-E-04 | The system shall require the employer in each row and accept "not sure" or empty for every other field. | D-030; A-05 | unit + e2e | (F6) |
-| AC-E-05 | The system shall ask in each row "Does your employment income above include stock that vested this year?" (yes, no, not sure). | D-028, D-056 | e2e | (F6) |
+| AC-E-03 | When the client selects the chip, the system shall add a row like every other chip row: the employer in the name field, the owner (one person), and an optional approximate amount with its frequency set to "per year" by default; each selection adds one row, as for other chips. | D-030, D-056, D-076; [FACT: questionnaire_map, 2026-10-05] | e2e | (F6) |
+| AC-E-04 | The system shall require the employer in each row and accept an empty amount. | D-030, D-076; A-05 | unit + e2e | (F6) |
+| AC-E-05 | The system shall not ask the client whether the employment income includes stock that vested this year; the advisor answers it in the grant editor (AC-B-29). | D-028, D-076 | e2e | (F6) |
 | AC-E-06 | If the client adds no stock compensation row, then the system shall continue the questionnaire exactly as today. | D-023 | e2e | (F6) |
-| AC-E-19 | The row shall show "Upload your plan statement if you have it" with a link to the documents step; an uploaded statement enters F-F as a proposal (AC-F-13). | D-057 | e2e | (F6) |
+| AC-E-19 | The row shall show no upload prompt; a plan statement the client uploads in the documents step enters F-F as a proposal (AC-F-13). | D-057, D-077 | e2e | (F6) |
 | AC-E-20 | The system shall never block completing the questionnaire or generating the analysis because a grant is pending detail. | D-035, D-060 | e2e | (F6) |
 | AC-E-21 | The system shall add the chip to any Financial Health template the firm uses [ASSUMPTION: the income widget is shared by the firm's templates]. | D-056, D-060 | e2e | (F6) |
 
@@ -34,12 +34,12 @@ As a client, I want to say that part of my pay comes in company stock with what 
 | AC-E-08 | While a grant is pending detail, the opportunity shall show the alert "Stock pay: detail pending". | D-036; [FACT: captures/questionnaire/02-opportunity, automatic alerts] | e2e | (F6) |
 | AC-E-09 | When no grant of the household is pending detail, the system shall remove the alert. | D-036 | unit | (F6) |
 | AC-E-10 | While a grant is pending detail, the analysis shall show "<Name> reported pay in <company> stock. It is not yet included in these figures." | D-035 | e2e | (F6) |
-| AC-E-11 | Where the answer to AC-E-05 is yes, the system shall add no income for tranches dated in the current year, and from the next year use as salary the reported income minus the current year's vest value. | D-028, D-051 | unit | (F6) |
-| AC-E-12 | Where the answer to AC-E-05 is no, the system shall add every future tranche, including those of the current year, beside the reported salary. | D-028 | unit | (F6) |
-| AC-E-13 | Where the answer to AC-E-05 is "not sure", the system shall keep the grant pending detail and show the advisor "Check whether the reported income includes stock that vested this year." | D-028, D-035, D-051 | unit + e2e | (F6) |
+| AC-E-11 | Where the answer to AC-B-29 is yes, the system shall add no income for tranches dated in the current year, and from the next year use as salary the reported income minus the current year's vest value. | D-028, D-051 | unit | (F6) |
+| AC-E-12 | Where the answer to AC-B-29 is no, the system shall add every future tranche, including those of the current year, beside the reported salary. | D-028 | unit | (F6) |
+| AC-E-13 | Where the answer to AC-B-29 is "not sure" or not yet given, the system shall keep the grant pending detail and show the advisor "Check whether the reported income includes stock that vested this year." | D-028, D-035, D-051 | unit + e2e | (F6) |
 | AC-E-14 | The grant editor shall show the client's answers labelled "Client estimate, not used in the figures". | D-035 | e2e | (F6) |
 | AC-E-15 | In advisor mode, the stock-pay block shall open the full grant editor of F-B. | D-036 | e2e | (F6) |
-| AC-E-16 | Where the type is "other", the system shall show the advisor "This type is not modelled in this version; flag any shares already held as employer stock." | D-024 | e2e | (F6) |
+| AC-E-16 | In the grant editor of a grant reported from the questionnaire, the system shall show the advisor "Only RSU and PSU are modelled in this version. If this stock pay is ESPP or options, delete the grant and flag any shares already held as employer stock." | D-024, D-076 | e2e | (F6) |
 | AC-E-17 | When held positions have the ticker given for an employer, the system shall show the advisor one suggestion per employer naming every account that holds them: "<Company> (<ticker>) is held in <accounts>. Flag as employer stock?" | D-024, D-031, D-051, D-070 | e2e | (F6) |
 | AC-E-18 | The system shall flag a suggested position only after the advisor confirms. | D-042, D-051 | unit | (F6) |
 
@@ -49,10 +49,10 @@ As a client, I want to say that part of my pay comes in company stock with what 
 |---|---|---|---|
 | EC-E-01 | Firm has not enabled stock compensation | No question; questionnaire as today | AC-G-01 |
 | EC-E-02 | The client and the co-client both have stock pay, same employer | Two rows (one per owner), two grants, one employer | AC-E-03, AC-E-07 |
-| EC-E-03 | Client knows only the employer | Saved; grant pending; alert | AC-E-04, AC-E-07, AC-E-08 |
-| EC-E-04 | Client answers "not sure" to the income question | Grant stays pending even after the tranches are complete, until the advisor answers it | AC-E-13 |
-| EC-E-05 | Client's employer is private | No ticker; grant pending; then private handling | AC-E-03; F-B (AC-B-18 to AC-B-21) |
-| EC-E-06 | Client reports ESPP or options as "other" | Recorded; advisor notice; held shares can be flagged | AC-E-16; F-A |
+| EC-E-03 | Client gives only the employer, no amount | Saved; grant pending; alert | AC-E-04, AC-E-07, AC-E-08 |
+| EC-E-04 | The advisor answers "not sure" to the income question | Grant stays pending even after the tranches are complete, until it is answered yes or no | AC-E-13, AC-B-29 |
+| EC-E-05 | Client's employer is private | Reported like any employer; the advisor records it as private | AC-E-03; F-B (AC-B-18 to AC-B-21) |
+| EC-E-06 | The client's stock pay is ESPP or options | Reported as stock compensation; the advisor sees the notice, deletes the grant and flags held shares | AC-E-16; F-A |
 | EC-E-07 | Firm uses the "benefit plan income" block instead of the income questions | The chip goes in that block too | [ASSUMPTION: the block uses the same income rows], `02` (D-059) |
 | EC-E-08 | Advisor fills the questionnaire in advisor mode | Full editor instead of the client rows | AC-E-15 |
 | EC-E-09 | Client says yes, advisor finds no grant (misunderstanding) | Advisor deletes the grant; alert removed | AC-E-09; F-B |

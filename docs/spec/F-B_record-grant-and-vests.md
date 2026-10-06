@@ -69,7 +69,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
 | AC-B-28 | The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one future tranche with date and units, PSU terms for a PSU, and a yes or no to the income question (AC-B-29). | D-035, D-060 | unit | (F6) |
-| AC-B-29 | The grant editor shall ask, per person, "Does the salary on file include stock that vested this year?" (yes, no, not sure), prefilled with the client's answer (AC-E-05), and apply AC-E-11 to AC-E-13 to the answer. | D-028, D-051, D-060 | unit + e2e | (F6) |
+| AC-B-29 | The grant editor shall ask, per person, "Does the salary on file include stock that vested this year?" (yes, no, not sure), unanswered until the advisor answers it, and apply AC-E-11 to AC-E-13 to the answer. | D-028, D-051, D-060, D-076 | unit + e2e | (F6) |
 | AC-B-30 | If the employer's ticker has no market price, then the system shall leave the grant out of every figure and show the advisor "Price not available for <ticker>: grant not counted." | [brief] missing data; D-060 | unit + e2e | (F6) |
 | AC-B-31 | The system shall store a grant as an element of the platform's stock compensation asset category, sub-type RSU, and a PSU as an RSU with its performance terms; unvested value stays out of net worth (AC-B-22). | D-058, D-026 | unit | (F6) |
 

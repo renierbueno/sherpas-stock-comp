@@ -231,7 +231,7 @@ Status: confirmed by Renier, 2026-10-05 (D-041).
 | Employer flag on any held position, whatever its origin | MVP | Concentration is right for every type once it is shares | D-024 |
 | Unvested as future income and shares; shares kept after withholding and cost basis per tranche | MVP | Tax rule and advisor practice; no inflated holdings | D-026, D-029 |
 | Deduplication question and rule | MVP | Clients and tools double count | D-028 |
-| Client block in Income: yes/no, type, employer and ticker, rough value, frequency; firm can switch it off | MVP | Asks only what clients know; no change for others | D-030, D-031, D-032 |
+| Client block in Income: a "Stock compensation" chip whose row has the same fields as other income rows (employer, owner, optional amount per year); firm can switch it off | MVP | Asks only what clients know; no change for others | D-030, D-031, D-032, D-076 |
 | Advisor completes detail in advisor mode and Data & Assumptions; full tranche editor | MVP | Routes that exist today | D-030, D-036 |
 | Advisor uploads the plan statement; extraction proposes tranches; the advisor confirms them | MVP | Extraction already exists; less work for the advisor; reduces riskiest assumption 1 | D-042 |
 | Grant pending detail stays out of figures; alert on the opportunity | MVP | Missing-data rule; the advisor must learn of it | D-035, D-036 |
@@ -267,3 +267,43 @@ Listed so the gaps are visible; none changes the MVP model.
 | 1 | Advisors complete the grant detail soon after the questionnaire, by hand or by confirming an extracted plan statement; the extraction reads equity plan statements [ASSUMPTION: confirm] | D-030, D-035, D-036, D-042 | Share of opportunities with stock pay reported whose detail is completed within a set number of days, in a pilot firm; extraction run on sample plan statements from the main plan providers; the A-05 interview question | The analysis stays "detail pending": make the extraction read plan statements first, or keep the advisor's manual route as the only one |
 | 2 | The existing concentration threshold fits a single company | D-040 | Ask Sherpas how the check is scaled and measured; test it on SIMULATED households in the F5 score simulator | Add an employer-specific threshold, set by Sherpas (R-014) |
 | 3 | Enough of Sherpas' advisors' households hold employer stock | Priority of the whole feature | Sherpas' data on clients' employers or sectors; uptake of the firm switch; the A-01 interview question | Keep it as a firm-enabled module for firms with corporate and tech clients |
+
+## Revisited in F6 · the first release (D-072, step 3)
+
+Building the prototype and mapping every touchpoint (`10_flow_review.md`, D-073) showed two things the F3 cut did not weigh: how much each feature reaches into figures the client reads, and what the advisor has to do before the client gets any value. This entry revisits the first release with the same method. Counts: requirements per feature F-A 23, F-B 31, F-C 29, F-D 11, F-E 21, F-F 15, shared rules 17 [FACT: `docs/spec`, 2026-10-06]. Release order today: 1 F-A, 2 F-B, 3 F-C to F-F [FACT: `spec/00_index.md`; `07_success_criteria.md` pilot order].
+
+### F3-13 · What is the first release?
+The first release is what the pilot firms get. It should be the smallest scope in which the model is whole for advisor and client, reaches the client in the report the advisor shares, and lets the pilot read a result in weeks.
+
+| | Option | Gains | Costs | Evidence |
+|---|---|---|---|---|
+| A | **Exposure first.** Employer stock counted as one position (F-A), the Income chip with a pending grant and an alert (F-E), grants recorded as a list of vests with no income and no tax (part of F-B). Tax at vest, extraction and the projection in later releases | About 40% to 45% of the full scope [INFERENCE: from requirement counts and engines touched]; one score check changes (concentration), so the pilot reads cleanly; no vest income anywhere, so no double counting is possible | Leaves out tax at vest, the strongest validated pain (A-04); a list of vests is what advisors already keep in spreadsheets (discovery pattern 1); no completion path for the grant, so riskiest assumption 1 is not tested | A-04, A-09; V08, V10 to V14; F-A spec "Depends on: none" |
+| B | **Core loop.** F-A, F-E, F-B, F-F and F-C in full; from F-D only the text lines ("<Company> vests: $X after estimated tax", "Vests before <goal> (<year>)", AC-D-02, AC-D-06 to AC-D-08). The projection change (AC-D-01, AC-D-03 to AC-D-05, AC-D-09 to AC-D-11), the 409A display (AC-B-20, AC-B-21) and cost basis entry (AC-A-03) move to Next. Ships as one release after F-A, not F-B alone | Covers A-04, A-09, A-05, A-06 and A-10 as dated amounts beside goals, the way advisors and clients use it (V22, V43, V44); the score moves through two existing checks only, each explained in View more; tests riskiest assumption 1; the client-facing retirement figures stay as today until the pilot has read the simpler signals | About 75% to 80% of the full scope [INFERENCE]; retirement figures do not yet include vests, which understates them for households with large grants; depends on extraction reading plan statements, with typing as the fallback | A-04, A-05, A-06, A-09, A-10; R-001, R-008, R-013; 07 test card 1 |
+| C | **Everything at once**, as specified: F-A to F-F, releases 1 F-A, 2 F-B, 3 the rest | The complete picture, including vests inside the projection and every figure read from it (D-074) | 100%; three kinds of change land together (concentration, liquidity, projection figures), so a pilot result is harder to attribute; retirement figures cannot be checked within a pilot of weeks; release 2 gives the advisor a grant editor with no client trigger and no analysis on top | D-074; `07_success_criteria.md` pilot length |
+
+Two facts weigh on C's projection beyond effort:
+- A vest is wages (R-001). The projection would add each vest's after-tax amount as savings that compound until retirement (AC-D-10), while vests often fund near-term goals (A-10; V43, V44). Whether the platform's projection treats wages the same way is not known [INFERENCE: from AC-D-10 and the cash flow statement, where income reaches savings only as a share, FACT: platform_map 04c]. If it does not, retirement figures for these households would read high.
+- The retirement figures are the ones the client reads most and the slowest to verify.
+
+- **Recommendation:** B, because it is the smallest scope that keeps the whole chain (the client reports it, the advisor completes it with one review, vest income is counted once, concentration and tax at vest reach the score and the shared report). It beats A because A drops tax at vest, the strongest validated pain on both sides. It beats C because it delivers the same validated pains with about a fifth less work and leaves the figures with the widest reach and the weakest evidence for after the pilot. D-023: holds in all three; households without stock pay see nothing new.
+- **Chosen:** B · D-080, with four refinements: present it as a first use of tax planning inside the existing analysis, not a separate module; release F-A first, then the rest together; test extraction on plan statements before the pilot; validate demand before building (test cards and advisor interviews).
+
+### First release cut (D-080)
+
+Replaces the "MVP" column of the F3 cut for the items below; every other row stays as it was.
+
+| Item | Cut | Why | From |
+|---|---|---|---|
+| Employer stock as one position in concentration, flag and suggestion | First release (release 1) | Needs no grant; A-09 validated | D-040, D-080 |
+| Income chip, pending grant, alert | First release (release 2) | Entry point of the product; clients know totals (A-05) | D-076, D-080 |
+| RSU and PSU grants with dated vests; private recorded and shown | First release (release 2) | Base of tax at vest and of the lines on goals | D-024, D-080 |
+| Plan statement extraction, confirmed by the advisor | First release (release 2) | Completes the grant with one review; riskiest assumption 1 | D-042, D-080 |
+| Tax at vest and the withholding gap; Liquidity check | First release (release 2) | A-04, the strongest validated pain | D-038, D-080 |
+| Vests as dated cash beside goals, as text lines | First release (release 2) | A-10 as advisors and clients use it | D-080 |
+| Vests inside the projection and every figure read from it | Next | Widest client-facing change on the weakest evidence; slowest to verify | D-074, D-080 |
+| 409A display, cost basis on a flagged position, shares kept per tranche | Next | No figure of the first release reads them | D-080 |
+| Vest conversion proposed by the system | Next (unchanged) | | D-037 |
+
+### Riskiest assumptions of the first release
+
+Same three as above, in the order they are tested before building (D-080): 3 (reach, from Sherpas' data and five advisor interviews), 1 (extraction on 10 plan statements), 2 (threshold, with the score simulator).

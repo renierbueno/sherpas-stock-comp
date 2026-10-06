@@ -27,6 +27,8 @@ As an advisor, I want to upload a client's plan statement and confirm the grants
 | AC-F-11 | The system shall not create held positions from a statement. | D-037 (no automatic conversion) | unit | (F6) |
 | AC-F-12 | The system shall label every proposed value "Extracted from <document>, not confirmed". | D-042 | e2e | (F6) |
 | AC-F-13 | When the client uploads a plan statement in the questionnaire's documents step, the system shall process it as in AC-F-02 to AC-F-12, as a proposal the advisor confirms. | D-057; [FACT: questionnaire_map, 2026-10-05, uploads go to the opportunity's context] | e2e | (F6) |
+| AC-F-14 | When the advisor confirms a proposed grant with the same owner and employer as a grant pending detail, the system shall complete that pending grant with the confirmed values instead of adding a second grant, keeping the client's estimate and the date it was reported; further proposals from the same statement are added as new grants. | D-078 | unit + e2e | (F6) |
+| AC-F-15 | A plan statement the advisor uploads to the opportunity's documents, outside the grant editor, shall be processed as in AC-F-02 to AC-F-12. | D-079; [FACT: questionnaire_map, 2026-10-05, uploads go to the opportunity's context] | e2e | (F6) |
 
 ## Edge cases
 
@@ -38,6 +40,8 @@ As an advisor, I want to upload a client's plan statement and confirm the grants
 | EC-F-04 | Advisor uploads and leaves without confirming | Proposed grant stays out of the figures; the grant stays pending | AC-F-03; F-E (AC-E-08) |
 | EC-F-05 | PSU without a stated payout range | Default 0% to 200%, editable | F-B (AC-B-17) |
 | EC-F-06 | Statement lists shares withheld at past vests | Shown with the past tranches for the advisor to record held positions | AC-F-10, AC-F-11 |
+| EC-F-07 | The client reported the grant in the questionnaire; the advisor then uploads its plan statement | The confirmed proposal completes the pending grant; the alert and the pending line go away | AC-F-14; F-E (AC-E-09, AC-E-10) |
+| EC-F-08 | Two pending grants with the same employer, one per spouse | Each confirmed proposal completes the pending grant of its own owner | AC-F-14 |
 
 ## Instrumentation
 

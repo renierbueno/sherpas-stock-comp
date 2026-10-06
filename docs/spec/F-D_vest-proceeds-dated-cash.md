@@ -24,6 +24,7 @@ As an advisor, I want future vests shown as dated inflows beside the client's go
 | AC-D-08 | The system shall add to the vest bullets "Value on the vest date; whether shares are sold or kept is the client's decision." | D-037, D-041 (no advice) | e2e | (F6) |
 | AC-D-09 | If the household has no complete grant of a listed employer, then the system shall show the projection, the goal markers and the Retirement & Goals section exactly as today. | D-023 | unit + e2e | (F6) |
 | AC-D-10 | The projection shall count each vest once, as the inflow of AC-D-01, and not again through the year's income; after its vest date it shall project the after-tax amount as the platform projects cash savings. | D-054, D-060 | unit | (F6) |
+| AC-D-11 | While a household has a complete grant of a listed employer, every figure read from the projection (net worth at retirement, end of plan, retirement shortfall, share of retirement income covered, age when liquid assets run out, extra saving needed) shall include future vests after estimated tax, labelled "includes future vests after estimated tax, at the <analysis date> price", adding "at target" where performance units are included; a check that counts income not dependent on markets shall not count vests. | D-074 | unit + e2e | (F6) |
 
 ## Edge cases
 

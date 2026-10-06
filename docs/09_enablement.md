@@ -8,7 +8,7 @@ Material for advisors and for Client Success, ready with each release. Advisor s
 
 1. **Find it.** A client added a Stock compensation row, or the opportunity shows "Stock pay: detail pending".
 2. **Complete it.** In advisor mode or Data & Assumptions, open the grant. Either upload the plan statement and confirm what is proposed, or enter the pattern and adjust the tranches. The client's own answers are shown as a guide only.
-3. **Check two things.** Whether the reported income already includes this year's vests (answered by the client, or by you). The state withholding rate, if you have the paystub or plan statement.
+3. **Check two things.** Whether the reported income already includes this year's vests (you answer it in the grant editor; the client is not asked). The state withholding rate, if you have the paystub or plan statement.
 4. **Mark held shares.** Any position in the employer's stock, in any account, marked as employer stock.
 5. **Then adjust the score**, if you want to: saving any of the above reprocesses the analysis and replaces a manual adjustment.
 
@@ -38,7 +38,8 @@ What the analysis does not do: tell the client to sell, hold or exercise, or giv
 - **Why did my client's score go down?** Their employer stock is now counted as one position, or tax on upcoming vests is counted in near-term commitments. View more names which.
 - **Why didn't it move?** The grant is pending detail, belongs to a private company, or has not been confirmed from a statement.
 - **The client has options or ESPP.** Not modelled yet; mark any shares already held as employer stock.
-- **A tranche vested.** Record the shares kept as a position; the grant counts future tranches only.
+- **A tranche vested.** Record the shares kept as a position; the grant counts future tranches only. Until you do, those shares are not counted anywhere in the analysis.
+- **Do the retirement figures include vests?** Not yet: the projection and the retirement figures stay as today. Retirement & Goals lists the vests after estimated tax and which ones arrive before each goal. Unvested shares are lost if your client leaves the company.
 - **An existing client has stock pay.** Add it in Data & Assumptions; nothing changes for them until you do.
 
 ## For Client Success · pilot playbook
