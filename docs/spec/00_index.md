@@ -40,6 +40,7 @@ The prototype pull request (F6) is a reference implementation that shows the spe
 | AC-G-15 | The system shall label every value of a future vest with the price date: "at the <analysis date> price". | D-045, D-060 | e2e | (F6) |
 | AC-G-16 | The system shall compute the savings rate, fixed commitments, debt-to-income, housing ratio, life cover need, Social Security estimate and contributions from reported income as today, never adding vest income. | D-054 | unit | (F6) |
 | AC-G-17 | The paragraphs the platform writes for each section and the score explanation shall use the stock-pay facts of the new lines (AC-A-14 to AC-A-16, AC-C-23, AC-C-24, AC-D-06, AC-D-07, AC-E-10) the way they use other holdings and figures today, never contradicting those lines and phrased as AC-G-06 requires. | D-075 | manual (wording review) | (F6) |
+| EV-G-01 | When an analysis of a household with stock pay is shared, the system shall record the firm, the household and the status of each grant (complete, pending detail, awaiting a liquidity event). | D-088; M-07, M-08 | unit | (F6) |
 
 One firm setting, "stock compensation", turns everything on or off for a firm; the pilot runs on firms that turn it on (D-030, D-043, D-049). The stock-pay question always ships with the feature: it is how stock pay enters from the client (D-030, D-032).
 
@@ -104,12 +105,14 @@ Simulator tests are relations, not absolute scores (see each feature).
 
 | ID | Metric |
 |---|---|
-| M-01 | Proposal conversion and time to proposal, households with stock pay against those without (primary) |
+| M-01 | Proposal conversion and time to proposal, households with stock pay against those without (read, not a gate) |
 | M-02 | Share of households with stock pay whose detail is complete within N days |
 | M-03 | Share of extracted tranches confirmed without edits |
 | M-04 | Manual score adjustment rate, households with employer exposure against the rest, with the reason |
 | M-05 | Share of analyses with stock pay shared without edits to the new lines |
 | M-06 | Firms that enable the setting; share of their households with stock pay |
+| M-07 | Share of analyses of households with stock pay shared with every grant complete (primary, release 2) |
+| M-08 | Advisor actions per household with stock pay, from the questionnaire to the first share |
 | GR-01 | Guardrail: questionnaire completion rate and time, households without stock pay (D-023) |
 | GR-02 | Guardrail: retention of pilot firms, at renewal |
 

@@ -268,9 +268,9 @@ Listed so the gaps are visible; none changes the MVP model.
 | 2 | The existing concentration threshold fits a single company | D-040 | Ask Sherpas how the check is scaled and measured; test it on SIMULATED households in the F5 score simulator | Add an employer-specific threshold, set by Sherpas (R-014) |
 | 3 | Enough of Sherpas' advisors' households hold employer stock | Priority of the whole feature | Sherpas' data on clients' employers or sectors; uptake of the firm switch; the A-01 interview question | Keep it as a firm-enabled module for firms with corporate and tech clients |
 
-## Revisited in F6 · the first release (D-072, step 3)
+## Revisited in F6 · the first release (D-080)
 
-Building the prototype and mapping every touchpoint (`10_flow_review.md`, D-073) showed two things the F3 cut did not weigh: how much each feature reaches into figures the client reads, and what the advisor has to do before the client gets any value. This entry revisits the first release with the same method. Counts: requirements per feature F-A 23, F-B 31, F-C 29, F-D 11, F-E 21, F-F 15, shared rules 17 [FACT: `docs/spec`, 2026-10-06]. Release order today: 1 F-A, 2 F-B, 3 F-C to F-F [FACT: `spec/00_index.md`; `07_success_criteria.md` pilot order].
+Building the prototype and mapping every touchpoint (`10_flow_review.md`, D-073) showed two things the F3 cut did not weigh: how much each feature reaches into figures the client reads, and what the advisor has to do before the client gets any value. This entry revisits the first release with the same method. Counts: requirements per feature F-A 23, F-B 31, F-C 29, F-D 11, F-E 21, F-F 15, shared rules 17 [FACT: `docs/spec`, 2026-10-06]. Release order before this entry: 1 F-A, 2 F-B, 3 F-C to F-F.
 
 ### F3-13 · What is the first release?
 The first release is what the pilot firms get. It should be the smallest scope in which the model is whole for advisor and client, reaches the client in the report the advisor shares, and lets the pilot read a result in weeks.
@@ -285,8 +285,30 @@ Two facts weigh on C's projection beyond effort:
 - A vest is wages (R-001). The projection would add each vest's after-tax amount as savings that compound until retirement (AC-D-10), while vests often fund near-term goals (A-10; V43, V44). Whether the platform's projection treats wages the same way is not known [INFERENCE: from AC-D-10 and the cash flow statement, where income reaches savings only as a share, FACT: platform_map 04c]. If it does not, retirement figures for these households would read high.
 - The retirement figures are the ones the client reads most and the slowest to verify.
 
+How the options are judged (D-082): first three gates, pass or fail; an option that fails one is out. Then five criteria, compared in words, not scored, because the evidence says which option is stronger on each but not by how much.
+
+| Gate | A | B | C |
+|---|---|---|---|
+| Sound model: nothing counted twice (A-06, D-028), nothing missing treated as zero [brief], no new score area (D-039), facts not advice (AC-G-06) | Pass: no vest income anywhere | Pass: the income question settles double counting before any tax figure | Pass in its rules; the retirement figures may read high (the two facts above) |
+| Nothing changes for households without stock pay (D-023) | Pass | Pass | Pass |
+| The default path reaches the client without the advisor typing grants | Pass: one flag per employer, suggested once its ticker is known (AC-E-17); the vest list is optional | Pass if extraction reads plan statements (test card 1); typing is the fallback | Same as B |
+
+| Criterion | A · Exposure first | B · Core loop | C · Everything at once |
+|---|---|---|---|
+| Impact for advisor and household | Weaker: concentration only (A-09); leaves out tax at vest, the strongest validated pain (A-04) | Strong: A-04, A-09, A-05, A-06, and A-10 as dated amounts beside goals (V22, V43, V44) | Strongest: B plus vests inside the retirement figures |
+| What the pilot learns in four to six weeks | Fast but narrow: reach (M-06) and score trust (M-04); not whether grants get completed | The riskiest assumption: completion and extraction (M-02, M-03, test card 1), plus M-04 on two checks | Slowest: three kinds of change at once; retirement figures cannot be checked in weeks |
+| Fit with the platform | One flag read by an existing check; no use of document extraction | Questionnaire chip, document extraction, generated analysis and two existing checks (D-039); a first use of tax planning, named in Sherpas' use of funds [`01_context.md`] | As B, and it also changes the projection and six figures read from it (D-074) |
+| Effort [INFERENCE: requirement counts and engines touched] | About 40% to 45% | About 75% to 80% | 100% |
+| Risk of a wrong figure reaching the client | Lowest: one check changes | Low: two checks, each explained in View more; pending and private stay out of every figure (AC-G-04, AC-G-05) | Medium: retirement figures may read high and are the slowest to verify |
+
+Rule: impact decides between options that pass the gates, because the brief asks what analysis the advisor gets [brief]; learning and risk decide between options of equal impact. B loses to A on effort, learning speed and risk, and wins on impact; C adds impact on the weakest evidence.
+
 - **Recommendation:** B, because it is the smallest scope that keeps the whole chain (the client reports it, the advisor completes it with one review, vest income is counted once, concentration and tax at vest reach the score and the shared report). It beats A because A drops tax at vest, the strongest validated pain on both sides. It beats C because it delivers the same validated pains with about a fifth less work and leaves the figures with the widest reach and the weakest evidence for after the pilot. D-023: holds in all three; households without stock pay see nothing new.
 - **Chosen:** B · D-080, with four refinements: present it as a first use of tax planning inside the existing analysis, not a separate module; release F-A first, then the rest together; test extraction on plan statements before the pilot; validate demand before building (test cards and advisor interviews).
+- **What would change the choice:**
+  - A becomes right if extraction fails on plan statements (test card 1) and the advisor interviews say grants will not be typed: tax at vest would then reach few clients, and A delivers concentration at about half the cost of B.
+  - C becomes right if the pilot shows advisors adding vests to the retirement figures by hand (edits to Retirement & Goals, M-05) and the platform projects wages as savings the same way it would project vests.
+  - Doing nothing becomes right if reach stays below the release 1 stop threshold of `07_success_criteria.md` (fewer than 1 in 20 households, M-06, D-088): stock pay then fits a module for firms with corporate and tech clients.
 
 ### First release cut (D-080)
 

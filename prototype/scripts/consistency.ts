@@ -9,7 +9,7 @@ const root = join(import.meta.dirname, '..', '..');
 const docs = join(root, 'docs');
 const read = (p: string) => readFileSync(join(root, p), 'utf8');
 const specFiles = readdirSync(join(docs, 'spec')).filter((f) => f.endsWith('.md')).map((f) => `docs/spec/${f}`);
-const checked = ['docs/03_decision_log.md', 'docs/06_direction.md', 'docs/08_release_notes.md', 'docs/09_enablement.md', 'docs/10_flow_review.md', ...specFiles];
+const checked = ['docs/03_decision_log.md', 'docs/06_direction.md', 'docs/08_release_notes.md', 'docs/09_enablement.md', 'docs/10_flow_review.md', 'docs/11_storyline.md', ...specFiles];
 
 let failures = 0;
 const report = (name: string, problems: string[]) => {
@@ -76,5 +76,43 @@ const added = execSync(`git -C "${root}" diff -U0 HEAD -- docs .claude/skills`, 
   .split('\n').filter((l) => l.startsWith('+') && !l.startsWith('+++') && l.includes('—'));
 report('no em dashes in added lines', added.map((l) => l.slice(0, 100)));
 
+// 6 to 9. Living documents state the current state (D-087). Reported as WARN until the cleanup of
+// step F6.4 (D-081); then they count as failures. History is excluded: the decision log and checks/.
+let warnings = 0;
+const warn = (name: string, problems: string[]) => {
+  if (problems.length === 0) { console.log(`PASS  ${name}`); return; }
+  warnings += problems.length;
+  console.log(`WARN  ${name} (${problems.length})`);
+  for (const p of problems.slice(0, 8)) console.log(`        ${p}`);
+  if (problems.length > 8) console.log(`        ... ${problems.length - 8} more`);
+};
+const walk = (dir: string): string[] => readdirSync(join(root, dir), { withFileTypes: true }).flatMap((d) =>
+  d.isDirectory() ? walk(`${dir}/${d.name}`) : d.name.endsWith('.md') ? [`${dir}/${d.name}`] : []);
+const living = [...walk('docs').filter((f) => f !== 'docs/03_decision_log.md' && !f.startsWith('docs/checks/')), 'README.md'];
+
+// 6. Every assumption tag cites an assumption ID (AS-NN) defined in 02_open_questions.
+const assumptionIds = new Set([...read('docs/02_open_questions.md').matchAll(/^\| (AS-\d{2}) \|/gm)].map((m) => m[1]));
+warn('assumption tags cite an AS-NN listed in 02_open_questions', living.flatMap(lines).flatMap(({ p, n, text }) =>
+  [...text.matchAll(/\[ASSUMPTION[^\]]*\]/g)].map((m) => m[0]).filter((t) => !(t.match(/AS-\d{2}/g) ?? []).some((id) => assumptionIds.has(id)))
+    .map((t) => `${p}:${n} ${t.slice(0, 60)}`)));
+
+// 7. Nothing is asked of Sherpas any more (D-059).
+warn('no questions left for Sherpas (D-059)', living.flatMap(lines).filter(({ p, text }) => p !== 'docs/02_open_questions.md' || !/D-059/.test(text))
+  .filter(({ text }) => /asked in `02`|ask Sherpas|confirm with Sherpas|question for Sherpas/i.test(text)).map(({ p, n, text }) => `${p}:${n} ${text.trim().slice(0, 70)}`));
+
+// 8. A decision replaced or superseded in full is not cited as current.
+const replaced = new Map<string, string>();
+// Only full replacements: "(replaces D-NNN)" or "(supersedes D-NNN)"; partial ones ("supersedes the placement of D-032") stay citable.
+for (const m of log.matchAll(/^## (D-\d{3}) [^\n]*\((?:replaces|supersedes) (D-\d{3}(?:, D-\d{3})*)\)/gm)) for (const d of m[2].match(/D-\d{3}/g) ?? []) replaced.set(d, m[1]);
+for (const m of log.matchAll(/^## (D-\d{3})[^\n]*\n- What:[^\n]*\(supersedes (D-\d{3})\)/gm)) replaced.set(m[2], m[1]);
+warn('replaced decisions not cited as current', living.flatMap(lines).flatMap(({ p, n, text }) =>
+  [...replaced].filter(([old, by]) => new RegExp(`\\b${old}\\b`).test(text) && !text.includes(by)).map(([old, by]) => `${p}:${n} cites ${old} (replaced by ${by})`)));
+
+// 9. The README phase table matches the closed checks.
+const readme = lines('README.md');
+warn('README phases match the closed checks', readdirSync(join(docs, 'checks')).filter((f) => /^check-F\d\.md$/.test(f) && /Ready for gate/.test(read(`docs/checks/${f}`)))
+  .map((f) => f.match(/F\d/)![0]).flatMap((ph) => readme.filter(({ text }) => text.startsWith(`| ${ph} `) && !/\| done \|\s*$/.test(text)).map(({ n }) => `README.md:${n} ${ph} has a passed check but is not "done"`)));
+
+console.log(warnings ? `\n${warnings} cleanup warning(s), failures from F6.4.` : '');
 console.log(failures === 0 ? '\nConsistency: all checks pass.' : `\nConsistency: ${failures} problem(s).`);
 process.exit(failures === 0 ? 0 : 1);
