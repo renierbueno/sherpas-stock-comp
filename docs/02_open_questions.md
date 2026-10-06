@@ -28,6 +28,7 @@ No more questions go to Sherpas, and none are left for the follow-up session. Ea
 | The "benefit plan income" variant of Income uses the same income rows, so the chip fits there too (EC-E-07). | The chip is added to that block separately. |
 | Stock pay is common enough among these advisors' clients to matter (R-015, R-016 cover companies only). | The pilot shows it in M-06; the feature stays behind the firm setting (D-030). |
 | The demand comes from advisors whose clients have stock pay and who work around the platform today; the brief does not say who raised it [brief]. | If it came from sales or a single firm, the first release still holds (behind a firm setting, D-030), and the release 1 stop rule on reach (D-088) decides whether release 2 is built for everyone. |
+| The "Anything to add" chat of each questionnaire section feeds the opportunity's context, which the platform already reads for documents, meeting notes and CRM records [FACT: questionnaire_map, line 39, for the context]. | Stock pay mentioned only in the chat is not proposed; the enablement material asks advisors to read the chat (D-093). |
 | How Sherpas charges does not change the MVP. | Only the business lens (`05_business_lens.md`) changes. |
 
 ## For public research (answer with research)
