@@ -305,7 +305,7 @@ Insurance & Protection
 - Insurance & Protection > Written paragraphs, "We should look into" > no change expected. [TP-SF06-04 · AC-G-17]
 
 View more
-- View more > Key takeaways (written by the platform) > can change: picked from the checks, so they may name employer stock or vest tax. [TP-SF08-06 · D-039]
+- View more > Key takeaways (written by the platform) > can change: picked from the checks, so they may name employer stock or vest tax. [TP-SF08-06 · D-039 · B]
 - View more > Cash flow row > changed: adds "Savings rate and debt ratios read reported income; vests are shown separately." [TP-SF08-07 · AC-C-27 · A]
 - View more > Debt and Protection rows > no change. [TP-SF08-08 · AC-G-16]
 - View more > Liquidity row > changed: adds the tax due on upcoming vests, federal only when the state rate is missing, and performance units at target. [TP-SF08-09 · AC-C-20 to AC-C-22 · A]
