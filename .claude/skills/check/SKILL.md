@@ -1,6 +1,6 @@
 ---
 name: check
-description: Run with /check <phase> (F0–F7) before asking Renier to close a phase gate. Audits the repo against the case rules and the phase's "done when" criteria and writes a pass/fail report with evidence. Read-only on everything except its report.
+description: Run with /check <phase> (F0–F7), or /check <step> for a step of a long phase (for example F6.1), before asking Renier to close a gate. Audits the repo against the case rules and the phase's "done when" criteria and writes a pass/fail report with evidence. Read-only on everything except its report.
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ Goal: a gate is closed on evidence, not on assertion. Every line of the report p
 
 ## Input
 
-- The phase to check (argument: `F0` … `F7`).
+- The phase to check (argument: `F0` … `F7`), or a step of a long phase (`F6.2` to `F6.6`; steps in D-081). A step is checked against the work since the previous step's check.
 - The "Done when" section of each skill used in that phase.
 
 ## Steps
@@ -20,7 +20,8 @@ Goal: a gate is closed on evidence, not on assertion. Every line of the report p
 3. **Simulated is labelled.** Every persona, interview or data set that is not real carries `SIMULATED` in its title and first line.
 4. **Decisions logged.** Every decision taken in the phase has a `D-NNN` with what, why, date and who confirmed it.
 5. **Open questions.** Unknowns found in the phase are in `docs/02_open_questions.md`.
-6. **Phase criteria.** Each "Done when" line of the skills used in the phase: PASS or FAIL with evidence.
+6. **Phase criteria.** Each "Done when" line of the skills used in the phase (for a step, the skill that owns it: F6.2 decide, F6.3 flow-review "Resolve", F6.4 spec, F6.5 prototype; F6.6 is the phase check `F6`): PASS or FAIL with evidence.
+6b. **Consistency (from F6).** Run `cd prototype && npm run check` (cross-document consistency, tests, build, trace) and paste its summary as evidence. Pending criteria in the trace are listed, not failed, until the step that builds them.
 7. **Harness (only if skills changed in the phase).** Checklist Y1–Y12 below, one line each.
 8. **Git.** Main has no "wip" commits (`git log --oneline | grep -i wip`); the phase's work is ready for one commit with a "why" message.
 
@@ -28,7 +29,7 @@ Y1–Y12 (documented best practice for Claude Code skills and agents): Y1 simple
 
 ## Output (fixed path)
 
-`docs/checks/check-<phase>.md`: date, one table (check · PASS/FAIL · evidence), and a final line: "Ready for gate" or the list of FAILs to fix.
+`docs/checks/check-<phase or step>.md`: date, one table (check · PASS/FAIL · evidence), and a final line: "Ready for gate" or the list of FAILs to fix.
 
 ## Done when
 
