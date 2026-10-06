@@ -25,6 +25,9 @@ As a client, I want to say that part of my pay comes in company stock, the same 
 | AC-E-19 | The row shall show no upload prompt; a plan statement the client uploads in the documents step enters F-F as a proposal (AC-F-13). | D-057, D-077 | e2e | (F6) |
 | AC-E-20 | The system shall never block completing the questionnaire or generating the analysis because a grant is pending detail. | D-035, D-060 | e2e | (F6) |
 | AC-E-21 | The system shall add the chip to any Financial Health template the firm uses [ASSUMPTION: A-30]. | D-056, D-060 | e2e | (F6) |
+| AC-E-22 | When text in a questionnaire chat or an "Other income" row mentions stock pay, the system shall propose to the advisor a grant with the person and, if named, the employer, advisor-only, through the platform's existing context mechanism. | D-093, D-096, D-110 [ASSUMPTION: A-27] | e2e | (F6) |
+| AC-E-23 | While a proposal of AC-E-22 awaits review, the opportunity shall show the alert of AC-E-08. | D-110 | e2e | (F6) |
+| AC-E-24 | When the advisor confirms a proposal of AC-E-22, the system shall create a grant pending detail; when the advisor rejects it, nothing is created. | D-090, D-110 | unit | (F6) |
 
 ### What it creates
 
@@ -40,8 +43,8 @@ As a client, I want to say that part of my pay comes in company stock, the same 
 | AC-E-14 | The grant editor shall show the client's answers labelled "Client estimate, not used in the figures". | D-035 | e2e | (F6) |
 | AC-E-15 | In advisor mode, the stock-pay block shall open the full grant editor of F-B. | D-036 | e2e | (F6) |
 | AC-E-16 | In the grant editor of a grant reported from the questionnaire, the system shall show the advisor "Only RSU and PSU are modelled in this version. If this stock pay is ESPP or options, delete the grant and flag any shares already held as employer stock." | D-024, D-076 | e2e | (F6) |
-| AC-E-17 | When held positions have the ticker given for an employer, the system shall show the advisor one suggestion per employer naming every account that holds them: "<Company> (<ticker>) is held in <accounts>. Flag as employer stock?" | D-024, D-031, D-051, D-070 | e2e | (F6) |
-| AC-E-18 | The system shall flag a suggested position only after the advisor confirms. | D-042, D-051 | unit | (F6) |
+| AC-E-17 | When the advisor confirms a grant, the system shall flag every held position with the grant's employer ticker, whatever its source (typed, linked or uploaded), and show the advisor "<Company> (<ticker>) held in <accounts> flagged as employer stock." with Undo. | D-024, D-031, D-070, D-090, D-092 | e2e | (F6) |
+| AC-E-18 | The system shall set each position flagged by AC-E-17 to the grant owner as person and "current employer: yes", both editable by the advisor. | D-090, D-110 | unit | (F6) |
 
 ## Edge cases
 

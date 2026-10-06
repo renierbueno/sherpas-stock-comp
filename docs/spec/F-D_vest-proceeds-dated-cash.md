@@ -16,14 +16,14 @@ As an advisor, I want future vests shown as dated inflows beside the client's go
 |---|---|---|---|---|
 | AC-D-01 | While a household has a complete grant of a listed employer, the projection shall add each future tranche as a one-time wage income of the stock compensation income category, at its value at vest, on its delivery date (AC-B-32). | D-026, D-039, D-106; SC-01, SC-02 [ASSUMPTION: A-62] | unit | (F6) |
 | AC-D-02 | The system shall show each inflow as "$<X> after estimated tax ($<Y> before tax)", with the tax computed for that vest in F-C. | D-050, D-045 | unit + e2e | (F6) |
-| AC-D-03 | The projected net worth chart shall show a marker for each year with vests, beside the goal markers. | D-039; [FACT: captures/client/01-financial-health, goal markers] | e2e | (F6) |
+| AC-D-03 | The projected net worth chart shall show a marker for each year with tranche deliveries, beside the goal markers. | D-039, D-110; [FACT: captures/client/01-financial-health, goal markers] | e2e | (F6) |
 | AC-D-04 | Where a year's vests include performance units, the chart shall show a line at target and a shaded band for their range. | D-045 | e2e | (F6) |
-| AC-D-05 | The system shall not count a tranche in liquid assets, months of reserve or near-term cash before its vest date. | D-039 | unit | (F6) |
-| AC-D-06 | The Retirement & Goals section shall add the bullet "<Company> vests: $<X> after estimated tax ($<Y> before tax) between <first date> and <last date>, at the <analysis date> price." | D-038, D-045 | e2e | (F6) |
-| AC-D-07 | Where a goal's year falls on or after a vest, the system shall add "Vests before <goal> (<year>): $<X> after estimated tax." | D-038; A-10 | e2e | (F6) |
+| AC-D-05 | The system shall not count a tranche in liquid assets, months of reserve or near-term cash before its delivery date. | D-039, D-110; SC-02 | unit | (F6) |
+| AC-D-06 | The Retirement & Goals section shall add the bullet "<Company> vests: $<X> after estimated tax ($<Y> before tax) between <first delivery date> and <last delivery date>, at the <analysis date> price." | D-038, D-045, D-110 | e2e | (F6) |
+| AC-D-07 | Where a goal's year falls on or after a tranche's delivery date, the system shall add "Vests before <goal> (<year>): $<X> after estimated tax." | D-038, D-110; A-10 | e2e | (F6) |
 | AC-D-08 | The system shall add to the vest bullets "Value on the vest date; whether shares are sold or kept is the client's decision." | D-037, D-041 (no advice) | e2e | (F6) |
 | AC-D-09 | If the household has no complete grant of a listed employer, then the system shall show the projection, the goal markers and the Retirement & Goals section exactly as today. | D-023 | unit + e2e | (F6) |
-| AC-D-10 | The projection shall count each vest once, as the income of AC-D-01, and treat it as it treats wages of that year (tax, spending and saving), not as cash savings. | D-054, D-060, D-106; SC-01 [ASSUMPTION: A-62] | unit | (F6) |
+| AC-D-10 | The projection shall count each vest once, as the income of AC-D-01, and treat it as it treats wages of that year (spending and saving), not as cash savings, with the tax on that vest computed in F-C (AC-C-03), so the bullets and the projection use one tax figure per vest. | D-054, D-060, D-106, D-110; SC-01 [ASSUMPTION: A-62] | unit | (F6) |
 | AC-D-11 | While a household has a complete grant of a listed employer, every figure read from the projection (net worth at retirement, end of plan, retirement shortfall, share of retirement income covered, age when liquid assets run out, extra saving needed) shall include future vests after estimated tax, labelled "includes future vests after estimated tax, at the <analysis date> price", adding "at target" where performance units are included; a check that counts income not dependent on markets shall not count vests. | D-074, D-106 | unit + e2e | (F6) |
 
 ## Edge cases

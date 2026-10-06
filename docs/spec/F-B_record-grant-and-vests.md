@@ -31,11 +31,12 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | AC-B-08 | The system shall let the advisor edit the date and units of each tranche. | D-027; R-010; SC-06 | e2e | (F6) |
 | AC-B-09 | The system shall let the advisor add and delete tranches. | D-027 | e2e | (F6) |
 | AC-B-10 | If the units of all tranches differ from the grant's units, then the system shall show "Tranches add up to <n> of <m> units." without blocking the save. | D-027 | unit + e2e | (F6) |
-| AC-B-11 | If a tranche's date is on or before the analysis date, then the system shall leave it out of the grant's figures. | D-028, D-037 | unit | (F6) |
-| AC-B-12 | If a tranche's date is on or before the analysis date, then the system shall show "Vested on <date>: record the shares kept as a held position." | D-028, D-037 | e2e | (F6) |
+| AC-B-11 | If a tranche's delivery date is on or before the analysis date, then the system shall leave it out of the grant's figures, except the current year's tax figures of AC-C-31. | D-028, D-037, D-107 | unit | (F6) |
+| AC-B-12 | If a tranche's delivery date is on or before the analysis date, then the system shall show "Vested on <vest date>: record the shares kept as a held position." | D-028, D-037, D-110 | e2e | (F6) |
 | AC-B-13 | When the advisor marks a tranche as forfeited, the system shall remove it from the grant's figures. | D-026; R-002; SC-04 | unit | (F6) |
 | AC-B-14 | The system shall let the advisor record, per tranche, the shares kept after withholding and their cost basis. | D-029; R-011; SC-18, SC-30 | e2e | (F6) |
 | AC-B-32 | The system shall record, per tranche, a delivery date, prefilled with the tranche's vest date and editable by the advisor, labelled "Shares delivered on". | D-101; SC-02, SC-03 | unit + e2e | (F6) |
+| AC-B-33 | The system shall let the advisor enter, per delivered tranche, its value at delivery, with the helper text "From the W-2 or the plan statement". | D-107 [ASSUMPTION: A-58] | e2e | (F6) |
 | AC-B-15 | Dropped: shares kept are not estimated; they are recorded when known (AC-B-14). | D-050 | | |
 
 ### PSU
@@ -59,7 +60,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
 | AC-B-22 | The system shall leave unvested tranches out of current net worth. | D-026 | unit | (F6) |
-| AC-B-23 | While a household has a complete grant of a listed employer, the analysis shall list each future tranche with its date, units and value at the <analysis date> price. | D-038 (vest calendar as data), D-045 | e2e | (F6) |
+| AC-B-23 | While a household has a complete grant of a listed employer, the analysis shall list each future tranche with its delivery date, units and value at the <analysis date> price. | D-038 (vest calendar as data), D-045, D-110 | e2e | (F6) |
 | AC-B-24 | Where a tranche is a performance unit tranche, the list shall show its value at target followed by "(range $<min> to $<max>)". | D-045 | unit + e2e | (F6) |
 | AC-B-25 | The system shall not send reminders or notifications for vest dates. | D-038 | manual (absence; nothing to show) | (F6) |
 | AC-B-26 | If the household has no grant, then the system shall show no grant section in the analysis. | D-023 | e2e | (F6) |
@@ -69,7 +70,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-B-28 | The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one future tranche with date and units, PSU terms for a PSU, and a yes or no to the income question (AC-B-29). | D-035, D-060 | unit | (F6) |
+| AC-B-28 | The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one tranche with date and units that is either future or delivered in the current tax year, and PSU terms for a PSU. | D-035, D-060, D-094, D-109 | unit | (F6) |
 | AC-B-29 | The grant editor shall ask, per person, "Does the salary on file include stock that vested this year?" (yes, no, not sure), unanswered until the advisor answers it, and apply AC-E-11 to AC-E-13 to the answer. | D-028, D-051, D-060, D-076 | unit + e2e | (F6) |
 | AC-B-30 | If the employer's ticker has no market price, then the system shall leave the grant out of every figure and show the advisor "Price not available for <ticker>: grant not counted." | [brief] missing data; D-060 | unit + e2e | (F6) |
 | AC-B-31 | The system shall store a grant as an element of the platform's stock compensation asset category, sub-type RSU, and a PSU as an RSU with its performance terms; unvested value stays out of net worth (AC-B-22). | D-058, D-026 | unit | (F6) |
@@ -81,7 +82,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | EC-B-01 | Four years, quarterly, one-year cliff | 13 tranches: the first at month 12 with a quarter of the units, then 12 quarterly | AC-B-07 |
 | EC-B-02 | Unequal tranches (10/20/35/35) | Generated even, edited by the advisor | AC-B-07, AC-B-08 |
 | EC-B-03 | Grant already partly vested | Past tranches out of the figures, with the prompt to record held shares | AC-B-11, AC-B-12 |
-| EC-B-04 | All tranches vested | The grant contributes nothing; prompts only | AC-B-11, AC-B-12 |
+| EC-B-04 | All tranches delivered | Tranches delivered this year keep their tax and gap until year end; after that the grant contributes nothing; prompts only | AC-B-11, AC-B-12, AC-B-28, AC-C-31 |
 | EC-B-05 | Tranches do not add up to the grant's units | Notice, save allowed | AC-B-10 |
 | EC-B-06 | Two grants from the same employer (new-hire and refresh) | Two grants; their tranches add up in every figure | AC-B-04; F-A (AC-A-16) |
 | EC-B-07 | The client and the co-client each have a grant | One grant per person; never joint | AC-B-02 |
