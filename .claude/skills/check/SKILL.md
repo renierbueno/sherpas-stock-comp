@@ -16,7 +16,7 @@ Goal: a gate is closed on evidence, not on assertion. Every line of the report p
 ## Steps
 
 1. **Secrets and confidentiality.** Run `git add -A --dry-run` and the pre-commit hook against the staged set (`git add -A && .githooks/pre-commit; git reset -q`). Confirm `git status` shows nothing under `captures/` or `inputs/`, and `git ls-files | grep -iE '\.(rtf|har|png|jpe?g)$'` lists nothing outside `prototype/`.
-2. **No invented facts.** In every doc changed in the phase: each Sherpas fact has a source tag (`[brief]`, `[web: …]`, `[demo]`, `[FACT: captures/…]`); no other source; each US financial or regulatory fact points at an `R-NNN` in `docs/research.md`; anything else is tagged `[INFERENCE: …]` or `[ASSUMPTION: confirm]`. List untagged claims by file and line.
+2. **No invented facts.** In every doc changed in the phase: each Sherpas fact has a source tag (`[brief]`, `[web: …]`, `[demo]`, `[FACT: captures/…]`); no other source; each US financial or regulatory fact points at an `R-NNN` in `docs/research.md`; anything else is tagged `[INFERENCE: …]` or `[ASSUMPTION: confirm]`. US rules used by the model cite an SC-NN of docs/12_stock_comp_rules.md (D-100). List untagged claims by file and line.
 3. **Simulated is labelled.** Every persona, interview or data set that is not real carries `SIMULATED` in its title and first line.
 4. **Decisions logged.** Every decision taken in the phase has a `D-NNN` with what, why, date and who confirmed it.
 5. **Open questions.** Unknowns found in the phase are in `docs/02_open_questions.md`.

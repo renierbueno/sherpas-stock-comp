@@ -26,6 +26,8 @@ Goal: every choice in the proposal is Renier's, taken between real alternatives,
 
 Evidence rules from `CLAUDE.md` apply: Sherpas facts tagged `[brief]` or `[FACT: captures/…]`, US facts cite `R-NNN`, the rest `[INFERENCE: …]` or `[ASSUMPTION: confirm]`. Call or JD context never appears in committed files (`CLAUDE.local.md`).
 
+Before proposing an option, a resolution or a requirement that depends on a US tax or legal rule, check it against `docs/12_stock_comp_rules.md` and cite its SC-NN; a missing or WEAK rule goes to research or becomes an A-NN first (D-100).
+
 ## Decision template
 
 ```markdown

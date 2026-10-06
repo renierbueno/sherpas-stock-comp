@@ -87,7 +87,11 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 | Phantom stock | Hypothetical shares that pay their full value in cash or shares at vesting. | R-006 |
 | §409A | Rules for deferred compensation; failing them means immediate tax plus a 20% additional tax and interest. | R-006 |
 | ESOP | A 401(a) retirement plan that invests mainly in employer stock through a trust. | R-007 |
-| Supplemental wages | Pay outside regular wages (bonuses, equity income), withheld at a flat 22%, or 37% above $1 million (tax year 2026). | R-008 |
+| Supplemental wages | Pay outside regular wages (bonuses, equity income), withheld at a flat 22% (no other percentage under that method), or 37% on the part of the year's supplemental wages above $1 million (tax year 2026). | R-008, R-022 |
+| Social Security wage base | The yearly wages on which the 6.2% employee Social Security tax is paid; $184,500 in 2026. | R-018 |
+| Additional Medicare Tax | A 0.9% tax on wages above a threshold: withheld by the employer above $200,000 a year; owed on the return above $250,000 (joint), $125,000 (married filing separately) or $200,000 (single, head of household). | R-019 |
+| Settlement | The delivery of the shares (or cash) of a vested unit; its year is the income tax year, and it can follow the vest date. | R-001, R-002 |
+| Dividend equivalent | A payment or credit on an unvested unit equal to the dividend on a share; terms differ by plan; wages when paid. | R-025 |
 | Concentration | A large share of wealth in one stock; 10% of investment assets is a common rule of thumb, not a rule. | R-014 |
 | Double exposure | Salary and savings tied to the same employer. | R-014 |
 | Full-value award | An award that delivers the whole share value (RSU, restricted stock, performance shares), as opposed to an option that pays only the gain over the strike. | R-016 |

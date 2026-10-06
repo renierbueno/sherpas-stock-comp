@@ -53,7 +53,7 @@ Kept as shown to Renier. Its gaps are carried into the full map below.
 | SF-14 Shared PDF | Yes: the same lines must appear and read on their own | AC-G-07 covers editing only | GAP-04 |
 | SF-15, SF-16 Questionnaire, opportunity | No: vest income is computed, not asked | | |
 | SF-17 Data & Assumptions | Yes: the D-028 answer and the grants drive it | AC-E-11 to AC-E-13, AC-B-05 | |
-| SF-18 Social Security | Unknown: vests are wages for FICA (R-001); whether the estimate reads wages is not public | none | GAP-05 |
+| SF-18 Social Security | Unknown: vests are wages for FICA (R-001; SC-22); whether the estimate reads wages is not public | none | GAP-05 |
 | SF-19 Contributions | Unknown: whether 401k contributions are a share of salary | none | GAP-05 |
 
 ## Impact map · every element × every surface

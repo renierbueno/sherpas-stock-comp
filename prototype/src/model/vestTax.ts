@@ -1,5 +1,6 @@
 // F-C · Tax at vest and the withholding gap (docs/spec/F-C_tax-at-vest.md), with the income
-// rules of F-E it depends on (AC-E-11, AC-E-12). Tax figures come from the SIMULATED engine.
+// rules of F-E it depends on (AC-E-11, AC-E-12). Tax figures come from src/model/tax.ts
+// (real 2026 federal and FICA rules, SIMULATED state rate).
 import { countedFutureVests, countedGrants, type TrancheValue } from './grants';
 import { priceOf } from './market';
 import { P_LIQ_HORIZON_MONTHS } from './params';

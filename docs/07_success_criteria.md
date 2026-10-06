@@ -45,7 +45,7 @@ Each release answers its own question, with metrics counted per household every 
 | Test before the pilot | Run extraction on 10 plan statements from the main stock-plan providers (Fidelity, Schwab, E*Trade, Shareworks, Carta for private companies; R-013); SIMULATED or anonymised | Score simulator (F6) on SIMULATED households, varying `P-CONC`, to show where the reading changes; the work assumes the check reads by holding (`02`) | From the platform's own data before release 1: households whose holdings or reported employers match a listed employer |
 | Success (absolute) | 8 of 10 statements give every tranche right after two field changes or fewer | Employer stock moves the Investing check as any single stock of the same weight would, and advisors in the five interviews call the reading right | Proposed: at least 1 in 10 households |
 | In the pilot | M-07, M-02, M-03 | M-04 | M-06 |
-| If it fails | Statement route first, or the manual route as the only one | Employer-specific threshold, set by Sherpas (R-014: no rule) | A module for firms with corporate and tech clients |
+| If it fails | Statement route first, or the manual route as the only one | Employer-specific threshold, set by Sherpas (R-014: no rule; SC-29) | A module for firms with corporate and tech clients |
 
 ## Learning loop
 

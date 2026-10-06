@@ -1,5 +1,6 @@
 // The guided scenes of "Start here" (D-065): each is a before and an after household.
-// SIMULATED: every household, company, price and tax figure is invented.
+// SIMULATED: every household, company, price and state tax rate is invented; the federal and
+// FICA rules are the real 2026 ones (docs/12_stock_comp_rules.md).
 import { H2, H2_COMPLETE } from './households';
 import type { EmployerFlag, Household } from './types';
 

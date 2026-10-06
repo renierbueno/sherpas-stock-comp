@@ -1,5 +1,5 @@
 // F-C component tests: rendered tax lines, View more, statements, state rate field (D-062).
-// Tax amounts come from the SIMULATED engine; the tests read labels and where lines appear.
+// Tax amounts come from src/model/tax.ts (SIMULATED households and state rate); the tests read labels and where lines appear.
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { H2, H3, H6 } from '../../src/model/households';

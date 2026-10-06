@@ -79,7 +79,7 @@ Described in product terms; field names and storage are engineering's call. The 
 | Employer | Name; listed or private; ticker when listed; latest 409A value and its date, when private and known | D-025, D-031 |
 | Employer flag on a held position | Employer; person whose employer it is; current employer: yes, no or unknown; cost basis when known | D-024, D-029, D-031 |
 | Grant | Owner (one person, never joint); type (RSU, or PSU: an RSU with performance terms); employer; grant date; units; status (complete, pending detail, awaiting a liquidity event); source (advisor, questionnaire, extraction) | D-024 to D-027, D-035, D-042 |
-| PSU terms | Performance condition; end of the performance period; payout range, 0% to 200% of target unless the award says otherwise | D-027; R-002, R-011 |
+| PSU terms | Performance condition; end of the performance period; payout range, 0% to 200% of target unless the award says otherwise | D-027; R-002, R-011; SC-05 |
 | Tranche | Vest date; units (PSU: target units); shares kept after withholding and cost basis, when known | D-027, D-029 |
 
 ## Score simulator parameters
@@ -91,7 +91,7 @@ The simulator reproduces only what the score article makes public [brief]; every
 | Check scale | Each check turns one figure into 0 to 100, on a scale, not pass or fail | Yes [brief] | As stated |
 | Area weights | Building wealth 30/20/20/15/15; retirement 25/10/20/20/25 (cash flow, debt, protection, liquidity, investing) | Yes [brief] | As stated |
 | Missing data | A figure Sherpas does not have is left out, not treated as zero or average | Yes [brief] | As stated |
-| `P-CONC` | Curve of the Investing concentration check | No | SIMULATED, [ASSUMPTION: A-31]; R-014's 10% is reference only |
+| `P-CONC` | Curve of the Investing concentration check | No | SIMULATED, [ASSUMPTION: A-31]; R-014's 10% is reference only (SC-29) |
 | `P-CONC-BASE` | The base of the concentration figure ("investable assets") | Name only [FACT: captures/client/02-score-breakdown] | SIMULATED: listed investments plus cash |
 | `P-LIQ-HORIZON` | What "near-term" means in the Liquidity commitments check | No | SIMULATED, [ASSUMPTION: A-31] |
 | `P-LIQ` | Curve of the near-term commitments check | No | SIMULATED, [ASSUMPTION: A-31] |

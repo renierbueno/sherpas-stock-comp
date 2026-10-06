@@ -108,7 +108,7 @@ function Scene3({ scene }: { scene: Scene }) {
       <h3>The household (inputs, SIMULATED)</h3>
       <p className="small">
         Salaries: {h.people.map((p) => `${p.name} ${money(h.salary[p.id] ?? 0)}`).join(', ')} · filing jointly · state income tax {pct(h.stateTaxRate)} (SIMULATED) ·
-        federal brackets SIMULATED (not real tax rules) · cash {money(h.cash)} · near-term commitments already on file {money(h.nearTermCommitments)} ·
+        federal brackets, standard deduction and Social Security and Medicare: real 2026 figures · state rate, price and household SIMULATED · cash {money(h.cash)} · near-term commitments already on file {money(h.nearTermCommitments)} ·
         vest on {dateLabel(t.vest.tranche.date)}: {t.vest.tranche.units.toLocaleString('en-US')} units × {money(t.vest.value / t.vest.tranche.units)} = {money(t.vest.value)}
       </p>
       <h3>How it is computed</h3>

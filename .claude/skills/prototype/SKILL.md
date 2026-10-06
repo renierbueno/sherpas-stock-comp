@@ -31,6 +31,7 @@ Goal: show the spec holds up and is precise enough to build from (D-004). Every 
 - **Scope per D-063.** A criterion not built is listed in `prototype/src/model/scope.ts` with its reason (`spec only: <why>`); the trace script prints it as such.
 - **SIMULATED is labelled** in file headers, in the households' names and on screen (a banner on every view).
 - **Parameters `P-…`** live in one file with their SIMULATED values and `[ASSUMPTION: confirm]`; tests assert relations, never absolute scores, except where the spec gives the figure (EC-A-01).
+- Every tax or legal constant in the simulator carries its SC-NN and is checked by tests/unit/rules.test.ts (D-100).
 - **Labels are copied from the spec verbatim.** A label that cannot be rendered as written is a gap.
 - **Gaps:** if a requirement cannot be built as written (ambiguous, contradicts another, needs a missing decision), stop on that line, log it in `docs/10_flow_review.md` under "Pass 2 · gaps found while building" and bring Renier options (D-046). Never fix it silently in code.
 - **Own code only** (D-012, D-015): no HTML, CSS or JavaScript from `captures/`. No platform data: names, figures and tickers are SIMULATED.

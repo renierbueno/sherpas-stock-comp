@@ -87,6 +87,8 @@ When writing a line needs a decision F3 did not take: stop, bring Renier the opt
 
 Evidence rules from `CLAUDE.md` apply; call and JD context never appears (`CLAUDE.local.md`).
 
+Before proposing an option, a resolution or a requirement that depends on a US tax or legal rule, check it against `docs/12_stock_comp_rules.md` and cite its SC-NN; a missing or WEAK rule goes to research or becomes an A-NN first (D-100).
+
 ## Done when
 
 - Every MVP row of D-041 and D-042 sits in a feature; every requirement is EARS with an `AC-` ID, its `D-NNN`, a verify method and a Test cell.

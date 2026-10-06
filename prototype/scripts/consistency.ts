@@ -9,7 +9,7 @@ const root = join(import.meta.dirname, '..', '..');
 const docs = join(root, 'docs');
 const read = (p: string) => readFileSync(join(root, p), 'utf8');
 const specFiles = readdirSync(join(docs, 'spec')).filter((f) => f.endsWith('.md')).map((f) => `docs/spec/${f}`);
-const checked = ['docs/03_decision_log.md', 'docs/06_direction.md', 'docs/08_release_notes.md', 'docs/09_enablement.md', 'docs/10_flow_review.md', 'docs/11_storyline.md', ...specFiles];
+const checked = ['docs/03_decision_log.md', 'docs/06_direction.md', 'docs/12_stock_comp_rules.md', 'docs/08_release_notes.md', 'docs/09_enablement.md', 'docs/10_flow_review.md', 'docs/11_storyline.md', ...specFiles];
 
 let failures = 0;
 const report = (name: string, problems: string[]) => {
@@ -97,6 +97,55 @@ const assumptionIds = new Set(['docs/discovery/synthesis.md', 'docs/02_open_ques
 warn('assumption tags cite an A-NN of the assumption list', living.flatMap(lines).flatMap(({ p, n, text }) =>
   [...text.matchAll(/\[ASSUMPTION[^\]]*\]/g)].map((m) => m[0]).filter((t) => t !== '[ASSUMPTION: A-NN]' && !(t.match(/\bA-\d{2}\b/g) ?? []).some((id) => assumptionIds.has(id)))
     .map((t) => `${p}:${n} ${t.slice(0, 60)}`)));
+
+// 10 to 13. The rules table (D-100): every US tax or legal rule the model uses has a row with its
+// source and signal, and every line that depends on such a rule cites the row. Failures, not warnings.
+const rulesFile = 'docs/12_stock_comp_rules.md';
+const research = new Set([...read('docs/research.md').matchAll(/^## (R-\d{3})/gm)].map((m) => m[1]));
+const ruleRows = lines(rulesFile).filter(({ text }) => /^\| SC-\d{2} \|/.test(text));
+const rules = new Set<string>();
+const ruleProblems: string[] = [];
+for (const { n, text } of ruleRows) {
+  const c = text.split('|').map((x) => x.trim());
+  const [id, source, signal, release, value] = [c[1], c[5], c[6], c[8], c[9]];
+  if (c.length !== 11) { ruleProblems.push(`${rulesFile}:${n} ${id} has ${c.length - 2} cells, expected 9`); continue; }
+  if (rules.has(id)) ruleProblems.push(`${rulesFile}:${n} ${id} defined twice`);
+  rules.add(id);
+  const cited = source.match(/R-\d{3}/g) ?? [];
+  if (cited.length === 0) ruleProblems.push(`${rulesFile}:${n} ${id} cites no R-NNN`);
+  for (const r of cited) if (!research.has(r)) ruleProblems.push(`${rulesFile}:${n} ${id} cites ${r}, not in research.md`);
+  const assumptions = source.match(/\bA-\d{2}\b/g) ?? [];
+  for (const a of assumptions) if (!assumptionIds.has(a)) ruleProblems.push(`${rulesFile}:${n} ${id} cites ${a}, not in the assumption list`);
+  if (!/^(STRONG|WEAK)$/.test(signal)) ruleProblems.push(`${rulesFile}:${n} ${id} signal "${signal}" is not STRONG or WEAK`);
+  if (!/^(1|Next)$/.test(release)) ruleProblems.push(`${rulesFile}:${n} ${id} release "${release}" is not 1 or Next`);
+  if (release === '1' && signal === 'WEAK' && assumptions.length === 0) ruleProblems.push(`${rulesFile}:${n} ${id} is release 1 and WEAK but cites no A-NN`);
+  if (value !== '-' && !/^[a-z0-9_]+=-?[\d.]+(; [a-z0-9_]+=-?[\d.]+)*$/.test(value)) ruleProblems.push(`${rulesFile}:${n} ${id} value "${value.slice(0, 40)}" is not key=number pairs`);
+}
+report('rules table: each SC row cites research that exists, a signal, a release, and an A-NN when release 1 and WEAK', ruleProblems);
+
+report('SC-NN cited exist in 12_stock_comp_rules', [...living, 'docs/03_decision_log.md'].flatMap(lines).flatMap(({ p, n, text }) =>
+  [...text.matchAll(/\bSC-(\d{2})\b/g)].map((m) => `SC-${m[1]}`).filter((id) => !rules.has(id)).map((id) => `${p}:${n} cites ${id}`)));
+
+// Tax and legal research entries: R-001 to R-011 and R-017 to R-026 (R-012 to R-016 are practice and market).
+const taxLegal = /\bR-0(?:0[1-9]|1[01]|1[7-9]|2[0-6])\b/;
+let decisionNo = 0;
+const logLinesFrom100 = lines('docs/03_decision_log.md').filter(({ text }) => {
+  const h = text.match(/^## D-(\d{3})/);
+  if (h) decisionNo = Number(h[1]);
+  return decisionNo >= 100;
+});
+report('spec, flow review and decisions from D-100 that cite a tax or legal research entry also cite an SC-NN',
+  [...specFiles.flatMap(lines), ...lines('docs/10_flow_review.md'), ...logLinesFrom100]
+    .filter(({ text }) => taxLegal.test(text) && !/\bSC-\d{2}\b/.test(text))
+    .map(({ p, n, text }) => `${p}:${n} ${text.trim().slice(0, 70)}`));
+
+const conflictLines = read(rulesFile).split('## Conflicts awaiting a decision')[1]?.split('\n') ?? [];
+const conflictProblems = conflictLines.length ? [] : [`${rulesFile}: no "Conflicts awaiting a decision" section`];
+for (const text of conflictLines.filter((l) => /^\| \([a-z]\)/.test(l))) {
+  for (const m of text.matchAll(/\b((?:AC|EC|EV)-[A-Z]-\d{2})\b/g)) if (!defined.has(m[1])) conflictProblems.push(`${rulesFile} conflict ${text.slice(2, 5)} cites ${m[1]}, not in the spec`);
+  if (!/\| Decision for Renier \|$/.test(text) && !/\| Resolved: D-\d{3} \|$/.test(text)) conflictProblems.push(`${rulesFile} conflict ${text.slice(2, 5)} has no status`);
+}
+report('rules conflicts cite spec IDs that exist and carry a status', conflictProblems);
 
 // 7. Nothing is asked of Sherpas before delivery; open questions are assumptions (D-059, D-099).
 warn('no questions asked of Sherpas before delivery (D-099)', living.flatMap(lines).filter(({ p, text }) => p !== 'docs/02_open_questions.md' || !/D-059|D-099/.test(text))

@@ -27,6 +27,8 @@ Goal: no screen, figure or shared output changes without a requirement saying ho
    Prioritise by likelihood and impact; do not design for every theoretical case.
 6. **Resolve.** Each gap ends as: a new requirement in its feature (written after Renier's OK), "out" with its decision, an open question (D-020 check), or a decision for Renier with options and a recommendation (D-046: no recommendation if no option solves it). Small gaps are grouped into one yes/no.
 
+Before proposing an option, a resolution or a requirement that depends on a US tax or legal rule, check it against `docs/12_stock_comp_rules.md` and cite its SC-NN; a missing or WEAK rule goes to research or becomes an A-NN first (D-100).
+
 ## Output (fixed path)
 
 `docs/10_flow_review.md`: surfaces, touchpoints, impact map, data paths, walk-throughs, gaps table (ID `GAP-NN`, what, where, resolution, status). Pass 2 appends its own section. This file is the source of truth; the Miro board mirrors it and never leads. A spec change enters only through a decision Renier confirms; the prototype changes only after the spec.

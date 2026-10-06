@@ -9,7 +9,7 @@ Each type pays the employee in company stock in a different way, with its own da
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
-| A | RSU only | Simplest model and tax rule: value at vest is wages | Leaves out performance units, granted almost as often; executives hold them | R-001, R-016 (91% of responding companies grant performance awards, WEAK) |
+| A | RSU only | Simplest model and tax rule: value at vest is wages | Leaves out performance units, granted almost as often; executives hold them | R-001 (SC-01), R-016 (91% of responding companies grant performance awards, WEAK) |
 | B | RSU and PSU, plus an employer flag on any held position | One model covers both (a PSU is an RSU with a condition and a payout range); the flag makes concentration work for shares from ESPP or exercised options too | Future ESPP purchases and unexercised options stay out of the projection | R-002, R-011, R-016; V04 (advisors see more RSUs, fewer options); [FACT: data_model, positions already hold direct stocks] |
 | C | RSU, PSU, ESPP and options (NSO, ISO) | Widest coverage, including the tech segment where ESPP is common | Each needs its own logic: purchase periods and disposition rules (ESPP), strike price, exercise and AMT (options); higher risk of tax errors; options serve a different segment | R-003 to R-005, R-016 (ESPP about half of companies, options 41% and falling, WEAK); V14, V20, V28 |
 
@@ -17,13 +17,13 @@ Each type pays the employee in company stock in a different way, with its own da
 - **Chosen:** B · D-024
 
 ### F3-02 · Listed or private employer: how is stock without a market price handled?
-What changes the model is not company size but whether the stock has a market price and can be sold. At a private company, RSUs usually settle only after a liquidity event (double trigger), and the only value is a 409A valuation for tax, up to 12 months old and discounted for lack of marketability (R-011, R-017). With D-024, the private case in the MVP is double-trigger RSUs and private shares already held.
+What changes the model is not company size but whether the stock has a market price and can be sold. At a private company, RSUs usually settle only after a liquidity event (double trigger), and the only value is a 409A valuation for tax, up to 12 months old and discounted for lack of marketability (R-011, R-017; SC-08, SC-31). With D-024, the private case in the MVP is double-trigger RSUs and private shares already held.
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
 | A | Listed employers only | Everything has a price; simplest | Startup employees still have nowhere to enter their equity, the problem the brief describes | [brief]; R-011 |
 | B | Record and show private equity; keep it out of score figures until it has a price. Double-trigger RSUs show as "awaiting a liquidity event", with no invented dates. A known 409A value is shown with its date, for information only | The advisor sees it and can discuss it; follows the platform's own missing-data rule | Score figures (net worth, concentration) do not reflect it until it is priced | [brief] score article, missing data "is not treated as a zero"; R-011, R-017 |
-| C | Value it at the latest 409A with a stated discount and include it in the figures | A number and a concentration reading from day one | The number is a tax value, not a sale price, and may never be realised; it can inflate net worth and concentration; people value it very differently (zero, $1, 50% haircut) | R-017 (409A rule STRONG, typical discounts WEAK); V33 |
+| C | Value it at the latest 409A with a stated discount and include it in the figures | A number and a concentration reading from day one | The number is a tax value, not a sale price, and may never be realised; it can inflate net worth and concentration; people value it very differently (zero, $1, 50% haircut) | R-017 (SC-31; 409A rule STRONG, typical discounts WEAK); V33 |
 
 - **Recommendation:** B, because it applies the platform's own rule for figures it does not have instead of inventing a price (C) or leaving startup employees out (A). D-023: holds, households without private equity see nothing new.
 - **Chosen:** B · D-025
@@ -33,7 +33,7 @@ What changes the model is not company size but whether the stock has a market pr
 Platform checks carried from discovery: held shares fit the existing positions; every element has one owner; the model already holds future incomes with a start date. [FACT: data_model, questionnaire_map] Tax at vest from filing status and brackets is checked in block 4.
 
 ### F3-03 · Lifecycle states: what is a grant in each state?
-An RSU is first a promise that is lost if the employee leaves; at vest its value is wages and the shares arrive; kept shares are a position; sold shares are cash; unmet conditions forfeit it (R-001, R-002). The question is which dimension (asset, liability, income, expense) each state takes. Example used: 400 RSUs, 100 vest per year, price $150, 100 already vested and held.
+An RSU is first a promise that is lost if the employee leaves; at vest its value is wages and the shares arrive; kept shares are a position; sold shares are cash; unmet conditions forfeit it (R-001, R-002; SC-01, SC-04). The question is which dimension (asset, liability, income, expense) each state takes. Example used: 400 RSUs, 100 vest per year, price $150, 100 already vested and held.
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
@@ -45,7 +45,7 @@ An RSU is first a promise that is lost if the employee leaves; at vest its value
 - **Chosen:** B · D-026
 
 ### F3-04 · Vesting: how is the schedule stored?
-Real schedules come in several shapes: a one-year cliff then equal installments, equal installments, unequal tranches (10/20/35/35), and back-loaded ones (R-009, R-010). Assuming even tranches misstates each year's income, tax and concentration. [INFERENCE: from R-010]
+Real schedules come in several shapes: a one-year cliff then equal installments, equal installments, unequal tranches (10/20/35/35), and back-loaded ones (R-009, R-010; SC-06). Assuming even tranches misstates each year's income, tax and concentration. [INFERENCE: from R-010]
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
@@ -57,7 +57,7 @@ Real schedules come in several shapes: a one-year cliff then equal installments,
 - **Chosen:** B · D-027
 
 ### F3-05 · Deduplication: how is the same money not counted twice?
-RSU value at vest is reported as wages on the W-2 (R-001), so a client's gross income may already include it; vested shares may also already be in a brokerage account. Counting the grant on top of either double counts.
+RSU value at vest is reported as wages on the W-2 (R-001; SC-01), so a client's gross income may already include it; vested shares may also already be in a brokerage account. Counting the grant on top of either double counts.
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
@@ -71,7 +71,7 @@ RSU value at vest is reported as wages on the W-2 (R-001), so a client's gross i
 ### F3-05b · Model completeness: what each tranche keeps after vest
 Checked against `research.md` after F3-03: two researched facts were not yet in the model. At settlement part of the shares is usually withheld or sold to pay the tax (net settlement, sell-to-cover), so the employee keeps fewer shares than vest; and the cost basis of kept shares is their value included in income at vest.
 
-- **Decision:** each tranche records the shares kept after withholding and their cost basis (value at vest). Not optional variants, a completeness fix to F3-03. Evidence: R-002 (basis, INFERENCE from §83 and Pub 525), R-011 (net settlement), V39 (sell-to-cover).
+- **Decision:** each tranche records the shares kept after withholding and their cost basis (value at vest). Not optional variants, a completeness fix to F3-03. Evidence: R-024 (basis, SC-30), R-011 (net settlement), V39 (sell-to-cover).
 - **Chosen:** D-029
 
 ## Block 3 · Intake
@@ -116,7 +116,7 @@ The questionnaire does not ask who the employer is. [FACT: questionnaire_map] Wi
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
-| A | In Income, right after gross income, as a yes/no question that opens the block | RSU value is pay (R-001); same yes/no pattern as pension and annuity; the D-028 question sits next to the figure it affects | Evidence that clients look for it there is weak | R-001; [FACT: questionnaire_map]; A-08 |
+| A | In Income, right after gross income, as a yes/no question that opens the block | RSU value is pay (R-001; SC-01); same yes/no pattern as pension and annuity; the D-028 question sits next to the figure it affects | Evidence that clients look for it there is weak | R-001; [FACT: questionnaire_map]; A-08 |
 | B | A new section | More visible | Longer path for everyone (breaks D-023); separates the D-028 question from income | D-023 |
 | C | No questionnaire change; advisor only | No change for clients | The advisor does not learn of the grant unless the client mentions it | A-05 |
 
@@ -126,11 +126,11 @@ The questionnaire does not ask who the employer is. [FACT: questionnaire_map] Wi
 ## Block 4 · Analysis
 
 ### F3-09 · State withholding in the tax gap at vest
-The tax owed on a vest (federal, state, FICA) is computed by the platform's existing tax engine once vest income enters as that year's wages: it already holds state, filing status and brackets and shows federal, FICA and state tax lines. [FACT: data_model; INFERENCE that vest income can feed it like salary] The gap is tax owed minus tax already withheld. Federal withholding follows a rule (22%, 37% above $1 million; R-008); state withholding rules were not researched.
+The tax owed on a vest (federal, state, FICA) is computed by the platform's existing tax engine once vest income enters as that year's wages: it already holds state, filing status and brackets and shows federal, FICA and state tax lines. [FACT: data_model; INFERENCE that vest income can feed it like salary] The gap is tax owed minus tax already withheld. Federal withholding follows a rule (22%, 37% above $1 million; R-008; SC-14); state withholding rules were not researched.
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
-| A | Gap computed on federal only; state tax owed shown, no state withholding subtracted | No new field | The state gap is never shown | R-008; [FACT: data_model] |
+| A | Gap computed on federal only; state tax owed shown, no state withholding subtracted | No new field | The state gap is never shown | R-008, SC-17; [FACT: data_model] |
 | B | The advisor may enter the state withholding rate per grant; with it the gap is complete, without it the gap is federal only and says so | Uses everything the platform computes; invents no state rule; complete when the advisor has the figure | An optional advisor field and two display states | R-008; [brief] missing data "is not treated as a zero" |
 | C | Research and apply every state's supplemental withholding rule | Complete without advisor input | Fifty rules to research and maintain; not feasible before delivery | none yet |
 
@@ -177,7 +177,7 @@ Advisors are the users; the product reaches clients through them [brief]. The ad
 - **Recommendation:** B; in advisor mode the stock-pay block opens the full tranche editor. D-023: holds, the alert exists only when stock pay is reported. **Chosen:** B · D-036
 
 ### F3-A3 · When a vest date arrives, who turns the tranche into a held position?
-Time-based vesting happens without any action from the employee, if still employed (R-002). What follows does not: the employee may have left (forfeiture, R-002), a PSU waits for certification and a double-trigger RSU for the liquidity event (R-011), part of the shares is withheld for tax (R-011, V39), and many clients sell at vest (V35, V36).
+Time-based vesting happens without any action from the employee, if still employed (R-002). What follows does not: the employee may have left (forfeiture, R-002, SC-04), a PSU waits for certification and a double-trigger RSU for the liquidity event (R-011), part of the shares is withheld for tax (R-011, V39), and many clients sell at vest (V35, V36).
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
@@ -195,7 +195,7 @@ Time-based vesting happens without any action from the employee, if still employ
 |---|---|---|---|---|
 | A | Extend concentration only | Smallest change | Leaves out the main pain, tax at vest | A-04 |
 | B | Three analyses: employer exposure; tax at vest and the withholding gap (state per D-033); vest proceeds as dated cash for goals. The vest calendar shows as data, with no reminders | Each answers a validated assumption and uses data the MVP already collects | Three pieces to specify in F4 | A-09, R-014; A-04, R-008; A-10; A-03 |
-| C | B plus sell-or-hold scenarios and option AMT | More for expert advisors | Depends on options (out by D-024); closer to tax advice; higher error risk | R-003, R-004 |
+| C | B plus sell-or-hold scenarios and option AMT | More for expert advisors | Depends on options (out by D-024); closer to tax advice; higher error risk | R-003, R-004; SC-32, SC-33 |
 
 - **Recommendation:** B. D-023: holds, households without stock pay get no new analysis. **Chosen:** B · D-038
 
@@ -210,7 +210,7 @@ Time-based vesting happens without any action from the employee, if still employ
 - **Recommendation:** B. Private equity (D-025) and grants pending detail (D-035) do not score. The checks' horizons and thresholds are not public [brief]; the proposal uses theirs. **Chosen:** B · D-039
 
 ### F3-12 · How does employer exposure enter the concentration check?
-Concentration is the share of wealth that depends on one thing. With employer stock the risk is double: investments and job can fall together (R-014). No regulatory threshold exists; 10% of investment assets is the most cited rule of thumb, with FINRA's caveat that it "could be too high" (R-014). Today the Investing area checks "concentration in the largest position"; the demo reads "VTI about 45% of investable assets" in the score and "39% Financial Services" in the investment analysis with no financial-sector stock held, so whether the check measures by holding, by issuer or by sector with fund look-through is unknown; the work assumes by holding [ASSUMPTION: A-13]. [FACT: captures/client/02-score-breakdown, 03-investment-analysis, 03a-accounts-holdings] Measured by holding, employer stock split across two accounts hides as two smaller positions. Example: $1M invested, $150K of employer stock in each of two accounts, $400K unvested, salary from the same employer.
+Concentration is the share of wealth that depends on one thing. With employer stock the risk is double: investments and job can fall together (R-014; SC-29). No regulatory threshold exists; 10% of investment assets is the most cited rule of thumb, with FINRA's caveat that it "could be too high" (R-014). Today the Investing area checks "concentration in the largest position"; the demo reads "VTI about 45% of investable assets" in the score and "39% Financial Services" in the investment analysis with no financial-sector stock held, so whether the check measures by holding, by issuer or by sector with fund look-through is unknown; the work assumes by holding [ASSUMPTION: A-13]. [FACT: captures/client/02-score-breakdown, 03-investment-analysis, 03a-accounts-holdings] Measured by holding, employer stock split across two accounts hides as two smaller positions. Example: $1M invested, $150K of employer stock in each of two accounts, $400K unvested, salary from the same employer.
 
 | | Option | In the example | Gains | Costs | Evidence |
 |---|---|---|---|---|---|
@@ -239,14 +239,14 @@ Status: confirmed by Renier, 2026-10-05 (D-041).
 | Optional state withholding rate; gap labelled federal only when missing | MVP | Uses the platform's tax engine; no invented state rule | D-033 |
 | Employer exposure, tax at vest and withholding gap, vest proceeds as dated cash; inside existing checks; View more explains the change | MVP | Validated assumptions A-09, A-04, A-10; score structure unchanged | D-038, D-039, D-040 |
 | Vest conversion: the system proposes, the advisor confirms; year-by-year follow-up | Next | Vesting depends on employment, certification and the client's sale | D-037 |
-| ESPP future purchases | Next | About half of companies offer it, more in tech; own tax logic | D-024, R-005, R-016 |
+| ESPP future purchases | Next | About half of companies offer it, more in tech; own tax logic | D-024, R-005, R-016; SC-34 |
 | An employer-specific concentration threshold | Next, if the existing one does not fit | Depends on the first riskiest assumption below | D-040 |
-| Options (NSO, ISO) with exercise and AMT; sell-or-hold scenarios | Later | A falling minority and a different segment; heavy tax logic | D-024, D-038, R-016 |
-| RSA, SAR and phantom stock | Later | Restricted stock is granted by few companies and falling; SAR and phantom are often cash-settled, adding exposure without shares | R-006, R-016 |
+| Options (NSO, ISO) with exercise and AMT; sell-or-hold scenarios | Later | A falling minority and a different segment; heavy tax logic | D-024, D-038, R-016; SC-32, SC-33 |
+| RSA, SAR and phantom stock | Later | Restricted stock is granted by few companies and falling; SAR and phantom are often cash-settled, adding exposure without shares | R-006, R-016; SC-35 |
 | 409A value in the figures | Later | A tax value, not a sale price | D-025 |
 | State withholding rules applied automatically | Later | Fifty rules to research and maintain | D-033 |
 | Dividend equivalents; gain or loss on sale | Later | Matter for sale decisions, not for the MVP analyses | F3-05b |
-| ESOP as stock compensation | Never | It is a qualified retirement plan; it belongs with retirement accounts | R-007 |
+| ESOP as stock compensation | Never | It is a qualified retirement plan; it belongs with retirement accounts | R-007; SC-36 |
 | A separate score area for stock pay | Never | Changes every household's weights | D-039, D-023 |
 | Personalised tax, exercise or sale advice | Never | The analysis states facts and gaps; advice is the advisor's | A-04, D-038 |
 
@@ -282,7 +282,7 @@ The first release is what the pilot firms get. It should be the smallest scope i
 | C | **Everything at once**, as specified: F-A to F-F, releases 1 F-A, 2 F-B, 3 the rest | The complete picture, including vests inside the projection and every figure read from it (D-074) | 100%; three kinds of change land together (concentration, liquidity, projection figures), so a pilot result is harder to attribute; retirement figures cannot be checked within a pilot of weeks; release 2 gives the advisor a grant editor with no client trigger and no analysis on top | D-074; `07_success_criteria.md` pilot length |
 
 Two facts weigh on C's projection beyond effort:
-- A vest is wages (R-001). The projection would add each vest's after-tax amount as savings that compound until retirement (AC-D-10), while vests often fund near-term goals (A-10; V43, V44). Whether the platform's projection treats wages the same way is not known [INFERENCE: from AC-D-10 and the cash flow statement, where income reaches savings only as a share, FACT: platform_map 04c]. If it does not, retirement figures for these households would read high.
+- A vest is wages (R-001; SC-01). The projection would add each vest's after-tax amount as savings that compound until retirement (AC-D-10), while vests often fund near-term goals (A-10; V43, V44). Whether the platform's projection treats wages the same way is not known [INFERENCE: from AC-D-10 and the cash flow statement, where income reaches savings only as a share, FACT: platform_map 04c]. If it does not, retirement figures for these households would read high.
 - The retirement figures are the ones the client reads most and the slowest to verify.
 
 How the options are judged (D-082): first three gates, pass or fail; an option that fails one is out. Then five criteria, compared in words, not scored, because the evidence says which option is stronger on each but not by how much.

@@ -4,7 +4,7 @@ Decisions: D-023, D-028, D-030, D-031, D-035, D-036, D-056, D-057, D-076, D-077 
 
 ## Context
 
-The questionnaire asks for one gross annual income per person and nothing about stock pay [FACT: questionnaire_map]. Clients know totals, not schedules (A-05), and the value that vests is W-2 wages, so it may already be inside the income they report (R-001; V38 to V41). The Income screen adds every extra income type (pension, business, royalty and others) as a chip that opens a row with owner, amount and frequency, and the client can upload documents in a documents step [FACT: questionnaire_map, 2026-10-05].
+The questionnaire asks for one gross annual income per person and nothing about stock pay [FACT: questionnaire_map]. Clients know totals, not schedules (A-05), and the value that vests is W-2 wages, so it may already be inside the income they report (R-001; SC-01; V38 to V41). The Income screen adds every extra income type (pension, business, royalty and others) as a chip that opens a row with owner, amount and frequency, and the client can upload documents in a documents step [FACT: questionnaire_map, 2026-10-05].
 
 ## User story
 

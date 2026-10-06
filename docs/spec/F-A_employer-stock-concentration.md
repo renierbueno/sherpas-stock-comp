@@ -16,7 +16,7 @@ As an advisor, I want employer stock recognised as one position and linked to my
 |---|---|---|---|---|
 | AC-A-01 | Where the firm has enabled stock compensation, the system shall let the advisor flag a held position as employer stock, naming the employer and the person. | D-024, D-031 | e2e | (F6) |
 | AC-A-02 | When the advisor flags a position, the system shall ask whether it is the person's current employer (yes, no, unknown). | D-040 (pay link) | e2e | (F6) |
-| AC-A-03 | When the advisor flags a position, the system shall let the advisor enter its cost basis. | D-029 | e2e | (F6) |
+| AC-A-03 | When the advisor flags a position, the system shall let the advisor enter its cost basis. | D-029; SC-30 | e2e | (F6) |
 | AC-A-04 | The system shall compute employer exposure for each issuer as the market value of every held position flagged as employer stock of that issuer, summed across all accounts and all owners in the household. | D-040, D-024; R-014 | unit | (F6) |
 | AC-A-05 | The system shall leave positions of a private employer out of employer exposure. | D-025 | unit | (F6) |
 | AC-A-06 | The system shall leave unvested tranches out of employer exposure. | D-026, D-040 | unit | (F6) |
@@ -26,11 +26,11 @@ As an advisor, I want employer stock recognised as one position and linked to my
 | AC-A-10 | The system shall score the figure of AC-A-09 on the check's existing curve (`P-CONC`). | D-040, D-044; [brief] | unit | (F6) |
 | AC-A-11 | If no held position is flagged as employer stock, then the system shall compute the concentration check exactly as today. | D-023 | unit | (F6) |
 | AC-A-12 | While the household has employer exposure, View more shall show "Largest position: <name> <X>%." beside "Employer stock (<company>): <Y>% of investable assets, counted as one position across all accounts." | D-044, D-039; [FACT: captures/client/02-score-breakdown] | e2e | (F6) |
-| AC-A-13 | Where a flagged position is the current employer of its person, View more shall add "<Name>'s pay comes from the same company." | D-044; R-014 (double exposure) | e2e | (F6) |
+| AC-A-13 | Where a flagged position is the current employer of its person, View more shall add "<Name>'s pay comes from the same company." | D-044; R-014 (double exposure); SC-29 | e2e | (F6) |
 | AC-A-14 | When employer exposure is above zero, the Assets & Investments section shall add the bullet "<Company> stock held across <n> accounts: $<value>, <Y>% of investable assets.", or with one account "<Company> stock held in 1 account: $<value>, <Y>% of investable assets." | D-038, D-039, D-066 | e2e | (F6) |
 | AC-A-15 | When the concentration check reads employer exposure, the "We should look into" box shall add "<Y>% of investable assets is in <company> stock." | D-039, D-044 | e2e | (F6) |
 | AC-A-16 | Where the household has unvested tranches of a listed employer (F-B), the report shall add "If every scheduled grant vests, <company> stock would be <Z>% of investable assets, at the <analysis date> price, before shares withheld for tax." | D-040, D-045, D-050 | unit + e2e | (F6) |
-| AC-A-17 | Where those tranches include performance units, the line of AC-A-16 shall state the figure at target followed by its range: "<Z>% at target (range <Zmin>% to <Zmax>%)". | D-045; R-002, R-011 | unit + e2e | (F6) |
+| AC-A-17 | Where those tranches include performance units, the line of AC-A-16 shall state the figure at target followed by its range: "<Z>% at target (range <Zmin>% to <Zmax>%)". | D-045; R-002, R-011; SC-05 | unit + e2e | (F6) |
 | AC-A-18 | The system shall compute Z as (employer exposure + value of unvested tranches) / (investable assets + value of unvested tranches). | D-045 | unit | (F6) |
 | AC-A-19 | The system shall not show a threshold or target for employer stock. | D-040; [brief] "The exact figures and thresholds behind each check are not shown in the product." | e2e | (F6) |
 | AC-A-20 | The system shall offer the flag of AC-A-01 on each held position in Data & Assumptions and in the advisor-mode Investments block. | D-060 | e2e | (F6) |

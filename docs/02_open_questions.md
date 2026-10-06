@@ -41,7 +41,7 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 | A-37 | Non-qualified ESPP tax treatment is inferred, not sourced (R-005). | `research.md` | The treatment is sourced before non-qualified ESPP is modelled. |
 | A-38 | RSA, SAR and phantom stock are less common than RSU, options and ESPP for public-company employees of advisor clients (R-006). | `research.md` | Their placement as later (D-041) is reviewed. |
 | A-39 | ESOP coverage under ERISA comes from secondary sources and the IRS "shared jurisdiction" note (R-007). | `research.md` | Only matters if ESOP leaves the exclusion list; a DOL source is read first. |
-| A-40 | Employers use the 22% flat supplemental method for amounts below $1 million (R-008). | `research.md` | Withholding at vest differs per employer; the advisor-entered rate (D-033) covers it. |
+| A-40 | Employers withhold on each vest below $1 million with the optional flat 22% method; that method needs income tax withheld from regular wages in the current or preceding year and allows no other percentage, and the employer may aggregate with regular wages instead (R-008, R-022). | `research.md` | Withholding follows the aggregate method and the Form W-4, so it can be above or below 22%; the federal gap moves either way, and the label already says the withholding is estimated (AC-C-06). |
 | A-41 | Employee grants (non-executive, non-director) follow the same shapes as the filed executive and director examples (R-009). | `research.md` | Schedules stay free-form per tranche, so the model holds. |
 | A-42 | Back-loaded schedules at the largest tech employers appear in client portfolios, so tranche percentages are free-form (R-010). | `research.md` | Free-form tranches still hold; fixed presets would also work. |
 | A-43 | Double-trigger RSU holders among advisor clients are mainly pre-IPO private-company employees, so the liquidity condition is a pending event with no date (R-011). | `research.md` | The liquidity event may carry a date; AC-B rules on pending grants still apply. |
@@ -50,6 +50,16 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 | A-46 | 10% of investable assets is the reference flag level; the denominator is undecided across sources (R-014). The spec keeps it as `P-CONC`, reference only. | `research.md` | Only the SIMULATED value of `P-CONC` changes. |
 | A-47 | The equity award survey respondents are mostly public companies, so private-company practice (more options) is under-represented (R-016). | `research.md` | The placement of options and private-company grants is reviewed. |
 | A-48 | Clients or advisors can obtain the latest 409A value from the employer or the grant documents (R-017). | `research.md` | Private-company grants stay pending, with no value, until one is entered. |
+| A-49 | RSU shares kept take a cost basis equal to the income included at settlement, and their holding period starts at delivery; IRS text states it for restricted property, not RSU shares by name (R-024). | `research.md` | Only the Next cost basis default (AC-A-03, AC-B-14) changes; no first-release figure reads basis. |
+| A-50 | Dividend equivalents are wages when paid and small against vest value, so the first release leaves them out of the vest tax (R-025). | `research.md` | The year's tax owed and gap are too low for plans that pay them; a dividend equivalents field moves into the release (conflict (e) of `12_stock_comp_rules.md`). |
+| A-51 | The amount withheld by holding back or selling shares at vest equals the supplemental-rate amount (R-023). | `research.md` | The withholding estimate differs from what the plan withholds; the federal gap moves either way. |
+| A-52 | No law limits the number or value of RSUs an employee can receive; any cap is a plan term (R-026). | `research.md` | The grant form needs a validation cap, as the ISO and ESPP limits would. |
+| A-53 | FICA withheld at vest equals FICA owed, except with two employers above the Social Security wage base and for the Additional Medicare Tax by filing status (R-019, R-020). | `research.md` | The FICA line needs both figures, and FICA may belong in the gap (conflict (c) of `12_stock_comp_rules.md`). |
+| A-54 | Shares are delivered in the same tax year as the vest date, so the vest year is the income tax year (R-001, R-002). | `research.md` | Late-year tranches are income of the next tax year; the tax-year bucket of AC-C-01 moves (conflict (b) of `12_stock_comp_rules.md`). |
+| A-55 | The platform holds no other supplemental pay (bonuses) and no controlled-group data, so the $1 million test counts vest income only (R-022). | `research.md` | The 37% portion starts earlier; withholding is too low and the gap too high in the estimate (conflict (a) of `12_stock_comp_rules.md`). |
+| A-56 | Each person has one employer in the year, and the reported salary is that employer's wages for the year, so per-employer withholding tests read per person (R-019, R-020). | `research.md` | Social Security and Additional Medicare withholding differ per employer; the FICA figure needs wages per employer. |
+| A-57 | Tax figures for vests in later years use the 2026 federal rules, labelled "today's tax rules" (AC-C-04, R-021). | `research.md` | Later-year figures move once that year's tables are published; the label stays true. |
+| A-58 | The advisor can read the value at vest from the W-2 or the plan statement when entering a cost basis (R-024). | `research.md` | The cost basis of kept shares (Next) stays empty until a statement is uploaded. |
 
 ## For public research (answer with research)
 
@@ -57,7 +67,7 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 - How do advisors handle stock compensation today, in their own words? Real-voice sources to read in F2 discovery (R-012 to R-014 cover tools and guidance only).
 - Does MoneyGuide model equity compensation, and does eMoney support RSUs today? Not found (R-012).
 - Do Plaid, Yodlee or the stock-plan platforms (Carta, Shareworks, Fidelity, Schwab, E*Trade) pass unvested grants to aggregators? Not documented (R-013).
-- 2026 AMT exemption amounts (only tax year 2025 found, R-004); Pub 15-T conditions for the optional 22% flat rate (R-008); deadline for giving Forms 3921 and 3922 to employees (R-004, R-005).
+- 2026 AMT exemption amounts (only tax year 2025 found, R-004); deadline for giving Forms 3921 and 3922 to employees (R-004, R-005).
 - Primary sources for back-loaded schedules at large employers (Amazon, Alphabet) and for the 90-day post-termination window as common practice (R-010, R-011, R-003).
 - Tax reason for double-trigger RSUs (§83, §409A) from IRS text, and post-IPO lock-up of those shares (R-011).
 - How common RSA, SAR and phantom stock are among public-company employees (R-006).
@@ -65,7 +75,6 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 - Prevalence among advisors' client households, not companies: R-016 covers companies only.
 - Insider status: trading windows, planned selling programmes and hedging limits for employees who are insiders (V02, V26). Changes advice on when to sell, not the MVP model (D-031).
 - Vesting acceleration on leaving or on a sale of the company, and clawbacks: how common, and what they change in a schedule.
-- How is FICA (Social Security and Medicare) withheld at vest on supplemental wages, including above the Social Security wage base? `spec/F-C` shows FICA owed outside the gap until this is researched (AC-C-14).
 - State supplemental withholding rules at vest (D-033: the MVP uses an optional advisor-entered rate instead).
 - What large firms' compliance review requires of a report shared with the client.
 - URLs of the Reddit threads read in Spanish machine translation (cited by title in `discovery/voices.md`).
@@ -77,6 +86,8 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 - Could the completed questionnaire link be reset? Sherpas sent a new, unused link (2026-10-05). [brief, §4]
 - Which stock-compensation types exist, their lifecycle states, and what each state changes? RSU and PSU, NSO, ISO, ESPP, RSA, SAR and phantom stock, ESOP. [R-002 to R-007]
 - US federal tax treatment and timing for each type? [R-001 to R-006, R-008]
+- How is FICA (Social Security and Medicare) withheld at vest on supplemental wages, including above the Social Security wage base? In full at 6.2% up to $184,500 and 1.45% on all wages (2026), plus 0.9% withheld above $200,000 per employer; withheld can differ from owed with two employers or by filing status (conflict (c) of `12_stock_comp_rules.md`). [R-018 to R-020]
+- What are the conditions for the optional 22% flat rate? Income tax withheld from regular wages in the current or preceding calendar year and supplemental wages identified separately; no other percentage allowed; otherwise the aggregate method. [R-022]
 - Which vesting models exist? Time-based (cliff, even, unequal), back-loaded, performance, double trigger, with filing examples. [R-009 to R-011]
 - What minimum data does an advisor need per type? The "Data an advisor needs" line of each type entry, and the planning tools' field lists. [R-002 to R-007, R-012]
 - How should employer-stock concentration be judged when the same employer pays the salary? No rule; 10% of investment assets is the most cited rule of thumb, and FINRA names the double exposure. The threshold is a product decision. [R-014]

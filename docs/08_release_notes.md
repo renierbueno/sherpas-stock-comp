@@ -1,6 +1,6 @@
 # 08 · Release notes · Stock compensation (pilot)
 
-For advisors in firms that turn on "stock compensation". One note per release, in the order of `spec/00_index.md`. Written as they would ship; the product names and screens are those the client view shows [FACT: platform_map]; advisor screens were not seen (D-034). US tax figures: R-001, R-008; PSU range: R-002, R-011. 2026-10-05.
+For advisors in firms that turn on "stock compensation". One note per release, in the order of `spec/00_index.md`. Written as they would ship; the product names and screens are those the client view shows [FACT: platform_map]; advisor screens were not seen (D-034). US tax figures: R-001, R-008 (SC-01, SC-14, SC-17); PSU range: R-002, R-011 (SC-05). 2026-10-05.
 
 ## Release 1 · Employer stock counted as one position
 

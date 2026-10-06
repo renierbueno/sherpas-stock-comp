@@ -21,7 +21,7 @@ export function Evidence({ onBack }: { onBack: () => void }) {
         <ul className="bullets">
           <li><strong>Proves:</strong> the prototype does what each tested requirement says, on SIMULATED households, including the examples written in the spec (for example, employer stock split across two accounts reads 30%, not 20%).</li>
           <li><strong>Proves:</strong> the relations below hold. They are what the change must never break, whatever Sherpas' real curves are.</li>
-          <li><strong>Does not prove:</strong> that Sherpas' unpublished check curves, horizons and thresholds match the SIMULATED ones, or that the SIMULATED tax engine matches the platform's. Absolute scores and tax amounts here are illustrations.</li>
+          <li><strong>Does not prove:</strong> that Sherpas' unpublished check curves, horizons and thresholds match the SIMULATED ones, or that this tax engine matches the platform's (its 2026 federal brackets, standard deductions and Social Security and Medicare rates are real; the state rate is SIMULATED). Absolute scores and tax amounts here are illustrations.</li>
           <li><strong>Does not prove:</strong> that plan statements can be read automatically: extraction is SIMULATED (riskiest assumption 1).</li>
         </ul>
       </div>

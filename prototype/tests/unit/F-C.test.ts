@@ -1,6 +1,6 @@
 // F-C unit tests: tax at vest, withholding, gap, the Liquidity check, and the income rules of
-// F-E it depends on. Tax figures come from the SIMULATED engine (src/model/tax.ts): the tests
-// check how figures relate, not real tax amounts.
+// F-E it depends on. Tax figures come from src/model/tax.ts (real 2026 federal and FICA rules,
+// SIMULATED state rate and households): the tests check how figures relate, not a real household's tax.
 import { analyze } from '../../src/model/analysis';
 import { EventLog } from '../../src/model/events';
 import { saveGrant, setStateWithholding } from '../../src/model/grants';
