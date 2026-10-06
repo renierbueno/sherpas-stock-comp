@@ -60,6 +60,9 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 | A-56 | Each person has one employer in the year, and the reported salary is that employer's wages for the year, so per-employer withholding tests read per person (R-019, R-020). | `research.md` | Social Security and Additional Medicare withholding differ per employer; the FICA figure needs wages per employer. |
 | A-57 | Tax figures for vests in later years use the 2026 federal rules, labelled "today's tax rules" (AC-C-04, R-021). | `research.md` | Later-year figures move once that year's tables are published; the label stays true. |
 | A-58 | The advisor can read the value at vest from the W-2 or the plan statement when entering a cost basis (R-024). | `research.md` | The cost basis of kept shares (Next) stays empty until a statement is uploaded. |
+| A-59 | Plan statements show the delivery (release) date of each tranche when it differs from the vest date. | `spec/F-F` (D-101) | The delivery date stays the vest date unless the advisor edits it (AC-B-32). |
+| A-60 | The platform reads linked accounts again after the questionnaire, so delivered shares appear as positions. | To discuss in the follow-up session (D-099) | Delivered shares appear only when the advisor updates the accounts; concentration reads low until then. |
+| A-61 | For a PSU, Social Security and Medicare fall when the performance period ends, not at certification (R-001 states the rule for RSUs only). | `spec/F-C` EC-C-13 | Social Security and Medicare move to the certification year; only the year of that line changes. |
 
 ## For public research (answer with research)
 

@@ -17,7 +17,7 @@ How to read it: Signal is the weaker of the rule's sources (`research.md`). A Re
 | SC-08 | A double-trigger RSU of a private company settles only after both the service condition and a liquidity event, so before the event there is no income and no shares. | Private-company RSU | Grant saved without dates, out of the figures (AC-B-18) | R-011; A-43 | STRONG | All | 1 | - |
 | SC-09 | 2026 federal brackets for married filing jointly, on taxable income: 10% to $24,800, 12% to $100,800, 22% to $211,400, 24% to $403,550, 32% to $512,450, 35% to $768,700, 37% above. | Joint filers | Federal tax owed per vest (AC-C-03); federal gap (AC-C-10) | R-021 | STRONG | 2026 | 1 | joint_top_10=24800; joint_top_12=100800; joint_top_22=211400; joint_top_24=403550; joint_top_32=512450; joint_top_35=768700; joint_top_rate=0.37 |
 | SC-10 | 2026 federal brackets for single filers, on taxable income: 10% to $12,400, 12% to $50,400, 22% to $105,700, 24% to $201,775, 32% to $256,225, 35% to $640,600, 37% above; not half of the joint table at the top. | Single filers | Federal tax owed per vest (AC-C-03); federal gap (AC-C-10) | R-021 | STRONG | 2026 | 1 | single_top_10=12400; single_top_12=50400; single_top_22=105700; single_top_24=201775; single_top_32=256225; single_top_35=640600; single_top_rate=0.37 |
-| SC-11 | 2026 federal brackets for head of household: 10% to $17,700, 12% to $67,450, 22% to $105,700, 24% to $201,750, 32% to $256,200, 35% to $640,600, 37% above; standard deduction $24,150. | Head of household filers | Federal tax owed per vest (not modelled) | R-021 | STRONG | 2026 | Next | - |
+| SC-11 | 2026 federal brackets for head of household: 10% to $17,700, 12% to $67,450, 22% to $105,700, 24% to $201,750, 32% to $256,200, 35% to $640,600, 37% above; standard deduction $24,150. | Head of household filers | Federal tax owed per vest (platform engine; simulator from F6.5, D-104) | R-021 | STRONG | 2026 | 1 | - |
 | SC-12 | 2026 standard deduction: $32,200 married filing jointly, $16,100 single and married filing separately; brackets apply to taxable income after it. | Every household | Taxable income, federal tax owed (AC-C-03) | R-021 | STRONG | 2026 | 1 | joint_deduction=32200; single_deduction=16100 |
 | SC-13 | Rates, brackets and thresholds are set per tax year; a vest in a later year is computed with the 2026 rules and labelled "today's tax rules". | Every tax figure | Labels of AC-C-04; simulator tax year | R-018, R-021, R-022; A-57 | STRONG | 2026 | 1 | tax_year=2026 |
 | SC-14 | Federal withholding on supplemental wages is 22%, and 37% on the part of the year's supplemental wages above $1 million. | RSU and PSU vest as supplemental wages | Withholding estimate (AC-C-05, AC-C-06) | R-008, R-022 | STRONG | 2026 | 1 | supplemental_rate=0.22; supplemental_high_rate=0.37; supplemental_threshold=1000000 |
@@ -47,12 +47,12 @@ How to read it: Signal is the weaker of the rule's sources (`research.md`). A Re
 
 ## Conflicts awaiting a decision
 
-Five places where a primary source contradicts a spec line or the spec does not cover the rule. The spec lines are unchanged until Renier decides.
+Five places where a primary source contradicted a spec line or the spec did not cover the rule, each resolved by a decision (D-101 to D-105). A new conflict is added here as "Decision for Renier" and the spec line stays unchanged until it is resolved.
 
 | Conflict | Rule | Spec lines it touches | Status |
 |---|---|---|---|
-| (a) The $1 million threshold counts all supplemental wages paid by the employer and its controlled group, not only vests; the spec counts vest income from that employer only. | SC-15; A-55 | AC-C-05, EC-C-02 | Decision for Renier |
-| (b) The income tax year is the delivery year, not the vest year; the spec adds each tranche to the wages of the tranche's year. | SC-02, SC-03; A-54 | AC-C-01, AC-C-23, AC-C-26 | Decision for Renier |
-| (c) FICA withheld can differ from FICA owed (two employers above the wage base; Additional Medicare by filing status), while the spec shows FICA "not included in the gap". | SC-24, SC-25, SC-26; A-53 | AC-C-14, AC-C-29 | Decision for Renier |
-| (d) Head of household has its own brackets and deduction; the model has joint and single only. | SC-11 | AC-C-03 | Decision for Renier |
-| (e) Dividend equivalents are wages when paid; the spec does not mention them. | SC-27; A-50 | AC-C-01, AC-C-03 | Decision for Renier |
+| (a) The $1 million threshold counts all supplemental wages paid by the employer and its controlled group, not only vests; the spec counts vest income from that employer only. | SC-15; A-55 | AC-C-05, EC-C-02 | Resolved: D-102 |
+| (b) The income tax year is the delivery year, not the vest year; the spec adds each tranche to the wages of the tranche's year. | SC-02, SC-03; A-54 | AC-C-01, AC-C-23, AC-C-26, AC-C-30, AC-B-32, AC-F-16 | Resolved: D-101 |
+| (c) FICA withheld can differ from FICA owed (two employers above the wage base; Additional Medicare by filing status), while the spec shows FICA "not included in the gap". | SC-24, SC-25, SC-26; A-53 | AC-C-14, AC-C-29 | Resolved: D-103 |
+| (d) Head of household has its own brackets and deduction; the model has joint and single only. | SC-11 | AC-C-03 | Resolved: D-104 |
+| (e) Dividend equivalents are wages when paid; the spec does not mention them. | SC-27; A-50 | AC-C-01, AC-C-03, EC-B-13 | Resolved: D-105 |

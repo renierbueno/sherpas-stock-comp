@@ -35,6 +35,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | AC-B-12 | If a tranche's date is on or before the analysis date, then the system shall show "Vested on <date>: record the shares kept as a held position." | D-028, D-037 | e2e | (F6) |
 | AC-B-13 | When the advisor marks a tranche as forfeited, the system shall remove it from the grant's figures. | D-026; R-002; SC-04 | unit | (F6) |
 | AC-B-14 | The system shall let the advisor record, per tranche, the shares kept after withholding and their cost basis. | D-029; R-011; SC-18, SC-30 | e2e | (F6) |
+| AC-B-32 | The system shall record, per tranche, a delivery date, prefilled with the tranche's vest date and editable by the advisor, labelled "Shares delivered on". | D-101; SC-02, SC-03 | unit + e2e | (F6) |
 | AC-B-15 | Dropped: shares kept are not estimated; they are recorded when known (AC-B-14). | D-050 | | |
 
 ### PSU
@@ -89,11 +90,13 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | EC-B-10 | Private employer goes public | The advisor marks the employer listed and adds the ticker; the grant enters the figures on reprocessing | AC-B-04, AC-B-05 |
 | EC-B-11 | Client leaves the employer | The advisor marks the remaining tranches forfeited | AC-B-13 |
 | EC-B-12 | Saving a grant after a manual score adjustment | Warning before the save; the adjustment is replaced | AC-B-06 |
-| EC-B-13 | Dividend equivalents | Not modelled | out: D-041 (later) |
+| EC-B-13 | Known edge case. Dividend equivalents paid on unvested units | Not modelled: they are wages of the year paid, so that year's tax and gap read slightly low for employers that pay them | out: D-041, D-105 [ASSUMPTION: A-50]; SC-27 |
 | EC-B-14 | ESPP purchases, unexercised options, RSA, SAR, phantom stock | Not offered as grant types; shares already held can be flagged (F-A) | out: D-024, D-041 |
 | EC-B-15 | A tranche vests after the analysis date and the analysis is reopened months later | Shown as vested with the prompt; no automatic conversion | AC-B-11, AC-B-12; D-037 (conversion next) |
 | EC-B-16 | PSU certified at the end of its period | The advisor edits the tranche units and sets the range to 100% | AC-B-08, AC-B-17 |
 | EC-B-17 | Grant entered by the advisor for an existing household, nobody has answered the income question | Stays pending until the advisor answers it | AC-B-28, AC-B-29 |
+| EC-B-18 | Delivery date not known | The vest date is used for both taxes | AC-B-32 |
+| EC-B-19 | Delivered shares later appear in a linked or uploaded account | Counted once, as a held position: the tranche left the figures on its date, and the employer flag applies whatever the source [ASSUMPTION: A-60] | AC-B-11; D-092 |
 
 ## Instrumentation
 

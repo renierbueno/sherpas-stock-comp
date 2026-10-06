@@ -16,7 +16,7 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-C-01 | While a household has a complete grant of a listed employer, the system shall add the value of each future tranche at vest to the owner's wages of the tranche's year, for the tax of AC-C-03 and the projection of F-D only (AC-G-16). | D-026; R-001; SC-01, SC-02 | unit | (F6) |
+| AC-C-01 | While a household has a complete grant of a listed employer, the system shall add the value of each future tranche at vest to the owner's wages of the year of its delivery date (AC-B-32) for income tax, for the tax of AC-C-03 and the projection of F-D only (AC-G-16). | D-026, D-101; R-001; SC-01, SC-02 | unit | (F6) |
 | AC-C-02 | The system shall value a tranche at vest at today's market price; a performance unit tranche at target. | D-045 | unit | (F6) |
 | AC-C-03 | The system shall compute the tax owed on each vest as the household's tax with the vest income minus its tax without it, with the platform's tax engine, by level (federal, FICA, state). | D-033; [FACT: data_model, tax lines]; [INFERENCE: the engine can take vest income like salary]; SC-01, SC-09, SC-10, SC-12, SC-20, SC-21 | unit | (F6) |
 | AC-C-04 | The system shall label every tax figure on a future vest "at the <analysis date> price and today's tax rules". | D-045; R-008 (rates by tax year); SC-13 | e2e | (F6) |
@@ -35,6 +35,7 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 | AC-C-12 | If no state withholding rate is entered, then the system shall show "Estimated state tax on this vest: $<X>. Your state withholding was not provided, so the gap shown is federal only." | D-033 (label as decided) | e2e | (F6) |
 | AC-C-13 | If no state withholding rate is entered, then the system shall show the advisor "State withholding not entered for <grant>." in Data & Assumptions. | D-033 | e2e | (F6) |
 | AC-C-14 | The system shall show FICA owed on each vest with "Social Security and Medicare tax on this vest: $<X>, not included in the gap." | R-001 (RSUs are wages for FICA), R-018, R-019, R-020; SC-03, SC-20, SC-21, SC-22, SC-23; withheld against owed is conflict (c) of `12_stock_comp_rules.md`; D-051 | e2e | (F6) |
+| AC-C-30 | The system shall compute Social Security and Medicare tax on a tranche in the year of its vest date, and income tax in the year of its delivery date. | D-101; SC-02, SC-03 | unit | (F6) |
 | AC-C-15 | If a gap is zero or below, then the system shall show it as "Withholding covers the estimated tax on this vest." and count nothing. | D-033 | unit + e2e | (F6) |
 | AC-C-16 | Where a vest includes performance units, the system shall show its tax owed and gap at target followed by their range. | D-045; SC-05 | unit + e2e | (F6) |
 
@@ -48,10 +49,10 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 | AC-C-20 | When the check counts a vest gap, View more shall show "Tax due on upcoming vests counted in near-term commitments: $<X>." | D-039 | e2e | (F6) |
 | AC-C-21 | Where the gap counted is federal only, the line of AC-C-20 shall end with "(federal only; state withholding not entered)". | D-033 | e2e | (F6) |
 | AC-C-22 | Where any performance units are counted, View more shall add "Performance units counted at target." | D-045 | e2e | (F6) |
-| AC-C-23 | While a household has future vests, the Savings & Expenses section shall add, per year, the bullet "<Year> vests: $<value> of income, estimated tax $<owed>, gap after withholding $<gap>." | D-038 | e2e | (F6) |
+| AC-C-23 | While a household has future vests, the Savings & Expenses section shall add, per year of delivery, the bullet "<Year> vests: $<value> of income, estimated tax $<owed>, gap after withholding $<gap>." | D-038 | e2e | (F6) |
 | AC-C-24 | When a positive gap falls within the check's horizon, the "We should look into" box shall add "Tax on the <month year> vest may exceed withholding by $<gap>." | D-039 | e2e | (F6) |
 | AC-C-25 | If the household has no complete grant of a listed employer, then the system shall compute tax lines, the Liquidity check and the report exactly as today. | D-023 | unit | (F6) |
-| AC-C-26 | While a household has future vests this year, the cash flow statement shall show below its total, under the stock compensation income category, "Stock compensation (vests this year), not in the totals above: $<value>, estimated tax $<owed>." | D-054, D-058 | e2e | (F6) |
+| AC-C-26 | While a household has future tranches delivered this year, the cash flow statement shall show below its total, under the stock compensation income category, "Stock compensation (vests this year), not in the totals above: $<value>, estimated tax $<owed>." | D-054, D-058 | e2e | (F6) |
 | AC-C-27 | While a household has future vests, View more shall show "Savings rate and debt ratios read reported income; vests are shown separately." | D-054 | e2e | (F6) |
 | AC-C-29 | The system shall show the per-vest figures of AC-C-03, AC-C-10 to AC-C-12, AC-C-14 to AC-C-16 in a collapsible "Tax on each vest" in Savings & Expenses, after the bullets of AC-C-23, one group per vest, as "Estimated tax on this vest: $<total> (federal $<a>, Social Security and Medicare $<b>, state $<c>), at the <analysis date> price and today's tax rules." and "Estimated gap after withholding: $<gap>, at the <analysis date> price and today's tax rules."; performance unit figures add "at target (range $<min> to $<max>)". | D-069 | e2e | (F6) |
 | AC-C-28 | The system shall offer the line of AC-C-24 as a candidate for the Summary recommendations, chosen by the platform's existing logic and phrased as a fact (AC-G-06). | D-039, D-060 | e2e | (F6) |
@@ -71,6 +72,12 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 | EC-C-09 | Private employer | No tax lines until it has dates and a price | AC-G-05; F-B (AC-B-19) |
 | EC-C-10 | Two grants from different employers in the same year | The $1 million rule applies per person and employer | AC-C-05 (per employer); SC-15
 | EC-C-11 | Saving a state rate after a manual score adjustment | Warning; the adjustment is replaced | F-B (AC-B-06) |
+| EC-C-12 | RSU vests on 15 December, shares delivered on 5 January | Income tax in the next year; Social Security and Medicare in the vest year | AC-C-01, AC-C-30; SC-02, SC-03 |
+| EC-C-13 | PSU performance period ends 31 December, certified and delivered in March | Income tax in the year of delivery; Social Security and Medicare in the year of the vest date [ASSUMPTION: A-61] | AC-C-30; SC-02, SC-03 |
+| EC-C-14 | A tranche delivered earlier this year, under-withheld; the difference is still to pay at filing | Not counted: delivered tranches leave the figures on their date (AC-B-11) | open: option B flow review |
+| EC-C-15 | Vests below $1 million from one employer, but vests plus bonuses from that employer above it | Withholding estimated at 22% on all vests, so the gap may read high; the advisor can edit the line before sharing | AC-C-05, AC-G-07; D-102 [ASSUMPTION: A-55]; SC-15 |
+| EC-C-16 | Known edge case. Married couple, each below $200,000 of wages with their own employer, above $250,000 combined | No Additional Medicare is withheld but 0.9% of the combined excess is owed at filing (SIMULATED: two wages of $199,000, about $1,330); not in the gap, which reads low by that amount | AC-C-14; D-103 [ASSUMPTION: A-53]; SC-23, SC-24 |
+| EC-C-17 | Known edge case. Social Security over-withheld (two employers above the wage base) or Additional Medicare withheld but not owed | A refund at filing; not shown, and nothing is counted | AC-C-14; D-103; SC-24, SC-25 |
 
 ## Instrumentation
 

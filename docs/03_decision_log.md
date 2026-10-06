@@ -501,3 +501,28 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: `12_stock_comp_rules.md` holds every US tax or legal rule the model applies, one row each (`SC-NN`): the rule, what it applies to, the model figure it changes, its research source and any assumption, signal, tax year, release and the numbers the code uses. Every decision, flow-review gap, spec line and simulator constant that depends on such a rule cites its `SC-NN`. `npm run check` fails when a row cites research that does not exist, has no signal, or is release 1 and WEAK without an assumption; when an `SC-NN` cited anywhere has no row; when a spec, flow-review or decision line from D-100 cites a tax or legal research entry without an `SC-NN`; and when a conflict cites a spec ID that does not exist. `tests/unit/rules.test.ts` checks that the simulator's constants equal the table's values. The decide, flow-review, spec, prototype and check skills each carry one line that applies the table. Five conflicts are left for Renier, listed in the table with the spec lines they touch: the $1 million threshold counts all supplemental pay and the controlled group; the income tax year is the delivery year; FICA withheld can differ from FICA owed; head of household is missing; dividend equivalents are not in the spec.
 - Why: a review on 2026-10-06 found the simulator used invented brackets and a wrong Social Security wage base, and five spec lines that primary sources contradict or do not cover. A checked table stops a rule without a source from reaching a figure the client reads.
 - Date: 2026-10-06 · Confirmed by: Renier
+
+## D-101 · Each tranche carries a delivery date beside its vest date (conflict (b) of the rules table)
+- What: every tranche has a delivery date, prefilled with its vest date and editable by the advisor; the extraction proposes it when the plan statement shows it. Income tax, the per-year bullets, the "delivered this year" line and the Liquidity check read the delivery year; Social Security and Medicare read the vest year (AC-B-32, AC-C-01, AC-C-30, AC-F-16). No extra review step: the advisor confirms it with the rest of the grant (D-090). Edge cases EC-B-18, EC-B-19, EC-C-12 to EC-C-14; EC-C-14 (tax still due on a tranche delivered earlier this year) goes to the option B flow review.
+- Why: income tax falls in the year the shares are delivered (SC-02) and FICA when they can no longer be forfeited (SC-03); for most PSUs and for late-year RSUs the two years differ, and a single vest date put the income and its tax in the wrong year. A prefilled field costs nothing when the dates match.
+- Date: 2026-10-06 · Confirmed by: Renier
+
+## D-102 · The $1 million withholding threshold counts vests only (conflict (a) of the rules table)
+- What: the estimated federal withholding applies 37% above $1 million of vest income per person and employer in the year (AC-C-05 unchanged); bonuses and other supplemental pay are not asked for. The rule's wider scope (all supplemental wages and the controlled group, SC-15) stays as assumption A-55, with edge case EC-C-15.
+- Why: the platform stores income as one gross figure with no bonus line [FACT: questionnaire_map]; the case only arises above $1 million of supplemental pay from one employer; and leaving bonuses out errs on the prudent side: withholding reads low and the gap high, never the reverse.
+- Date: 2026-10-06 · Confirmed by: Renier
+
+## D-103 · Social Security and Medicare stay outside the gap; the differences are known edge cases (conflict (c) of the rules table)
+- What: AC-C-14 is unchanged: FICA owed on each vest is shown, "not included in the gap". Where FICA withheld differs from FICA owed (Additional Medicare by filing status, SC-24; two employers above the wage base, SC-25), the model does not adjust the gap; the cases are recorded as known edge cases EC-C-16 and EC-C-17, and A-53 stays the assumption.
+- Why: the only case that creates a payment is a couple with two wages each below $200,000 and above $250,000 combined, and it adds at most about $2,000 to a gap that is typically several times larger (EC-C-01), so it rarely moves the Liquidity check; refunds create no payment.
+- Date: 2026-10-06 · Confirmed by: Renier
+
+## D-104 · Head of household is added to the simulator; the spec stays on the platform's tax engine (conflict (d) of the rules table)
+- What: the spec is unchanged: tax on each vest is computed by the platform's tax engine with the household's filing status (AC-C-03). The prototype simulator adds the 2026 head of household brackets and standard deduction (SC-11) in step F6.5, each constant tagged and checked by the rules test.
+- Why: the platform already stores the filing status [INFERENCE: from captures/client/07-api, `data_model.md`], so only the simulator lacked the status; official 2026 figures exist, and treating these households as single would overstate their tax and gap.
+- Date: 2026-10-06 · Confirmed by: Renier
+
+## D-105 · Dividend equivalents stay out of the first release as a known edge case (conflict (e) of the rules table)
+- What: dividend equivalents on unvested units are not modelled (EC-B-13, D-041); the rule that they are wages when paid (SC-27) stays WEAK with assumption A-50.
+- Why: no IRS text states the rule for RSU dividend equivalents (R-025, SC-27), the amount is small against vest value, and the platform has no dividend data for the employer to compute it.
+- Date: 2026-10-06 · Confirmed by: Renier
