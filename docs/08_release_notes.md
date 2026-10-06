@@ -35,7 +35,7 @@ One release (D-080): the client reports stock pay, you complete it from the plan
 - The Liquidity check counts the gap of upcoming vests as a near-term commitment. View more says so.
 
 **Dated cash for goals**
-- Retirement & Goals lists the vests after estimated tax (and before tax), at the price on the analysis date, and which of them arrive before each goal. They are not counted as liquid before they arrive. The projection and the retirement figures do not include vests yet.
+- Retirement & Goals lists the vests after estimated tax (and before tax), at the price on the analysis date, and which of them arrive before each goal. They are not counted as liquid before they arrive. The projection and every figure read from it (net worth at retirement, end of plan, the retirement shortfall and the saving needed) include each vest as wage income on its delivery date, labelled "includes future vests after estimated tax".
 
 **Client questionnaire**
 - Income has a new "Stock compensation" chip, with a helper line under employment income. The row works like every other income row: the employer, the owner, and an optional approximate amount per year. You complete the rest: ticker, type, vest dates, and whether the employment income already includes this year's vests.
@@ -58,5 +58,4 @@ One release (D-080): the client reports stock pay, you complete it from the plan
 
 ## Next
 
-- Vests in the projection: every figure read from it (net worth at retirement, end of plan, the retirement shortfall and the saving needed) will include them after estimated tax, labelled "includes future vests after estimated tax".
 - A 409A value for private-company grants, for information; cost basis on employer stock; shares kept at each vest.

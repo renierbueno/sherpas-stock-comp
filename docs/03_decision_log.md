@@ -526,3 +526,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: dividend equivalents on unvested units are not modelled (EC-B-13, D-041); the rule that they are wages when paid (SC-27) stays WEAK with assumption A-50.
 - Why: no IRS text states the rule for RSU dividend equivalents (R-025, SC-27), the amount is small against vest value, and the platform has no dividend data for the employer to compute it.
 - Date: 2026-10-06 · Confirmed by: Renier
+
+## D-106 · Vests enter the projection in the first release, as wage income on their delivery date (amends D-080)
+- What: the projection with vests and every figure read from it (AC-D-01, AC-D-03, AC-D-04, AC-D-10, AC-D-11) join the first release (release 2). Each tranche enters the projection as a one-time wage income of the stock compensation income category, at its value at vest, on its delivery date (AC-B-32), and the projection treats it as it treats wages; it is not projected as cash savings. Current-year checks still read reported income only (AC-G-16). D-074 applies from the first release. If the projection cannot read such an income (A-62), the projection part waits for Next and the rest ships.
+- Why: without vests the retirement figures sit beside vest lines that they leave out, which reads as a contradiction to the client. A vest is wages of the delivery year (SC-01, SC-02), so entering it as wages follows the rule and lets the platform apply its own tax, spending and saving logic; projecting it as savings was a modelling choice with no rule behind it that could make retirement figures read high (vests often fund near-term goals, A-10).
+- Date: 2026-10-06 · Confirmed by: Renier

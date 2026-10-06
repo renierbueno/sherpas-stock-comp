@@ -272,9 +272,9 @@ Header
 Retirement & Goals
 - Retirement & Goals > Numbered goals > no change. [TP-SF02-01]
 - Retirement & Goals > "Current net worth" > no change: unvested shares are not wealth. [TP-SF02-02 · AC-B-22]
-- Retirement & Goals > "Net worth at retirement", "End of plan" > no change in the first release; from Next they include future vests after tax, with a label (D-074). [TP-SF02-03 · AC-D-11, D-080 · Next]
-- Retirement & Goals > Projected net worth chart > no change in the first release; from Next, a marker for each year with vests, a band for performance units, and the line includes vests after tax. [TP-SF02-04 · AC-D-01, AC-D-03, AC-D-04, D-080 · Next]
-- Retirement & Goals > Written paragraphs (shortfall, share of retirement income covered, age when assets run out, extra saving needed) > no change in the first release; from Next they read a projection that includes vests. [TP-SF02-05 · AC-D-11, AC-G-17, D-080 · Next]
+- Retirement & Goals > "Net worth at retirement", "End of plan" > changed: they include future vests, entered as wage income, with a label (D-074, D-106). [TP-SF02-03 · AC-D-11, D-106 · A]
+- Retirement & Goals > Projected net worth chart > changed: a marker for each year with vests, a band for performance units, and the line includes each vest as wage income on its delivery date. [TP-SF02-04 · AC-D-01, AC-D-03, AC-D-04, D-106 · A]
+- Retirement & Goals > Written paragraphs (shortfall, share of retirement income covered, age when assets run out, extra saving needed) > changed: they read a projection that includes vests. [TP-SF02-05 · AC-D-11, AC-G-17, D-106 · A]
 - Retirement & Goals > New bullets "<Company> vests: $X after estimated tax..." and "Vests before <goal>..." > new. [TP-SF02-06 · AC-D-06 to AC-D-08 · A]
 - Retirement & Goals > "We should look into" > no change. [TP-SF02-07]
 

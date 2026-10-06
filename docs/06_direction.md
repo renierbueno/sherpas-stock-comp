@@ -305,6 +305,7 @@ Rule: impact decides between options that pass the gates, because the brief asks
 
 - **Recommendation:** B, because it is the smallest scope that keeps the whole chain (the client reports it, the advisor completes it with one review, vest income is counted once, concentration and tax at vest reach the score and the shared report). It beats A because A drops tax at vest, the strongest validated pain on both sides. It beats C because it delivers the same validated pains with about a fifth less work and leaves the figures with the widest reach and the weakest evidence for after the pilot. D-023: holds in all three; households without stock pay see nothing new.
 - **Chosen:** B · D-080, with four refinements: present it as a first use of tax planning inside the existing analysis, not a separate module; release F-A first, then the rest together; test extraction on plan statements before the pilot; validate demand before building (test cards and advisor interviews).
+- **Amended (D-106):** the projection with vests joins the first release. Each vest enters the projection as a one-time wage income on its delivery date, not as savings, which removes the risk of the first fact above: the platform treats it as it treats wages. If the projection cannot read such an income (A-62), the projection part waits for Next and the rest ships.
 - **What would change the choice:**
   - A becomes right if extraction fails on plan statements (test card 1) and the advisor interviews say grants will not be typed: tax at vest would then reach few clients, and A delivers concentration at about half the cost of B.
   - C becomes right if the pilot shows advisors adding vests to the retirement figures by hand (edits to Retirement & Goals, M-05) and the platform projects wages as savings the same way it would project vests.
@@ -322,7 +323,7 @@ Replaces the "MVP" column of the F3 cut for the items below; every other row sta
 | Plan statement extraction, confirmed by the advisor | First release (release 2) | Completes the grant with one review; riskiest assumption 1 | D-042, D-080 |
 | Tax at vest and the withholding gap; Liquidity check | First release (release 2) | A-04, the strongest validated pain | D-038, D-080 |
 | Vests as dated cash beside goals, as text lines | First release (release 2) | A-10 as advisors and clients use it | D-080 |
-| Vests inside the projection and every figure read from it | Next | Widest client-facing change on the weakest evidence; slowest to verify | D-074, D-080 |
+| Vests inside the projection and every figure read from it | First release (release 2) | The retirement figures are whole only with vests; each vest enters as wage income of its delivery year (SC-01), so the platform's own rules for wages apply and nothing is assumed saved [ASSUMPTION: A-62] | D-074, D-080, D-106 |
 | 409A display, cost basis on a flagged position, shares kept per tranche | Next | No figure of the first release reads them | D-080 |
 | Vest conversion proposed by the system | Next (unchanged) | | D-037 |
 

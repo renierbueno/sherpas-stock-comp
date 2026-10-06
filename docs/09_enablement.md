@@ -39,7 +39,7 @@ What the analysis does not do: tell the client to sell, hold or exercise, or giv
 - **Why didn't it move?** The grant is pending detail, belongs to a private company, or has not been confirmed from a statement.
 - **The client has options or ESPP.** Not modelled yet; mark any shares already held as employer stock.
 - **A tranche vested.** Record the shares kept as a position; the grant counts future tranches only. Until you do, those shares are not counted anywhere in the analysis.
-- **Do the retirement figures include vests?** Not yet: the projection and the retirement figures stay as today. Retirement & Goals lists the vests after estimated tax and which ones arrive before each goal. Unvested shares are lost if your client leaves the company.
+- **Do the retirement figures include vests?** Yes: each vest enters the projection as wage income on its delivery date, treated like salary, and the figures say "includes future vests after estimated tax". Retirement & Goals also lists the vests after estimated tax and which ones arrive before each goal. Unvested shares are lost if your client leaves the company.
 - **An existing client has stock pay.** Add it in Data & Assumptions; nothing changes for them until you do.
 
 ## For Client Success · pilot playbook

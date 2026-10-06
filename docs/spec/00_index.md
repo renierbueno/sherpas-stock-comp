@@ -62,13 +62,13 @@ After the MVP (D-052): asking existing clients the stock-pay question without th
 | [F-A](F-A_employer-stock-concentration.md) | Concentration sees employer stock as one position, and View more shows the double exposure | D-024, D-040, D-044, D-045 | none | 1 |
 | [F-B](F-B_record-grant-and-vests.md) | The advisor records an RSU or PSU grant and sees its future vests | D-024 to D-027, D-029, D-025, D-036, D-037, D-045, D-058 | none (F-A for the context lines) | 2 |
 | [F-C](F-C_tax-at-vest.md) | Tax at each vest and the withholding gap; Liquidity counts it | D-033, D-038, D-039 | F-B | 2 |
-| [F-D](F-D_vest-proceeds-dated-cash.md) | Vest proceeds as dated cash beside the goals | D-038, D-039, D-045 | F-B | 2 (text lines; projection Next) |
+| [F-D](F-D_vest-proceeds-dated-cash.md) | Vest proceeds as dated cash beside the goals | D-038, D-039, D-045 | F-B | 2 (with the projection, D-106) |
 | [F-E](F-E_client-reports-stock-pay.md) | The client reports stock pay in Income with a chip; the grant stays pending and the opportunity shows an alert | D-028, D-030, D-031, D-035, D-036, D-056, D-057 | F-B | 2 |
 | [F-F](F-F_upload-plan-statement.md) | The advisor or the client uploads a plan statement; the advisor confirms the extracted tranches | D-042, D-057 | F-B | 2 |
 
 ## First release and Next (D-080)
 
-Release 1 is F-A; release 2 is F-B, F-C, F-E, F-F and the text lines of F-D, together. These requirements are for the release after (Next); they stay specified and the prototype keeps them, labelled: AC-A-03, AC-B-14, AC-B-20, AC-B-21, AC-D-01, AC-D-03, AC-D-04, AC-D-10, AC-D-11. AC-C-01 feeds the projection only from Next; AC-E-11 uses "from the next year" only with the projection.
+Release 1 is F-A; release 2 is F-B, F-C, F-D (with the projection, D-106), F-E and F-F, together. These requirements are for the release after (Next); they stay specified and the prototype keeps them, labelled: AC-A-03, AC-B-14, AC-B-20, AC-B-21.
 
 ## Shared data
 
