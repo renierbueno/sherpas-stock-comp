@@ -1,6 +1,6 @@
 # F-A · Employer stock counted in concentration
 
-Decisions: D-024, D-038, D-039, D-040, D-044, D-045 · Depends on: none · Release: first, behind the firm setting (D-030, D-043)
+Decisions: D-024, D-038, D-039, D-040, D-044, D-045, D-080 · Depends on: none · Release: first release (release 1, on its own), behind the firm setting (D-030, D-043, D-080)
 
 ## Context
 
@@ -16,7 +16,7 @@ As an advisor, I want employer stock recognised as one position and linked to my
 |---|---|---|---|---|
 | AC-A-01 | Where the firm has enabled stock compensation, the system shall let the advisor flag a held position as employer stock, naming the employer and the person. | D-024, D-031 | e2e | (F6) |
 | AC-A-02 | When the advisor flags a position, the system shall ask whether it is the person's current employer (yes, no, unknown). | D-040 (pay link) | e2e | (F6) |
-| AC-A-03 | When the advisor flags a position, the system shall let the advisor enter its cost basis. | D-029; SC-30 | e2e | (F6) |
+| AC-A-03 | When the advisor flags a position, the system shall let the advisor enter its cost basis. | Next (D-080); D-029; SC-30 | e2e | (F6) |
 | AC-A-04 | The system shall compute employer exposure for each issuer as the market value of every held position flagged as employer stock of that issuer, summed across all accounts and all owners in the household. | D-040, D-024; R-014 | unit | (F6) |
 | AC-A-05 | The system shall leave positions of a private employer out of employer exposure. | D-025 | unit | (F6) |
 | AC-A-06 | The system shall leave unvested tranches out of employer exposure. | D-026, D-040 | unit | (F6) |

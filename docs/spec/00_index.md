@@ -33,16 +33,18 @@ The prototype pull request (F6) is a reference implementation that shows the spe
 | AC-G-06 | The system shall phrase every new report line as a fact about the household, without a sell, hold, exercise or tax instruction. | D-041 (personalised advice: never); A-04 | manual (wording review) | (F6) |
 | AC-G-07 | The system shall let the advisor edit or delete every new report line before sharing, as for other generated lines. | [web: https://sherpaswealth.com/financial-health, advisors edit generated observations] | e2e | (F6) |
 | AC-G-10 | The system shall show every new client-facing line with the same text in the live client view and in the shared PDF, including the advisor's edits and, for performance units, the range beside the number. | D-045, D-060 | e2e | (F6) |
-| AC-G-11 | The system shall show the advisor notices of AC-A-08, AC-B-10, AC-B-12, AC-B-30, AC-C-13, AC-E-13, AC-E-16, AC-E-17, AC-F-08, AC-F-12 and AC-F-17, the client's estimates (AC-E-14) and proposed grants only in advisor mode and Data & Assumptions, never in the client view or the shared PDF. | D-060; [FACT: platform_map, the client sees the analysis live] | e2e | (F6) |
+| AC-G-11 | The system shall show the advisor notices of AC-A-08, AC-B-10, AC-B-12, AC-B-30, AC-C-13, AC-E-16, AC-E-17, AC-F-08, AC-F-12, AC-F-17 and AC-G-19, the client's estimates (AC-E-14) and proposed grants only in advisor mode and Data & Assumptions, never in the client view or the shared PDF. | D-060; [FACT: platform_map, the client sees the analysis live] | e2e | (F6) |
 | AC-G-12 | When the advisor saves any stock-pay change (a flag, a grant, a tranche, a state withholding rate, the income question, a confirmed extraction), the system shall reprocess the analysis and, if it has a manual score adjustment, first show the warning of AC-B-06. | [brief]; D-049, D-060 | e2e | (F6) |
-| AC-G-13 | When a firm turns the setting off, the system shall keep its stock-pay data, hide it and leave it out of every figure from the next reprocessing, leaving analyses already generated and PDFs already shared unchanged; turning the setting on again shall restore it. | D-030, D-060 | unit + e2e | (F6) |
+| AC-G-13 | When Sherpas turns the setting off for a firm, the system shall keep its stock-pay data, hide it and leave it out of every figure from the next reprocessing, leaving analyses already generated and PDFs already shared unchanged; turning the setting on again shall restore it. | D-030, D-060, D-111 | unit + e2e | (F6) |
 | AC-G-14 | The system shall add no new score limit; existing limits read the checks as today. | D-039, D-060 | unit | (F6) |
 | AC-G-15 | The system shall label every value of a future vest with the price date: "at the <analysis date> price". | D-045, D-060 | e2e | (F6) |
 | AC-G-16 | The system shall compute the savings rate, fixed commitments, debt-to-income, housing ratio, life cover need, Social Security estimate, contributions, the Summary income card and the cash flow statement totals from reported income as today, never adding vest income, including the income the projection reads (AC-D-01). | D-054, D-107 [ASSUMPTION: A-62] | unit | (F6) |
-| AC-G-17 | The paragraphs the platform writes for each section and the score explanation shall use the stock-pay facts of the new lines (AC-A-14 to AC-A-16, AC-C-23, AC-C-24, AC-D-06, AC-D-07, AC-D-11, AC-E-10) the way they use other holdings and figures today, never contradicting those lines, carrying the AC-D-11 label when they quote a projection figure, and phrased as AC-G-06 requires. | D-075, D-110 | manual (wording review) | (F6) |
+| AC-G-17 | The paragraphs the platform writes for each section of Financial health, for the Investment analysis tab (limited there to the employer stock line of AC-A-22) and for the score explanation shall use the stock-pay facts of the new lines (AC-A-14 to AC-A-16, AC-C-23, AC-C-24, AC-D-06, AC-D-07, AC-D-11, AC-E-10) the way they use other holdings and figures today, never contradicting those lines, carrying the AC-D-11 label when they quote a projection figure, and phrased as AC-G-06 requires. | D-075, D-097, D-110 | manual (wording review) | (F6) |
+| AC-G-18 | In the first release, the system shall let only Sherpas turn the firm setting on or off, and show firm admins its state. | D-043, D-111 | e2e | (F6) |
+| AC-G-19 | When the setting is turned off for a firm, the system shall show the advisor, in each household with a grant, "Income was reported without company stock. Check the salary on file." | D-111 | e2e | (F6) |
 | EV-G-01 | When an analysis of a household with stock pay is shared, the system shall record the firm, the household and the status of each grant (complete, pending detail, awaiting a liquidity event). | D-088; M-07, M-08 | unit | (F6) |
 
-One firm setting, "stock compensation", turns everything on or off for a firm; the pilot runs on firms that turn it on (D-030, D-043, D-049). The stock-pay question always ships with the feature: it is how stock pay enters from the client (D-030, D-032).
+One firm setting, "stock compensation", turns everything on or off for a firm; in the first release Sherpas turns it on and off for the pilot firms, and firm admins only see its state (D-030, D-043, D-049, D-111). Firm admins turning it on and off themselves is Next. The stock-pay question always ships with the feature: it is how stock pay enters from the client (D-030, D-032).
 
 ## Existing households
 
@@ -68,7 +70,7 @@ After the MVP (D-052): asking existing clients the stock-pay question without th
 
 ## First release and Next (D-080)
 
-Release 1 is F-A; release 2 is F-B, F-C, F-D (with the projection, D-106), F-E and F-F, together. These requirements are for the release after (Next); they stay specified and the prototype keeps them, labelled: AC-A-03, AC-B-14, AC-B-20, AC-B-21.
+Release 1 is F-A; release 2 is F-B, F-C, F-D (with the projection, D-106), F-E and F-F, together. These requirements are for the release after (Next); they stay specified, carry "Next (D-080)" in their From cell, and the prototype keeps them, labelled: AC-A-03, AC-B-14, AC-B-20, AC-B-21.
 
 ## Shared data
 
@@ -92,12 +94,12 @@ The simulator reproduces only what the score article makes public [brief]; every
 | Area weights | Building wealth 30/20/20/15/15; retirement 25/10/20/20/25 (cash flow, debt, protection, liquidity, investing) | Yes [brief] | As stated |
 | Missing data | A figure Sherpas does not have is left out, not treated as zero or average | Yes [brief] | As stated |
 | `P-CONC` | Curve of the Investing concentration check | No | SIMULATED, [ASSUMPTION: A-31]; R-014's 10% is reference only (SC-29) |
-| `P-CONC-BASE` | The base of the concentration figure ("investable assets") | Name only [FACT: captures/client/02-score-breakdown] | SIMULATED: listed investments plus cash |
+| `P-CONC-BASE` | The base of the concentration figure ("investable assets") | Name only [FACT: captures/client/02-score-breakdown] | SIMULATED: listed investments plus cash [ASSUMPTION: A-31] |
 | `P-LIQ-HORIZON` | What "near-term" means in the Liquidity commitments check | No | SIMULATED, [ASSUMPTION: A-31] |
 | `P-LIQ` | Curve of the near-term commitments check | No | SIMULATED, [ASSUMPTION: A-31] |
 | `P-AREA-MIX` | How the check scores of one area combine into its points | No | SIMULATED: equal weights, [ASSUMPTION: A-31] (D-066) |
-| `P-STAGE` | Weights of a household in transition | No ("values in between") | SIMULATED |
-| `P-LIMITS` | Serious issues that hold the score down | No | Left out of the simulator, labelled |
+| `P-STAGE` | Weights of a household in transition | No ("values in between") | SIMULATED [ASSUMPTION: A-31] |
+| `P-LIMITS` | Serious issues that hold the score down | No | Left out of the simulator, labelled [ASSUMPTION: A-31] |
 
 Simulator tests are relations, not absolute scores (see each feature).
 

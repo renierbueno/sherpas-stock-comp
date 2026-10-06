@@ -76,16 +76,9 @@ const added = execSync(`git -C "${root}" diff -U0 HEAD -- docs .claude/skills`, 
   .split('\n').filter((l) => l.startsWith('+') && !l.startsWith('+++') && l.includes('—'));
 report('no em dashes in added lines', added.map((l) => l.slice(0, 100)));
 
-// 6 to 9. Living documents state the current state (D-087). Reported as WARN until the cleanup of
-// step F6.4 (D-081); then they count as failures. History is excluded: the decision log and checks/.
-let warnings = 0;
-const warn = (name: string, problems: string[]) => {
-  if (problems.length === 0) { console.log(`PASS  ${name}`); return; }
-  warnings += problems.length;
-  console.log(`WARN  ${name} (${problems.length})`);
-  for (const p of problems.slice(0, 8)) console.log(`        ${p}`);
-  if (problems.length > 8) console.log(`        ... ${problems.length - 8} more`);
-};
+// 6 to 9. Living documents state the current state (D-087). Failures since step F6.4 closed.
+// History is excluded: the decision log and checks/.
+const warn = report;
 const walk = (dir: string): string[] => readdirSync(join(root, dir), { withFileTypes: true }).flatMap((d) =>
   d.isDirectory() ? walk(`${dir}/${d.name}`) : d.name.endsWith('.md') ? [`${dir}/${d.name}`] : []);
 const living = [...walk('docs').filter((f) => f !== 'docs/03_decision_log.md' && !f.startsWith('docs/checks/')), 'README.md'];
@@ -159,11 +152,17 @@ for (const m of log.matchAll(/^## (D-\d{3})[^\n]*\n- What:[^\n]*\(supersedes (D-
 warn('replaced decisions not cited as current', living.flatMap(lines).flatMap(({ p, n, text }) =>
   [...replaced].filter(([old, by]) => new RegExp(`\\b${old}\\b`).test(text) && !text.includes(by)).map(([old, by]) => `${p}:${n} cites ${old} (replaced by ${by})`)));
 
+// 8b. No living document still says a line is to be written in a step whose check has closed (D-087).
+const closedSteps = new Set(readdirSync(join(docs, 'checks')).filter((f) => /^check-F\d(\.\d)?\.md$/.test(f) && /Ready for gate/.test(read(`docs/checks/${f}`)))
+  .map((f) => f.match(/F\d(\.\d)?/)![0]));
+warn('no pending "in F6.x" notes for a closed step', living.flatMap(lines).flatMap(({ p, n, text }) =>
+  [...text.matchAll(/\b(?:rewritten|written|cleaned|updated|added|removed|done)\s+in\s+(?:step\s+)?(F\d(?:\.\d)?)\b|\((F\d\.\d)\)/g)]
+    .map((m) => m[1] ?? m[2]).filter((st) => closedSteps.has(st)).map((st) => `${p}:${n} still says "in ${st}"`)));
+
 // 9. The README phase table matches the closed checks.
 const readme = lines('README.md');
 warn('README phases match the closed checks', readdirSync(join(docs, 'checks')).filter((f) => /^check-F\d\.md$/.test(f) && /Ready for gate/.test(read(`docs/checks/${f}`)))
   .map((f) => f.match(/F\d/)![0]).flatMap((ph) => readme.filter(({ text }) => text.startsWith(`| ${ph} `) && !/\| done \|\s*$/.test(text)).map(({ n }) => `README.md:${n} ${ph} has a passed check but is not "done"`)));
 
-console.log(warnings ? `\n${warnings} cleanup warning(s), failures from F6.4.` : '');
 console.log(failures === 0 ? '\nConsistency: all checks pass.' : `\nConsistency: ${failures} problem(s).`);
 process.exit(failures === 0 ? 0 : 1);

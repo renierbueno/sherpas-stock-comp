@@ -1,6 +1,6 @@
 # F-C · Tax at vest and the withholding gap
 
-Decisions: D-026, D-033, D-038, D-039, D-045 · Depends on: F-B · Release: after F-B, behind the firm setting (D-030, D-043)
+Decisions: D-026, D-033, D-038, D-039, D-045, D-080, D-101, D-102, D-103, D-105, D-107, D-110 · Depends on: F-B · Release: first release (release 2, with F-B, F-D, F-E and F-F), behind the firm setting (D-030, D-043, D-080)
 
 ## Context
 
@@ -63,14 +63,14 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 
 | ID | Case | Expected | Covered by |
 |---|---|---|---|
-| EC-C-01 | SIMULATED: vest of $100K, household in a 32% federal bracket, no state rate | Federal gap about $10K (32% owed minus 22% withheld, before deductions); state tax owed shown; gap labelled federal only | AC-C-03, AC-C-05, AC-C-10, AC-C-12 |; SC-09, SC-14, SC-17
-| EC-C-02 | Vest income from one employer above $1 million in a year | 37% on the part above $1 million | AC-C-05 |; SC-14, SC-15
+| EC-C-01 | SIMULATED: vest of $100K, household in a 32% federal bracket, no state rate | Federal gap about $10K (32% owed minus 22% withheld, before deductions); state tax owed shown; gap labelled federal only | AC-C-03, AC-C-05, AC-C-10, AC-C-12; SC-09, SC-14, SC-17 |
+| EC-C-02 | Vest income from one employer above $1 million in a year | 37% on the part above $1 million | AC-C-05; SC-14, SC-15 |
 | EC-C-03 | State with no income tax | No state field; no state lines | AC-C-08 |
 | EC-C-04 | Advisor enters 0% state withholding | Treated as entered: the full state tax is a gap (unlike an empty field) | AC-C-11, AC-C-12 |
 | EC-C-05 | Household in a 22% bracket or lower | Gap zero or below; nothing counted | AC-C-15 |
 | EC-C-06 | Vest outside the check's horizon | Shown in the report; not counted in the check | AC-C-17, AC-C-23 |
 | EC-C-07 | PSU vest within the horizon | Counted at target; range shown | AC-C-16, AC-C-19, AC-C-22 |
-| EC-C-08 | Vest income already included in reported salary (D-028 "yes") | This year's past vests are not added again | F-E (AC-E-11) |
+| EC-C-08 | Vest income already included in the salary on file | The advisor edits the salary after the line of AC-F-17; vests are then added beside it once | F-E (AC-E-12); F-F (AC-F-17); D-108 |
 | EC-C-09 | Private employer | No tax lines until it has dates and a price | AC-G-05; F-B (AC-B-19) |
 | EC-C-10 | Two grants from different employers in the same year | The $1 million rule applies per person and employer | AC-C-05 (per employer); SC-15
 | EC-C-11 | Saving a state rate after a manual score adjustment | Warning; the adjustment is replaced | F-B (AC-B-06) |

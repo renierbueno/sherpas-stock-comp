@@ -1,24 +1,29 @@
-# 05 · Business lens (internal)
+# 05 · Business lens
 
-Internal working hypotheses used to make decisions in this case. Not a section of the deliverable. Every line is an assumption until a source or Sherpas confirms it.
+The business case behind the proposal: who it serves, why now, what it competes with, and how it could be packaged. Each line cites a public source, a discovery finding, or an assumption listed in `02_open_questions.md` with what changes if it is false (D-089).
 
-## Customers
+## Who it serves
 
 - Large advisory firms are the target user [brief]. A capability that helps win or keep large firms should weigh more than one only small independent advisors value. [ASSUMPTION: A-29]
-- Advisors who serve tech or corporate employees meet stock compensation often; those who serve retirees or small-business owners meet it less. [ASSUMPTION: A-01]
+- Advisors who serve tech or corporate employees meet stock compensation more often than those who serve retirees or small-business owners; discovery validated this in part, and frequency is unmeasured (`discovery/synthesis.md`). [ASSUMPTION: A-01]
 
-## Value to Sherpas
+## Why it matters
 
-- Stock compensation is a gap today ("nowhere to put it") [brief]. A household with significant equity pay gets a score that misses part of its wealth, its concentration risk and its future cash flows, which can weaken the advisor's trust in the analysis. [ASSUMPTION: A-02]
-- Equity pay events (vests, expirations, trading windows) create recurring moments for the advisor to contact the client. [ASSUMPTION: A-03]
-- Equity pay leads naturally into tax planning, one of the areas Sherpas says it is investing in [web, see `01_context.md`]. [ASSUMPTION: A-04]
+- Stock compensation has nowhere to go today ("nowhere to put it") [brief]. A household with significant equity pay gets a score that misses part of its wealth, its concentration risk and its future cash flows, which can weaken the advisor's trust in the analysis; discovery found adjacent evidence only (`discovery/synthesis.md`). [ASSUMPTION: A-02]
+- Tax at vest is the strongest validated pain on both sides, advisor and client (`discovery/synthesis.md`, A-04). Tax is the only domain named in Sherpas' public use of funds ("decision frameworks across retirement, tax, investment and risk planning") [web: https://www.privatebankerinternational.com/news/ai-wealth-tech-firm-sherpas-seed-round/, accessed 2026-10-03].
+- Vests, expirations and trading windows are recurring moments for the advisor to contact the client; discovery validated this on the client side only (`discovery/synthesis.md`). [ASSUMPTION: A-03]
 
-## Pricing and monetisation
+## What it competes with
 
-- Unknown how Sherpas charges (per seat, per firm, per analysis). Recorded as an open question; no pricing proposal without it. [ASSUMPTION: A-28]
-- Default stance: stock compensation as part of the core analysis, not a paid add-on, because a gap in the core diagnosis is a quality problem, not an upsell. To be revisited in F3. [ASSUMPTION: A-11]
+- Advisor planning tools already model equity grants: RightCapital has a stock plans module with grant types, vesting schedules and a concentration chart; eMoney documents entering stock options (R-012). A platform without it leaves these households to another tool.
+- Aggregators do not pass unvested grants (R-013), so grant detail has to come from documents or the advisor; document extraction is a capability the platform already offers [web: https://sherpaswealth.com/data-extraction, accessed 2026-10-05].
+
+## How it could be packaged
+
+- How Sherpas charges is not public; the proposal does not depend on it. [ASSUMPTION: A-28]
+- Default stance: stock compensation as part of the core analysis, not a paid add-on, because a gap in the core diagnosis is a quality problem, not an upsell; the first release ships behind a firm setting so it can be turned on per firm (D-030, D-080). [ASSUMPTION: A-11]
 
 ## What would change these
 
-- Data on how many of Sherpas' clients' households hold employer equity.
-- How Sherpas prices, and whether large firms buy by module.
+- How many of the firms' client households hold employer equity (A-25; the first-release reach readout, `07_success_criteria.md`, D-088).
+- How Sherpas prices, and whether large firms buy by module (A-28).

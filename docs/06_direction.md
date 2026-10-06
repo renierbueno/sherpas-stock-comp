@@ -149,7 +149,7 @@ Advisors are the users; the product reaches clients through them [brief]. The ad
 
 | Stage | What exists | What our decisions add |
 |---|---|---|
-| Send the questionnaire | Opportunity pipeline; firm settings decide which questions show | The firm can switch the stock-pay block off (D-030) |
+| Send the questionnaire | Opportunity pipeline; firm settings decide which questions show | In the first release Sherpas switches the stock-pay block on and off for pilot firms (D-030, D-111) |
 | Receive answers | Advisor reviews and presses "Submit and continue" | A household may report stock pay with detail missing (F3-A1, F3-A2) |
 | Complete detail | Advisor mode; Data & Assumptions, where saving reprocesses the analysis; document upload with extraction [web: sherpaswealth.com/data-extraction] | Upload of the plan statement, extracted tranches confirmed by the advisor (F3-06b); Tranches (D-027), shares kept and basis (D-029), state withholding (D-033), employer and ticker (D-031); in advisor mode the block opens the full tranche editor |
 | Review before sharing | View more explains the score; manual adjustment within ±10; reprocessing replaces it; advisors edit generated observations and strategies before presenting [web: sherpaswealth.com/financial-health] | Our bullets and recommendations are editable like the rest; The score of a household with stock pay moves (F3-11); View more must say why |
@@ -223,21 +223,28 @@ Concentration is the share of wealth that depends on one thing. With employer st
 
 ## MVP cut
 
-Status: confirmed by Renier, 2026-10-05 (D-041).
+Status: confirmed by Renier, 2026-10-05 (D-041); current scope after the first release cut (D-080) and the decisions since (D-101, D-104 to D-107). Release 1 is F-A; release 2 is the rest of the first release.
 
 | Item | Cut | Why | From |
 |---|---|---|---|
-| RSU and PSU grants with dated tranches (pattern, editable; PSU condition and range) | MVP | Most granted types, one model | D-024, D-027 |
-| Employer flag on any held position, whatever its origin | MVP | Concentration is right for every type once it is shares | D-024 |
-| Unvested as future income and shares; shares kept after withholding and cost basis per tranche | MVP | Tax rule and advisor practice; no inflated holdings | D-026, D-029 |
-| Deduplication question and rule | MVP | Clients and tools double count | D-028 |
-| Client block in Income: a "Stock compensation" chip whose row has the same fields as other income rows (employer, owner, optional amount per year); firm can switch it off | MVP | Asks only what clients know; no change for others | D-030, D-031, D-032, D-076 |
-| Advisor completes detail in advisor mode and Data & Assumptions; full tranche editor | MVP | Routes that exist today | D-030, D-036 |
-| Advisor uploads the plan statement; extraction proposes tranches; the advisor confirms them | MVP | Extraction already exists; less work for the advisor; reduces riskiest assumption 1 | D-042 |
-| Grant pending detail stays out of figures; alert on the opportunity | MVP | Missing-data rule; the advisor must learn of it | D-035, D-036 |
-| Private-company equity recorded and shown, out of score figures | MVP | Missing-data rule; startup employees have a place | D-025 |
-| Optional state withholding rate; gap labelled federal only when missing | MVP | Uses the platform's tax engine; no invented state rule | D-033 |
-| Employer exposure, tax at vest and withholding gap, vest proceeds as dated cash; inside existing checks; View more explains the change | MVP | Validated assumptions A-09, A-04, A-10; score structure unchanged | D-038, D-039, D-040 |
+| Employer flag on any held position, whatever its origin; employer stock as one position in the existing concentration check, with flag suggestion; View more explains the change | First release (release 1) | Concentration is right for every type once it is shares; needs no grant; A-09 validated | D-024, D-040, D-080 |
+| RSU and PSU grants with dated tranches (pattern, editable; PSU condition and range) | First release (release 2) | Most granted types, one model; base of tax at vest and of the lines on goals | D-024, D-027, D-080 |
+| Delivery date per tranche, prefilled with the vest date and editable | First release (release 2) | Income tax falls in the delivery year (SC-02), FICA in the vest year (SC-03) | D-101, D-110 |
+| Unvested as future income and shares | First release (release 2) | Tax rule and advisor practice; no inflated holdings | D-026, D-080 |
+| Deduplication question and rule | First release (release 2) | Clients and tools double count | D-028, D-080 |
+| Client block in Income: a "Stock compensation" chip whose row has the same fields as other income rows (employer, owner, optional amount per year); firm can switch it off | First release (release 2) | Entry point of the product; asks only what clients know (A-05); no change for others | D-030, D-031, D-032, D-076, D-080 |
+| Advisor completes detail in advisor mode and Data & Assumptions; full tranche editor | First release (release 2) | Routes that exist today | D-030, D-036, D-080 |
+| Advisor uploads the plan statement; extraction proposes tranches; the advisor confirms them | First release (release 2) | Extraction already exists; completes the grant with one review; riskiest assumption 1 | D-042, D-080 |
+| Grant pending detail stays out of figures; alert on the opportunity | First release (release 2) | Missing-data rule; the advisor must learn of it | D-035, D-036, D-080 |
+| Private-company equity recorded and shown, out of score figures | First release (release 2) | Missing-data rule; startup employees have a place | D-025, D-080 |
+| Optional state withholding rate; gap labelled federal only when missing | First release (release 2) | Uses the platform's tax engine; no invented state rule | D-033, D-080 |
+| Tax at vest and the withholding gap, inside the Liquidity check; View more explains the change | First release (release 2) | A-04, the strongest validated pain; score structure unchanged | D-038, D-039, D-080 |
+| Head of household filing status in the score simulator | First release (release 2) | The spec uses the platform's tax engine with the household's filing status (AC-C-03); 2026 figures exist (SC-11); treating these households as single overstates tax | D-104 |
+| Value at delivery for tranches delivered this year; their tax gap stays until year end | First release (release 2) | An under-withheld vest earlier in the year is a payment due at filing (SC-17) | D-107 |
+| Vests as dated cash beside goals, as text lines | First release (release 2) | A-10 as advisors and clients use it | D-040, D-080 |
+| Vests inside the projection and every figure read from it, each as wage income on its delivery date | First release (release 2) | A vest is wages of the delivery year (SC-01, SC-02), so the platform's own rules for wages apply and nothing is assumed saved [ASSUMPTION: A-62]; if the projection cannot read it, this part waits for Next | D-074, D-080, D-106 |
+| Shares kept after withholding and cost basis per tranche; cost basis on a flagged position | Next | No figure of the first release reads them | D-029, D-080 |
+| 409A display | Next | No figure of the first release reads it | D-080 |
 | Vest conversion: the system proposes, the advisor confirms; year-by-year follow-up | Next | Vesting depends on employment, certification and the client's sale | D-037 |
 | ESPP future purchases | Next | About half of companies offer it, more in tech; own tax logic | D-024, R-005, R-016; SC-34 |
 | An employer-specific concentration threshold | Next, if the existing one does not fit | Depends on the first riskiest assumption below | D-040 |
@@ -245,7 +252,8 @@ Status: confirmed by Renier, 2026-10-05 (D-041).
 | RSA, SAR and phantom stock | Later | Restricted stock is granted by few companies and falling; SAR and phantom are often cash-settled, adding exposure without shares | R-006, R-016; SC-35 |
 | 409A value in the figures | Later | A tax value, not a sale price | D-025 |
 | State withholding rules applied automatically | Later | Fifty rules to research and maintain | D-033 |
-| Dividend equivalents; gain or loss on sale | Later | Matter for sale decisions, not for the MVP analyses | F3-05b |
+| Gain or loss on sale | Later | Matters for sale decisions, not for the first release analyses | F3-05b |
+| Dividend equivalents | Never in this release | Known edge case: no IRS text states the rule (SC-27, A-50), small against vest value, no dividend data for the employer | D-105 |
 | ESOP as stock compensation | Never | It is a qualified retirement plan; it belongs with retirement accounts | R-007; SC-36 |
 | A separate score area for stock pay | Never | Changes every household's weights | D-039, D-023 |
 | Personalised tax, exercise or sale advice | Never | The analysis states facts and gaps; advice is the advisor's | A-04, D-038 |
@@ -313,19 +321,7 @@ Rule: impact decides between options that pass the gates, because the brief asks
 
 ### First release cut (D-080)
 
-Replaces the "MVP" column of the F3 cut for the items below; every other row stays as it was.
-
-| Item | Cut | Why | From |
-|---|---|---|---|
-| Employer stock as one position in concentration, flag and suggestion | First release (release 1) | Needs no grant; A-09 validated | D-040, D-080 |
-| Income chip, pending grant, alert | First release (release 2) | Entry point of the product; clients know totals (A-05) | D-076, D-080 |
-| RSU and PSU grants with dated vests; private recorded and shown | First release (release 2) | Base of tax at vest and of the lines on goals | D-024, D-080 |
-| Plan statement extraction, confirmed by the advisor | First release (release 2) | Completes the grant with one review; riskiest assumption 1 | D-042, D-080 |
-| Tax at vest and the withholding gap; Liquidity check | First release (release 2) | A-04, the strongest validated pain | D-038, D-080 |
-| Vests as dated cash beside goals, as text lines | First release (release 2) | A-10 as advisors and clients use it | D-080 |
-| Vests inside the projection and every figure read from it | First release (release 2) | The retirement figures are whole only with vests; each vest enters as wage income of its delivery year (SC-01), so the platform's own rules for wages apply and nothing is assumed saved [ASSUMPTION: A-62] | D-074, D-080, D-106 |
-| 409A display, cost basis on a flagged position, shares kept per tranche | Next | No figure of the first release reads them | D-080 |
-| Vest conversion proposed by the system | Next (unchanged) | | D-037 |
+The first release cut now lives in the MVP cut table above (D-080, D-106).
 
 ### Riskiest assumptions of the first release
 

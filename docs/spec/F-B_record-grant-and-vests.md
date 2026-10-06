@@ -1,6 +1,6 @@
 # F-B · Record a grant and its vests
 
-Decisions: D-024, D-025, D-026, D-027, D-029, D-036, D-037, D-045, D-050 · Depends on: none (F-A for the exposure context lines) · Release: second, behind the firm setting (D-030, D-043)
+Decisions: D-024, D-025, D-026, D-027, D-029, D-036, D-037, D-045, D-050, D-080, D-101, D-107, D-109, D-110 · Depends on: none (F-A for the exposure context lines) · Release: first release (release 2, with F-C, F-D, F-E and F-F), behind the firm setting (D-030, D-043, D-080)
 
 ## Context
 
@@ -34,7 +34,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | AC-B-11 | If a tranche's delivery date is on or before the analysis date, then the system shall leave it out of the grant's figures, except the current year's tax figures of AC-C-31. | D-028, D-037, D-107 | unit | (F6) |
 | AC-B-12 | If a tranche's delivery date is on or before the analysis date, then the system shall show "Vested on <vest date>: record the shares kept as a held position." | D-028, D-037, D-110 | e2e | (F6) |
 | AC-B-13 | When the advisor marks a tranche as forfeited, the system shall remove it from the grant's figures. | D-026; R-002; SC-04 | unit | (F6) |
-| AC-B-14 | The system shall let the advisor record, per tranche, the shares kept after withholding and their cost basis. | D-029; R-011; SC-18, SC-30 | e2e | (F6) |
+| AC-B-14 | The system shall let the advisor record, per tranche, the shares kept after withholding and their cost basis. | Next (D-080); D-029; R-011; SC-18, SC-30 | e2e | (F6) |
 | AC-B-32 | The system shall record, per tranche, a delivery date, prefilled with the tranche's vest date and editable by the advisor, labelled "Shares delivered on". | D-101; SC-02, SC-03 | unit + e2e | (F6) |
 | AC-B-33 | The system shall let the advisor enter, per delivered tranche, its value at delivery, with the helper text "From the W-2 or the plan statement". | D-107 [ASSUMPTION: A-58] | e2e | (F6) |
 | AC-B-15 | Dropped: shares kept are not estimated; they are recorded when known (AC-B-14). | D-050 | | |
@@ -52,8 +52,8 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 |---|---|---|---|---|
 | AC-B-18 | Where the employer is private, the system shall let the advisor save an RSU grant without vest dates. | D-025; R-011 (double trigger); SC-08 | e2e | (F6) |
 | AC-B-19 | Where the employer is private, with or without vest dates, the system shall show the grant as "Awaiting a liquidity event". | D-025, D-068 | e2e | (F6) |
-| AC-B-20 | Where the employer is private, the system shall let the advisor enter the latest 409A value and its date. | D-025; R-017; SC-31 | e2e | (F6) |
-| AC-B-21 | Where a 409A value is entered, the system shall show "409A value <$> per share as of <date>, for information only; not counted in the figures." | D-025; R-017; SC-31 | e2e | (F6) |
+| AC-B-20 | Where the employer is private, the system shall let the advisor enter the latest 409A value and its date. | Next (D-080); D-025; R-017; SC-31 | e2e | (F6) |
+| AC-B-21 | Where a 409A value is entered, the system shall show "409A value <$> per share as of <date>, for information only; not counted in the figures." | Next (D-080); D-025; R-017; SC-31 | e2e | (F6) |
 
 ### What the analysis shows
 
@@ -71,7 +71,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
 | AC-B-28 | The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one tranche with date and units that is either future or delivered in the current tax year, and PSU terms for a PSU. | D-035, D-060, D-094, D-109 | unit | (F6) |
-| AC-B-29 | The grant editor shall ask, per person, "Does the salary on file include stock that vested this year?" (yes, no, not sure), unanswered until the advisor answers it, and apply AC-E-11 to AC-E-13 to the answer. | D-028, D-051, D-060, D-076 | unit + e2e | (F6) |
+| AC-B-29 | Dropped: the advisor is not asked whether the salary includes vests; the income question excludes company stock and the grant review shows the line of AC-F-17. | D-094, D-108 | | |
 | AC-B-30 | If the employer's ticker has no market price, then the system shall leave the grant out of every figure and show the advisor "Price not available for <ticker>: grant not counted." | [brief] missing data; D-060 | unit + e2e | (F6) |
 | AC-B-31 | The system shall store a grant as an element of the platform's stock compensation asset category, sub-type RSU, and a PSU as an RSU with its performance terms; unvested value stays out of net worth (AC-B-22). | D-058, D-026 | unit | (F6) |
 
@@ -95,7 +95,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | EC-B-14 | ESPP purchases, unexercised options, RSA, SAR, phantom stock | Not offered as grant types; shares already held can be flagged (F-A) | out: D-024, D-041 |
 | EC-B-15 | A tranche vests after the analysis date and the analysis is reopened months later | Shown as vested with the prompt; no automatic conversion | AC-B-11, AC-B-12; D-037 (conversion next) |
 | EC-B-16 | PSU certified at the end of its period | The advisor edits the tranche units and sets the range to 100% | AC-B-08, AC-B-17 |
-| EC-B-17 | Grant entered by the advisor for an existing household, nobody has answered the income question | Stays pending until the advisor answers it | AC-B-28, AC-B-29 |
+| EC-B-17 | Grant entered by the advisor for an existing household, whose salary was collected before the income question excluded company stock | The review shows the line of AC-F-17; the advisor edits the salary if it includes vests | AC-F-17; D-108 |
 | EC-B-18 | Delivery date not known | The vest date is used for both taxes | AC-B-32 |
 | EC-B-19 | Delivered shares later appear in a linked or uploaded account | Counted once, as a held position: the tranche left the figures on its date, and the employer flag applies whatever the source [ASSUMPTION: A-60] | AC-B-11; D-092 |
 

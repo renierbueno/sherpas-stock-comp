@@ -35,7 +35,7 @@ As an advisor, I want future vests shown as dated inflows beside the client's go
 | EC-D-03 | PSU vest in a goal year | Target figure with range in the bullet; band on the chart | AC-D-04, AC-D-06 |
 | EC-D-04 | Grant pending detail | No inflows, markers or bullets | AC-G-04 |
 | EC-D-05 | Private employer, awaiting a liquidity event | No inflows | AC-G-05 |
-| EC-D-06 | Vest income already inside reported salary | Projection must not count it twice | F-E (AC-E-11, AC-E-12) |
+| EC-D-06 | Vest income already inside the salary on file | Counted once after the advisor edits the salary (AC-F-17); the projection adds each vest as its own income | AC-E-12, AC-D-10; F-F (AC-F-17) |
 | EC-D-07 | After the delivery date, what the vest becomes in the projection | Projected as the platform projects wages of that year; shares the advisor records as held positions are projected as positions | AC-D-10; AC-B-12 |
 | EC-D-08 | The client keeps all the delivered shares | Before delivery, projected as wages; after it, the tranche leaves the figures (AC-B-11) and the shares count once, as a held position, when recorded | AC-B-11, AC-D-10 |
 

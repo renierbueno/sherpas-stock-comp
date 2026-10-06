@@ -33,8 +33,16 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 | Employer exposure | Held employer shares summed across accounts by issuer; in the report, with unvested grants and salary from the same employer as context. | D-040 |
 | Withholding gap | Tax owed on a vest minus tax withheld at vest; federal always, state only when the advisor enters the rate; FICA shown outside it. | D-033, D-051 |
 | Detail pending | State of a grant the client reported but the advisor has not completed; kept out of figures. | D-035 |
-| Proposed grant | A grant extracted from a plan statement and not yet confirmed by the advisor; kept out of figures. | D-042 |
-| Firm setting | "Stock compensation": one setting per firm that turns every stock-pay feature on or off. | D-049 |
+| Proposed grant | A grant extracted from a plan statement, or read from the questionnaire chat or an "Other income" row, and not yet confirmed by the advisor; kept out of figures and shown to the advisor only. | D-042, D-093, D-096, D-110 |
+| Firm setting | "Stock compensation": one setting per firm that turns every stock-pay feature on or off; in the first release only Sherpas changes it (pilot firms). | D-049, D-111 |
+| First release | What the pilot firms get: release 1 (F-A, employer stock in concentration) and release 2 (F-B to F-F together). | D-080, D-106 |
+| Next | Specified but built after the first release; marked "Next (D-080)" in the requirement. | D-080 |
+| Core loop | The chosen first-release scope (option B): the client reports stock pay, the advisor completes it with one review, vest income counts once, and concentration, tax at vest and the projection reach the score and the shared report. | D-080, D-106 |
+| Confirm all | The single advisor review of a plan statement, which confirms every proposed grant at once. | D-090 |
+| Delivery date | The date a tranche's shares are delivered ("Shares delivered on"), prefilled with the vest date; income tax follows its year. | D-101 |
+| Value at delivery | The value of a tranche delivered this year, entered by the advisor from the W-2 or the plan statement. | D-107 |
+| Rules table | `12_stock_comp_rules.md`: the US tax and legal rules the model applies, each with an ID (SC-NN), source and signal, checked in code. | D-100 |
+| Known edge case | A case the release leaves out on purpose, written in the spec with what it changes. | D-103, D-105 |
 | Feature (spec) | One advisor outcome that can be built, tested and released on its own (F-A to F-F). | D-047 |
 | EARS | A fixed way to write a requirement: one testable sentence per behaviour, with five patterns (always; when an event; while a state; if something unwanted, then; where a feature is enabled). | `.claude/skills/spec/SKILL.md` |
 | Acceptance criterion | A yes/no check that a requirement is met; ID `AC-<feature>-NN`, linked to a test. | D-004, D-047 |
@@ -59,7 +67,6 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 | Graded vesting | Vesting in several tranches over time. | R-009 |
 | Back-loaded / front-loaded | More of the grant vests late / early. | R-010 |
 | Forfeiture | Losing unvested units or options, usually on leaving the employer. | R-002 |
-| Settlement (delivery) | Transfer of shares or cash to the holder after an RSU or PSU vests. | R-002 |
 | Net settlement | The company withholds shares to cover taxes at settlement. | R-011 |
 | Sell-to-cover | Selling part of the vested shares to pay the tax withheld at vest. | R-011, V39 |
 | Cost basis | For shares received at vest, the value included in income at vest; the base for gain or loss on sale. | R-002 |
