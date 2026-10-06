@@ -491,3 +491,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: GAP-36 (scenes in flow order), GAP-37 (which sections each scene changes) and GAP-38 (the projection chart already exists) are about how the prototype shows the feature, not about the feature; they are resolved in step F6.5, with the prototype, instead of F6.3.
 - Why: F6.3 settles the flows and decisions; the prototype is reworked once they are settled (D-081).
 - Date: 2026-10-06 · Confirmed by: Renier
+
+## D-099 · Open questions are discussed in the follow-up session, not asked before delivery; assumptions use the discovery IDs (amends D-059)
+- What: no question is sent to Sherpas before delivery. Each open question stays an assumption with its fallback in `02_open_questions.md`, and that list is what is discussed with Sherpas in the follow-up session. Every assumption has an ID in the discovery system (`A-NN`): A-01 to A-11 in `discovery/synthesis.md`, A-12 onwards in `02_open_questions.md` with its source; every `[ASSUMPTION]` tag in the living docs cites one, checked in code (D-087).
+- Why: the proposal must stand on its own on delivery day, so it works on stated assumptions; the questions behind them are still worth answering together once Sherpas has read it. One ID system for every assumption lets a reader find what each line stands on and what changes if it is false.
+- Date: 2026-10-06 · Confirmed by: Renier

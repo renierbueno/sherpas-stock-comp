@@ -10,7 +10,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one IRS document stating general principles, citing IRC §83, §3121(v)(2) and Rev. Rul. 79-305. It says itself that it is informational and "does not constitute a ruling".
 - Signal: STRONG for the general principle (IRS, citing the code). Edge cases (deferral, cash settlement, leaving the employer) need their own entry.
 - Changes: an unvested RSU is not yet income or a held asset. At settlement it becomes wage income (W-2) and, if shares are kept, an asset (a single-stock position). [INFERENCE: from the finding above and the four-dimension model in `00_brief.md`]
-- Assumption carried forward: the household's RSU income at vest is already in the W-2 wages a client reports, so it could be counted twice if also entered as a separate RSU income. [ASSUMPTION: confirm against how the questionnaire asks for income, F1]
+- Assumption carried forward: the household's RSU income at vest is already in the W-2 wages a client reports, so it could be counted twice if also entered as a separate RSU income. [ASSUMPTION: A-06]
 
 ## R-002 · RSU and PSU: lifecycle states and what each state changes for the employee
 - Category: 1 instruments
@@ -30,7 +30,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: several sources agree (company award agreements filed with the SEC plus one consultant note); search summaries, not every clause read in full.
 - Signal: STRONG
 - Changes: unvested RSU/PSU is a contingent future income item, not an asset owned today; settlement converts it to taxable income plus a liquid asset (public company); all states add to employer-stock concentration; PSU adds a range, not a point estimate. [INFERENCE]
-- Assumption carried forward: 0% to 200% PSU payout range is typical for public companies, not a legal rule; actual range comes from each award agreement [ASSUMPTION: confirm].
+- Assumption carried forward: 0% to 200% PSU payout range is typical for public companies, not a legal rule; actual range comes from each award agreement [ASSUMPTION: A-34].
 
 ## R-003 · NSO (non-qualified stock options): states, tax at exercise, basis, sale
 - Category: 1 instruments
@@ -51,7 +51,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (tax); one vendor (10-year term and 90-day window as practice)
 - Signal: STRONG for tax; WEAK for term and window norms
 - Changes: vested NSO = contingent asset whose value is the spread, not share value; exercise needs cash (strike plus tax) and creates taxable income; shares after exercise add to concentration; expiry date is a hard liquidity deadline. [INFERENCE]
-- Assumption carried forward: 10-year term and 90-day post-termination window are common practice, not law, for NSOs [ASSUMPTION: confirm per grant].
+- Assumption carried forward: 10-year term and 90-day post-termination window are common practice, not law, for NSOs [ASSUMPTION: A-35].
 
 ## R-004 · ISO: §422 rules, holding periods, dispositions, AMT, $100,000 limit, Form 3921
 - Category: 2 tax and regulation
@@ -74,7 +74,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule
 - Signal: STRONG
 - Changes: ISO exercise can create a tax liability (AMT) with no cash income; held ISO shares are a concentrated asset with a dated tax status (qualifying date); the holding period ties liquidity to a date. [INFERENCE]
-- Assumption carried forward: 2025 AMT exemption amounts (single/HoH $88,100; MFJ $137,000; MFS $68,500, Form 6251 instructions 2025) are the latest found; 2026 amounts not fetched [ASSUMPTION: confirm 2026 values before any AMT estimate].
+- Assumption carried forward: 2025 AMT exemption amounts (single/HoH $88,100; MFJ $137,000; MFS $68,500, Form 6251 instructions 2025) are the latest found; 2026 amounts not fetched [ASSUMPTION: A-36].
 
 ## R-005 · ESPP: §423 qualified plans and dispositions; non-qualified ESPP
 - Category: 2 tax and regulation
@@ -95,7 +95,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (limits, holding periods, Form 3922, disqualifying disposition); one vendor (lookback wording, qualifying example)
 - Signal: STRONG (disqualifying disposition checked against Pub 525 text on 2026-10-05)
 - Changes: ESPP is a regular payroll deduction (expense/savings) that becomes a stock asset at each purchase; frequent small lots add steadily to concentration. [INFERENCE]
-- Assumption carried forward: non-qualified ESPP treatment is an inference, not sourced [ASSUMPTION: confirm].
+- Assumption carried forward: non-qualified ESPP treatment is an inference, not sourced [ASSUMPTION: A-37].
 
 ## R-006 · RSA and the §83(b) election; SARs and phantom stock
 - Category: 1 instruments
@@ -116,7 +116,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (§83, §409A, Pub 525); several secondary sources agree on SAR/phantom mechanics
 - Signal: STRONG
 - Changes: RSA is an owned asset from day one (with forfeiture risk); 83(b) moves tax earlier; cash-settled SARs and phantom stock are cash income promises tied to employer value, adding concentration without shares. [INFERENCE]
-- Assumption carried forward: RSA, SAR and phantom stock are less common for public-company employees of advisor clients than RSU/NSO/ESPP [ASSUMPTION: confirm with Sherpas or market data].
+- Assumption carried forward: RSA, SAR and phantom stock are less common for public-company employees of advisor clients than RSU/NSO/ESPP [ASSUMPTION: A-38].
 
 ## R-007 · ESOP: retirement plan, not an employee-held grant
 - Category: 1 instruments
@@ -130,7 +130,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (IRS) plus two secondary sources
 - Signal: STRONG
 - Changes: ESOP belongs with retirement assets (illiquid until distribution) rather than with equity comp grants; still employer-stock concentration if the client also holds grants. [INFERENCE]
-- Assumption carried forward: no DOL page fetched directly; ERISA coverage taken from secondary sources plus IRS "shared jurisdiction" [ASSUMPTION: confirm with a DOL source if ESOP leaves the exclusion list].
+- Assumption carried forward: no DOL page fetched directly; ERISA coverage taken from secondary sources plus IRS "shared jurisdiction" [ASSUMPTION: A-39].
 
 ## R-008 · Federal supplemental wage withholding rates for tax year 2026
 - Category: 2 tax and regulation
@@ -141,7 +141,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule
 - Signal: STRONG
 - Changes: settlement creates income plus a possible tax liability not covered by withholding (liability/expense in the year); shares withheld for tax reduce the asset received. [INFERENCE]
-- Assumption carried forward: employers use the 22% flat method for amounts below $1 million [ASSUMPTION: confirm, employers may aggregate instead].
+- Assumption carried forward: employers use the 22% flat method for amounts below $1 million [ASSUMPTION: A-40].
 
 ## R-009 · Which time-based vesting patterns are common, with filing examples, and do new-hire grants differ from annual refresh grants?
 - Category: 1 (instruments)
@@ -159,7 +159,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: several sources agree (four filings; text read through a page-summarising fetch tool, quotes not checked against the raw filing).
 - Signal: STRONG for "these shapes exist"; WEAK for "new-hire differs from refresh" (director examples only).
 - Changes: Future shares: the count and date of each tranche set when shares arrive; a cliff means zero shares until month 12, then a step. Future income: each tranche is ordinary income at vest for RSUs [INFERENCE]. Concentration: stays flat until the first tranche, then rises in steps. Liquidity: shares are unsellable (and taxes unfunded) until vest dates.
-- Assumption carried forward: Employee (non-executive, non-director) grants follow the same shapes as the executive and director examples. [ASSUMPTION: confirm]
+- Assumption carried forward: Employee (non-executive, non-director) grants follow the same shapes as the executive and director examples. [ASSUMPTION: A-41]
 
 ## R-010 · What is back-loaded vesting (Amazon) and which large tech companies moved to front-loaded schedules?
 - Category: 1 (instruments)
@@ -177,7 +177,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one secondary pattern repeated by several vendors; no primary source for Amazon or Google percentages.
 - Signal: WEAK (Amazon and Google percentages); STRONG (that unequal annual tranches exist, via Rubrik).
 - Changes: Back-loaded schedules push income, share count and concentration to years 3 and 4 and make early departure forfeit most of the grant; front-loaded schedules do the opposite, so a projection that assumes even tranches would misstate year-by-year income, shares and concentration. [INFERENCE]
-- Assumption carried forward: Back-loaded schedules at the largest tech employers are present in client portfolios, so tranche percentages must be free-form. [ASSUMPTION: confirm]
+- Assumption carried forward: Back-loaded schedules at the largest tech employers are present in client portfolios, so tranche percentages must be free-form. [ASSUMPTION: A-42]
 
 ## R-011 · How do PSUs, double-trigger RSUs and option expiry or post-termination windows affect a vesting schedule?
 - Category: 1 (instruments)
@@ -197,7 +197,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: PSUs two filings agree; double-trigger several S-1s agree; options one to two vendors.
 - Signal: STRONG (PSU structure, double-trigger structure); WEAK (option post-termination windows).
 - Changes: PSUs: future shares are a range (0 to 2x target) resolved only at certification, so income and concentration become scenarios, not a single number. Double-trigger: before the liquidity event, no shares and no income are realised even if the time condition is met; at the event, many tranches vest at once, creating a one-time income and tax event and a concentration step with the shares often locked up [INFERENCE on lock-up; not found in this block]. Options: a clock to expiry and a shorter clock after leaving the employer limit the time in which liquidity can be created.
-- Assumption carried forward: Double-trigger RSU holders in advisor client lists are mainly pre-IPO private-company employees, so the liquidity condition is a pending event with no date. [ASSUMPTION: confirm]
+- Assumption carried forward: Double-trigger RSU holders in advisor client lists are mainly pre-IPO private-company employees, so the liquidity condition is a pending event with no date. [ASSUMPTION: A-43]
 
 ## R-012 · How do advisor planning tools (RightCapital, eMoney, MoneyGuide) handle equity compensation?
 - Category: 4 advisor practice
@@ -209,7 +209,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: two vendors (RightCapital strong, eMoney partial); MoneyGuide not found
 - Signal: WEAK for the whole question (MoneyGuide missing, eMoney page may be 2020), STRONG for the RightCapital field list
 - Changes: The grant field set (type, grant date, shares, strike, vest schedule, expiry) is the industry baseline and matches what a questionnaire step can ask. Concentration in these tools is "stock plan as % of investment portfolio", not % of net worth including salary dependence. [INFERENCE: from the RightCapital and eMoney help pages]
-- Assumption carried forward: how MoneyGuide handles equity compensation is unknown [ASSUMPTION: confirm].
+- Assumption carried forward: how MoneyGuide handles equity compensation is unknown [ASSUMPTION: A-44].
 - Note: advisor-side gap evidence is vendor marketing only (Grantd, "Equity compensation needs to evolve beyond spreadsheets", https://www.grantdequity.com/articles/equity-compensation-needs-to-evolve-beyond-spreadsheets-heres-why, no date shown): it claims planning tools "lack integrated equity compensation features" and that advisors use spreadsheets. Treated as WEAK, an interested party. Specialist tools named in search results (not opened): EquityNav, Net Worth Strategies "Stockopter", Grantd, Worthy, myStockOptions.com Pro.
 
 ## R-013 · Can advisors or aggregators (Plaid, Yodlee) pull unvested grants from stock-plan platforms?
@@ -221,7 +221,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one vendor (Plaid), absence of evidence for Yodlee, Carta, Fidelity SPS, Schwab EAC, E*Trade
 - Signal: WEAK (absence of documentation is not proof of absence)
 - Changes: Do not assume aggregation delivers unvested grants. Plan for the questionnaire and document upload (grant agreement, award statement) as the main route for unvested equity; aggregation covers only vested shares already in a brokerage account. [INFERENCE: from Plaid field docs]
-- Assumption carried forward: Aggregators do not return unvested awards from Carta, Shareworks, Fidelity SPS, Schwab EAC or E*Trade Equity Edge. [ASSUMPTION: confirm with Plaid/Yodlee coverage lists or support]
+- Assumption carried forward: Aggregators do not return unvested awards from Carta, Shareworks, Fidelity SPS, Schwab EAC or E*Trade Equity Edge. [ASSUMPTION: A-45]
 
 ## R-014 · What guidance exists on a concentration threshold and on double exposure to the employer?
 - Category: 3 financial-health effect
@@ -232,7 +232,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one regulator-affiliated primary (FINRA) plus one large firm; others are weak snippets
 - Signal: STRONG that the qualitative double-exposure risk is official; WEAK for any single numeric threshold
 - Changes: A threshold in the score is a product choice, not a regulatory one, and must be labelled a rule of thumb (10% is the most cited; FINRA's own caveat applies). Employer stock is exposed through income as well as wealth, so unvested grants and the employer link cannot be seen by a single-largest-position check alone. [INFERENCE: from FINRA and T. Rowe Price text]
-- Assumption carried forward: 10% of investable assets as the default flag level; denominator (portfolio vs net worth) is undecided and sources differ. [ASSUMPTION: confirm]
+- Assumption carried forward: 10% of investable assets as the default flag level; denominator (portfolio vs net worth) is undecided and sources differ. [ASSUMPTION: A-46]
 - Note: not found: Investor.gov concentration page (HTTP 403), SEC bulletin, CFP Board, Morgan Stanley, Fidelity, Schwab, J.P. Morgan primary pages with a threshold.
 
 ## R-015 · How common are RSUs, options and ESPPs among US employees and high earners, and what is the trend?
@@ -243,7 +243,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: none read
 - Signal: WEAK
 - Changes: The order of types cannot be set from prevalence data; it has to rest on other criteria (fit with the platform, modelling effort, advisor tools' coverage). [INFERENCE]
-- Assumption carried forward: current share of RSUs, options and ESPP among US high earners is unknown [ASSUMPTION: confirm].
+- Assumption carried forward: current share of RSUs, options and ESPP among US high earners is unknown [ASSUMPTION: A-25].
 
 ## R-016 · Which equity award types do US companies grant today?
 - Category: 5 (market size)
@@ -254,7 +254,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one industry survey reported by a secondary source; survey report itself not read; respondent count and company mix not stated
 - Signal: WEAK for exact figures (secondary report of a survey); consistent in direction with V04 in `discovery/voices.md` (advisors see more RSUs, fewer options)
 - Changes: RSUs (and performance-based units) are granted by almost every responding company, options by a minority and falling, ESPP by about half and more often in technology. This is prevalence among companies, not among advisors' client households. [INFERENCE]
-- Assumption carried forward: respondents are mostly public companies, so private-company practice (options more common) is under-represented [ASSUMPTION: confirm against the survey report].
+- Assumption carried forward: respondents are mostly public companies, so private-company practice (options more common) is under-represented [ASSUMPTION: A-47].
 
 ## R-017 · How is private-company stock valued for employees?
 - Category: 2 (tax and regulation)
@@ -265,4 +265,4 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (regulation); one vendor for the common vs preferred gap
 - Signal: STRONG for the rule; WEAK for typical discounts
 - Changes: a private-company share has a tax value (the latest 409A FMV, up to 12 months old) but no market price and no liquidity; it is a different number from what the employee could sell it for. A product can record that value and its date, but cannot treat it like a listed price. [INFERENCE]
-- Assumption carried forward: clients or advisors can obtain the latest 409A value from the employer or the grant documents [ASSUMPTION: confirm].
+- Assumption carried forward: clients or advisors can obtain the latest 409A value from the employer or the grant documents [ASSUMPTION: A-48].

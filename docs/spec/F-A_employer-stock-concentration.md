@@ -50,7 +50,7 @@ As an advisor, I want employer stock recognised as one position and linked to my
 | EC-A-06 | Current employer unknown | Counted in exposure; no pay line | AC-A-02, AC-A-13 |
 | EC-A-07 | Shares of a private employer | Out of exposure; the held shares stay as the advisor entered them (the instrument search accepts a free-text instrument) | AC-A-05; F-B; [FACT: questionnaire_map, 2026-10-05] |
 | EC-A-08 | Grant pending detail, flagged shares already held | Held shares count; the grant does not | AC-A-04, AC-A-06; AC-G-04 |
-| EC-A-09 | Employer stock held only inside a fund | Not counted as employer exposure | out: D-040 (held shares by issuer); how the check reads funds is asked in `02` |
+| EC-A-09 | Employer stock held only inside a fund | Not counted as employer exposure | out: D-040 (held shares by issuer); how the check reads funds [ASSUMPTION: A-13] |
 | EC-A-10 | Employer stock fund inside a 401(k), held as a position | Counted when flagged | AC-A-04 |
 | EC-A-11 | Flagged position without a market price | Out of the figure; advisor notice | AC-A-07, AC-A-08 |
 | EC-A-12 | Household without employer stock | Check, report and score identical to today | AC-A-11, AC-G-03 |
@@ -66,7 +66,7 @@ As an advisor, I want employer stock recognised as one position and linked to my
 | EV-A-03 | When the advisor adjusts the score of a household with employer exposure, the system shall record the adjustment and its reason with a "stock pay" tag. | M-04 | unit | (F6) |
 | EV-A-04 | When an analysis with employer exposure is shared, the system shall record whether any F-A line was edited or deleted before sharing. | M-05 | unit | (F6) |
 
-EV-A-04 depends on whether sharing and edits are recorded today (asked in `02`).
+EV-A-04 depends on whether sharing and edits are recorded today [ASSUMPTION: A-20].
 
 ## Simulator tests (relations)
 

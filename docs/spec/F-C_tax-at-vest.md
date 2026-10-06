@@ -34,7 +34,7 @@ As an advisor, I want to see the tax due on each vest and how much of it withhol
 | AC-C-11 | Where a state withholding rate is entered, the system shall compute the state gap as state tax owed minus the rate times the vest value. | D-033 | unit | (F6) |
 | AC-C-12 | If no state withholding rate is entered, then the system shall show "Estimated state tax on this vest: $<X>. Your state withholding was not provided, so the gap shown is federal only." | D-033 (label as decided) | e2e | (F6) |
 | AC-C-13 | If no state withholding rate is entered, then the system shall show the advisor "State withholding not entered for <grant>." in Data & Assumptions. | D-033 | e2e | (F6) |
-| AC-C-14 | The system shall show FICA owed on each vest with "Social Security and Medicare tax on this vest: $<X>, not included in the gap." | R-001 (RSUs are wages for FICA); FICA withholding not researched, asked in `02`; D-051 | e2e | (F6) |
+| AC-C-14 | The system shall show FICA owed on each vest with "Social Security and Medicare tax on this vest: $<X>, not included in the gap." | R-001 (RSUs are wages for FICA); FICA withholding not researched, open research question in `02`; D-051 | e2e | (F6) |
 | AC-C-15 | If a gap is zero or below, then the system shall show it as "Withholding covers the estimated tax on this vest." and count nothing. | D-033 | unit + e2e | (F6) |
 | AC-C-16 | Where a vest includes performance units, the system shall show its tax owed and gap at target followed by their range. | D-045 | unit + e2e | (F6) |
 

@@ -69,7 +69,7 @@ The answers are stored as structured elements, already shaped like the analysis 
 
 - The submission we read is marked completed, but its client has no profile and no analysis, and the system raised an "opportunity stalled, send the questionnaire" alert. [FACT: captures/questionnaire/02-opportunity]
 - The end screen gives the advisor a "Submit and continue" step that closes the questionnaire and, once closed, leads to the analysis. [FACT: template display rules]
-- So completion by the client and the analysis are two steps: the advisor reviews and submits, then a processing step turns the answers into a versioned client profile (the demo profile reports "questionnaire" as its source) and the analysis. [INFERENCE: from the two facts above and the profile metadata in captures/client/01-financial-health] To confirm with Sherpas.
+- So completion by the client and the analysis are two steps: the advisor reviews and submits, then a processing step turns the answers into a versioned client profile (the demo profile reports "questionnaire" as its source) and the analysis. [INFERENCE: from the two facts above and the profile metadata in captures/client/01-financial-health] [ASSUMPTION: A-18]
 
 ## Where stock compensation would fit
 

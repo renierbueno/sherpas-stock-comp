@@ -4,7 +4,7 @@ Decisions: D-037, D-042, D-057 · Depends on: F-B · Release: after F-B, behind 
 
 ## Context
 
-Grant detail lives in documents and plan portals (V01, V29), and aggregators do not pass unvested grants (R-013). The platform already extracts data from uploaded documents [web: https://sherpaswealth.com/data-extraction, accessed 2026-10-05]; whether it reads equity plan statements is an assumption (riskiest assumption 1) [ASSUMPTION: confirm].
+Grant detail lives in documents and plan portals (V01, V29), and aggregators do not pass unvested grants (R-013). The platform already extracts data from uploaded documents [web: https://sherpaswealth.com/data-extraction, accessed 2026-10-05]; whether it reads equity plan statements is an assumption (riskiest assumption 1) [ASSUMPTION: A-15].
 
 ## User story
 

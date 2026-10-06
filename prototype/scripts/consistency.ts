@@ -90,14 +90,16 @@ const walk = (dir: string): string[] => readdirSync(join(root, dir), { withFileT
   d.isDirectory() ? walk(`${dir}/${d.name}`) : d.name.endsWith('.md') ? [`${dir}/${d.name}`] : []);
 const living = [...walk('docs').filter((f) => f !== 'docs/03_decision_log.md' && !f.startsWith('docs/checks/')), 'README.md'];
 
-// 6. Every assumption tag cites an assumption ID (AS-NN) defined in 02_open_questions.
-const assumptionIds = new Set([...read('docs/02_open_questions.md').matchAll(/^\| (AS-\d{2}) \|/gm)].map((m) => m[1]));
-warn('assumption tags cite an AS-NN listed in 02_open_questions', living.flatMap(lines).flatMap(({ p, n, text }) =>
-  [...text.matchAll(/\[ASSUMPTION[^\]]*\]/g)].map((m) => m[0]).filter((t) => !(t.match(/AS-\d{2}/g) ?? []).some((id) => assumptionIds.has(id)))
+// 6. Every assumption tag cites an assumption ID (A-NN, the discovery list): A-01 to A-11 in
+// discovery/synthesis.md, A-12 onwards in 02_open_questions. The tag's own definition line is skipped.
+const assumptionIds = new Set(['docs/discovery/synthesis.md', 'docs/02_open_questions.md']
+  .flatMap((f) => [...read(f).matchAll(/^\| (A-\d{2}) \|/gm)].map((m) => m[1])));
+warn('assumption tags cite an A-NN of the assumption list', living.flatMap(lines).flatMap(({ p, n, text }) =>
+  [...text.matchAll(/\[ASSUMPTION[^\]]*\]/g)].map((m) => m[0]).filter((t) => t !== '[ASSUMPTION: A-NN]' && !(t.match(/\bA-\d{2}\b/g) ?? []).some((id) => assumptionIds.has(id)))
     .map((t) => `${p}:${n} ${t.slice(0, 60)}`)));
 
-// 7. Nothing is asked of Sherpas any more (D-059).
-warn('no questions left for Sherpas (D-059)', living.flatMap(lines).filter(({ p, text }) => p !== 'docs/02_open_questions.md' || !/D-059/.test(text))
+// 7. Nothing is asked of Sherpas before delivery; open questions are assumptions (D-059, D-099).
+warn('no questions asked of Sherpas before delivery (D-099)', living.flatMap(lines).filter(({ p, text }) => p !== 'docs/02_open_questions.md' || !/D-059|D-099/.test(text))
   .filter(({ text }) => /asked in `02`|ask Sherpas|confirm with Sherpas|question for Sherpas/i.test(text)).map(({ p, n, text }) => `${p}:${n} ${text.trim().slice(0, 70)}`));
 
 // 8. A decision replaced or superseded in full is not cited as current.

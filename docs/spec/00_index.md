@@ -53,7 +53,7 @@ Households analysed before a firm turns the setting on have no stock-pay data. H
 | AC-G-08 | When a firm turns the setting on, the system shall change no existing analysis until the advisor adds a flag or a grant. | D-023, D-052 | unit | (F6) |
 | AC-G-09 | The system shall let the advisor add flags, grants and plan statements to an existing household through advisor mode and Data & Assumptions (F-A, F-B, F-F). | D-030, D-042, D-052 | e2e | (F6) |
 
-After the MVP (D-052): asking existing clients the stock-pay question without the full questionnaire (asked in `02`); suggesting to the advisor existing households that hold single stocks; year-by-year follow-up (D-037 next).
+After the MVP (D-052): asking existing clients the stock-pay question without the full questionnaire [ASSUMPTION: A-22]; suggesting to the advisor existing households that hold single stocks; year-by-year follow-up (D-037 next).
 
 ## Features
 
@@ -72,7 +72,7 @@ Release 1 is F-A; release 2 is F-B, F-C, F-E, F-F and the text lines of F-D, tog
 
 ## Shared data
 
-Described in product terms; field names and storage are engineering's call. The platform's type lists already hold a stock compensation asset category (sub-type RSU used here) and a stock compensation income category (RSU inflow used here); grants and vest income map onto them, and what the lists do not hold (PSU terms, tranches, status, the employer flag) is added (D-058) [ASSUMPTION: the analysis does not use these categories today].
+Described in product terms; field names and storage are engineering's call. The platform's type lists already hold a stock compensation asset category (sub-type RSU used here) and a stock compensation income category (RSU inflow used here); grants and vest income map onto them, and what the lists do not hold (PSU terms, tranches, status, the employer flag) is added (D-058) [ASSUMPTION: A-12].
 
 | Object | Holds | From |
 |---|---|---|
@@ -91,11 +91,11 @@ The simulator reproduces only what the score article makes public [brief]; every
 | Check scale | Each check turns one figure into 0 to 100, on a scale, not pass or fail | Yes [brief] | As stated |
 | Area weights | Building wealth 30/20/20/15/15; retirement 25/10/20/20/25 (cash flow, debt, protection, liquidity, investing) | Yes [brief] | As stated |
 | Missing data | A figure Sherpas does not have is left out, not treated as zero or average | Yes [brief] | As stated |
-| `P-CONC` | Curve of the Investing concentration check | No | SIMULATED, [ASSUMPTION: confirm]; R-014's 10% is reference only |
+| `P-CONC` | Curve of the Investing concentration check | No | SIMULATED, [ASSUMPTION: A-31]; R-014's 10% is reference only |
 | `P-CONC-BASE` | The base of the concentration figure ("investable assets") | Name only [FACT: captures/client/02-score-breakdown] | SIMULATED: listed investments plus cash |
-| `P-LIQ-HORIZON` | What "near-term" means in the Liquidity commitments check | No | SIMULATED, [ASSUMPTION: confirm] |
-| `P-LIQ` | Curve of the near-term commitments check | No | SIMULATED, [ASSUMPTION: confirm] |
-| `P-AREA-MIX` | How the check scores of one area combine into its points | No | SIMULATED: equal weights, [ASSUMPTION: confirm] (D-066) |
+| `P-LIQ-HORIZON` | What "near-term" means in the Liquidity commitments check | No | SIMULATED, [ASSUMPTION: A-31] |
+| `P-LIQ` | Curve of the near-term commitments check | No | SIMULATED, [ASSUMPTION: A-31] |
+| `P-AREA-MIX` | How the check scores of one area combine into its points | No | SIMULATED: equal weights, [ASSUMPTION: A-31] (D-066) |
 | `P-STAGE` | Weights of a household in transition | No ("values in between") | SIMULATED |
 | `P-LIMITS` | Serious issues that hold the score down | No | Left out of the simulator, labelled |
 

@@ -24,7 +24,7 @@ As a client, I want to say that part of my pay comes in company stock, the same 
 | AC-E-06 | If the client adds no stock compensation row, then the system shall continue the questionnaire exactly as today. | D-023 | e2e | (F6) |
 | AC-E-19 | The row shall show no upload prompt; a plan statement the client uploads in the documents step enters F-F as a proposal (AC-F-13). | D-057, D-077 | e2e | (F6) |
 | AC-E-20 | The system shall never block completing the questionnaire or generating the analysis because a grant is pending detail. | D-035, D-060 | e2e | (F6) |
-| AC-E-21 | The system shall add the chip to any Financial Health template the firm uses [ASSUMPTION: the income widget is shared by the firm's templates]. | D-056, D-060 | e2e | (F6) |
+| AC-E-21 | The system shall add the chip to any Financial Health template the firm uses [ASSUMPTION: A-30]. | D-056, D-060 | e2e | (F6) |
 
 ### What it creates
 
@@ -53,7 +53,7 @@ As a client, I want to say that part of my pay comes in company stock, the same 
 | EC-E-04 | The advisor answers "not sure" to the income question | Grant stays pending even after the tranches are complete, until it is answered yes or no | AC-E-13, AC-B-29 |
 | EC-E-05 | Client's employer is private | Reported like any employer; the advisor records it as private | AC-E-03; F-B (AC-B-18 to AC-B-21) |
 | EC-E-06 | The client's stock pay is ESPP or options | Reported as stock compensation; the advisor sees the notice, deletes the grant and flags held shares | AC-E-16; F-A |
-| EC-E-07 | Firm uses the "benefit plan income" block instead of the income questions | The chip goes in that block too | [ASSUMPTION: the block uses the same income rows], `02` (D-059) |
+| EC-E-07 | Firm uses the "benefit plan income" block instead of the income questions | The chip goes in that block too | [ASSUMPTION: A-24], `02` (D-059) |
 | EC-E-08 | Advisor fills the questionnaire in advisor mode | Full editor instead of the client rows | AC-E-15 |
 | EC-E-09 | Client says yes, advisor finds no grant (misunderstanding) | Advisor deletes the grant; alert removed | AC-E-09; F-B |
 

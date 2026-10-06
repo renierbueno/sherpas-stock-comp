@@ -7,33 +7,53 @@ What we do not know. Do not guess an answer anywhere else in the repo. When one 
 - What do the advisor and the client call the end client in the product? The client view says "household" on screen and "opportunity" in its data; Sherpas' public announcement says "investor intake".
 - Can the document extraction read an equity plan statement (grant, vest schedule, PSU terms) into tranches? Unknown from the client side; see the assumptions below (D-042, D-057).
 
-## Assumptions we work on (D-059)
+## Assumptions we work on (D-059, D-099)
 
-No more questions go to Sherpas, and none are left for the follow-up session. Each former question is an assumption the work stands on, with what changes if it is false.
+No question is sent to Sherpas before delivery (D-099). Each one is an assumption the work stands on, with what changes if it is false; together they are what is discussed with Sherpas in the follow-up session. IDs follow the discovery assumption list: A-01 to A-11 are in `discovery/synthesis.md`, A-12 onwards are here. Every `[ASSUMPTION: A-NN]` tag in the docs cites one of them.
 
-| Assumption | If it is false |
-|---|---|
-| The analysis does not use the stock compensation categories of the platform's type lists today (D-058). | The mapping holds; only the net worth treatment needs checking so unvested value stays out (D-026). |
-| Concentration is measured by holding, not by issuer or by sector with fund look-through (D-040). | By issuer: AC-A-04 changes nothing new. With look-through: EC-A-09 moves into the MVP. |
-| The existing concentration threshold suits a single company (riskiest assumption 2). | An employer-specific threshold moves from next to the MVP (D-041). |
-| The document extraction can read an equity plan statement into tranches (riskiest assumption 1, D-042, D-057). | F-F and the client upload fall back to manual entry; the riskiest-assumption test in `07_success_criteria.md` says so early. |
-| The score article in the brief describes the score as it runs; the other Help Center articles add nothing the spec depends on. | The simulator parameters stay labelled `P-…`; only their SIMULATED values change. |
-| The figures that differ across demo screens (net worth, equity share, concentration, cash yield) are demo-data issues. | The spec reads check inputs, not displayed figures, so it holds; the prototype uses its own SIMULATED household. |
-| The advisor's "Submit and continue" turns a completed questionnaire into a profile and an analysis. | Grants are created at whichever step creates the profile (AC-E-07 is unchanged in substance). |
-| Proposal conversion and time to proposal can be tracked per household (M-01). | The instrumentation events of the spec add it; the baseline comes from the first weekly readout. |
-| Sharing an analysis and the advisor's edits to generated lines are not recorded today. | EV-A-04 and EV-D-01 add them; if they exist, the events reuse them. |
-| Pilot advisors can tag past opportunities as with or without stock pay. | The M-01 baseline starts at the first weekly readout instead. |
-| An advisor cannot resend the questionnaire, or one question of it, to an existing client. | If they can, asking existing households moves from next to the MVP (D-052). |
-| When the same household is entered twice (questionnaire, then Data & Assumptions), the advisor's last save wins and versions are kept. | The reprocessing rules of AC-G-12 still apply; only which version the grant reads changes. |
-| The "benefit plan income" variant of Income uses the same income rows, so the chip fits there too (EC-E-07). | The chip is added to that block separately. |
-| Stock pay is common enough among these advisors' clients to matter (R-015, R-016 cover companies only). | The pilot shows it in M-06; the feature stays behind the firm setting (D-030). |
-| The demand comes from advisors whose clients have stock pay and who work around the platform today; the brief does not say who raised it [brief]. | If it came from sales or a single firm, the first release still holds (behind a firm setting, D-030), and the release 1 stop rule on reach (D-088) decides whether release 2 is built for everyone. |
-| The "Anything to add" chat of each questionnaire section feeds the opportunity's context, which the platform already reads for documents, meeting notes and CRM records [FACT: questionnaire_map, line 39, for the context]. | Stock pay mentioned only in the chat is not proposed; the enablement material asks advisors to read the chat (D-093). |
-| How Sherpas charges does not change the MVP. | Only the business lens (`05_business_lens.md`) changes. |
+| ID | Assumption | Source | If it is false |
+|---|---|---|---|
+| A-12 | The analysis does not use the stock compensation categories of the platform's type lists today (D-058). | To discuss in the follow-up session (D-099) | The mapping holds; only the net worth treatment needs checking so unvested value stays out (D-026). |
+| A-13 | Concentration is measured by holding, not by issuer or by sector with fund look-through (D-040). | To discuss in the follow-up session (D-099) | By issuer: AC-A-04 changes nothing new. With look-through: EC-A-09 moves into the MVP. |
+| A-14 | The existing concentration threshold suits a single company (riskiest assumption 2). | To discuss in the follow-up session (D-099) | An employer-specific threshold moves from next to the MVP (D-041). |
+| A-15 | The document extraction can read an equity plan statement into tranches (riskiest assumption 1, D-042, D-057). | To discuss in the follow-up session (D-099) | F-F and the client upload fall back to manual entry; the riskiest-assumption test in `07_success_criteria.md` says so early. |
+| A-16 | The score article in the brief describes the score as it runs; the other Help Center articles add nothing the spec depends on. | To discuss in the follow-up session (D-099) | The simulator parameters stay labelled `P-…`; only their SIMULATED values change. |
+| A-17 | The figures that differ across demo screens (net worth, equity share, concentration, cash yield) are demo-data issues. | To discuss in the follow-up session (D-099) | The spec reads check inputs, not displayed figures, so it holds; the prototype uses its own SIMULATED household. |
+| A-18 | The advisor's "Submit and continue" turns a completed questionnaire into a profile and an analysis. | To discuss in the follow-up session (D-099) | Grants are created at whichever step creates the profile (AC-E-07 is unchanged in substance). |
+| A-19 | Proposal conversion and time to proposal can be tracked per household (M-01). | To discuss in the follow-up session (D-099) | The instrumentation events of the spec add it; the baseline comes from the first weekly readout. |
+| A-20 | Sharing an analysis and the advisor's edits to generated lines are not recorded today. | To discuss in the follow-up session (D-099) | EV-A-04 and EV-D-01 add them; if they exist, the events reuse them. |
+| A-21 | Pilot advisors can tag past opportunities as with or without stock pay. | To discuss in the follow-up session (D-099) | The M-01 baseline starts at the first weekly readout instead. |
+| A-22 | An advisor cannot resend the questionnaire, or one question of it, to an existing client. | To discuss in the follow-up session (D-099) | If they can, asking existing households moves from next to the MVP (D-052). |
+| A-23 | When the same household is entered twice (questionnaire, then Data & Assumptions), the advisor's last save wins and versions are kept. | To discuss in the follow-up session (D-099) | The reprocessing rules of AC-G-12 still apply; only which version the grant reads changes. |
+| A-24 | The "benefit plan income" variant of Income uses the same income rows, so the chip fits there too (EC-E-07). | To discuss in the follow-up session (D-099) | The chip is added to that block separately. |
+| A-25 | Stock pay is common enough among these advisors' clients to matter (R-015, R-016 cover companies only). | To discuss in the follow-up session (D-099) | The pilot shows it in M-06; the feature stays behind the firm setting (D-030). |
+| A-26 | The demand comes from advisors whose clients have stock pay and who work around the platform today; the brief does not say who raised it [brief]. | `00_brief.md` | If it came from sales or a single firm, the first release still holds (behind a firm setting, D-030), and the release 1 stop rule on reach (D-088) decides whether release 2 is built for everyone. |
+| A-27 | The "Anything to add" chat of each questionnaire section feeds the opportunity's context, which the platform already reads for documents, meeting notes and CRM records [FACT: questionnaire_map, line 39, for the context]. | `10_flow_review.md` GAP-40 | Stock pay mentioned only in the chat is not proposed; the enablement material asks advisors to read the chat (D-093). |
+| A-28 | How Sherpas charges does not change the MVP. | To discuss in the follow-up session (D-099) | Only the business lens (`05_business_lens.md`) changes. |
+| A-29 | Large advisory firms are the main buyers, so a capability that helps win or keep them weighs more than one only small independent advisors value [brief for the target user]. | `05_business_lens.md` | The first release still holds; only the priority order of Next items changes (`05_business_lens.md`). |
+| A-30 | The income question and the stock compensation chip sit in the income widget shared by every Financial Health template a firm uses (AC-E-21, GAP-13). | `spec/F-E_client-reports-stock-pay.md` | The chip and question are added to each firm template separately. |
+| A-31 | The score article does not publish check curves, near-term horizons or how check scores combine into an area; the simulator uses named `P-…` parameters with SIMULATED values (`spec/00_index.md`, D-066). | `spec/00_index.md` | Only the SIMULATED values change; the relation tests of the simulator still hold. |
+| A-32 | Pilot targets are agreed before the pilot starts, and targets that need a baseline are set after the first weekly readout (`07_success_criteria.md`). | `07_success_criteria.md` | The pilot reads its metrics against the first week instead of a target. |
+| A-33 | At pilot volume, the weekly reasons and edits can be grouped by hand. | `07_success_criteria.md` | A small model groups them; the readout format does not change. |
+| A-34 | A 0% to 200% PSU payout range is typical for public companies, not a legal rule (R-002). | `research.md` | The PSU range is read from each award agreement, as F-C already allows. |
+| A-35 | A 10-year term and a 90-day post-termination window are common practice for NSOs, not law (R-003). | `research.md` | Each grant keeps its own term. |
+| A-36 | The 2025 AMT exemption amounts are the latest found; 2026 values are needed before any AMT estimate (R-004). | `research.md` | The 2026 values are fetched before any AMT estimate. |
+| A-37 | Non-qualified ESPP tax treatment is inferred, not sourced (R-005). | `research.md` | The treatment is sourced before non-qualified ESPP is modelled. |
+| A-38 | RSA, SAR and phantom stock are less common than RSU, options and ESPP for public-company employees of advisor clients (R-006). | `research.md` | Their placement as later (D-041) is reviewed. |
+| A-39 | ESOP coverage under ERISA comes from secondary sources and the IRS "shared jurisdiction" note (R-007). | `research.md` | Only matters if ESOP leaves the exclusion list; a DOL source is read first. |
+| A-40 | Employers use the 22% flat supplemental method for amounts below $1 million (R-008). | `research.md` | Withholding at vest differs per employer; the advisor-entered rate (D-033) covers it. |
+| A-41 | Employee grants (non-executive, non-director) follow the same shapes as the filed executive and director examples (R-009). | `research.md` | Schedules stay free-form per tranche, so the model holds. |
+| A-42 | Back-loaded schedules at the largest tech employers appear in client portfolios, so tranche percentages are free-form (R-010). | `research.md` | Free-form tranches still hold; fixed presets would also work. |
+| A-43 | Double-trigger RSU holders among advisor clients are mainly pre-IPO private-company employees, so the liquidity condition is a pending event with no date (R-011). | `research.md` | The liquidity event may carry a date; AC-B rules on pending grants still apply. |
+| A-44 | How MoneyGuide handles equity compensation does not change the spec (R-012 found RightCapital and eMoney only). | `research.md` | The competitor comparison in the deliverable adds MoneyGuide. |
+| A-45 | Aggregators do not return unvested awards from the stock-plan platforms (R-013). | `research.md` | Grant detail could also come from a linked account; the manual and upload routes stay. |
+| A-46 | 10% of investable assets is the reference flag level; the denominator is undecided across sources (R-014). The spec keeps it as `P-CONC`, reference only. | `research.md` | Only the SIMULATED value of `P-CONC` changes. |
+| A-47 | The equity award survey respondents are mostly public companies, so private-company practice (more options) is under-represented (R-016). | `research.md` | The placement of options and private-company grants is reviewed. |
+| A-48 | Clients or advisors can obtain the latest 409A value from the employer or the grant documents (R-017). | `research.md` | Private-company grants stay pending, with no value, until one is entered. |
 
 ## For public research (answer with research)
 
-- Which stock-compensation types matter most for the households these advisors serve? Company-level data only (R-016: RSUs near universal, options a falling minority, ESPP about half); household-level data not found (R-015); also asked of Sherpas.
+- Which stock-compensation types matter most for the households these advisors serve? Company-level data only (R-016: RSUs near universal, options a falling minority, ESPP about half); household-level data not found (R-015); worked as A-25.
 - How do advisors handle stock compensation today, in their own words? Real-voice sources to read in F2 discovery (R-012 to R-014 cover tools and guidance only).
 - Does MoneyGuide model equity compensation, and does eMoney support RSUs today? Not found (R-012).
 - Do Plaid, Yodlee or the stock-plan platforms (Carta, Shareworks, Fidelity, Schwab, E*Trade) pass unvested grants to aggregators? Not documented (R-013).
