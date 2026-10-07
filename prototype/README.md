@@ -4,11 +4,15 @@ SIMULATED. A reference implementation of the spec in `docs/spec/`, not productio
 
 ## Run it
 
+Node 20 or later, from this folder:
+
 ```
 npm install
+npx playwright install chromium   # once, for the browser walk
 npm run dev        # the prototype, opens on "Start here"
-npm run check      # consistency of the docs, unit and screen tests, build, traceability
+npm run check      # consistency of the docs, unit and screen tests, build, traceability (fails if the spec's Test cells are out of date)
 npm run e2e        # the end-to-end walk in a real browser (H2)
+npm run trace -- --write   # rewrites the spec's Test cells and traceability table from the test titles
 ```
 
 ## What to look at
@@ -34,7 +38,7 @@ What the pilot (the first release) covers and what comes later is the MVP cut in
 | Income asked without stock compensation; a Stock compensation row; a grant pending detail with an alert (F-E) | Yes: scene 1 | Proposals from the questionnaire chat or an "Other income" row (AC-E-22 to AC-E-24): need the platform's context mechanism (A-27) |
 | Plan statement read, one review, "Confirm all"; completes the grant the client reported (F-F) | Yes: scene 1; extraction is SIMULATED, fixed per sample document | Upload to the opportunity's documents page (AC-F-15): no such page here; the same processing runs from Data & Assumptions and the client's documents step |
 | Firm setting, PDF, sharing (G) | The firm switch and the print view | Only Sherpas switches the setting (AC-G-18); the notice when it is turned off after use (AC-G-19); the share event (EV-G-01); the platform's written paragraphs (AC-G-17) |
-| Head of household filing status in the tax figures | No: the simulator uses single and joint | Not built |
+| Head of household filing status in the tax figures | No: the simulator uses single and joint | Not built (D-123): no SIMULATED household files as head of household, so no figure shown changes; the spec computes it through the platform's tax engine (AC-C-03) |
 
 The full list, criterion by criterion, with its test or its reason, is printed by `npm run trace` and written into the spec by `npm run trace -- --write` (the Test column of each feature file and the Traceability section of `docs/spec/00_index.md`, which also says what these tests check and why they are not QA, D-119); the reasons live in `src/model/scope.ts`.
 

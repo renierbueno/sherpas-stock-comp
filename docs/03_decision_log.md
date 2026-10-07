@@ -612,3 +612,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - Why: Spec Kit is the template this method follows (D-047) and one an engineering team working with AI is likely to know; acceptance scenarios are examples written by product that define the behaviour, while QA's test cases stay QA's. Citing the IDs keeps every scenario traceable to the repo requirement, edge case and test, so engineering can go from Notion to the code without a question.
 - Date: 2026-10-07 · Confirmed by: Renier
 
+## D-123 · Head of household stays out of the prototype's simulator (amends D-104)
+- What: the prototype's simulator keeps single and joint filing only; the head of household brackets and standard deduction stay in `12_stock_comp_rules.md` (SC-11) for the platform's tax engine, which the spec already uses (AC-C-03). The spec is unchanged. `prototype/README.md` says it is not built and why. Options: add it to the simulator now (about 40 minutes on delivery day).
+- Why: no SIMULATED household files as head of household, so no figure the prototype shows changes; the spec, which is what engineering builds from, already covers it through the platform's tax engine.
+- Date: 2026-10-07 · Confirmed by: Renier
+
