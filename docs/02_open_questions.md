@@ -100,7 +100,8 @@ Work left out of the delivery on purpose, with what covers it meanwhile.
 | Help Center article on how stock compensation changes the score | Route to market is already written for advisors | `08_release_notes.md`, `09_enablement.md` |
 | Screenshots in the pull request | The screens are shown elsewhere | The video and the password-protected copy (D-124) |
 | Full re-read of release notes and enablement | No product behaviour changed since their last review | A TL;DR at the top of each |
-| A "When" for each edge case of the spec, so every case reads as Given, When, Then | The Notion feature pages already show each case as Given, When, Then; the spec keeps situation and expected result | The edge cases as they are, with the requirements they cite |
+| A "When" for each edge case of the spec, so every case reads as Given, When, Then (D-128) | The Notion feature pages already show each case as Given, When, Then; the spec keeps situation and expected result | The edge cases as they are, with the requirements they cite |
+| GAP-37 and GAP-38: which sections each prototype scene changes, and a note that the projection chart imitates the platform's (D-128) | They are about how the prototype explains itself; no requirement changes | The guide strip on every screen, and the prototype's "SIMULATED" banner |
 | Miro: flows of today in the change maps' format | No time left at delivery (D-127) | The flows as drawn, and the change maps beside them |
 
 ## Answered
