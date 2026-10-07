@@ -27,7 +27,7 @@ npm run check                     # docs consistency, tests, build, traceability
 npm run e2e                       # the walk from questionnaire to shared report in a real browser
 ```
 
-What each scene shows, and what stays in the spec only: [`prototype/README.md`](prototype/README.md). Everything in the prototype is SIMULATED.
+What each scene shows, and what stays in the spec only: [`prototype/README.md`](prototype/README.md). Everything in the prototype is SIMULATED. To try it without running code, use the password-protected copy linked from the Notion page; the password comes with the delivery email (D-124).
 
 ## How the work is organised
 

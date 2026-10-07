@@ -617,3 +617,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - Why: no SIMULATED household files as head of household, so no figure the prototype shows changes; the spec, which is what engineering builds from, already covers it through the platform's tax engine.
 - Date: 2026-10-07 · Confirmed by: Renier
 
+## D-124 · Two ways in: the private repository for engineering, a password-protected copy for everyone else (settles D-086)
+- What: engineering reaches the pull request and the code through the private repository, shared with the people Sherpas names. Readers without a development setup open a copy of the prototype from a link on the Notion page: the static build (D-061) as one HTML file, encrypted with a password so its content cannot be read without it, on a free static host under Renier's account. The password goes in the delivery email, never in the repository. Publishing happens in F7, only with Renier's OK at that moment. Options: the private repository only (a reader without a development setup cannot try the flow); video and screenshots only (nobody can try the flow).
+- Why: D-086 deploys only when the private route does not work for a reader, and a product reader who does not run code locally is that case. Encrypting the page, rather than hiding it behind a link, keeps an imitation of a confidential interface unreadable on the open web (D-008).
+- Date: 2026-10-07 · Confirmed by: Renier
+
