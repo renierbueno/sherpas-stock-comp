@@ -30,7 +30,7 @@ As an advisor, I want to upload a client's plan statement and confirm the grants
 | AC-F-14 | When the advisor confirms a proposed grant with the same owner and employer as a grant pending detail, the system shall complete that pending grant with the confirmed values instead of adding a second grant, keeping the client's estimate and the date it was reported; further proposals from the same statement are added as new grants. | D-078 | unit + e2e | (F6) |
 | AC-F-15 | A plan statement the advisor uploads to the opportunity's documents, outside the grant editor, shall be processed as in AC-F-02 to AC-F-12. | D-079; [FACT: questionnaire_map, 2026-10-05, uploads go to the opportunity's context] | e2e | (F6) |
 | AC-F-16 | When the statement shows a delivery or release date for a tranche, the system shall propose it as the tranche's delivery date; otherwise it shall propose the vest date. | D-101 [ASSUMPTION: A-59]; SC-02 | e2e | (F6) |
-| AC-F-17 | When the advisor confirms a proposed grant or saves a grant, the review shall show "Salary on file should exclude company stock. If it includes stock that vested, edit it." | D-108; SC-01 | e2e | (F6) |
+| AC-F-17 | When the advisor confirms a proposed grant or saves a grant, the review shall show "Salary on file should exclude stock compensation. If it includes vested stock compensation, edit it." | D-108; SC-01 | e2e | (F6) |
 | AC-F-18 | Where a statement yields more than one proposed grant, the review shall offer "Confirm all", which confirms every proposed grant of that statement as AC-F-06 does. | D-090 | e2e | (F6) |
 
 ## Edge cases

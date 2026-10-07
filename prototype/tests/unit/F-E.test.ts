@@ -1,17 +1,17 @@
-// F-E unit tests: what the client's stock-pay row creates, the alert, and the advisor notices.
+// F-E unit tests: what the client's stock-compensation row creates, the alert, and the advisor notices.
 // Households are SIMULATED.
 import { setFlag } from '../../src/model/actions';
 import { analyze } from '../../src/model/analysis';
 import { EventLog } from '../../src/model/events';
 import { saveGrant, statusOf } from '../../src/model/grants';
 import { H1, H2, H2_GRANT, H5 } from '../../src/model/households';
-import { flagOnConfirm, opportunityAlerts, PENDING_ALERT, recordAlertChange, recordRowChange, rowErrors, submitQuestionnaire, type StockPayRow } from '../../src/model/intake';
+import { flagOnConfirm, opportunityAlerts, PENDING_ALERT, recordAlertChange, recordRowChange, rowErrors, submitQuestionnaire, type StockCompensationRow } from '../../src/model/intake';
 import { simulateScore } from '../../src/model/score';
 import type { Firm, Household } from '../../src/model/types';
 
 const ON: Firm = { id: 'firm-sim', stockComp: true };
 const text = (h: Household, ac: string) => analyze(h, ON).lines.filter((l) => l.ac === ac).map((l) => l.text);
-const row = (r: Partial<StockPayRow>): StockPayRow => ({ id: 'r1', ownerId: 'p1', employer: 'Halden Robotics', ...r });
+const row = (r: Partial<StockCompensationRow>): StockCompensationRow => ({ id: 'r1', ownerId: 'p1', employer: 'Halden Robotics', ...r });
 const BLANK: Household = { ...H2, grants: [] };
 
 describe('F-E · questionnaire rows', () => {
@@ -99,7 +99,7 @@ describe('F-E · events', () => {
     expect(log.of('EV-E-01').map((e) => e.data)).toEqual([{ firm: 'firm-sim', action: 'added' }, { firm: 'firm-sim', action: 'removed' }]);
   });
 
-  it('EV-E-02 · the completion keeps the stock-pay answer', () => {
+  it('EV-E-02 · the completion keeps the stock-compensation answer', () => {
     const log = new EventLog();
     submitQuestionnaire(H1, [], ON, '2026-09-28', log);
     submitQuestionnaire(BLANK, [row({})], ON, '2026-09-28', log);

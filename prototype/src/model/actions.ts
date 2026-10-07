@@ -18,9 +18,9 @@ export function removeFlag(h: Household, positionId: string, firm: Firm, log?: E
   return { ...h, flags: h.flags.filter((f) => f.positionId !== positionId) };
 }
 
-/** AC-B-06 / AC-G-12 text, shown before any stock-pay save when an adjustment exists. */
+/** AC-B-06 / AC-G-12 text, shown before any stock-compensation save when an adjustment exists. */
 export const ADJUSTMENT_WARNING = 'Saving reprocesses the analysis and replaces your manual score adjustment.';
-export const SALARY_CHECK = 'Salary on file should exclude company stock. If it includes stock that vested, edit it.'; // AC-F-17
+export const SALARY_CHECK = 'Salary on file should exclude stock compensation. If it includes vested stock compensation, edit it.'; // AC-F-17
 
 export function needsAdjustmentWarning(h: Household): boolean {
   return !!h.manualAdjustment;

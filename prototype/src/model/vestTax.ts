@@ -10,7 +10,7 @@ const yearOf = (iso: string) => Number(iso.slice(0, 4));
 
 /**
  * Wages per person for a year before the vests are added: the reported salary, which excludes
- * company stock (AC-E-02, AC-E-12).
+ * stock compensation (AC-E-02, AC-E-12).
  */
 export function baseWages(h: Household, _firm: Firm, _year: number): Record<PersonId, number> {
   return Object.fromEntries(h.people.map((p) => [p.id, h.salary[p.id] ?? 0]));

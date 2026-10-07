@@ -140,7 +140,7 @@ export function Root() {
       <div className="start" aria-label="Start here">
         <div className="caps">Start here</div>
         <h1>Stock compensation in the Financial Health analysis</h1>
-        <p className="lead">Many clients are paid partly in company stock. Today the analysis cannot see it: shares of the employer split across accounts look small, grants that have not vested have no place, and the tax due when they vest is a surprise.</p>
+        <p className="lead">Many clients receive stock compensation. Today the analysis cannot see it: shares of the employer split across accounts look small, grants that have not vested have no place, and the tax due when they vest is a surprise.</p>
         <p>This prototype shows what changes for the advisor and the client, five scenes of about a minute each. Every figure is SIMULATED; the screens imitate the platform only where something changes. It is a reference implementation of the spec, not production code: each new line is linked to the requirement that defines it, and each requirement to its test.</p>
         <FlowRail big />
         <p className="caps">Every step is in the prototype; the firm setting is a switch in "Explore freely".</p>

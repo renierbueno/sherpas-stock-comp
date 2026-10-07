@@ -30,7 +30,7 @@ describe('G · screens', () => {
     }
   });
 
-  it('AC-G-12 · EV-A-03 · the advisor adjusts the score; the next stock-pay save warns first', async () => {
+  it('AC-G-12 · EV-A-03 · the advisor adjusts the score; the next stock-compensation save warns first', async () => {
     render(<App initialHousehold="H2" households={[FLAGGED]} />);
     await user().selectOptions(screen.getByLabelText('View'), 'advisor');
     await user().type(screen.getByLabelText('Adjustment points'), '2');

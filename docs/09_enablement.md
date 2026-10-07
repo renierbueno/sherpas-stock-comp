@@ -6,35 +6,35 @@ Material for advisors and for Client Success, ready with each release. Advisor s
 
 ### Five-minute guide
 
-1. **Find it.** A client added a Stock compensation row, the opportunity shows "Stock pay: detail pending", or the same alert shows a proposal from the chat or an "Other income" row (see below).
+1. **Find it.** A client added a Stock compensation row, the opportunity shows "Stock compensation: detail pending", or the same alert shows a proposal from the chat or an "Other income" row (see below).
 2. **Complete it.** In advisor mode or Data & Assumptions, open the grant. Either upload the plan statement and review what it proposes on one screen, with "Confirm all" when it holds more than one grant (D-090, AC-F-18), or enter the pattern and adjust the tranches. Nothing read from a statement counts until you confirm it. The client's own answers are shown as a guide only.
 3. **Check the dates and values.** Each tranche shows "Shares delivered on", prefilled with its vest date; change it when the plan statement or the client's records show a later delivery (D-101). For a tranche already delivered this year, enter "Value at delivery" from the W-2 or the plan statement (D-107). If you have the paystub or plan statement, enter the state withholding rate.
-4. **Check the salary on file.** After you confirm or save a grant, the review shows "Salary on file should exclude company stock. If it includes stock that vested, edit it." (D-108). Edit the salary when it includes vests; see "The salary on file" below.
+4. **Check the salary on file.** After you confirm or save a grant, the review shows "Salary on file should exclude stock compensation. If it includes vested stock compensation, edit it." (D-108). Edit the salary when it includes vests; see "The salary on file" below.
 5. **Check the flagged shares.** Confirming a grant flags every held position with the employer's ticker, in any account and from any source (typed, linked or uploaded), and shows "<Company> (<ticker>) held in <accounts> flagged as employer stock." with Undo (D-090, D-092). Each flagged position is set to the grant owner as person and "current employer: yes"; both are editable (D-110). Use Undo if a position is not the client's employer stock.
 6. **Then adjust the score**, if you want to: saving any of the above reprocesses the analysis and replaces a manual adjustment.
 
 ### The salary on file
 
-The questionnaire's income question reads "Total annual income before taxes, not counting company stock" (D-094). The reported income never contains stock, and every future vest, including this year's, is added beside it. So the salary on file must not include vests, or they count twice.
+The questionnaire's income question reads "Total annual income before taxes, not counting stock compensation" (D-094). The reported income never contains stock, and every future vest, including this year's, is added beside it. So the salary on file must not include vests, or they count twice.
 
 Edit the salary on file when:
 
 - the household was created before the new income question (existing households);
 - the salary came from a W-2, whose wages include vested shares (SC-01);
 - the client typed a figure that, by their own account, includes stock.
-- the pilot ends for your firm and Sherpas turns the setting off: each household with a grant shows "Income was reported without company stock. Check the salary on file.", because the grants are hidden and the reported income still leaves stock out (D-111).
+- the pilot ends for your firm and Sherpas turns the setting off: each household with a grant shows "Income was reported without stock compensation. Check the salary on file.", because the grants are hidden and the reported income still leaves stock out (D-111).
 
 The line shows every time you confirm or save a grant; it reads nothing and stores nothing. If the salary already excludes stock, nothing needs to change.
 
 ### Proposals from the chat or "Other income"
 
-When the client mentions stock pay in an "Anything to add" chat, or names an "Other income" row with words such as RSU, stock or shares, the platform proposes a grant to you, with the person and, if named, the employer (D-093, D-096, AC-E-22). The opportunity shows the "Stock pay: detail pending" alert while it waits. Only you see the proposal.
+When the client mentions stock compensation in an "Anything to add" chat, or names an "Other income" row with words such as RSU, stock or shares, the platform proposes a grant to you, with the person and, if named, the employer (D-093, D-096, AC-E-22). The opportunity shows the "Stock compensation: detail pending" alert while it waits. Only you see the proposal.
 
 - **Confirm** it: a grant pending detail is created; complete it as above.
 - **Reject** it: nothing is created.
 - If an "Other income" row duplicates the grant, delete the row, so the vests are not counted twice.
 
-If a proposal does not appear for a chat that mentions stock pay, read the chat and add the grant by hand [ASSUMPTION: A-27].
+If a proposal does not appear for a chat that mentions stock compensation, read the chat and add the grant by hand [ASSUMPTION: A-27].
 
 ### When to change "Shares delivered on"
 
@@ -56,7 +56,7 @@ Income, cash, goal and chart lines read the delivery date; Social Security and M
 | "$X after estimated tax ($Y before tax)" | Value on the delivery date at the price on the analysis date, after the tax the platform estimates |
 | "delivered on <date>, at its value on delivery" | A tranche delivered earlier this year, valued at the "Value at delivery" you entered; its tax and gap stay in this year's figures until year end, because any shortfall is paid at filing (SC-17) |
 | "includes future vests after estimated tax, at the <analysis date> price" | A retirement figure that counts each future vest as wage income on its delivery date |
-| "Stock pay reported, not yet included in these figures" | Detail pending; the score does not use it |
+| "Stock compensation reported, not yet included in these figures" | Detail pending; the score does not use it |
 
 ### Explaining the retirement figures
 
@@ -91,14 +91,14 @@ What the analysis does not do: tell the client to sell, hold or exercise, or giv
 - **The client has options or ESPP.** Not modelled yet; flag any shares already held as employer stock by hand.
 - **A tranche was delivered.** Record the shares kept as a position; after its delivery date the grant counts future tranches only. A tranche delivered this year keeps its tax and gap until year end. Until you record the shares, they are not counted anywhere in the analysis.
 - **Do the retirement figures include vests?** Yes, as wage income on each delivery date; see "Explaining the retirement figures".
-- **An existing client has stock pay.** Add it in Data & Assumptions, and check the salary on file; nothing changes for them until you do.
+- **An existing client has stock compensation.** Add it in Data & Assumptions, and check the salary on file; nothing changes for them until you do.
 
 ## For Client Success · pilot playbook
 
 | When | What | Who |
 |---|---|---|
 | Before | Pick 3 to 5 firms, ideally with corporate or tech clients; Sherpas turns the setting on for them (only Sherpas changes it in the first release, D-111); agree targets (`07_success_criteria.md`) | Product, Client Success |
-| Before | Each pilot advisor tags past opportunities with or without stock pay (baseline for M-01) | Advisors, Client Success |
+| Before | Each pilot advisor tags past opportunities with or without stock compensation (baseline for M-01) | Advisors, Client Success |
 | Week 0 | Share this guide; a 20-minute walkthrough per firm, covering "Confirm all", the flagged shares with Undo, the salary line and proposals | Client Success |
 | Weekly | Fill the readout (`07`): metrics, grouped advisor corrections, decision | Product |
 | Every two weeks | Continue, change or stop, logged as a decision; on stop, Sherpas turns the setting off and advisors check the salary of each household with a grant (AC-G-19) | Product, with Sherpas |

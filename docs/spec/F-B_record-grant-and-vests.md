@@ -71,7 +71,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
 | AC-B-28 | The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one tranche with date and units that is either future or delivered in the current tax year, and PSU terms for a PSU. | D-035, D-060, D-094, D-109 | unit | (F6) |
-| AC-B-29 | Dropped: the advisor is not asked whether the salary includes vests; the income question excludes company stock and the grant review shows the line of AC-F-17. | D-094, D-108 | | |
+| AC-B-29 | Dropped: the advisor is not asked whether the salary includes vests; the income question excludes stock compensation and the grant review shows the line of AC-F-17. | D-094, D-108 | | |
 | AC-B-30 | If the employer's ticker has no market price, then the system shall leave the grant out of every figure and show the advisor "Price not available for <ticker>: grant not counted." | [brief] missing data; D-060 | unit + e2e | (F6) |
 | AC-B-31 | The system shall store a grant as an element of the platform's stock compensation asset category, sub-type RSU, and a PSU as an RSU with its performance terms; unvested value stays out of net worth (AC-B-22). | D-058, D-026 | unit | (F6) |
 
@@ -95,7 +95,7 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 | EC-B-14 | ESPP purchases, unexercised options, RSA, SAR, phantom stock | Not offered as grant types; shares already held can be flagged (F-A) | out: D-024, D-041 |
 | EC-B-15 | A tranche vests after the analysis date and the analysis is reopened months later | Shown as vested with the prompt; no automatic conversion | AC-B-11, AC-B-12; D-037 (conversion next) |
 | EC-B-16 | PSU certified at the end of its period | The advisor edits the tranche units and sets the range to 100% | AC-B-08, AC-B-17 |
-| EC-B-17 | Grant entered by the advisor for an existing household, whose salary was collected before the income question excluded company stock | The review shows the line of AC-F-17; the advisor edits the salary if it includes vests | AC-F-17; D-108 |
+| EC-B-17 | Grant entered by the advisor for an existing household, whose salary was collected before the income question excluded stock compensation | The review shows the line of AC-F-17; the advisor edits the salary if it includes vests | AC-F-17; D-108 |
 | EC-B-18 | Delivery date not known | The vest date is used for both taxes | AC-B-32 |
 | EC-B-19 | Delivered shares later appear in a linked or uploaded account | Counted once, as a held position: the tranche left the figures on its date, and the employer flag applies whatever the source [ASSUMPTION: A-60] | AC-B-11; D-092 |
 

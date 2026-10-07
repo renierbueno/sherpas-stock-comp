@@ -60,7 +60,7 @@ function FlagForm({ household, positionId, onCancel, onSave }: { household: Hous
 
 export function HoldingsEditor({ household, firm, where, onSaveFlag, onRemoveFlag }: Props) {
   const [editing, setEditing] = useState<string | null>(null);
-  // Removing a flag is a stock-pay save too: same warning first (AC-G-12).
+  // Removing a flag is a stock-compensation save too: same warning first (AC-G-12).
   const [removing, setRemoving] = useState<string | null>(null);
   const remove = (id: string) => {
     if (household.manualAdjustment && removing !== id) return setRemoving(id);

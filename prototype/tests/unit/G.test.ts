@@ -30,12 +30,12 @@ describe('G · rules for every feature', () => {
 });
 
 describe('G · events', () => {
-  it('EV-A-03 · adjusting the score of a household with employer exposure records it with a "stock pay" tag', () => {
+  it('EV-A-03 · adjusting the score of a household with employer exposure records it with a "stock compensation" tag', () => {
     const log = new EventLog();
     adjustScore(H2, 2, 'Threshold too hard', ON, log);
     expect(log.of('EV-A-03')).toEqual([]);
     adjustScore(FLAGGED, -3, 'Threshold too hard for one company', ON, log);
-    expect(log.of('EV-A-03')[0].data).toEqual({ points: -3, reason: 'Threshold too hard for one company', tag: 'stock pay' });
+    expect(log.of('EV-A-03')[0].data).toEqual({ points: -3, reason: 'Threshold too hard for one company', tag: 'stock compensation' });
   });
 
   it('EV-A-04 · EV-D-01 · sharing records whether F-A and F-D lines were edited or deleted', () => {

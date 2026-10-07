@@ -40,9 +40,9 @@ const base = (id: string, name: string, people: Household['people']): Household 
   untouchedChecks: { ...UNTOUCHED },
 });
 
-/** H1 · No stock pay. Largest position a total market fund, 45% (EC-A-02 shape, no employer stock). */
+/** H1 · No stock compensation. Largest position a total market fund, 45% (EC-A-02 shape, no employer stock). */
 export const H1: Household = {
-  ...base('H1', 'H1 No stock pay · Rivera household', [
+  ...base('H1', 'H1 No stock compensation · Rivera household', [
     { id: 'p1', name: 'Ana', role: 'client' },
     { id: 'p2', name: 'Luis', role: 'coclient' },
   ]),
@@ -150,9 +150,9 @@ export const H5: Household = {
     tranches: [], source: 'questionnaire', reportedOn: '2026-10-01', clientEstimate: { type: 'not sure', frequency: 'not sure' } }],
 };
 
-/** H6 · Co-client with stock pay: both work for the same employer and both hold its shares (EC-A-03). */
+/** H6 · Co-client with stock compensation: both work for the same employer and both hold its shares (EC-A-03). */
 export const H6: Household = {
-  ...base('H6', 'H6 Co-client with stock pay · Lindqvist household', [
+  ...base('H6', 'H6 Co-client with stock compensation · Lindqvist household', [
     { id: 'p1', name: 'Erik', role: 'client' },
     { id: 'p2', name: 'Noor', role: 'coclient' },
   ]),

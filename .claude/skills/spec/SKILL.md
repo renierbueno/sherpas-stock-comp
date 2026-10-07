@@ -19,7 +19,7 @@ Goal: engineering and QA can plan, build and verify the MVP without a clarifying
 | `docs/07_success_criteria.md` | Product, Sherpas | Metrics `M-NN` (primary, secondary, guardrail), pilot, learning loop, riskiest-assumption test cards, weekly readout table (D-043) |
 | `docs/spec/00_index.md` | Everyone | D-023 rule (G), firm switch, roles, features with order and dependencies, simulator parameters, traceability |
 | `docs/spec/F-A_…` to `F-F_…` | Engineering, QA, F6 | One vertical feature each (D-047) |
-| `docs/08_release_notes.md` | Advisors | What is new, why scores of households with stock pay move, what stays out |
+| `docs/08_release_notes.md` | Advisors | What is new, why scores of households with stock compensation move, what stays out |
 | `docs/09_enablement.md` | Advisors, Client Success | How to complete a grant, read the federal-only gap, talk about it with the client; pilot playbook |
 
 ## EARS (one pattern per line)
@@ -65,13 +65,13 @@ Plan and tasks: to be written by engineering from this spec. The prototype PR is
 ```
 
 - IDs are never reused or renumbered; a dropped line stays with "dropped: why".
-- Every feature that touches something that exists today has at least one D-023 line: a household without stock pay gets exactly today's behaviour.
+- Every feature that touches something that exists today has at least one D-023 line: a household without stock compensation gets exactly today's behaviour.
 - `Verify`: `unit` (simulator or model), `e2e` (prototype path), `manual` (cannot be shown in the prototype; say why).
 
 ## Score simulator contract
 
 - Lives in the index (parameters) and in the features that touch checks (F-A, F-C). The spec defines the figure each check reads, never its score. Public parts of the score article are used as given [brief]; anything not public (check curves, thresholds, horizons, limits) is a named parameter `P-…` tagged `[ASSUMPTION: confirm]`, with SIMULATED test values. Never a Sherpas number we do not have. R-014's 10% is reference only.
-- Tests are relations, not absolute scores: unchanged without stock pay; two accounts equal one position; pending or private changes nothing; a larger gap never raises Liquidity.
+- Tests are relations, not absolute scores: unchanged without stock compensation; two accounts equal one position; pending or private changes nothing; a larger gap never raises Liquidity.
 
 ## Gaps
 
@@ -98,7 +98,7 @@ Before proposing an option, a resolution or a requirement that depends on a US t
 - Every edge case resolves to an AC or to "out" with its `D-NNN`.
 - Each riskiest assumption has a test card in `07`: how, signal, and what changes if it fails, linked to its `M-NN`.
 - Every `M-NN` has a definition, window, target or "set with Sherpas after week 1", and a decision rule, and is fed by an instrumentation event with an ID.
-- Release notes say that scores of households with stock pay move and that reprocessing replaces a manual adjustment (D-033).
+- Release notes say that scores of households with stock compensation move and that reprocessing replaces a manual adjustment (D-033).
 - Decisions taken while writing have a `D-NNN` with "Confirmed by: Renier"; the glossary is current.
 - The dry run was shown to Renier before the rest was written.
 

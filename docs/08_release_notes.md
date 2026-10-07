@@ -18,7 +18,7 @@ For advisors in the pilot firms, where Sherpas turns on "stock compensation" (D-
 
 ## Release 2 · Grants, tax at vest, client questions and plan statements
 
-The client reports stock pay, you complete it from the plan statement or by hand, and the analysis shows tax at vest and includes the vests in the goals and the projection.
+The client reports stock compensation, you complete it from the plan statement or by hand, and the analysis shows tax at vest and includes the vests in the goals and the projection.
 
 **Grants and their vests**
 - Add a client's RSU or PSU grant in advisor mode or Data & Assumptions: enter the schedule as a pattern (for example, four years, quarterly, one-year cliff) and edit any tranche (SC-06).
@@ -28,7 +28,7 @@ The client reports stock pay, you complete it from the plan statement or by hand
 - The analysis lists upcoming vests with their value at the price on the analysis date. No reminders are sent.
 
 **Confirming a grant**
-- The review shows one line every time: "Salary on file should exclude company stock. If it includes stock that vested, edit it." Salaries typed from a W-2 include vests (SC-01) and would count them twice.
+- The review shows one line every time: "Salary on file should exclude stock compensation. If it includes vested stock compensation, edit it." Salaries typed from a W-2 include vests (SC-01) and would count them twice.
 - Confirming a grant marks every held position with that ticker as employer stock, whether you typed it, it came from a linked account or from an uploaded account statement. The person is the grant owner and current employer is set to yes; you can edit both, and Undo reverses the marking.
 
 **Before you save**
@@ -48,10 +48,10 @@ The client reports stock pay, you complete it from the plan statement or by hand
 - This year's figures (the Summary income card, the cash flow totals and the checks) still read the income your client reported.
 
 **Client questionnaire**
-- The income question reads "Total annual income before taxes, not counting company stock". Vests are always added beside it, so you are not asked whether the salary includes them.
+- The income question reads "Total annual income before taxes, not counting stock compensation". Vests are always added beside it, so you are not asked whether the salary includes them.
 - Income has a "Stock compensation" chip, with a helper line under the income question. The row works like every other income row: the employer, the owner, and an optional approximate amount per year. You complete the rest: ticker, type and vest dates.
-- Their answers create a grant "pending detail", kept out of the figures, and an alert on the opportunity: "Stock pay: detail pending". Complete the grant to include it.
-- If your client mentions stock pay in the questionnaire chat or in an "Other income" row, it arrives as a proposal for you, with the same alert. It becomes a grant pending detail only when you confirm it. If an "Other income" row duplicates the grant, delete the row.
+- Their answers create a grant "pending detail", kept out of the figures, and an alert on the opportunity: "Stock compensation: detail pending". Complete the grant to include it.
+- If your client mentions stock compensation in the questionnaire chat or in an "Other income" row, it arrives as a proposal for you, with the same alert. It becomes a grant pending detail only when you confirm it. If an "Other income" row duplicates the grant, delete the row.
 
 **Plan statements**
 - Upload a client's plan statement in the grant editor, or with the opportunity's other documents. Proposed grants and tranches, with their delivery dates when the statement shows them, appear in one review next to the document. Check them and press "Confirm all"; nothing is counted until you confirm.

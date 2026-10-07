@@ -21,8 +21,8 @@ export function shareAnalysis(h: Household, lines: ReportLine[], edits: LineEdit
   }
 }
 
-/** EV-A-03: a manual adjustment on a household with employer exposure carries a "stock pay" tag. */
+/** EV-A-03: a manual adjustment on a household with employer exposure carries a "stock compensation" tag. */
 export function adjustScore(h: Household, points: number, reason: string, firm: Firm, log?: EventLog): Household {
-  if (employerExposures(h, firm).length > 0) log?.record('EV-A-03', h.id, { points, reason, tag: 'stock pay' });
+  if (employerExposures(h, firm).length > 0) log?.record('EV-A-03', h.id, { points, reason, tag: 'stock compensation' });
   return { ...h, manualAdjustment: { points, reason } };
 }

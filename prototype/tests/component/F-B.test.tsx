@@ -67,7 +67,7 @@ describe('F-B · screens', () => {
   it('AC-F-17 · the grant review shows the fixed salary line and asks no income question', async () => {
     render(<App initialHousehold="H2" />);
     const ed = await openEditor();
-    expect(within(ed).getByText('Salary on file should exclude company stock. If it includes stock that vested, edit it.')).toBeInTheDocument();
+    expect(within(ed).getByText('Salary on file should exclude stock compensation. If it includes vested stock compensation, edit it.')).toBeInTheDocument();
     expect(within(ed).queryByText(/vested this year\?/)).toBeNull();
   });
 

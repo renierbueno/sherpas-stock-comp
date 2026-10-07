@@ -1,5 +1,5 @@
 // Advisor side: record a grant and its vests (F-B). Shown in Data & Assumptions and, from the
-// stock-pay block, in advisor mode (AC-B-01, AC-E-15).
+// stock-compensation block, in advisor mode (AC-B-01, AC-E-15).
 import { useState } from 'react';
 import { ADJUSTMENT_WARNING, SALARY_CHECK } from '../model/actions';
 import { money } from '../model/format';

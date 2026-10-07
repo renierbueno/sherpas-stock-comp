@@ -25,19 +25,19 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 
 | Term | Meaning | Source |
 |---|---|---|
-| Stock compensation | Shares or rights to shares in the client's employer, received as part of pay. [brief] Types and terms are defined in `research.md`. |
+| Stock compensation | Shares or rights to shares in the client's employer, received as part of pay. [brief] Types and terms are defined in `research.md`. The one name for it in every document and screen; also the platform's own category name (D-058, D-116). |
 | RSU (restricted stock unit) | An unfunded promise by the employer to deliver shares (or their cash value) once a vesting condition is met. Taxed as wages when settled. [R-001] |
 | SIMULATED | Any persona, interview or data set that is not real. Always labelled; never presented as real. |
-| Stock pay | Our product label for stock compensation in the questionnaire and the analysis ("stock pay reported, detail pending"). | D-030, D-035 |
+| Employer stock | Shares of the client's employer already held in an account: an asset, read by the concentration check. Not to be confused with stock compensation, which is pay and becomes employer stock only once delivered. One name in every document and screen. | D-024, D-116 |
 | Employer flag | A mark on a held position saying it is stock of the person's employer, whatever its origin. | D-024 |
 | Employer exposure | Held employer shares summed across accounts by issuer; in the report, with unvested grants and salary from the same employer as context. | D-040 |
 | Withholding gap | Tax owed on a vest minus tax withheld at vest; federal always, state only when the advisor enters the rate; FICA shown outside it. | D-033, D-051 |
 | Detail pending | State of a grant the client reported but the advisor has not completed; kept out of figures. | D-035 |
 | Proposed grant | A grant extracted from a plan statement, or read from the questionnaire chat or an "Other income" row, and not yet confirmed by the advisor; kept out of figures and shown to the advisor only. | D-042, D-093, D-096, D-110 |
-| Firm setting | "Stock compensation": one setting per firm that turns every stock-pay feature on or off; in the first release only Sherpas changes it (pilot firms). | D-049, D-111 |
+| Firm setting | "Stock compensation": one setting per firm that turns every stock-compensation feature on or off; in the first release only Sherpas changes it (pilot firms). | D-049, D-111 |
 | First release | What the pilot firms get: release 1 (F-A, employer stock in concentration) and release 2 (F-B to F-F together). | D-080, D-106 |
 | Next | Specified but built after the first release; marked "Next (D-080)" in the requirement. | D-080 |
-| Core loop | The chosen first-release scope (option B): the client reports stock pay, the advisor completes it with one review, vest income counts once, and concentration, tax at vest and the projection reach the score and the shared report. | D-080, D-106 |
+| Core loop | The chosen first-release scope (option B): the client reports stock compensation, the advisor completes it with one review, vest income counts once, and concentration, tax at vest and the projection reach the score and the shared report. | D-080, D-106 |
 | Confirm all | The single advisor review of a plan statement, which confirms every proposed grant at once. | D-090 |
 | Delivery date | The date a tranche's shares are delivered ("Shares delivered on"), prefilled with the vest date; income tax follows its year. | D-101 |
 | Value at delivery | The value of a tranche delivered this year, entered by the advisor from the W-2 or the plan statement. | D-107 |

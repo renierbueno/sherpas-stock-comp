@@ -10,20 +10,20 @@ const user = () => userEvent.setup();
 const ON: Firm = { id: 'firm-sim', stockComp: true };
 
 describe('F-E · screens', () => {
-  it('AC-E-01 · AC-E-02 · AC-E-25 · AC-G-02 · with the setting on, the income question excludes company stock and the helper line points to the chip', () => {
+  it('AC-E-01 · AC-E-02 · AC-E-25 · AC-G-02 · with the setting on, the income question excludes stock compensation and the helper line points to the chip', () => {
     render(<IncomeStep household={H1} firm={ON} template="T" onSubmit={() => {}} />);
-    expect(screen.getAllByText(/Total annual income before taxes, not counting company stock/)).toHaveLength(2);
+    expect(screen.getAllByText(/Total annual income before taxes, not counting stock compensation/)).toHaveLength(2);
     expect(within(screen.getByLabelText('Other current income')).getByRole('button', { name: '+ Stock compensation' })).toBeInTheDocument();
-    expect(screen.getAllByText('Paid partly in company stock? Add it below as Stock compensation.')).toHaveLength(2);
+    expect(screen.getAllByText('Receive stock compensation? Add it below.')).toHaveLength(2);
     expect(screen.queryByText(/vested this year/)).toBeNull();
   });
 
   it('AC-G-01 · with the setting off, no chip and no helper line', () => {
     render(<IncomeStep household={H1} firm={{ ...ON, stockComp: false }} template="T" onSubmit={() => {}} />);
     expect(screen.queryByRole('button', { name: '+ Stock compensation' })).toBeNull();
-    expect(screen.queryByText(/Paid partly in company stock/)).toBeNull();
+    expect(screen.queryByText(/Paid partly in stock compensation/)).toBeNull();
     expect(screen.getAllByText(/What is your total annual income before taxes\?/)).toHaveLength(2);
-    expect(screen.queryByText(/not counting company stock/)).toBeNull();
+    expect(screen.queryByText(/not counting stock compensation/)).toBeNull();
   });
 
   it('AC-E-03 · AC-E-19 · each click adds a row: owner, employer, ticker, type, value, frequency; no income question, no upload prompt', async () => {
@@ -77,10 +77,10 @@ describe('F-E · screens', () => {
     await user().click(screen.getByRole('tab', { name: 'Financial health' }));
     expect(screen.getByText('Ana reported pay in Sim Startup stock. It is not yet included in these figures.')).toBeInTheDocument();
     await user().selectOptions(screen.getByLabelText('View'), 'advisor');
-    expect(within(screen.getByLabelText('Opportunity alerts')).getByText('Stock pay: detail pending')).toBeInTheDocument();
+    expect(within(screen.getByLabelText('Opportunity alerts')).getByText('Stock compensation: detail pending')).toBeInTheDocument();
   });
 
-  it('AC-E-15 · AC-E-14 · in advisor mode, the stock-pay block opens the full grant editor with the client estimate', async () => {
+  it('AC-E-15 · AC-E-14 · in advisor mode, the stock-compensation block opens the full grant editor with the client estimate', async () => {
     render(<App initialHousehold="H2" />);
     await user().selectOptions(screen.getByLabelText('View'), 'advisor');
     await user().click(screen.getByRole('tab', { name: 'Questionnaire · Investments' }));

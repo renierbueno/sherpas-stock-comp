@@ -3,7 +3,7 @@
 // AC-F-13). Imitates the step seen on screen; our own code (D-012, D-015).
 import { useState } from 'react';
 import { SAMPLE_DOCUMENTS } from '../model/extraction';
-import { HELPER_LINE, INCOME_QUESTION, INCOME_QUESTION_TODAY, rowErrors, type StockPayRow } from '../model/intake';
+import { HELPER_LINE, INCOME_QUESTION, INCOME_QUESTION_TODAY, rowErrors, type StockCompensationRow } from '../model/intake';
 import { money } from '../model/format';
 import type { Firm, Household } from '../model/types';
 import { Mark } from './Guide';
@@ -11,19 +11,19 @@ import { Mark } from './Guide';
 const OTHER_CHIPS = ['Pension', 'Annuity', 'Rental property', 'Business', 'Side hustle', 'Royalty'];
 const FREQS = ['monthly', 'quarterly', 'every six months', 'yearly', 'not sure'] as const;
 
-export interface QuestionnaireSubmit { rows: StockPayRow[]; documents: string[] }
+export interface QuestionnaireSubmit { rows: StockCompensationRow[]; documents: string[] }
 
 /** The Income widget is shared by every Financial Health template (AC-E-21, ASSUMPTION). */
 export function IncomeStep({ household, firm, template, onSubmit, onRowChange, initialRows = [] }: {
   household: Household; firm: Firm; template: string;
-  onSubmit: (s: QuestionnaireSubmit) => void; onRowChange?: (action: 'added' | 'removed') => void; initialRows?: StockPayRow[];
+  onSubmit: (s: QuestionnaireSubmit) => void; onRowChange?: (action: 'added' | 'removed') => void; initialRows?: StockCompensationRow[];
 }) {
-  const [rows, setRows] = useState<StockPayRow[]>(initialRows);
+  const [rows, setRows] = useState<StockCompensationRow[]>(initialRows);
   const [others, setOthers] = useState<string[]>([]);
   const [step, setStep] = useState<'income' | 'documents' | 'done'>('income');
   const [docs, setDocs] = useState<string[]>([]);
   const [tried, setTried] = useState(false);
-  const set = (id: string, patch: Partial<StockPayRow>) => setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+  const set = (id: string, patch: Partial<StockCompensationRow>) => setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
   const add = () => { setRows((rs) => [...rs, { id: `r${rs.length + 1}`, ownerId: household.people[0].id, employer: '' }]); onRowChange?.('added'); };
   const remove = (id: string) => { setRows((rs) => rs.filter((r) => r.id !== id)); onRowChange?.('removed'); };
   const invalid = rows.some((r) => rowErrors(r).length > 0);
@@ -53,10 +53,10 @@ export function IncomeStep({ household, firm, template, onSubmit, onRowChange, i
         {household.people.map((p) => (
           <div key={p.id} className="qfield">
             <label>{p.name}: {firm.stockComp ? INCOME_QUESTION : INCOME_QUESTION_TODAY}
-              {firm.stockComp && <Mark kind="changed" why="Income now excludes company stock, so each vest is counted once, beside salary." />}
+              {firm.stockComp && <Mark kind="changed" why="Income now excludes stock compensation, so each vest is counted once, beside salary." />}
               <input readOnly value={money(household.salary[p.id] ?? 0)} />
             </label>
-            {firm.stockComp && <div className="helper">{HELPER_LINE}<Mark kind="new" why="Tells the client where stock pay goes." /></div>}
+            {firm.stockComp && <div className="helper">{HELPER_LINE}<Mark kind="new" why="Tells the client where stock compensation goes." /></div>}
           </div>
         ))}
         <div className="qfield">
@@ -83,13 +83,13 @@ export function IncomeStep({ household, firm, template, onSubmit, onRowChange, i
             {tried && rowErrors(r).map((e) => <div key={e} className="warning">{e}</div>)}
             <div className="row">
               <label>Type
-                <select value={r.type ?? ''} onChange={(e) => set(r.id, { type: (e.target.value || undefined) as StockPayRow['type'] })}>
+                <select value={r.type ?? ''} onChange={(e) => set(r.id, { type: (e.target.value || undefined) as StockCompensationRow['type'] })}>
                   <option value="">Choose</option><option value="RSU">RSU</option><option value="PSU">PSU</option><option value="other">Other</option><option value="not sure">Not sure</option>
                 </select>
               </label>
               <label>Approximate value of unvested stock<input inputMode="numeric" value={r.unvestedValue ?? ''} onChange={(e) => set(r.id, { unvestedValue: e.target.value ? Number(e.target.value.replace(/\D/g, '')) : undefined })} /></label>
               <label>How often it vests
-                <select value={r.frequency ?? ''} onChange={(e) => set(r.id, { frequency: (e.target.value || undefined) as StockPayRow['frequency'] })}>
+                <select value={r.frequency ?? ''} onChange={(e) => set(r.id, { frequency: (e.target.value || undefined) as StockCompensationRow['frequency'] })}>
                   <option value="">Choose</option>{FREQS.map((f) => <option key={f} value={f}>{f[0].toUpperCase() + f.slice(1)}</option>)}
                 </select>
               </label>

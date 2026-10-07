@@ -63,7 +63,7 @@ As an advisor, I want employer stock recognised as one position and linked to my
 |---|---|---|---|---|
 | EV-A-01 | When the advisor flags or unflags a position, the system shall record the firm, the household, the issuer and whether it is listed. | M-06 | unit | (F6) |
 | EV-A-02 | When the concentration check reads employer exposure instead of today's figure, the system shall record it with the household. | M-04 | unit | (F6) |
-| EV-A-03 | When the advisor adjusts the score of a household with employer exposure, the system shall record the adjustment and its reason with a "stock pay" tag. | M-04 | unit | (F6) |
+| EV-A-03 | When the advisor adjusts the score of a household with employer exposure, the system shall record the adjustment and its reason with a "stock compensation" tag. | M-04 | unit | (F6) |
 | EV-A-04 | When an analysis with employer exposure is shared, the system shall record whether any F-A line was edited or deleted before sharing. | M-05 | unit | (F6) |
 
 EV-A-04 depends on whether sharing and edits are recorded today [ASSUMPTION: A-20].

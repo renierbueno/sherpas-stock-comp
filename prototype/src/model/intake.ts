@@ -1,11 +1,11 @@
-// F-E · The client reports stock pay (docs/spec/F-E_client-reports-stock-pay.md).
+// F-E · The client reports stock compensation (docs/spec/F-E_client-reports-stock-compensation.md).
 import type { EventLog } from './events';
 import { heldPositions } from './exposure';
 import { statusOf } from './grants';
 import type { ClientEstimate, Firm, Household, IsoDate, PersonId } from './types';
 
 /** One "Stock compensation" chip row (AC-E-03, AC-E-04). Only the employer is required (AC-E-04). */
-export interface StockPayRow {
+export interface StockCompensationRow {
   id: string;
   ownerId: PersonId;
   employer: string;
@@ -15,12 +15,12 @@ export interface StockPayRow {
   frequency?: ClientEstimate['frequency'];
 }
 
-export const INCOME_QUESTION = 'Total annual income before taxes, not counting company stock'; // AC-E-02
+export const INCOME_QUESTION = 'Total annual income before taxes, not counting stock compensation'; // AC-E-02
 export const INCOME_QUESTION_TODAY = 'What is your total annual income before taxes?';
-export const HELPER_LINE = 'Paid partly in company stock? Add it below as Stock compensation.'; // AC-E-25
+export const HELPER_LINE = 'Receive stock compensation? Add it below.'; // AC-E-25
 
 /** AC-E-04: the employer is the only required field. */
-export function rowErrors(row: StockPayRow): string[] {
+export function rowErrors(row: StockCompensationRow): string[] {
   return row.employer.trim() ? [] : ['Employer is required'];
 }
 
@@ -32,7 +32,7 @@ export function recordRowChange(h: Household, firm: Firm, action: 'added' | 'rem
  * AC-E-07, AC-E-20, EV-E-02: on submit, each row becomes a grant pending detail, source
  * questionnaire; nothing blocks the submit. Without rows the household is unchanged (AC-E-06).
  */
-export function submitQuestionnaire(h: Household, rows: StockPayRow[], firm: Firm, submittedOn: IsoDate, log?: EventLog): Household {
+export function submitQuestionnaire(h: Household, rows: StockCompensationRow[], firm: Firm, submittedOn: IsoDate, log?: EventLog): Household {
   log?.record('EV-E-02', h.id, { stockPay: rows.length > 0 ? 'yes' : 'no' });
   if (!firm.stockComp || rows.length === 0) return h;
   let next = h;
@@ -54,7 +54,7 @@ export function submitQuestionnaire(h: Household, rows: StockPayRow[], firm: Fir
   return next;
 }
 
-export const PENDING_ALERT = 'Stock pay: detail pending'; // AC-E-08
+export const PENDING_ALERT = 'Stock compensation: detail pending'; // AC-E-08
 
 /** AC-E-08, AC-E-09: opportunity alerts. */
 export function opportunityAlerts(h: Household, firm: Firm): string[] {

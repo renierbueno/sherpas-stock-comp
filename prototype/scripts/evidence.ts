@@ -8,7 +8,7 @@ const root = join(import.meta.dirname, '..');
 const specDir = join(root, '..', 'docs', 'spec');
 const FEATURES: Record<string, string> = {
   G: 'Rules for every feature', A: 'F-A · Employer stock counted in concentration', B: 'F-B · Record a grant and its vests',
-  C: 'F-C · Tax at vest and the withholding gap', D: 'F-D · Vest proceeds as dated cash for goals', E: 'F-E · The client reports stock pay',
+  C: 'F-C · Tax at vest and the withholding gap', D: 'F-D · Vest proceeds as dated cash for goals', E: 'F-E · The client reports stock compensation',
   F: 'F-F · Upload a plan statement',
 };
 

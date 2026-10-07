@@ -84,12 +84,12 @@ export const SCENES: Scene[] = [
     guide: { steps: [3, 5], see: 'Vests after tax beside the 2028 home goal; vest years marked.', model: 'Vests enter the projection as dated cash in their vest year.' },
   },
   {
-    id: 5, title: 'The client reports it', feature: 'F-E, F-F', spec: 'docs/spec/F-E_client-reports-stock-pay.md',
+    id: 5, title: 'The client reports it', feature: 'F-E, F-F', spec: 'docs/spec/F-E_client-reports-stock-compensation.md',
     problem: 'Most clients know they are paid partly in stock, not the schedule. Today the questionnaire has nowhere to say it.',
     advisorDid: 'The client picks a "Stock compensation" chip in Income and says what they know; the advisor sees an alert and completes the detail, by hand or from the plan statement.',
-    lookAt: 'One new chip and one helper line for everyone; nothing else changes for households without stock pay.',
+    lookAt: 'One new chip and one helper line for everyone; nothing else changes for households without stock compensation.',
     before: H2_NO_GRANT, after: H2,
     tryIt: { household: 'H1', mode: 'client' }, ready: true,
-    guide: { steps: [1, 2], see: 'One stock pay row in Income; the advisor gets an alert.', model: 'No figure uses the client’s estimate until the advisor completes the grant.' },
+    guide: { steps: [1, 2], see: 'One stock compensation row in Income; the advisor gets an alert.', model: 'No figure uses the client’s estimate until the advisor completes the grant.' },
   },
 ];

@@ -27,7 +27,7 @@ export const MAX_WORDS = 15;
 export const SCREEN_GUIDES: Record<string, Guide> = {
   'client.income': {
     steps: [1],
-    see: 'Income asks for pay before taxes, not counting company stock.',
+    see: 'Income asks for pay before taxes, not counting stock compensation.',
     model: 'Salary stays cash pay; each vest is added once, beside it.',
     why: 'If salary included vested stock, the model would count those vests twice (D-094).',
   },
@@ -51,7 +51,7 @@ export const SCREEN_GUIDES: Record<string, Guide> = {
   },
   'client.health': {
     steps: [5],
-    see: 'The client’s Financial health, with stock pay wherever it changes a figure.',
+    see: 'The client’s Financial health, with stock compensation wherever it changes a figure.',
     model: 'Same score and lines the advisor reviewed; nothing is recalculated here.',
   },
   print: {
@@ -64,13 +64,13 @@ export const SCREEN_GUIDES: Record<string, Guide> = {
     steps: [5],
     see: 'Investment analysis adds an employer stock line when shares are flagged.',
     model: 'Holdings and the proposal do not change.',
-    why: 'Stock pay does not change what the client holds or the proposal (D-055).',
+    why: 'Stock compensation does not change what the client holds or the proposal (D-055).',
   },
   statements: {
     steps: [5],
     see: 'The cash flow adds one line with this year’s vests, outside the totals.',
     model: 'Totals keep reported income; vests sit beside them, never inside.',
-    why: 'Income is reported without company stock, so vests are never in the totals (D-094).',
+    why: 'Income is reported without stock compensation, so vests are never in the totals (D-094).',
   },
 };
 

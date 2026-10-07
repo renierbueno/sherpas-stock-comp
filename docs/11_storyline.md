@@ -14,7 +14,7 @@ Notion holds one page per stage, the Miro board one area per stage left to right
 
 | # | Stage | What it answers | Artefacts | Notion | Miro |
 |---|---|---|---|---|---|
-| 1 | Context and problem | What the platform does today and where stock pay has no place | `00_brief.md`, `01_context.md`, `platform_map.md`, `questionnaire_map.md`, `data_model.md`, `design_tokens.md` | Page | Flows today: questionnaire, analysis, shared reports, advisor, secondary |
+| 1 | Context and problem | What the platform does today and where stock compensation has no place | `00_brief.md`, `01_context.md`, `platform_map.md`, `questionnaire_map.md`, `data_model.md`, `design_tokens.md` | Page | Flows today: questionnaire, analysis, shared reports, advisor, secondary |
 | 2 | Research | The US facts: types, vesting, tax, concentration, tools | `research.md` | Page | Key facts, each with its source |
 | 3 | Discovery | What advisors and clients actually struggle with, and how sure we are | `discovery/` (synthesis, voices, SIMULATED personas and snapshots) | Page | Assumptions validated, invalidated, unknown |
 | 4 | Options and decisions | The direction, the three options for the first release and the chosen one, what is left out and why | `06_direction.md`, `03_decision_log.md`, `02_open_questions.md` | Page, with key decisions | Options frame; decision map |

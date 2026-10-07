@@ -5,7 +5,7 @@ The F3 decisions: for each, three options with trade-offs and evidence, the reco
 ## Block 1 · Scope
 
 ### F3-01 · Which stock-compensation types does the MVP support?
-Each type pays the employee in company stock in a different way, with its own dates and tax rules. The MVP supports a subset fully (grant, schedule, future vests); the rest wait, but any shares the client already holds are recognised as employer stock whatever their origin.
+Each type pays the employee in employer stock in a different way, with its own dates and tax rules. The MVP supports a subset fully (grant, schedule, future vests); the rest wait, but any shares the client already holds are recognised as employer stock whatever their origin.
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
@@ -62,10 +62,10 @@ RSU value at vest is reported as wages on the W-2 (R-001; SC-01), so a client's 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
 | A | Assume reported income excludes vest income | No extra question | Many clients include it without knowing; double counts often | R-001; V38 to V41 (confusion between W-2 and broker forms) |
-| B | Ask only those who said they have stock pay: "Does your gross income include stock that vested this year?"; count vest income once, inside or beside salary, by the answer. For shares: past tranches are held positions, the grant adds future tranches only | Resolves the ambiguity where it exists; the share rule is checkable in code and holds even when accounts are linked | One more question, for that segment only | R-001; V06 (double counting when accounts are linked), V38 to V41 |
+| B | Ask only those who said they have stock compensation: "Does your gross income include stock that vested this year?"; count vest income once, inside or beside salary, by the answer. For shares: past tranches are held positions, the grant adds future tranches only | Resolves the ambiguity where it exists; the share rule is checkable in code and holds even when accounts are linked | One more question, for that segment only | R-001; V06 (double counting when accounts are linked), V38 to V41 |
 | C | Change the income question for everyone to base salary only | Clean in theory | Changes a question every household answers today | D-023 |
 
-- **Recommendation:** B, the only option that leaves households without stock pay untouched (D-023) and fixes double counting with one question plus one rule.
+- **Recommendation:** B, the only option that leaves households without stock compensation untouched (D-023) and fixes double counting with one question plus one rule.
 - **Chosen:** B · D-028
 
 ### F3-05b · Model completeness: what each tranche keeps after vest
@@ -82,7 +82,7 @@ Clients know totals; schedules and terms sit in grant documents and plan portals
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
 | A | The client enters everything in the questionnaire | One route | Clients do not know dates and terms; a longer questionnaire | A-05; V01, V17, V29, V41, V42 |
-| B | The client answers only what they know (yes/no, type, employer, rough unvested value, vest frequency, the D-028 question); the advisor completes the detail through the routes that already exist, advisor mode of the questionnaire and Data & Assumptions; the firm can switch the block off, as it can the "Additional Information" box; the model is built so a document can feed it later | No friction for households without stock pay; little for those with it; the advisor flow exists | Detail depends on the advisor completing it | [FACT: questionnaire_map, two modes and firm-enabled box]; [brief] Data & Assumptions; A-05 |
+| B | The client answers only what they know (yes/no, type, employer, rough unvested value, vest frequency, the D-028 question); the advisor completes the detail through the routes that already exist, advisor mode of the questionnaire and Data & Assumptions; the firm can switch the block off, as it can the "Additional Information" box; the model is built so a document can feed it later | No friction for households without stock compensation; little for those with it; the advisor flow exists | Detail depends on the advisor completing it | [FACT: questionnaire_map, two modes and firm-enabled box]; [brief] Data & Assumptions; A-05 |
 | C | Upload of the plan statement with data extraction as the main route | Least friction for the client | Depends on extraction reading equity plan statements into a new element, and on the advisor reviewing what is extracted | V01, V29 (data lives in documents); R-013 (aggregators miss unvested grants) |
 
 - **Recommendation:** B for the MVP; C next, because the detail lives in documents and the model already receives a list of tranches (D-027). D-023: holds, one yes/no question for everyone, and none if the firm switches the block off.
@@ -106,7 +106,7 @@ The questionnaire does not ask who the employer is. [FACT: questionnaire_map] Wi
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
 | A | Do not ask; infer it from the held position | No new field | Impossible when no shares are held yet | [FACT: questionnaire_map] |
-| B | Employer name and ticker if listed, per person, inside the stock-pay block | Makes employer exposure possible | One more field, only for grant holders | A-09, R-014; [FACT: data_model, market data for direct stocks] |
+| B | Employer name and ticker if listed, per person, inside the stock-compensation block | Makes employer exposure possible | One more field, only for grant holders | A-09, R-014; [FACT: data_model, market data for direct stocks] |
 | C | B plus an insider flag (trading windows, hedging limits) | Sharper advice on when to sell | Not researched; changes the advice, not the model | V02 (signal only), V26 |
 
 - **Recommendation:** B. The insider flag is listed under "Considered, not researched", not in the cut. D-023: holds.
@@ -149,20 +149,20 @@ Advisors are the users; the product reaches clients through them [brief]. The ad
 
 | Stage | What exists | What our decisions add |
 |---|---|---|
-| Send the questionnaire | Opportunity pipeline; firm settings decide which questions show | In the first release Sherpas switches the stock-pay block on and off for pilot firms (D-030, D-111) |
-| Receive answers | Advisor reviews and presses "Submit and continue" | A household may report stock pay with detail missing (F3-A1, F3-A2) |
+| Send the questionnaire | Opportunity pipeline; firm settings decide which questions show | In the first release Sherpas switches the stock-compensation block on and off for pilot firms (D-030, D-111) |
+| Receive answers | Advisor reviews and presses "Submit and continue" | A household may report stock compensation with detail missing (F3-A1, F3-A2) |
 | Complete detail | Advisor mode; Data & Assumptions, where saving reprocesses the analysis; document upload with extraction [web: sherpaswealth.com/data-extraction] | Upload of the plan statement, extracted tranches confirmed by the advisor (F3-06b); Tranches (D-027), shares kept and basis (D-029), state withholding (D-033), employer and ticker (D-031); in advisor mode the block opens the full tranche editor |
-| Review before sharing | View more explains the score; manual adjustment within ±10; reprocessing replaces it; advisors edit generated observations and strategies before presenting [web: sherpaswealth.com/financial-health] | Our bullets and recommendations are editable like the rest; The score of a household with stock pay moves (F3-11); View more must say why |
+| Review before sharing | View more explains the score; manual adjustment within ±10; reprocessing replaces it; advisors edit generated observations and strategies before presenting [web: sherpaswealth.com/financial-health] | Our bullets and recommendations are editable like the rest; The score of a household with stock compensation moves (F3-11); View more must say why |
 | Talk with the client | Recommendations and "We should look into" | The F3-10 outputs, stated as facts, not tax advice (A-04) |
 | Over time | Not seen | Tranches reach their dates (F3-A3) |
 
-### F3-A1 · Stock pay reported, detail not yet complete: what does the analysis do?
+### F3-A1 · Stock compensation reported, detail not yet complete: what does the analysis do?
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
 | A | Block the analysis until the advisor completes the detail | Never an incomplete analysis | Adds friction to a flow that works today | D-023 |
 | B | Generate estimated tranches from the client's answers and use them in every figure | Always a number | A rough figure moves the score and the shared report; no end date, so the estimate is weak | A-05 |
-| C | Keep the grant out of the figures; the analysis says "stock pay reported, detail pending"; the advisor sees the estimate only as a guide to complete it; completing it reprocesses everything | Applies the platform's missing-data rule; the score does not move on rough data | Until completed, the analysis does not reflect the grant | [brief] missing data "is not treated as a zero"; D-025, D-033 |
+| C | Keep the grant out of the figures; the analysis says "stock compensation reported, detail pending"; the advisor sees the estimate only as a guide to complete it; completing it reprocesses everything | Applies the platform's missing-data rule; the score does not move on rough data | Until completed, the analysis does not reflect the grant | [brief] missing data "is not treated as a zero"; D-025, D-033 |
 
 - **Recommendation:** C. **Chosen:** C · D-035
 
@@ -171,10 +171,10 @@ Advisors are the users; the product reaches clients through them [brief]. The ad
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
 | A | Only inside Data & Assumptions | No pipeline change | Missed unless the advisor opens it | [brief] |
-| B | An alert on the opportunity, "stock pay: detail pending", like the existing automatic alert that an opportunity seems stalled | Reuses an existing mechanism where the advisor already works | One more alert in the list | [FACT: captures/questionnaire/02-opportunity, alerts] |
+| B | An alert on the opportunity, "stock compensation: detail pending", like the existing automatic alert that an opportunity seems stalled | Reuses an existing mechanism where the advisor already works | One more alert in the list | [FACT: captures/questionnaire/02-opportunity, alerts] |
 | C | B plus a notification when the questionnaire arrives | Most visible | More noise; notifications not seen | none |
 
-- **Recommendation:** B; in advisor mode the stock-pay block opens the full tranche editor. D-023: holds, the alert exists only when stock pay is reported. **Chosen:** B · D-036
+- **Recommendation:** B; in advisor mode the stock-compensation block opens the full tranche editor. D-023: holds, the alert exists only when stock compensation is reported. **Chosen:** B · D-036
 
 ### F3-A3 · When a vest date arrives, who turns the tranche into a held position?
 Time-based vesting happens without any action from the employee, if still employed (R-002). What follows does not: the employee may have left (forfeiture, R-002, SC-04), a PSU waits for certification and a double-trigger RSU for the liquidity event (R-011), part of the shares is withheld for tax (R-011, V39), and many clients sell at vest (V35, V36).
@@ -197,14 +197,14 @@ Time-based vesting happens without any action from the employee, if still employ
 | B | Three analyses: employer exposure; tax at vest and the withholding gap (state per D-033); vest proceeds as dated cash for goals. The vest calendar shows as data, with no reminders | Each answers a validated assumption and uses data the MVP already collects | Three pieces to specify in F4 | A-09, R-014; A-04, R-008; A-10; A-03 |
 | C | B plus sell-or-hold scenarios and option AMT | More for expert advisors | Depends on options (out by D-024); closer to tax advice; higher error risk | R-003, R-004; SC-32, SC-33 |
 
-- **Recommendation:** B. D-023: holds, households without stock pay get no new analysis. **Chosen:** B · D-038
+- **Recommendation:** B. D-023: holds, households without stock compensation get no new analysis. **Chosen:** B · D-038
 
 ### F3-11 · Where does it show, and how does it touch the score?
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
 | A | A separate section, no score effect | Touches nothing | A household with most of its wealth in its employer scores the same: the score misleads | A-09 |
-| B | Inside what exists, through two existing checks: Investing, concentration recognises employer stock (F3-12); Liquidity, near-term commitments counts the tax gap of vests within its horizon (unknown state part left out, D-033). In the report: bullets, "We should look into" and a recommendation when it applies; future vests as dated inflows in the projection, beside the goal markers; not liquid until they arrive. View more says why the score moved ("employer stock counted in concentration", "tax due on vests counted in near-term commitments") | Score structure unchanged; a household without stock pay sees exactly what it sees today | Scores of households with stock pay move; release notes must explain it | [FACT: data_model, platform_map]; [brief] score article; D-023 |
+| B | Inside what exists, through two existing checks: Investing, concentration recognises employer stock (F3-12); Liquidity, near-term commitments counts the tax gap of vests within its horizon (unknown state part left out, D-033). In the report: bullets, "We should look into" and a recommendation when it applies; future vests as dated inflows in the projection, beside the goal markers; not liquid until they arrive. View more says why the score moved ("employer stock counted in concentration", "tax due on vests counted in near-term commitments") | Score structure unchanged; a household without stock compensation sees exactly what it sees today | Scores of households with stock compensation move; release notes must explain it | [FACT: data_model, platform_map]; [brief] score article; D-023 |
 | C | A sixth score area | Very visible | Changes weights for every household and needs the whole score recalibrated | D-023 |
 
 - **Recommendation:** B. Private equity (D-025) and grants pending detail (D-035) do not score. The checks' horizons and thresholds are not public [brief]; the proposal uses theirs. **Chosen:** B · D-039
@@ -255,7 +255,7 @@ Status: confirmed by Renier, 2026-10-05 (D-041); current scope after the first r
 | Gain or loss on sale | Later | Matters for sale decisions, not for the first release analyses | F3-05b |
 | Dividend equivalents | Never in this release | Known edge case: no IRS text states the rule (SC-27, A-50), small against vest value, no dividend data for the employer | D-105 |
 | ESOP as stock compensation | Never | It is a qualified retirement plan; it belongs with retirement accounts | R-007; SC-36 |
-| A separate score area for stock pay | Never | Changes every household's weights | D-039, D-023 |
+| A separate score area for stock compensation | Never | Changes every household's weights | D-039, D-023 |
 | Personalised tax, exercise or sale advice | Never | The analysis states facts and gaps; advice is the advisor's | A-04, D-038 |
 
 ## Considered, not researched
@@ -272,7 +272,7 @@ Listed so the gaps are visible; none changes the MVP model.
 
 | # | Assumption | Decisions that stand on it | How to validate | If wrong |
 |---|---|---|---|---|
-| 1 | Advisors complete the grant detail soon after the questionnaire, by hand or by confirming an extracted plan statement; the extraction reads equity plan statements [ASSUMPTION: A-15] | D-030, D-035, D-036, D-042 | Share of opportunities with stock pay reported whose detail is completed within a set number of days, in a pilot firm; extraction run on sample plan statements from the main plan providers; the A-05 interview question | The analysis stays "detail pending": make the extraction read plan statements first, or keep the advisor's manual route as the only one |
+| 1 | Advisors complete the grant detail soon after the questionnaire, by hand or by confirming an extracted plan statement; the extraction reads equity plan statements [ASSUMPTION: A-15] | D-030, D-035, D-036, D-042 | Share of opportunities with stock compensation reported whose detail is completed within a set number of days, in a pilot firm; extraction run on sample plan statements from the main plan providers; the A-05 interview question | The analysis stays "detail pending": make the extraction read plan statements first, or keep the advisor's manual route as the only one |
 | 2 | The existing concentration threshold fits a single company | D-040 | Test it on SIMULATED households in the F5 score simulator [ASSUMPTION: A-13, A-14] | Add an employer-specific threshold, set by Sherpas (R-014) |
 | 3 | Enough of Sherpas' advisors' households hold employer stock | Priority of the whole feature | Sherpas' data on clients' employers or sectors; uptake of the firm switch; the A-01 interview question | Keep it as a firm-enabled module for firms with corporate and tech clients |
 
@@ -298,7 +298,7 @@ How the options are judged (D-082): first three gates, pass or fail; an option t
 | Gate | A | B | C |
 |---|---|---|---|
 | Sound model: nothing counted twice (A-06, D-028), nothing missing treated as zero [brief], no new score area (D-039), facts not advice (AC-G-06) | Pass: no vest income anywhere | Pass: the income question settles double counting before any tax figure | Pass in its rules; the retirement figures may read high (the two facts above) |
-| Nothing changes for households without stock pay (D-023) | Pass | Pass | Pass |
+| Nothing changes for households without stock compensation (D-023) | Pass | Pass | Pass |
 | The default path reaches the client without the advisor typing grants | Pass: one flag per employer, suggested once its ticker is known (AC-E-17); the vest list is optional | Pass if extraction reads plan statements (test card 1); typing is the fallback | Same as B |
 
 | Criterion | A · Exposure first | B · Core loop | C · Everything at once |
@@ -311,13 +311,13 @@ How the options are judged (D-082): first three gates, pass or fail; an option t
 
 Rule: impact decides between options that pass the gates, because the brief asks what analysis the advisor gets [brief]; learning and risk decide between options of equal impact. B loses to A on effort, learning speed and risk, and wins on impact; C adds impact on the weakest evidence.
 
-- **Recommendation:** B, because it is the smallest scope that keeps the whole chain (the client reports it, the advisor completes it with one review, vest income is counted once, concentration and tax at vest reach the score and the shared report). It beats A because A drops tax at vest, the strongest validated pain on both sides. It beats C because it delivers the same validated pains with about a fifth less work and leaves the figures with the widest reach and the weakest evidence for after the pilot. D-023: holds in all three; households without stock pay see nothing new.
+- **Recommendation:** B, because it is the smallest scope that keeps the whole chain (the client reports it, the advisor completes it with one review, vest income is counted once, concentration and tax at vest reach the score and the shared report). It beats A because A drops tax at vest, the strongest validated pain on both sides. It beats C because it delivers the same validated pains with about a fifth less work and leaves the figures with the widest reach and the weakest evidence for after the pilot. D-023: holds in all three; households without stock compensation see nothing new.
 - **Chosen:** B · D-080, with four refinements: present it as a first use of tax planning inside the existing analysis, not a separate module; release F-A first, then the rest together; test extraction on plan statements before the pilot; validate demand before building (test cards and advisor interviews).
 - **Amended (D-106):** the projection with vests joins the first release. Each vest enters the projection as a one-time wage income on its delivery date, not as savings, which removes the risk of the first fact above: the platform treats it as it treats wages. If the projection cannot read such an income (A-62), the projection part waits for Next and the rest ships.
 - **What would change the choice:**
   - A becomes right if extraction fails on plan statements (test card 1) and the advisor interviews say grants will not be typed: tax at vest would then reach few clients, and A delivers concentration at about half the cost of B.
   - C becomes right if the pilot shows advisors adding vests to the retirement figures by hand (edits to Retirement & Goals, M-05) and the platform projects wages as savings the same way it would project vests.
-  - Doing nothing becomes right if reach stays below the release 1 stop threshold of `07_success_criteria.md` (fewer than 1 in 20 households, M-06, D-088): stock pay then fits a module for firms with corporate and tech clients.
+  - Doing nothing becomes right if reach stays below the release 1 stop threshold of `07_success_criteria.md` (fewer than 1 in 20 households, M-06, D-088): stock compensation then fits a module for firms with corporate and tech clients.
 
 ### First release cut (D-080)
 
@@ -327,8 +327,8 @@ The first release cut now lives in the MVP cut table above (D-080, D-106).
 
 Same three as above, in the order they are tested before building (D-080): 3 (reach, from Sherpas' data and five advisor interviews), 1 (extraction on 10 plan statements), 2 (threshold, with the score simulator).
 
-### F3-14 · How much does the advisor confirm before stock pay reaches the analysis?
-For a household with stock pay, the advisor today confirms each grant read from a plan statement, answers whether the salary on file already includes this year's vests (the grant stays pending until then), and confirms flagging the employer shares the client holds. The platform's promise is to automate the advisor's invisible work [brief], and the client sees the analysis only once the advisor shares it [FACT: platform_map, "the end client's view of a shared analysis"].
+### F3-14 · How much does the advisor confirm before stock compensation reaches the analysis?
+For a household with stock compensation, the advisor today confirms each grant read from a plan statement, answers whether the salary on file already includes this year's vests (the grant stays pending until then), and confirms flagging the employer shares the client holds. The platform's promise is to automate the advisor's invisible work [brief], and the client sees the analysis only once the advisor shares it [FACT: platform_map, "the end client's view of a shared analysis"].
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
@@ -336,19 +336,19 @@ For a household with stock pay, the advisor today confirms each grant read from 
 | B | **Apply by default.** Extracted grants, flags and a default income answer count at once, each with Undo; the advisor's review before sharing is the control | Least work | Values read from a document count before anyone looks at them; sharing becomes the only control, and editing generated content before presenting is optional for advisors [web, `01_context.md`]; reverses D-042 | D-042, AC-F-06, TP-SF21-01 |
 | C | **One review, nothing blocks.** One review per statement with "Confirm all"; confirming a grant flags the held shares of its ticker at once, with Undo; the income question no longer blocks: until answered, this year's vests are taken as already inside the reported salary, labelled in the figures | One review and one click in the best case; nothing read from a document counts without the advisor; the default can never count vest income twice | If the salary did not include this year's vests, the tax on this year's vests is missing (labelled) until the advisor answers; changes AC-B-28, AC-B-29, AC-E-13, EC-E-04, AC-E-17, AC-E-18, one new F-F requirement; amends D-028 and D-070 | A-06 (double counting, validated); the score article: a missing figure is left out, not invented [brief]; D-042 kept; TP-SF17-04, TP-SF17-08, TP-SF17-13 |
 
-- **Recommendation:** C, because it removes the confirmations that add no judgement while keeping the platform's flow (the client uploads, the platform reads, the advisor confirms, the advisor shares). It beats A because A leaves value stuck behind a question the advisor may not answer; it beats B because in B nothing a person has checked stands between a misread document and the shared report. D-023: holds in all three; only households with stock pay are affected.
+- **Recommendation:** C, because it removes the confirmations that add no judgement while keeping the platform's flow (the client uploads, the platform reads, the advisor confirms, the advisor shares). It beats A because A leaves value stuck behind a question the advisor may not answer; it beats B because in B nothing a person has checked stands between a misread document and the shared report. D-023: holds in all three; only households with stock compensation are affected.
 - **Chosen:** C · D-090
 
-### F3-15 · Where does the platform's AI act on stock pay, and where never?
+### F3-15 · Where does the platform's AI act on stock compensation, and where never?
 Sherpas builds AI agents that automate the advisor's invisible work [brief]. In the first release, AI acts where the platform already uses it: reading uploaded documents into data, now including plan statements, and writing the analysis text, which advisors edit before presenting [web, `01_context.md`]. The open question is whether an agent also takes a step that today waits on a person.
 
 | | Option | Gains | Costs | Evidence |
 |---|---|---|---|---|
 | A | **Only where AI acts today.** Extraction of plan statements and the written analysis; nothing else | No new agent, no new message to the client; smallest scope | A grant stays pending until the advisor gets the statement by hand, which is the riskiest assumption (completion, M-07); the AI part is thin for a platform built on agents | D-042, AC-G-17; `07` test card 1 |
 | B | **One agent in the first release: ask for the missing statement.** While a grant is pending, the platform drafts a request to the client for the plan statement, with where to find it; the advisor sends it or edits it; the statement then comes back into the same review (F3-14). Further agent steps are Next | Attacks the step most likely to stop value reaching the client; uses the document route the platform already has; the advisor stays in control of what the client receives | A new message to the client, so its wording needs review; one more requirement and event | Sherpas' blog: clients "take weeks or months to send documents" [web, `01_context.md`]; A-05 (the detail sits in documents and portals); M-07, D-090 |
-| C | **Agents across the loop.** B, plus reading the "Anything to add" chat and "Other income" for stock pay and proposing a grant (GAP-40, GAP-45), plus proposing the shares kept at each vest from linked or uploaded statements (D-037 Next) | The fullest use of agents; closes two gaps and the follow-up at vest | Three new AI outputs to check in one release, where D-080 kept the first release small; proposing held shares reverses D-037 for this release | D-037, D-080; GAP-40, GAP-45 |
+| C | **Agents across the loop.** B, plus reading the "Anything to add" chat and "Other income" for stock compensation and proposing a grant (GAP-40, GAP-45), plus proposing the shares kept at each vest from linked or uploaded statements (D-037 Next) | The fullest use of agents; closes two gaps and the follow-up at vest | Three new AI outputs to check in one release, where D-080 kept the first release small; proposing held shares reverses D-037 for this release | D-037, D-080; GAP-40, GAP-45 |
 
 Never, in any option: sell, hold or exercise advice (AC-G-06), and reminders on vest dates to the client (AC-B-25).
 
-- **Recommendation:** B, because the step that most often keeps stock pay from reaching the client is getting the plan statement, and an agent that drafts the request, with the advisor sending it, removes that wait without changing what the advisor confirms. It beats A because A leaves the riskiest step to chance; it beats C because C adds three unchecked AI outputs to a release chosen to be small. D-023: holds in all three; only households with a pending grant are affected.
-- **Chosen:** A · D-091, kept simple: the client uploads the plan statement, the platform reads it, the advisor confirms (F3-14). If stock pay is reported without a statement, nothing blocks: the grant stays pending, the statement can be uploaded later, and the analysis runs again on confirmation.
+- **Recommendation:** B, because the step that most often keeps stock compensation from reaching the client is getting the plan statement, and an agent that drafts the request, with the advisor sending it, removes that wait without changing what the advisor confirms. It beats A because A leaves the riskiest step to chance; it beats C because C adds three unchecked AI outputs to a release chosen to be small. D-023: holds in all three; only households with a pending grant are affected.
+- **Chosen:** A · D-091, kept simple: the client uploads the plan statement, the platform reads it, the advisor confirms (F3-14). If stock compensation is reported without a statement, nothing blocks: the grant stays pending, the statement can be uploaded later, and the analysis runs again on confirmation.
