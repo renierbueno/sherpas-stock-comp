@@ -64,6 +64,7 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 | A-60 | The platform reads linked accounts again after the questionnaire, so delivered shares appear as positions. | To discuss in the follow-up session (D-099) | Delivered shares appear only when the advisor updates the accounts; concentration reads low until then. |
 | A-61 | For a PSU, Social Security and Medicare fall when the performance period ends, not at certification (R-001 states the rule for RSUs only). | `spec/F-C` EC-C-13 | Social Security and Medicare move to the certification year; only the year of that line changes. |
 | A-62 | The platform's projection reads a one-time future income of the stock compensation category the way it reads wages (tax, spending and saving), and can keep that income out of current-year totals, the Social Security estimate and contributions (AC-G-16) [FACT: incomes carry a phase, type, amount, frequency including one-time, and start age, `data_model.md`]. | `spec/F-D` (D-106); to discuss in the follow-up session (D-099) | The projection part of the first release waits for Next; the rest ships unchanged. |
+| A-63 | An RSU and a PSU can be granted on the same day by the same employer, so employer and grant date alone do not identify a grant; how often it happens is not in `research.md`. | `spec/F-F` AC-F-09 (D-115) | If it never happens, matching on type as well changes nothing; if a statement labels one award with two types, the advisor sees two grants and deletes one. |
 
 ## For public research (answer with research)
 
