@@ -296,7 +296,7 @@ Seen 2026-10-05, `captures/questionnaire/03-fresh` (screenshots and notes). Firm
 
 - Welcome > Title, text, "Get your score" > no change. [TP-SF15-01 · seen]
 - Documents > Drop zone and eight categories > changed behind the screen: a plan statement uploaded here, under "Investment & retirement accounts", becomes a proposal the advisor confirms; the step itself does not change. A category of its own is for after the first release. [TP-SF15-02 · seen · AC-F-13, D-077 · A]
-- Documents > Continue without uploading > no change: uploading stays optional. [TP-SF15-03 · inferred]
+- Documents > Continue without uploading > no change: uploading stays optional. [TP-SF15-03 · seen]
 - Personal information > Names, co-client, birth dates, dependents > no change; the people listed here are the owners offered in the stock row. [TP-SF15-04 · seen]
 - Personal information > Zip code > no change on screen; it sets the state used for tax on each vest. [TP-SF15-05 · seen · AC-C-03]
 - Goals > Retirement age, college, goal picker, goal rows > no change on screen; the goals are what vests are compared against. [TP-SF15-06 · seen · AC-D-07]
@@ -306,7 +306,7 @@ Seen 2026-10-05, `captures/questionnaire/03-fresh` (screenshots and notes). Firm
 - Income > Row validation > new: only the employer is required; an empty amount is fine; nothing blocks the questionnaire. [TP-SF15-10 · seen · AC-E-04, AC-E-20 · A]
 - Income > "Other income" chips (current and future) > changed behind the screen: a row whose name mentions stock pay is proposed to the advisor as a grant, advisor-only, and becomes a grant pending detail when the advisor confirms; the advisor deletes the row if it duplicates the grant; the client sees nothing before that. [TP-SF15-11 · seen · AC-E-22 to AC-E-24, AC-G-11, D-096, D-110 · B]
 - Income > Social Security prefilled at 67 > no change: it reads declared income; adding vests to the estimate is Next (SC-22). [TP-SF15-12 · seen · AC-G-16, D-094]
-- Income > "Benefit plan income" block (firm setting) > changed: the chip goes there too. [TP-SF15-13 · inferred · A-30 · EC-E-07 · B]
+- Income > "Benefit plan income" block (firm setting) > changed: the chip goes there too; the template shows the block replaces the income questions for some firms, its fields render in a widget not shown in the demo. [TP-SF15-13 · seen · A-24 · EC-E-07 · B]
 - Every step > "Anything to add about..." chat > changed behind the screen: a mention of stock pay goes through the platform's context mechanism and is proposed to the advisor as a grant, advisor-only, and becomes a grant pending detail when the advisor confirms. [TP-SF15-14 · seen · A-27 · AC-E-22 to AC-E-24, AC-G-11, D-093, D-110 · B]
 - Investments > Account rows (name, type, custodian, owner, balance) > no change: no account type for equity compensation is added. [TP-SF15-15 · seen · D-058]
 - Investments > Holdings search and balance > no change on screen; employer shares are entered as any stock and flagged later by the advisor or automatically on confirming a grant. [TP-SF15-16 · seen · AC-A-20, D-090]
@@ -314,7 +314,7 @@ Seen 2026-10-05, `captures/questionnaire/03-fresh` (screenshots and notes). Firm
 - Investments > Risk level > no change. [TP-SF15-18 · seen]
 - Expenses, Real estate, Liabilities, Insurance > every field > no change. [TP-SF15-19 · seen]
 - End > "Thank you" screen and its options > no change. [TP-SF15-20 · seen]
-- End > On submit, behind the screen > new: each stock row becomes a grant "pending detail" and the opportunity gets the alert "Stock pay: detail pending"; an uploaded statement becomes a proposal. [TP-SF15-21 · inferred · AC-E-07, AC-E-08, AC-F-13 · A]
+- End > On submit, behind the screen > new: each stock row becomes a grant "pending detail" and the opportunity gets the alert "Stock pay: detail pending"; an uploaded statement becomes a proposal. [TP-SF15-21 · seen · AC-E-07, AC-E-08, AC-F-13 · A]
 
 ### Advisor
 
