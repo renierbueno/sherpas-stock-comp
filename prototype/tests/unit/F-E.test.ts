@@ -63,11 +63,6 @@ describe('F-E · alert and notices', () => {
     expect(opportunityAlerts({ ...H2, grants: [] }, ON)).toEqual([]);
   });
 
-  it('AC-E-16 · EC-E-06 · type "other": advisor notice to flag held shares instead', () => {
-    const h = submitQuestionnaire(BLANK, [row({ type: 'other' })], ON, '2026-09-28');
-    expect(text(h, 'AC-E-16')).toEqual(['This type is not modelled in this version; flag any shares already held as employer stock.']);
-  });
-
   it('AC-E-17 · confirming a grant flags every held position of its ticker, across accounts, with one notice', () => {
     const { household, notices } = flagOnConfirm(H2, saveGrant(H2, H2_GRANT, ON), ON);
     expect(household.flags.map((f) => f.positionId)).toEqual(['h2-hldn-brk', 'h2-hldn-401k']);

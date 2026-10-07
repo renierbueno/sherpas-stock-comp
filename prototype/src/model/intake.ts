@@ -54,6 +54,9 @@ export function submitQuestionnaire(h: Household, rows: StockCompensationRow[], 
   return next;
 }
 
+/** AC-E-16: in the editor of every grant reported from the questionnaire, as the spec words it. */
+export const NOT_MODELLED = 'Only RSU and PSU are modelled in this version. If this stock compensation is ESPP or options, delete the grant and flag any shares already held as employer stock.';
+
 export const PENDING_ALERT = 'Stock compensation: detail pending'; // AC-E-08
 
 /** AC-E-08, AC-E-09: opportunity alerts. */

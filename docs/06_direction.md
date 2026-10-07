@@ -231,7 +231,7 @@ Status: confirmed by Renier, 2026-10-05 (D-041); current scope after the first r
 | RSU and PSU grants with dated tranches (pattern, editable; PSU condition and range) | First release (release 2) | Most granted types, one model; base of tax at vest and of the lines on goals | D-024, D-027, D-080 |
 | Delivery date per tranche, prefilled with the vest date and editable | First release (release 2) | Income tax falls in the delivery year (SC-02), FICA in the vest year (SC-03) | D-101, D-110 |
 | Unvested as future income and shares | First release (release 2) | Tax rule and advisor practice; no inflated holdings | D-026, D-080 |
-| Deduplication question and rule | First release (release 2) | Clients and tools double count | D-028, D-080 |
+| Deduplication rule: income is asked without stock compensation, and each vest is counted once, beside it | First release (release 2) | Clients and tools double count | D-028, D-080, D-094 |
 | Client block in Income: a "Stock compensation" chip whose row has the same fields as other income rows (employer, owner, optional amount per year); firm can switch it off | First release (release 2) | Entry point of the product; asks only what clients know (A-05); no change for others | D-030, D-031, D-032, D-076, D-080 |
 | Advisor completes detail in advisor mode and Data & Assumptions; full tranche editor | First release (release 2) | Routes that exist today | D-030, D-036, D-080 |
 | Advisor uploads the plan statement; extraction proposes tranches; the advisor confirms them | First release (release 2) | Extraction already exists; completes the grant with one review; riskiest assumption 1 | D-042, D-080 |

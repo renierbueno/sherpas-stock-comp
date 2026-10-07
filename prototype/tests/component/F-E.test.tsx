@@ -119,4 +119,12 @@ describe('F-E · screens', () => {
     await user().click(screen.getByRole('button', { name: 'Delete grant' }));
     expect(screen.queryByLabelText('Opportunity alerts')).toBeNull();
   });
+
+  it('AC-E-16 · EC-E-06 · the editor of a grant reported from the questionnaire says which types are modelled and what to do otherwise', async () => {
+    render(<App initialHousehold="H2" />);
+    await user().selectOptions(screen.getByLabelText('View'), 'advisor');
+    await user().click(screen.getByRole('tab', { name: 'Data & Assumptions' }));
+    await user().click(within(screen.getByLabelText('Stock compensation grants')).getByRole('button', { name: 'Edit' }));
+    expect(within(screen.getByLabelText('Grant editor')).getByText('Only RSU and PSU are modelled in this version. If this stock compensation is ESPP or options, delete the grant and flag any shares already held as employer stock.')).toBeInTheDocument();
+  });
 });

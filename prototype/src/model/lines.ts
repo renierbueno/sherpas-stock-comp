@@ -256,13 +256,3 @@ export function linesFD(h: Household, firm: Firm): ReportLine[] {
   return out;
 }
 
-/** F-E advisor notices (AC-E-16, AC-E-17); never shared (AC-G-11). */
-export function linesFE(h: Household, firm: Firm): ReportLine[] {
-  if (!firm.stockComp) return [];
-  const out: ReportLine[] = [];
-  for (const g of h.grants.filter((x) => x.clientEstimate?.type === 'other')) {
-    out.push({ id: `E-16-${g.id}`, ac: 'AC-E-16', surface: 'advisor.notices', audience: 'advisor',
-      text: 'This type is not modelled in this version; flag any shares already held as employer stock.' });
-  }
-  return out;
-}

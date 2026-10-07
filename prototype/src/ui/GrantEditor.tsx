@@ -7,6 +7,7 @@ import { deliveryOf, generateTranches, PSU_DEFAULT_RANGE, statusOf, trancheUnits
 import { duplicateOf, NO_GRANTS, proposedLabel, SAMPLE_DOCUMENTS } from '../model/extraction';
 import { dateLabel } from '../model/format';
 import { Mark } from './Guide';
+import { NOT_MODELLED } from '../model/intake';
 import type { Employer, Grant, Household, Tranche } from '../model/types';
 
 export interface GrantSave {
@@ -46,6 +47,7 @@ export function GrantForm({ household, grant, onSave, onCancel, saveLabel = 'Sav
     <div className="form" aria-label="Grant editor">
       {grant.proposed && <div className="notice" data-ac="AC-F-12">{proposedLabel(grant.proposed.document)}</div>}
       {estimate && <div className="notice" data-ac="AC-E-14">Client estimate, not used in the figures: {estimate}.</div>}
+      {grant.source === 'questionnaire' && <div className="notice" data-ac="AC-E-16">{NOT_MODELLED}<Mark kind="new" why="The client may not know the type; the advisor removes what this version does not model (AC-E-16)." /></div>}
       <div className="row">
         <label>Owner
           <select value={g.ownerId} onChange={(e) => set({ ownerId: e.target.value })}>
