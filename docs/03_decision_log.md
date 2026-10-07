@@ -556,3 +556,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: during the first release the firm setting stays per firm (D-030), but only Sherpas changes it, for the pilot firms it chose (D-043); firm admins see its state (AC-G-18). When it is turned off, each household with a grant shows the advisor "Income was reported without company stock. Check the salary on file." (AC-G-19). Firm admins changing it themselves is Next.
 - Why: with the setting off, income reported "not counting company stock" stays without it while grants are hidden, so the figures read low. Turning it off is a pilot decision (the stop rule of D-088), so it belongs to whoever runs the pilot, happens rarely, and comes with the line that lets advisors fix the salary. Removing the off switch was weighed and set aside: it would take away the pilot's stop and the way to withdraw a wrong figure firm by firm.
 - Date: 2026-10-06 · Confirmed by: Renier
+
+## D-112 · Every card of the Miro change maps uses one fixed format
+- What: each card of the change maps shows its badge (NEW, CHANGED or NO CHANGE, in the board's usual colours), "Screen > Element", "Today:" (empty for NEW), "With the feature:", "Why:" in one line, and the covering requirement and decision IDs. Written in the flow-review skill; the maps are rewritten with it, mirroring `10_flow_review.md` (D-085).
+- Why: the cards named what changed but not what the screen did before and does now, so a reader could not tell what is new without the repo; one format makes every card readable on its own and comparable with the prototype.
+- Date: 2026-10-06 · Confirmed by: Renier

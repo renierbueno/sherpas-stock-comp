@@ -33,6 +33,8 @@ Before proposing an option, a resolution or a requirement that depends on a US t
 
 `docs/10_flow_review.md`: surfaces, touchpoints, impact map, data paths, walk-throughs, gaps table (ID `GAP-NN`, what, where, resolution, status). Pass 2 appends its own section. This file is the source of truth; the Miro board mirrors it and never leads. A spec change enters only through a decision Renier confirms; the prototype changes only after the spec.
 
+Miro change maps mirror the touchpoints with one card each, always in this format (D-112): badge `NEW`, `CHANGED` or `NO CHANGE` in its usual colour · `Screen > Element` · `Today:` what it does today (empty for NEW) · `With the feature:` what it does now · `Why:` one line · the covering requirement and decision IDs.
+
 ## Done when
 
 - Every surface in the inputs has a row in the impact map for every new data element, or a reason it cannot be affected.
