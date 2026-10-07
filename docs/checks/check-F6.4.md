@@ -28,3 +28,25 @@
 | 8 | Git | PASS | `git log --oneline | grep -ic wip`: 0; five F6.4 commits with "why" bodies; the remaining pass is ready for one commit |
 
 Ready for gate.
+
+## Re-check 2026-10-07 · Miro mirror (item 7 of F6.4)
+
+Work since `07960d3`: commits `89ca772` (D-112), `2245e78` (D-113), `e02f521` (D-113), the Social Security touchpoint split (uncommitted, `10_flow_review.md`), and the four change maps of the board (area 7) on Renier's working board. Skill that owns the item: `flow-review` (Miro change maps, D-112). Uncommitted prototype files in the working tree belong to F6.5 and are outside this check.
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| 1 | Secrets and confidentiality | PASS | Rerun after the 6c fix: `git add -A --dry-run`: 25 files, none under `captures/`, `inputs/` or `private/`; pre-commit hook on the staged set: exit 0; `git ls-files` lists no rtf, har, png or jpg outside `prototype/` |
+| 2a | Sherpas facts sourced | PASS | Every touchpoint carries "seen" (69) or "inferred" (38) (scripted count; the consistency check fails on a missing tag, D-113); TP-SF15-13 now states the template fact (benefit plan block replaces the income questions for some firms) from the captured template definition |
+| 2b | US facts cite research and rules | PASS | The split Social Security touchpoint cites SC-22 for vests as wages and AC-C-30 for the tax year; no new US fact |
+| 2c | Assumptions tagged | PASS | Every A-NN in a touchpoint bracket exists in `02_open_questions.md` or `discovery/synthesis.md` (scripted: 22 cited, 0 missing); TP-SF15-13 cites A-24, its own assumption, instead of A-30 |
+| 3 | Simulated is labelled | PASS | No new data set |
+| 4 | Decisions logged | PASS | D-112 and D-113 with What, Why, Date and "Confirmed by: Renier" |
+| 5 | Open questions | PASS | No new unknown; assumptions on the board are the A-NN already listed |
+| 6a | Each touchpoint has one card in its map, in the D-112 format with the D-113 tag | PASS | Questionnaire 22, Advisor 27, Financial health 45, Other screens 16 cards (15 before the 6c fix); read back on the board after writing (no overlap, nothing outside a frame, count lines match); two extra cards with no touchpoint deleted by Renier |
+| 6b | Card content matches the repo | PASS | Offline check of all 109 cards against the flow review, spec, log and maps found 6 wrong, 2 lost, 15 minor; all fixed on the board and read back (`private/research_drafts_2026-10-06/miro_content_check.md`, "Content fixes 2026-10-07", APPLIED) |
+| 6c | The board mirrors the repo and never leads | PASS | Fixed 2026-10-07 after the first re-check found the merged Social Security card: on "Client and advisor · Other screens" the card is now "Social Security > Automatic income at 67" (Seen · Assumed A-62 · AC-G-16, AC-C-30 · D-094) and a new card "Cash flow > Savings lines (401(k), cash savings)" (Seen · AC-G-16 · D-094) sits below it, matching TP-SF18-01 and TP-SF19-01 in `10_flow_review.md`; count line "9 no change · 6 changed · 1 new"; read back on the board, no overlap |
+| 6b' | Consistency | PASS | `npm run check` on the working tree: consistency all pass, 187 tests passed, build OK, trace "178 criteria and events · 154 tested · 7 spec only · 17 pending" (the working tree includes the F6.5 income question; at `e02f521`: 189 tests, 156 tested, 3 spec only, 19 pending) |
+| 7 | Harness (flow-review skill changed) | PASS | Y1 two lines added, no new skill · Y5 skill 49 lines · Y6 the format lives in the skill only · Y9 the tag is enforced in `consistency.ts` · Y10 the check was broken on purpose by two touchpoints and reported them · Y12 evidence above |
+| 8 | Git | PASS | `git log --oneline | grep -ic wip`: 0; three commits with "why" bodies |
+
+Ready for gate.
