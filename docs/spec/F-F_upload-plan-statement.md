@@ -22,7 +22,7 @@ As an advisor, I want to upload a client's plan statement and confirm the grants
 | AC-F-06 | When the advisor confirms a proposed grant, the system shall mark it complete and reprocess the analysis. | D-042; [brief] | e2e | (F6) |
 | AC-F-07 | When the advisor rejects a proposed grant, the system shall discard it and change nothing else. | D-042 | unit | (F6) |
 | AC-F-08 | If the extraction finds no grant, then the system shall show "No grants found in this document. Enter them by hand." | D-042; D-030 (manual route stays) | e2e | (F6) |
-| AC-F-09 | If a proposed grant has the same employer and grant date as an existing grant, then the system shall show both and let the advisor choose which to keep. | D-042 | e2e | (F6) |
+| AC-F-09 | If a proposed grant has the same employer, grant date and type (RSU or PSU) as an existing grant, then the system shall show both and let the advisor choose which to keep. | D-042, D-115 | e2e | (F6) |
 | AC-F-10 | Where the statement shows past vests, the system shall propose them as past tranches with the prompt of AC-B-12. | D-028, D-037 | e2e | (F6) |
 | AC-F-11 | The system shall not create held positions from a statement. | D-037 (no automatic conversion) | unit | (F6) |
 | AC-F-12 | The system shall label every proposed value "Extracted from <document>, not confirmed". | D-042 | e2e | (F6) |

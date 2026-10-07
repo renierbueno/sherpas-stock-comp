@@ -153,6 +153,7 @@ export interface ProposalActions {
   onUpload: (doc: string) => void;
   onConfirm: (s: GrantSave, keep?: 'proposed' | 'existing') => void;
   onReject: (id: string) => void;
+  onConfirmAll: (doc: string) => void;
 }
 
 export function GrantsPanel({ household, onSave, enabled, proposals, onDelete }: { household: Household; onSave: (s: GrantSave) => void; enabled: boolean; proposals?: ProposalActions; onDelete?: (id: string) => void }) {
@@ -198,6 +199,12 @@ export function GrantsPanel({ household, onSave, enabled, proposals, onDelete }:
                 <div key={d} className="split">
                   <DocumentPreview household={household} doc={d} />
                   <div>
+                    {proposed.filter((g) => g.proposed!.document === d).length > 1 && (
+                      <div className="row">
+                        <button className="btn" onClick={() => proposals.onConfirmAll(d)}>Confirm all</button>
+                        <Mark kind="new" why="Confirms every grant of this statement at once (AC-F-18)." />
+                      </div>
+                    )}
                     {proposed.filter((g) => g.proposed!.document === d).map((g) => {
                       const dup = duplicateOf(household, g);
                       const past = g.tranches.filter((t) => t.date <= household.analysisDate);
@@ -206,7 +213,7 @@ export function GrantsPanel({ household, onSave, enabled, proposals, onDelete }:
                           <div className="notice">{proposedLabel(d)}</div>
                           <div className="small">{household.employers.find((e) => e.id === g.employerId)?.name} {g.type} · {g.units?.toLocaleString('en-US')} units · granted {g.grantDate && dateLabel(g.grantDate)} · {g.tranches.length} tranches</div>
                           {past.map((t) => <div key={t.id} className="small" data-ac="AC-F-10">Vested on {dateLabel(t.date)}: record the shares kept as a held position.</div>)}
-                          {dup && <div className="warning" data-ac="AC-F-09">Same employer and grant date as an existing grant. Choose which to keep.</div>}
+                          {dup && <div className="warning" data-ac="AC-F-09">Same employer, grant date and type as an existing grant. Choose which to keep.</div>}
                           <div className="row">
                             {dup ? (
                               <>

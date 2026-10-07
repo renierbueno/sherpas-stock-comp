@@ -33,13 +33,17 @@ export const proposedLabel = (doc: string) => `Extracted from ${doc}, not confir
 export function uploadStatement(h: Household, document: string, by: 'advisor' | 'client', log?: EventLog): { household: Household; found: number } {
   const found = (SAMPLE_DOCUMENTS[document] ?? (() => []))(h);
   log?.record('EV-F-01', h.id, { document, by, grantsFound: found.length });
-  const proposed: Grant[] = found.map((f, i) => ({ ...f, id: `p-${Date.parse(h.analysisDate)}-${i}`, category: 'stockCompensation', subType: 'RSU', source: 'extraction', proposed: { document } }));
+  // Ids stay unique across several uploads on the same analysis date.
+  const taken = new Set(h.grants.map((g) => g.id));
+  let n = 0;
+  const nextId = () => { while (taken.has(`p-${Date.parse(h.analysisDate)}-${n}`)) n++; taken.add(`p-${Date.parse(h.analysisDate)}-${n}`); return `p-${Date.parse(h.analysisDate)}-${n}`; };
+  const proposed: Grant[] = found.map((f) => ({ ...f, id: nextId(), category: 'stockCompensation', subType: 'RSU', source: 'extraction', proposed: { document } }));
   return { household: { ...h, grants: [...h.grants, ...proposed] }, found: found.length };
 }
 
-/** AC-F-09: an existing grant with the same employer and grant date. */
+/** AC-F-09: an existing grant with the same employer, grant date and type (D-115). */
 export function duplicateOf(h: Household, proposed: Grant): Grant | undefined {
-  return h.grants.find((g) => !g.proposed && g.id !== proposed.id && g.employerId === proposed.employerId && g.grantDate === proposed.grantDate);
+  return h.grants.find((g) => !g.proposed && g.id !== proposed.id && g.employerId === proposed.employerId && g.grantDate === proposed.grantDate && g.type === proposed.type);
 }
 
 const FIELDS = ['ownerId', 'type', 'employerId', 'grantDate', 'units'] as const;
@@ -58,6 +62,18 @@ export function confirmProposed(h: Household, edited: Grant, log?: EventLog, kee
   log?.record('EV-F-02', h.id, { grant: edited.id, fieldsChanged: changed });
   const confirmed: Grant = { ...edited, proposed: undefined, id: dup ? dup.id : edited.id };
   return { ...h, grants: [...h.grants.filter((g) => g.id !== edited.id && g.id !== dup?.id), confirmed] };
+}
+
+/**
+ * AC-F-18: "Confirm all" confirms every proposed grant of one statement as AC-F-06 does. A
+ * proposal with a duplicate (AC-F-09) is left for the advisor to choose which to keep.
+ */
+export function confirmAll(h: Household, document: string, log?: EventLog): Household {
+  // Duplicates are judged against the grants before this confirmation: grants of one statement
+  // are never duplicates of each other.
+  const ids = new Set(h.grants.filter((g) => g.proposed?.document === document && !duplicateOf(h, g)).map((g) => g.id));
+  for (const id of ids) log?.record('EV-F-02', h.id, { grant: id, fieldsChanged: 0 });
+  return { ...h, grants: h.grants.map((g) => (ids.has(g.id) ? { ...g, proposed: undefined } : g)) };
 }
 
 /** AC-F-07, EV-F-03: reject discards the proposal and changes nothing else. */

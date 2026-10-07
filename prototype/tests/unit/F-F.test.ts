@@ -2,7 +2,7 @@
 // sample document); the tests check what the system does with a proposal.
 import { analyze } from '../../src/model/analysis';
 import { EventLog } from '../../src/model/events';
-import { confirmProposed, duplicateOf, rejectProposed, uploadStatement } from '../../src/model/extraction';
+import { confirmAll, confirmProposed, duplicateOf, rejectProposed, uploadStatement } from '../../src/model/extraction';
 import { countedGrants, statusOf } from '../../src/model/grants';
 import { H2, H2_COMPLETE } from '../../src/model/households';
 import { simulateScore } from '../../src/model/score';
@@ -49,7 +49,7 @@ describe('F-F · proposals', () => {
     expect(household.grants).toEqual([]);
   });
 
-  it('AC-F-09 · EC-F-02 · same employer and grant date as an existing grant: both kept until the advisor chooses', () => {
+  it('AC-F-09 · EC-F-02 · same employer, grant date and type as an existing grant: both kept until the advisor chooses', () => {
     const { household } = uploadStatement(H2_COMPLETE, HALDEN, 'advisor');
     const p = proposals(household)[0];
     expect(duplicateOf(household, p)?.id).toBe('h2-g1');
@@ -112,5 +112,28 @@ describe('F-F · simulator relations (spec "Simulator tests")', () => {
     const confirmed = confirmProposed(household, proposals(household)[0]);
     const strip = (h: Household) => analyze(h, ON).score;
     expect(strip(confirmed)).toEqual(strip(H2_COMPLETE));
+  });
+
+  it('AC-F-18 · "Confirm all" confirms every proposed grant of that statement and no other', () => {
+    let { household } = uploadStatement(BASE, THREE, 'advisor');
+    household = uploadStatement(household, HALDEN, 'advisor').household;
+    const done = confirmAll(household, THREE);
+    expect(done.grants.filter((g) => !g.proposed).map((g) => g.type)).toEqual(['RSU', 'RSU', 'PSU']);
+    expect(proposals(done).map((g) => g.proposed!.document)).toEqual([HALDEN]);
+  });
+
+  it('AC-F-18 · AC-F-09 · a proposal with a duplicate stays for the advisor to choose', () => {
+    const existing = { ...uploadStatement(BASE, THREE, 'advisor').household.grants[0], id: 'kept', proposed: undefined, source: 'advisor' as const };
+    const { household } = uploadStatement({ ...BASE, grants: [existing] }, THREE, 'advisor');
+    const done = confirmAll(household, THREE);
+    expect(proposals(done)).toHaveLength(1);
+    expect(duplicateOf(done, proposals(done)[0])?.id).toBe('kept');
+  });
+
+  it('AC-F-09 · an RSU and a PSU granted the same day are two grants, not duplicates (D-115)', () => {
+    let { household } = uploadStatement(BASE, THREE, 'advisor');
+    const [, rsu, psu] = household.grants;
+    household = confirmProposed(household, rsu);
+    expect(duplicateOf(household, household.grants.find((g) => g.id === psu.id)!)).toBeUndefined();
   });
 });

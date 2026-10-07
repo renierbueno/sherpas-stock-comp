@@ -9,7 +9,7 @@ import { Edits, FinancialHealth, Statements, visibleLines, type Mode } from './F
 import { adjustScore, shareAnalysis, type LineEdits } from '../model/sharing';
 import { GrantsPanel, type GrantSave, type ProposalActions } from './GrantEditor';
 import { IncomeStep, type QuestionnaireSubmit } from './Questionnaire';
-import { confirmProposed, rejectProposed, uploadStatement } from '../model/extraction';
+import { confirmAll, confirmProposed, rejectProposed, uploadStatement } from '../model/extraction';
 import { opportunityAlerts, recordAlertChange, recordRowChange, submitQuestionnaire } from '../model/intake';
 import { HoldingsEditor } from './HoldingsEditor';
 import { InvestmentAnalysis } from './InvestmentAnalysis';
@@ -69,6 +69,7 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
       employers: household.employers.map((e) => (e.id === employer.id ? employer : e)),
     }, grant, log, keep))),
     onReject: (id) => reprocess(rejectProposed(household, id, log)),
+    onConfirmAll: (doc) => reprocess(afterSave(confirmAll(household, doc, log))),
   };
   const submitClient = ({ rows, documents }: QuestionnaireSubmit) => {
     let h = submitQuestionnaire(household, rows, firm, household.analysisDate, log);

@@ -60,7 +60,7 @@ describe('F-F · screens', () => {
   it('AC-F-09 · a duplicate of an existing grant: both shown, the advisor chooses', async () => {
     render(<App initialHousehold="H2" households={[H2_COMPLETE]} />);
     await upload(HALDEN);
-    expect(screen.getByText('Same employer and grant date as an existing grant. Choose which to keep.')).toBeInTheDocument();
+    expect(screen.getByText('Same employer, grant date and type as an existing grant. Choose which to keep.')).toBeInTheDocument();
     await user().click(screen.getByRole('button', { name: 'Keep existing' }));
     expect(screen.queryByLabelText('Proposed grant')).toBeNull();
   });
@@ -77,5 +77,16 @@ describe('F-F · screens', () => {
     await user().selectOptions(screen.getByLabelText('View'), 'advisor');
     await user().click(screen.getByRole('tab', { name: 'Data & Assumptions' }));
     expect(screen.getAllByText(`Extracted from ${HALDEN}, not confirmed`).length).toBeGreaterThan(0);
+  });
+
+  it('AC-F-18 · "Confirm all" appears for a statement with more than one grant and confirms them all', async () => {
+    render(<App initialHousehold="H2" households={[{ ...H2, grants: [] }]} />);
+    await upload(HALDEN);
+    expect(screen.queryByRole('button', { name: 'Confirm all' })).toBeNull();
+    await user().click(screen.getByRole('button', { name: 'Reject' }));
+    await upload('Brokerage statement with three grants (SIMULATED).pdf');
+    await user().click(screen.getByRole('button', { name: 'Confirm all' }));
+    expect(screen.queryByLabelText('Proposed grant')).toBeNull();
+    expect(within(screen.getByLabelText('Stock compensation grants')).getAllByRole('button', { name: 'Edit' })).toHaveLength(3);
   });
 });
