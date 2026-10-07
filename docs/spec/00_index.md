@@ -5,10 +5,11 @@ The feature specs for the MVP: what the system does, checked by tests. Product o
 ## How to read a feature
 
 - Each feature is one advisor outcome that can be tested and released on its own (D-047).
-- Requirements are EARS lines with an ID (`AC-A-01`: feature A, line 01), the decision they come from, how they are verified (`unit`, `e2e`, `manual`) and the prototype tests that prove them (see Traceability).
+- Requirements are EARS lines with an ID (`AC-A-01`: feature A, line 01), the decision they come from and the prototype tests that show they can be built and tested (see Traceability).
 - Edge cases (`EC-A-01`) resolve to a requirement or are out of the MVP with their decision.
 - Instrumentation events (`EV-A-01`) feed the metrics in `07_success_criteria.md`.
 - `pending D-…` marks a line that waits for a decision not yet confirmed.
+- A line with more than one clause passes only when every clause passes.
 - Parameters `P-…` are parts of the score that are not public [brief]; their test values are SIMULATED.
 
 ## Roles
@@ -21,28 +22,56 @@ The feature specs for the MVP: what the system does, checked by tests. Product o
 
 The prototype pull request (F6) is a reference implementation that shows the spec holds up; it is not the plan (D-004).
 
+## Working from this spec
+
+- Product defines what the system does; how and at what level each requirement is verified is QA's and engineering's call (D-121). The Test column only shows how the prototype proved a line can be tested.
+- Teams that automate tests can keep the same trace: start each test title with the IDs it proves, and `npm run trace` in `prototype/` lists every requirement with its tests.
+- Teams that verify by hand can read the criteria in the Notion page of each feature, word for word (D-120), and take the test cases from this repo.
+- The edge cases of each feature (`EC-…`) are product's test cases, with the situation, the expected result and the criteria they cover; with the prototype's tests, they live only in this repo. QA builds its own test cases from them and from the criteria.
+- A requirement that cannot be built as written comes back to product as a change with its ID, not a fix in code.
+
+## Definition of done (proposed; the team agrees it, D-121)
+
+A feature is done when:
+
+1. Every acceptance criterion passes as a test case, verified by QA on the production build.
+2. Every instrumentation event is recorded and visible where the pilot metrics are read.
+3. A household without stock compensation, or a firm with the setting off, gets exactly today's output (G).
+
+## Formats and terms used in every line
+
+| In a line | Means | Example |
+|---|---|---|
+| `$<X>` and every amount | US dollars, rounded to the nearest whole dollar, comma for thousands | $54,120 |
+| `<Y>%` and every share | Whole percent, rounded to the nearest | 30% |
+| `<date>`, `<vest date>`, `<analysis date>` and every date | Month in full, day, year, in English, whatever the browser's language | June 1, 2027 |
+| `<month year …>` | Month in full and year | June 2027 |
+| `<Company>`, `<company>`, `<Name>`, `<goal>`, `<grant>`, `<ticker>`, `<document>` | The value as recorded, unchanged | Halden Robotics |
+| `<n>`, `<m>`, `<accounts>`, `<year>`, `<Year>` | Whole number, comma for thousands; years without it | 1,600 of 2,000 units; 2028 |
+| Exactly as today | The same screens, figures, lines and score the current release produces for the same household data; QA checks it against the current release | |
+
 ## G · Rules for every feature
 
-| ID | Requirement (EARS) | From | Verify | Test |
-|---|---|---|---|---|
-| AC-G-01 | Where the firm has not enabled stock compensation, the system shall show the questionnaire, the analysis and the score exactly as today. | D-023, D-030 | unit + e2e | unit F-A, unit F-E, component F-A, component F-E |
-| AC-G-02 | Where the firm has enabled stock compensation, the system shall add to the questionnaire only the "Stock compensation" income chip and its helper line; a household that adds no stock compensation row sees no new question. | D-023, D-030, D-056 | e2e | component F-E |
-| AC-G-03 | While a household has no grant and no position flagged as employer stock, the system shall compute every score check, figure and report line exactly as today. | D-023 | unit | unit F-A, unit F-C, unit F-E |
-| AC-G-04 | The system shall leave out of every score figure any grant that is pending detail. | D-035, D-039 | unit | unit F-D |
-| AC-G-05 | The system shall leave out of every score figure any grant or share of a private employer. | D-025, D-039 | unit | unit F-B, unit F-D |
-| AC-G-06 | The system shall phrase every new report line as a fact about the household, without a sell, hold, exercise or tax instruction. | D-041 (personalised advice: never); A-04 | manual (wording review) | spec only (see index) |
-| AC-G-07 | The system shall let the advisor edit or delete every new report line before sharing, as for other generated lines. | [web: https://sherpaswealth.com/financial-health, advisors edit generated observations] | e2e | unit G, component G |
-| AC-G-10 | The system shall show every new client-facing line with the same text in the live client view and in the shared PDF, including the advisor's edits and, for performance units, the range beside the number. | D-045, D-060 | e2e | unit G, component F-A, component G, e2e h2 |
-| AC-G-11 | The system shall show the advisor notices of AC-A-08, AC-B-10, AC-B-12, AC-B-30, AC-C-13, AC-E-16, AC-E-17, AC-F-08, AC-F-12, AC-F-17 and AC-G-19, the client's estimates (AC-E-14) and proposed grants only in advisor mode and Data & Assumptions, never in the client view or the shared PDF. | D-060; [FACT: platform_map, the client sees the analysis live] | e2e | unit F-E, component F-A, component F-B, component F-E, e2e h2 |
-| AC-G-12 | When the advisor saves any stock-compensation change (a flag, a grant, a tranche, a state withholding rate, the income question, a confirmed extraction), the system shall reprocess the analysis and, if it has a manual score adjustment, first show the warning of AC-B-06. | [brief]; D-049, D-060 | e2e | component F-A, component G, e2e h2 |
-| AC-G-13 | When Sherpas turns the setting off for a firm, the system shall keep its stock-compensation data, hide it and leave it out of every figure from the next reprocessing, leaving analyses already generated and PDFs already shared unchanged; turning the setting on again shall restore it. | D-030, D-060, D-111 | unit + e2e | unit F-A, component F-A |
-| AC-G-14 | The system shall add no new score limit; existing limits read the checks as today. | D-039, D-060 | unit | unit G |
-| AC-G-15 | The system shall label every value of a future vest with the price date: "at the <analysis date> price". | D-045, D-060 | e2e | unit F-B, unit F-D, component F-B, component F-D |
-| AC-G-16 | The system shall compute the savings rate, fixed commitments, debt-to-income, housing ratio, life cover need, Social Security estimate, contributions, the Summary income card and the cash flow statement totals from reported income as today, never adding vest income, including the income the projection reads (AC-D-01). | D-054, D-107 [ASSUMPTION: A-62] | unit | unit F-C |
-| AC-G-17 | The paragraphs the platform writes for each section of Financial health, for the Investment analysis tab (limited there to the employer stock line of AC-A-22) and for the score explanation shall use the stock-compensation facts of the new lines (AC-A-14 to AC-A-16, AC-C-23, AC-C-24, AC-D-06, AC-D-07, AC-D-11, AC-E-10) the way they use other holdings and figures today, never contradicting those lines, carrying the AC-D-11 label when they quote a projection figure, and phrased as AC-G-06 requires. | D-075, D-097, D-110 | manual (wording review) | spec only (see index) |
-| AC-G-18 | In the first release, the system shall let only Sherpas turn the firm setting on or off, and show firm admins its state. | D-043, D-111 | e2e | spec only (see index) |
-| AC-G-19 | When the setting is turned off for a firm, the system shall show the advisor, in each household with a grant, "Income was reported without stock compensation. Check the salary on file." | D-111 | e2e | spec only (see index) |
-| EV-G-01 | When an analysis of a household with stock compensation is shared, the system shall record the firm, the household and the status of each grant (complete, pending detail, awaiting a liquidity event). | D-088; M-07, M-08 | unit | spec only (see index) |
+| ID | Requirement (EARS) | From | Test |
+|---|---|---|---|
+| AC-G-01 | Where the firm has not enabled stock compensation, the system shall show the questionnaire, the analysis and the score exactly as today. | D-023, D-030 | unit F-A, unit F-E, component F-A, component F-E |
+| AC-G-02 | Where the firm has enabled stock compensation, the system shall add to the questionnaire only the "Stock compensation" income chip and its helper line; a household that adds no stock compensation row sees no new question. | D-023, D-030, D-056 | component F-E |
+| AC-G-03 | While a household has no grant and no position flagged as employer stock, the system shall compute every score check, figure and report line exactly as today. | D-023 | unit F-A, unit F-C, unit F-E |
+| AC-G-04 | The system shall leave out of every score figure any grant that is pending detail. | D-035, D-039 | unit F-D |
+| AC-G-05 | The system shall leave out of every score figure any grant or share of a private employer. | D-025, D-039 | unit F-B, unit F-D |
+| AC-G-06 | The system shall phrase every new report line as a fact about the household, without a sell, hold, exercise or tax instruction. | D-041 (personalised advice: never); A-04 | spec only (see index) |
+| AC-G-07 | The system shall let the advisor edit or delete every new report line before sharing, as for other generated lines. | [web: https://sherpaswealth.com/financial-health, advisors edit generated observations] | unit G, component G |
+| AC-G-10 | The system shall show every new client-facing line with the same text in the live client view and in the shared PDF, including the advisor's edits and, for performance units, the range beside the number. | D-045, D-060 | unit G, component F-A, component G, e2e h2 |
+| AC-G-11 | The system shall show the advisor notices of AC-A-08, AC-B-10, AC-B-12, AC-B-30, AC-C-13, AC-E-16, AC-E-17, AC-F-08, AC-F-12, AC-F-17 and AC-G-19, the client's estimates (AC-E-14) and proposed grants only in advisor mode and Data & Assumptions, never in the client view or the shared PDF. | D-060; [FACT: platform_map, the client sees the analysis live] | unit F-E, component F-A, component F-B, component F-E, e2e h2 |
+| AC-G-12 | When the advisor saves any stock-compensation change (a flag, a grant, a tranche, a state withholding rate, the income question, a confirmed extraction), the system shall reprocess the analysis and, if it has a manual score adjustment, first show the warning of AC-B-06. | [brief]; D-049, D-060 | component F-A, component G, e2e h2 |
+| AC-G-13 | When Sherpas turns the setting off for a firm, the system shall keep its stock-compensation data, hide it and leave it out of every figure from the next reprocessing, leaving analyses already generated and PDFs already shared unchanged; turning the setting on again shall restore it. | D-030, D-060, D-111 | unit F-A, component F-A |
+| AC-G-14 | The system shall add no new score limit; existing limits read the checks as today. | D-039, D-060 | unit G |
+| AC-G-15 | The system shall label every value of a future vest with the price date: "at the <analysis date> price". | D-045, D-060 | unit F-B, unit F-D, component F-B, component F-D |
+| AC-G-16 | The system shall compute the savings rate, fixed commitments, debt-to-income, housing ratio, life cover need, Social Security estimate, contributions, the Summary income card and the cash flow statement totals from reported income as today, never adding vest income, including the income the projection reads (AC-D-01). | D-054, D-107 [ASSUMPTION: A-62] | unit F-C |
+| AC-G-17 | The paragraphs the platform writes for each section of Financial health, for the Investment analysis tab (limited there to the employer stock line of AC-A-22) and for the score explanation shall use the stock-compensation facts of the new lines (AC-A-14 to AC-A-16, AC-C-23, AC-C-24, AC-D-06, AC-D-07, AC-D-11, AC-E-10) the way they use other holdings and figures today, never contradicting those lines, carrying the AC-D-11 label when they quote a projection figure, and phrased as AC-G-06 requires. | D-075, D-097, D-110 | spec only (see index) |
+| AC-G-18 | In the first release, the system shall let only Sherpas turn the firm setting on or off, and show firm admins its state. | D-043, D-111 | spec only (see index) |
+| AC-G-19 | When the setting is turned off for a firm, the system shall show the advisor, in each household with a grant, "Income was reported without stock compensation. Check the salary on file." | D-111 | spec only (see index) |
+| EV-G-01 | When an analysis of a household with stock compensation is shared, the system shall record the firm, the household and the status of each grant (complete, pending detail, awaiting a liquidity event). | D-088; M-07, M-08 | spec only (see index) |
 
 One firm setting, "stock compensation", turns everything on or off for a firm; in the first release Sherpas turns it on and off for the pilot firms, and firm admins only see its state (D-030, D-043, D-049, D-111). Firm admins turning it on and off themselves is Next. The stock-compensation question always ships with the feature: it is how stock compensation enters from the client (D-030, D-032).
 
@@ -50,10 +79,10 @@ One firm setting, "stock compensation", turns everything on or off for a firm; i
 
 Households analysed before a firm turns the setting on have no stock-compensation data. Handling (D-052):
 
-| ID | Requirement (EARS) | From | Verify | Test |
-|---|---|---|---|---|
-| AC-G-08 | When a firm turns the setting on, the system shall change no existing analysis until the advisor adds a flag or a grant. | D-023, D-052 | unit | component F-B |
-| AC-G-09 | The system shall let the advisor add flags, grants and plan statements to an existing household through advisor mode and Data & Assumptions (F-A, F-B, F-F). | D-030, D-042, D-052 | e2e | component F-B, e2e h2 |
+| ID | Requirement (EARS) | From | Test |
+|---|---|---|---|
+| AC-G-08 | When a firm turns the setting on, the system shall change no existing analysis until the advisor adds a flag or a grant. | D-023, D-052 | component F-B |
+| AC-G-09 | The system shall let the advisor add flags, grants and plan statements to an existing household through advisor mode and Data & Assumptions (F-A, F-B, F-F). | D-030, D-042, D-052 | component F-B, e2e h2 |
 
 After the MVP (D-052): asking existing clients the stock-compensation question without the full questionnaire [ASSUMPTION: A-22]; suggesting to the advisor existing households that hold single stocks; year-by-year follow-up (D-037 next).
 

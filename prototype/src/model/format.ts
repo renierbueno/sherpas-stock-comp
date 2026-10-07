@@ -1,6 +1,6 @@
 export const money = (n: number): string => `$${Math.round(n).toLocaleString('en-US')}`;
 
-/** Whole percent; rounding is ours (the spec gives no precision). */
+/** Whole percent, rounded to the nearest (spec/00_index.md, Formats; D-121). */
 export const pct = (share: number): string => `${Math.round(share * 100)}%`;
 
 export function dateLabel(iso: string): string {

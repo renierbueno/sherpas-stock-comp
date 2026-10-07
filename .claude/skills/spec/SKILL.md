@@ -17,7 +17,7 @@ Goal: engineering and QA can plan, build and verify the MVP without a clarifying
 | File | Reader | Holds |
 |---|---|---|
 | `docs/07_success_criteria.md` | Product, Sherpas | Metrics `M-NN` (primary, secondary, guardrail), pilot, learning loop, riskiest-assumption test cards, weekly readout table (D-043) |
-| `docs/spec/00_index.md` | Everyone | D-023 rule (G), firm switch, roles, features with order and dependencies, simulator parameters, traceability |
+| `docs/spec/00_index.md` | Everyone | D-023 rule (G), firm switch, roles, working from the spec, definition of done (proposed), formats, features with order and dependencies, simulator parameters, traceability |
 | `docs/spec/F-A_…` to `F-F_…` | Engineering, QA, F6 | One vertical feature each (D-047) |
 | `docs/08_release_notes.md` | Advisors | What is new, why scores of households with stock compensation move, what stays out |
 | `docs/09_enablement.md` | Advisors, Client Success | How to complete a grant, read the federal-only gap, talk about it with the client; pilot playbook |
@@ -45,9 +45,9 @@ Decisions: D-… · Depends on: F-… · Release: behind the firm switch (D-030)
 As <advisor | client | firm admin>, I want <action>, so that <outcome>.
 
 ## Requirements
-| ID | Requirement (EARS) | From | Verify | Test |
-|---|---|---|---|---|
-| AC-X-01 | When …, the system shall … | D-… ; R-… / [FACT: …] | unit / e2e / manual | (F6) |
+| ID | Requirement (EARS) | From | Test |
+|---|---|---|---|
+| AC-X-01 | When …, the system shall … | D-… ; R-… / [FACT: …] | (F6) |
 
 ## Edge cases
 | ID | Case | Expected | Covered by |
@@ -55,7 +55,7 @@ As <advisor | client | firm admin>, I want <action>, so that <outcome>.
 | EC-X-01 | … | … | AC-X-0x, or "out: D-…" |
 
 ## Instrumentation
-| ID | Event (EARS) | Feeds | Verify | Test |
+| ID | Event (EARS) | Feeds | Test |
 
 ## Out of scope
 - <what this feature does not do>, D-…
@@ -66,7 +66,8 @@ Plan and tasks: to be written by engineering from this spec. The prototype PR is
 
 - IDs are never reused or renumbered; a dropped line stays with "dropped: why".
 - Every feature that touches something that exists today has at least one D-023 line: a household without stock compensation gets exactly today's behaviour.
-- `Verify`: `unit` (simulator or model), `e2e` (prototype path), `manual` (cannot be shown in the prototype; say why).
+- No verification column: how and at what level a line is verified is QA's and engineering's call (D-121). The Test column is filled from the prototype's tests (`npm run trace -- --write`).
+- Every placeholder follows the formats table of `00_index.md`; a new kind of placeholder adds a row there.
 
 ## Score simulator contract
 
@@ -91,8 +92,9 @@ Before proposing an option, a resolution or a requirement that depends on a US t
 
 ## Done when
 
-- Every MVP row of D-041 and D-042 sits in a feature; every requirement is EARS with an `AC-` ID, its `D-NNN`, a verify method and a Test cell.
+- Every MVP row of D-041 and D-042 sits in a feature; every requirement is EARS with an `AC-` ID, its `D-NNN` and a Test cell.
 - Every feature has context, a user story, edge cases, instrumentation, out of scope and the "Owned by engineering" section.
+- The index holds the definition of done (proposed for the team, from product-sdd `write-spec`) and the formats of every placeholder (D-121).
 - G is covered by a D-023 line in every feature that touches existing behaviour.
 - No Sherpas threshold, horizon or curve is invented: each is a `P-` parameter tagged `[ASSUMPTION: confirm]`.
 - Every edge case resolves to an AC or to "out" with its `D-NNN`.
