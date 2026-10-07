@@ -25,18 +25,29 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 
 | Term | Meaning | Source |
 |---|---|---|
-| Stock compensation | Shares or rights to shares in the client's employer, received as part of pay. [brief] Types and terms are defined in `research.md`. |
+| Stock compensation | Shares or rights to shares in the client's employer, received as part of pay. [brief] Types and terms are defined in `research.md`. The one name for it in every document and screen; also the platform's own category name (D-058, D-116). |
 | RSU (restricted stock unit) | An unfunded promise by the employer to deliver shares (or their cash value) once a vesting condition is met. Taxed as wages when settled. [R-001] |
 | SIMULATED | Any persona, interview or data set that is not real. Always labelled; never presented as real. |
-| Stock pay | Our product label for stock compensation in the questionnaire and the analysis ("stock pay reported, detail pending"). | D-030, D-035 |
+| Employer stock | Shares of the client's employer already held in an account: an asset, read by the concentration check. Not to be confused with stock compensation, which is pay and becomes employer stock only once delivered. One name in every document and screen. | D-024, D-116 |
 | Employer flag | A mark on a held position saying it is stock of the person's employer, whatever its origin. | D-024 |
 | Employer exposure | Held employer shares summed across accounts by issuer; in the report, with unvested grants and salary from the same employer as context. | D-040 |
 | Withholding gap | Tax owed on a vest minus tax withheld at vest; federal always, state only when the advisor enters the rate; FICA shown outside it. | D-033, D-051 |
 | Detail pending | State of a grant the client reported but the advisor has not completed; kept out of figures. | D-035 |
-| Proposed grant | A grant extracted from a plan statement and not yet confirmed by the advisor; kept out of figures. | D-042 |
-| Firm setting | "Stock compensation": one setting per firm that turns every stock-pay feature on or off. | D-049 |
+| Proposed grant | A grant extracted from a plan statement, or read from the questionnaire chat or an "Other income" row, and not yet confirmed by the advisor; kept out of figures and shown to the advisor only. | D-042, D-093, D-096, D-110 |
+| Firm setting | "Stock compensation": one setting per firm that turns every stock-compensation feature on or off; in the first release only Sherpas changes it (pilot firms). | D-049, D-111 |
+| First release | What the pilot firms get: release 1 (F-A, employer stock in concentration) and release 2 (F-B to F-F together). | D-080, D-106 |
+| Next | Specified but built after the first release; marked "Next (D-080)" in the requirement. | D-080 |
+| Core loop | The chosen first-release scope (option B): the client reports stock compensation, the advisor completes it with one review, vest income counts once, and concentration, tax at vest and the projection reach the score and the shared report. | D-080, D-106 |
+| Confirm all | The single advisor review of a plan statement, which confirms every proposed grant at once. | D-090 |
+| Delivery date | The date a tranche's shares are delivered ("Shares delivered on"), prefilled with the vest date; income tax follows its year. | D-101 |
+| Value at delivery | The value of a tranche delivered this year, entered by the advisor from the W-2 or the plan statement. | D-107 |
+| Rules table | `12_stock_comp_rules.md`: the US tax and legal rules the model applies, each with an ID (SC-NN), source and signal, checked in code. | D-100 |
+| Known edge case | A case the release leaves out on purpose, written in the spec with what it changes. | D-103, D-105 |
 | Feature (spec) | One advisor outcome that can be built, tested and released on its own (F-A to F-F). | D-047 |
 | EARS | A fixed way to write a requirement: one testable sentence per behaviour, with five patterns (always; when an event; while a state; if something unwanted, then; where a feature is enabled). | `.claude/skills/spec/SKILL.md` |
+| Definition of done | What must be true for a feature to count as finished; proposed in the spec, agreed by the team. | `spec/00_index.md`, D-121 |
+| Exactly as today | The same screens, figures, lines and score the current release produces for the same household data. | `spec/00_index.md`, D-121 |
+| Acceptance scenario | A key example of a requirement written as Given (the starting situation) / When (the action) / Then (the expected result), citing the IDs it comes from. Product writes it; QA builds its test cases. | D-122 |
 | Acceptance criterion | A yes/no check that a requirement is met; ID `AC-<feature>-NN`, linked to a test. | D-004, D-047 |
 | Edge case | An unusual but possible situation that tends to break the logic; ID `EC-<feature>-NN`. | `.claude/skills/spec/SKILL.md` |
 | Instrumentation event | What the system records so a metric can be measured; ID `EV-<feature>-NN`. | D-043 |
@@ -59,7 +70,6 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 | Graded vesting | Vesting in several tranches over time. | R-009 |
 | Back-loaded / front-loaded | More of the grant vests late / early. | R-010 |
 | Forfeiture | Losing unvested units or options, usually on leaving the employer. | R-002 |
-| Settlement (delivery) | Transfer of shares or cash to the holder after an RSU or PSU vests. | R-002 |
 | Net settlement | The company withholds shares to cover taxes at settlement. | R-011 |
 | Sell-to-cover | Selling part of the vested shares to pay the tax withheld at vest. | R-011, V39 |
 | Cost basis | For shares received at vest, the value included in income at vest; the base for gain or loss on sale. | R-002 |
@@ -87,7 +97,11 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 | Phantom stock | Hypothetical shares that pay their full value in cash or shares at vesting. | R-006 |
 | §409A | Rules for deferred compensation; failing them means immediate tax plus a 20% additional tax and interest. | R-006 |
 | ESOP | A 401(a) retirement plan that invests mainly in employer stock through a trust. | R-007 |
-| Supplemental wages | Pay outside regular wages (bonuses, equity income), withheld at a flat 22%, or 37% above $1 million (tax year 2026). | R-008 |
+| Supplemental wages | Pay outside regular wages (bonuses, equity income), withheld at a flat 22% (no other percentage under that method), or 37% on the part of the year's supplemental wages above $1 million (tax year 2026). | R-008, R-022 |
+| Social Security wage base | The yearly wages on which the 6.2% employee Social Security tax is paid; $184,500 in 2026. | R-018 |
+| Additional Medicare Tax | A 0.9% tax on wages above a threshold: withheld by the employer above $200,000 a year; owed on the return above $250,000 (joint), $125,000 (married filing separately) or $200,000 (single, head of household). | R-019 |
+| Settlement | The delivery of the shares (or cash) of a vested unit; its year is the income tax year, and it can follow the vest date. | R-001, R-002 |
+| Dividend equivalent | A payment or credit on an unvested unit equal to the dividend on a share; terms differ by plan; wages when paid. | R-025 |
 | Concentration | A large share of wealth in one stock; 10% of investment assets is a common rule of thumb, not a rule. | R-014 |
 | Double exposure | Salary and savings tied to the same employer. | R-014 |
 | Full-value award | An award that delivers the whole share value (RSU, restricted stock, performance shares), as opposed to an option that pays only the gain over the strike. | R-016 |

@@ -16,3 +16,9 @@ playwright-report/
 # Private local context (loaded by Claude Code, never committed)
 CLAUDE.local.md
 private/
+
+# Raw test runs; the page reads src/generated/evidence.json
+prototype/evidence/
+
+# Screenshots of the prototype, regenerated on demand
+prototype/docs/

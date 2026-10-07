@@ -10,6 +10,7 @@ Sherpas technical exercise: integrate stock compensation into the platform. Brie
 ## Decisions and phases
 - Phases: F0 setup · F1 understand · F2 discovery · F3 decide · F4 spec · F5 flow review · F6 prototype + tests · F7 delivery (D-053). Polish only after F7, timeboxed.
 - Every decision → `docs/03_decision_log.md` (what, why, date, who confirmed).
+- Every decision updates, in the same step, every doc and inventory line it touches; `cd prototype && npm run check` passes before any commit, with zero warnings once step F6.4 closes (D-087).
 - Every phase ends with `/check <phase>` and then Renier's gate. Do not start the next phase without his OK.
 - Timebox each phase. Two iterations without progress → stop and ask Renier.
 - Skills route by their descriptions; `/name` forces one. A new skill is written just before its phase, with a dry run.

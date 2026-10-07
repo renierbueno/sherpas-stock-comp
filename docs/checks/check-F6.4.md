@@ -1,0 +1,52 @@
+# Check F6.4 · Spec and living documents in their current state
+
+2026-10-06. Work since `ebd7ea5` (check F6.3): commits `ad07738`, `874046a`, `ba52d0a`, `5f60340`, `46c3770` and the uncommitted spec and living-document pass (D-099 to D-111; `12_stock_comp_rules.md`; `10_flow_review.md` redone; GAP-48 to GAP-59). Skill that owns the step: `spec` (D-081); `research` and `flow-review` also used.
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| 1 | Secrets and confidentiality | PASS | `git add -A --dry-run`: 14 files, none under `captures/`, `inputs/` or `private/`; pre-commit hook on the staged set: exit 0; `git ls-files` lists no rtf, har, png or jpg outside `prototype/` |
+| 2a | Sherpas facts sourced | PASS | Lines added since `ebd7ea5` with a figure or "Sherpas" all carry `[FACT: …]`, `[brief]`, `[web: …]`, an `A-NN`, a `D-NNN` or SIMULATED (scan of `git diff ebd7ea5` on `docs/`, research, log, rules and open questions excluded: zero untagged lines); `05_business_lens.md` cites a public source or an assumption on every line (D-089) |
+| 2b | US facts cite research and rules | PASS | R-018 to R-026 added with source, access date, evidence size and signal; every spec, flow-review and D-100+ line citing a tax research entry also cites an SC-NN (consistency check "spec, flow review and decisions from D-100 …": PASS); key 2026 figures re-read on irs.gov on 2026-10-06 (Rev. Proc. 2025-32 release; Pub 15 2026: wage base $184,500, supplemental 22%/37%, Additional Medicare $200,000) |
+| 2c | Inferences and assumptions tagged | PASS | Every `[ASSUMPTION]` cites an A-NN that exists (consistency check: PASS); A-49 to A-62 listed with source and fallback; `P-CONC-BASE`, `P-STAGE`, `P-LIMITS` tagged A-31 in this check (A-31 widened to name them) |
+| 3 | Simulated is labelled | PASS | New example figures are labelled SIMULATED (EC-C-16; dry run households); the simulator header and `SceneDetail.tsx` state what is real (2026 federal tables, FICA) and what stays SIMULATED (state rate, prices, households) |
+| 4 | Decisions logged | PASS | D-099 to D-111 each have What, Why, "Date: 2026-10-06" and "Confirmed by: Renier" (scripted read of the log); D-076 and D-080 titles carry their amendments (P1, P2) |
+| 5 | Open questions | PASS | Unknowns found in the step are assumptions in `02_open_questions.md` (A-49 to A-62); answered research items moved to "Answered" with their R-NNN; nothing is asked of Sherpas before delivery (D-099; consistency check PASS) |
+| 6a | Every MVP row of D-041 and D-042 sits in a feature | PASS | `06_direction.md` "MVP cut" is one table of the current scope (31 rows; release 1, release 2, Next, Later, Never), each first-release row mapped to F-A to F-F; Next rows carry "Next (D-080)" in their From cell (AC-A-03, AC-B-14, AC-B-20, AC-B-21) |
+| 6b | Every requirement is EARS with ID, decision, verify method and Test cell | PASS | Scripted read of every `AC-` row in F-A to F-F and the index: each has a From cell with a D-NNN, R-NNN, SC-NN or source tag, a Verify cell and a Test cell; dropped rows (AC-B-15, AC-B-29, AC-E-05, AC-E-11, AC-E-13) stay with "Dropped:" and their reason (D-094, D-108) |
+| 6c | Every feature has context, user story, edge cases, instrumentation, out of scope and "Owned by engineering" | PASS | Headings present in all six feature files (scripted) |
+| 6d | D-023 line in every feature touching existing behaviour | PASS | F-A to F-E cite D-023 (AC-A-11, AC-B-26, AC-C-25, AC-D-09, AC-E-06); F-F adds a new route only, as check F4 recorded; G: AC-G-01, AC-G-16 |
+| 6e | No Sherpas threshold, horizon or curve invented | PASS | Every `P-` row in `spec/00_index.md` is SIMULATED and tagged with A-31 (fixed in this check for three rows) |
+| 6f | Every edge case resolves to an AC or "out" with its decision | PASS | Scripted read: every EC row's last cell cites an AC, EV or D-NNN; two F-C cells with the SC citation outside the cell were fixed in this check (EC-C-01, EC-C-02); EC-C-14 resolved by D-107 |
+| 6g | Riskiest assumptions have test cards linked to M-NN | PASS | `07_success_criteria.md` test cards 1 to 3 unchanged since check F6.2; the assumption wording in test card 2 holds D-099 |
+| 6h | Every M-NN has definition, window, target or rule, decision rule and an event | PASS | Unchanged since check F6.2 (M-01 to M-08, GR-01, GR-02) |
+| 6i | Release notes say scores of households with stock pay move and reprocessing replaces a manual adjustment | PASS | `08_release_notes.md` rewritten for D-090 to D-110; both statements present (scripted search) |
+| 6j | Decisions taken while writing confirmed; glossary current | PASS | D-099 to D-111 "Confirmed by: Renier"; `04_glossary.md` adds first release, Next, core loop, Confirm all, delivery date, value at delivery, rules table, known edge case; duplicate "Settlement" row removed |
+| 6k | Dry run shown before the rest | PASS | F-E shown to Renier in session on 2026-10-06 and approved before the other files; the flow review dry run (vest income) approved before its agent ran |
+| 6b' | Consistency | PASS | `npm run check`: 15 consistency checks PASS, 0 FAIL (the four D-087 checks now fail instead of warn); 189 tests passed; build OK; trace "178 criteria and events · 156 tested · 3 spec only · 19 pending". Pending, built in F6.5: AC-B-32, AC-B-33, AC-C-30 to AC-C-32, AC-E-22 to AC-E-25, AC-F-16 to AC-F-18, AC-G-18, AC-G-19 and the earlier five; tests to rewrite in F6.5: AC-D-01, AC-D-10, AC-E-17, AC-E-18 and those of the dropped rows |
+| 7 | Harness (skills changed: one line each in decide, flow-review, spec, prototype, check) | PASS | Y1 one line per skill, no new skill · Y2 added when the rules table existed · Y3 CLAUDE.md 36 lines · Y4 descriptions unchanged · Y5 skills 41 to 107 lines · Y6 the rule lives in `12_stock_comp_rules.md`, skills point to it · Y7 read when a rule is needed · Y8 decisions still go to Renier · Y9 enforced in `npm run check` and `tests/unit/rules.test.ts` · Y10 the checks were broken on purpose and reported FAIL (agent report) and caught a missing SC citation in D-105 · Y11 sources credited in research · Y12 evidence above |
+| 6l | The flow review states the current spec | PASS | Second run of this check: the flow review still called 29 spec lines "rewritten in F6.4" and named resolved gaps as open; rewritten to cite the requirements that now cover them (AC-E-02, AC-E-17, AC-E-18, AC-E-22 to AC-E-25, AC-B-28, AC-F-17, AC-F-18); a new consistency check fails on any "in F6.x" note for a closed step. The review of the off switch found GAP-59, resolved by D-111 (AC-G-18, AC-G-19) |
+| 8 | Git | PASS | `git log --oneline | grep -ic wip`: 0; five F6.4 commits with "why" bodies; the remaining pass is ready for one commit |
+
+Ready for gate.
+
+## Re-check 2026-10-07 · Miro mirror (item 7 of F6.4)
+
+Work since `07960d3`: commits `89ca772` (D-112), `2245e78` (D-113), `e02f521` (D-113), the Social Security touchpoint split (uncommitted, `10_flow_review.md`), and the four change maps of the board (area 7) on Renier's working board. Skill that owns the item: `flow-review` (Miro change maps, D-112). Uncommitted prototype files in the working tree belong to F6.5 and are outside this check.
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| 1 | Secrets and confidentiality | PASS | Rerun after the 6c fix: `git add -A --dry-run`: 25 files, none under `captures/`, `inputs/` or `private/`; pre-commit hook on the staged set: exit 0; `git ls-files` lists no rtf, har, png or jpg outside `prototype/` |
+| 2a | Sherpas facts sourced | PASS | Every touchpoint carries "seen" (69) or "inferred" (38) (scripted count; the consistency check fails on a missing tag, D-113); TP-SF15-13 now states the template fact (benefit plan block replaces the income questions for some firms) from the captured template definition |
+| 2b | US facts cite research and rules | PASS | The split Social Security touchpoint cites SC-22 for vests as wages and AC-C-30 for the tax year; no new US fact |
+| 2c | Assumptions tagged | PASS | Every A-NN in a touchpoint bracket exists in `02_open_questions.md` or `discovery/synthesis.md` (scripted: 22 cited, 0 missing); TP-SF15-13 cites A-24, its own assumption, instead of A-30 |
+| 3 | Simulated is labelled | PASS | No new data set |
+| 4 | Decisions logged | PASS | D-112 and D-113 with What, Why, Date and "Confirmed by: Renier" |
+| 5 | Open questions | PASS | No new unknown; assumptions on the board are the A-NN already listed |
+| 6a | Each touchpoint has one card in its map, in the D-112 format with the D-113 tag | PASS | Questionnaire 22, Advisor 27, Financial health 45, Other screens 16 cards (15 before the 6c fix); read back on the board after writing (no overlap, nothing outside a frame, count lines match); two extra cards with no touchpoint deleted by Renier |
+| 6b | Card content matches the repo | PASS | Offline check of all 109 cards against the flow review, spec, log and maps found 6 wrong, 2 lost, 15 minor; all fixed on the board and read back (`private/research_drafts_2026-10-06/miro_content_check.md`, "Content fixes 2026-10-07", APPLIED) |
+| 6c | The board mirrors the repo and never leads | PASS | Fixed 2026-10-07 after the first re-check found the merged Social Security card: on "Client and advisor · Other screens" the card is now "Social Security > Automatic income at 67" (Seen · Assumed A-62 · AC-G-16, AC-C-30 · D-094) and a new card "Cash flow > Savings lines (401(k), cash savings)" (Seen · AC-G-16 · D-094) sits below it, matching TP-SF18-01 and TP-SF19-01 in `10_flow_review.md`; count line "9 no change · 6 changed · 1 new"; read back on the board, no overlap |
+| 6b' | Consistency | PASS | `npm run check` on the working tree: consistency all pass, 187 tests passed, build OK, trace "178 criteria and events · 154 tested · 7 spec only · 17 pending" (the working tree includes the F6.5 income question; at `e02f521`: 189 tests, 156 tested, 3 spec only, 19 pending) |
+| 7 | Harness (flow-review skill changed) | PASS | Y1 two lines added, no new skill · Y5 skill 49 lines · Y6 the format lives in the skill only · Y9 the tag is enforced in `consistency.ts` · Y10 the check was broken on purpose by two touchpoints and reported them · Y12 evidence above |
+| 8 | Git | PASS | `git log --oneline | grep -ic wip`: 0; three commits with "why" bodies |
+
+Ready for gate.

@@ -10,27 +10,28 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one IRS document stating general principles, citing IRC §83, §3121(v)(2) and Rev. Rul. 79-305. It says itself that it is informational and "does not constitute a ruling".
 - Signal: STRONG for the general principle (IRS, citing the code). Edge cases (deferral, cash settlement, leaving the employer) need their own entry.
 - Changes: an unvested RSU is not yet income or a held asset. At settlement it becomes wage income (W-2) and, if shares are kept, an asset (a single-stock position). [INFERENCE: from the finding above and the four-dimension model in `00_brief.md`]
-- Assumption carried forward: the household's RSU income at vest is already in the W-2 wages a client reports, so it could be counted twice if also entered as a separate RSU income. [ASSUMPTION: confirm against how the questionnaire asks for income, F1]
+- Assumption carried forward: the household's RSU income at vest is already in the W-2 wages a client reports, so it could be counted twice if also entered as a separate RSU income. [ASSUMPTION: A-06]
 
 ## R-002 · RSU and PSU: lifecycle states and what each state changes for the employee
 - Category: 1 instruments
 - Decision it unblocks: whether the MVP models RSU/PSU as unvested (contingent) vs vested/settled (owned) holdings, and whether PSU needs a target plus payout range in intake.
-- Finding: An RSU is a promise to deliver shares in the future if vesting conditions are met; no stock is transferred at grant and the holder has no shareholder rights (voting, dividends) until shares are delivered. Units that do not meet vesting conditions are forfeited. Many companies credit dividend equivalents during vesting, paid in cash or shares, which vest and forfeit on the same terms as the underlying units. Settlement typically follows vesting "as soon as administratively practicable", in sample agreements no later than the 15th day of the third month after the year of vesting (the §409A short-term deferral window). A PSU is an RSU whose earned quantity depends on performance goals over a performance period, certified by the compensation committee; sample award agreements set the earned range at 0% to 200% of target.
+- Finding: An RSU is a promise to deliver shares in the future if vesting conditions are met; no stock is transferred at grant and the holder has no shareholder rights (voting, dividends) until shares are delivered. Units that do not meet vesting conditions are forfeited. Many companies credit dividend equivalents during vesting, on terms that differ by plan: the Athene RSU agreement pays them on each unit "whether or not vested", the Fiserv PSU agreement credits them (R-025). Settlement typically follows vesting "as soon as administratively practicable"; the RSU and PSU clocks differ: the Athene RSU agreement delivers no later than the 15th day of the third month after the fiscal year (the participant's or the company's) in which the unit vests (the §409A short-term deferral window, 26 CFR §1.409A-1(b)(4)), the Fiserv PSU agreement no later than March 15 of the year after the performance period ends (re-checked 2026-10-06). A PSU is an RSU whose earned quantity depends on performance goals over a performance period, certified by the compensation committee; sample award agreements set the earned range at 0% to 200% of target.
 - Lifecycle states:
   - Granted / unvested → ownership: none (contractual promise) · income: none · tax: none · risk: forfeiture on termination plus full stock price risk.
   - (PSU only) In performance period → quantity unknown, 0% to 200% of target in sample agreements; adds performance-outcome risk on top of price risk.
-  - Vested → right becomes nonforfeitable; income recognized at vest/settlement per R-001 (FMV x shares, W-2 wages, supplemental withholding, see R-008).
-  - Settled / delivered → employee owns shares; cost basis = FMV included in income [INFERENCE: from §83 and Pub 525 basis rule]; dividends and voting start; from here a normal stock holding (capital gain/loss on sale).
+  - Vested → right becomes nonforfeitable; income is recognized at settlement (delivery of the shares), not at vest: the fair market value of the stock is included in gross income in the year the transfer occurs (R-001); W-2 wages, supplemental withholding (R-008, R-022). A unit that vests late in a year can settle in the next tax year.
+  - Settled / delivered → employee owns shares; cost basis = the amount included in income plus any amount paid, holding period from delivery (R-024; applying it to RSU shares is an inference [ASSUMPTION: A-49]); dividends and voting start; from here a normal stock holding (capital gain/loss on sale).
   - Forfeited → units and accrued dividend equivalents disappear; no income, no deduction.
-- Data an advisor needs: grant date, units granted (PSU: target units and min/max payout %), vest schedule (dates and units per tranche), performance period end (PSU), units vested/settled to date, shares withheld for tax, FMV at each settlement, dividend equivalent treatment, termination/forfeiture terms.
+- Data an advisor needs: grant date, units granted (PSU: target units and min/max payout %), vest schedule (dates and units per tranche), performance period end (PSU), settlement date of each tranche, units vested/settled to date, shares withheld for tax, FMV at each settlement, dividend equivalent treatment, termination/forfeiture terms.
 - Source: SEC EDGAR, Athene "Notice of Restricted Share Unit Award" (Ex. 10.28), https://ir.athene.com/sec-filings/all-sec-filings/content/0001527469-25-000016/q42024exhibit1028.htm · Accessed: 2026-10-05 · Source date: 2025 (10-K exhibit)
 - Source: SEC EDGAR, Fiserv PSU award agreement form (Ex. 10.28), https://www.sec.gov/Archives/edgar/data/831259/000083125925000006/a4q2024exhibit1028.htm · Accessed: 2026-10-05 · Source date: 2025
 - Source: SEC EDGAR, Janus International form of PSU agreement (Ex. 10.23), https://sec.gov/Archives/edgar/data/1839839/000183983923000024/exhibit1023-formofperforma.htm · Accessed: 2026-10-05 · Source date: 2023
 - Source: Meridian Compensation Partners, "Restricted Stock Unit Fundamentals", https://www.meridiancp.com/?p=1244 · Accessed: 2026-10-05 · Source date: undated
+- Source: 26 CFR §1.409A-1(b)(4), short-term deferrals, https://www.law.cornell.edu/cfr/text/26/1.409A-1 · Accessed: 2026-10-06 · Source date: current regulation (a safe harbour from §409A, not a rule that settlement must occur by then)
 - Evidence size: several sources agree (company award agreements filed with the SEC plus one consultant note); search summaries, not every clause read in full.
 - Signal: STRONG
 - Changes: unvested RSU/PSU is a contingent future income item, not an asset owned today; settlement converts it to taxable income plus a liquid asset (public company); all states add to employer-stock concentration; PSU adds a range, not a point estimate. [INFERENCE]
-- Assumption carried forward: 0% to 200% PSU payout range is typical for public companies, not a legal rule; actual range comes from each award agreement [ASSUMPTION: confirm].
+- Assumption carried forward: 0% to 200% PSU payout range is typical for public companies, not a legal rule; actual range comes from each award agreement [ASSUMPTION: A-34].
 
 ## R-003 · NSO (non-qualified stock options): states, tax at exercise, basis, sale
 - Category: 1 instruments
@@ -51,7 +52,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (tax); one vendor (10-year term and 90-day window as practice)
 - Signal: STRONG for tax; WEAK for term and window norms
 - Changes: vested NSO = contingent asset whose value is the spread, not share value; exercise needs cash (strike plus tax) and creates taxable income; shares after exercise add to concentration; expiry date is a hard liquidity deadline. [INFERENCE]
-- Assumption carried forward: 10-year term and 90-day post-termination window are common practice, not law, for NSOs [ASSUMPTION: confirm per grant].
+- Assumption carried forward: 10-year term and 90-day post-termination window are common practice, not law, for NSOs [ASSUMPTION: A-35].
 
 ## R-004 · ISO: §422 rules, holding periods, dispositions, AMT, $100,000 limit, Form 3921
 - Category: 2 tax and regulation
@@ -74,7 +75,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule
 - Signal: STRONG
 - Changes: ISO exercise can create a tax liability (AMT) with no cash income; held ISO shares are a concentrated asset with a dated tax status (qualifying date); the holding period ties liquidity to a date. [INFERENCE]
-- Assumption carried forward: 2025 AMT exemption amounts (single/HoH $88,100; MFJ $137,000; MFS $68,500, Form 6251 instructions 2025) are the latest found; 2026 amounts not fetched [ASSUMPTION: confirm 2026 values before any AMT estimate].
+- Assumption carried forward: 2025 AMT exemption amounts (single/HoH $88,100; MFJ $137,000; MFS $68,500, Form 6251 instructions 2025) are the latest found; 2026 amounts not fetched [ASSUMPTION: A-36].
 
 ## R-005 · ESPP: §423 qualified plans and dispositions; non-qualified ESPP
 - Category: 2 tax and regulation
@@ -95,7 +96,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (limits, holding periods, Form 3922, disqualifying disposition); one vendor (lookback wording, qualifying example)
 - Signal: STRONG (disqualifying disposition checked against Pub 525 text on 2026-10-05)
 - Changes: ESPP is a regular payroll deduction (expense/savings) that becomes a stock asset at each purchase; frequent small lots add steadily to concentration. [INFERENCE]
-- Assumption carried forward: non-qualified ESPP treatment is an inference, not sourced [ASSUMPTION: confirm].
+- Assumption carried forward: non-qualified ESPP treatment is an inference, not sourced [ASSUMPTION: A-37].
 
 ## R-006 · RSA and the §83(b) election; SARs and phantom stock
 - Category: 1 instruments
@@ -116,7 +117,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (§83, §409A, Pub 525); several secondary sources agree on SAR/phantom mechanics
 - Signal: STRONG
 - Changes: RSA is an owned asset from day one (with forfeiture risk); 83(b) moves tax earlier; cash-settled SARs and phantom stock are cash income promises tied to employer value, adding concentration without shares. [INFERENCE]
-- Assumption carried forward: RSA, SAR and phantom stock are less common for public-company employees of advisor clients than RSU/NSO/ESPP [ASSUMPTION: confirm with Sherpas or market data].
+- Assumption carried forward: RSA, SAR and phantom stock are less common for public-company employees of advisor clients than RSU/NSO/ESPP [ASSUMPTION: A-38].
 
 ## R-007 · ESOP: retirement plan, not an employee-held grant
 - Category: 1 instruments
@@ -130,18 +131,18 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (IRS) plus two secondary sources
 - Signal: STRONG
 - Changes: ESOP belongs with retirement assets (illiquid until distribution) rather than with equity comp grants; still employer-stock concentration if the client also holds grants. [INFERENCE]
-- Assumption carried forward: no DOL page fetched directly; ERISA coverage taken from secondary sources plus IRS "shared jurisdiction" [ASSUMPTION: confirm with a DOL source if ESOP leaves the exclusion list].
+- Assumption carried forward: no DOL page fetched directly; ERISA coverage taken from secondary sources plus IRS "shared jurisdiction" [ASSUMPTION: A-39].
 
 ## R-008 · Federal supplemental wage withholding rates for tax year 2026
 - Category: 2 tax and regulation
 - Decision it unblocks: what default withholding the MVP assumes at RSU/PSU settlement and NSO exercise, to show the gap between tax withheld and tax owed.
-- Finding: Publication 15 (2026), "What's New": "The withholding rate on supplemental wages remains 22% (37% if supplemental wages paid to an employee during the calendar year exceed $1 million)", because P.L. 119-21 permanently extended the individual tax rates of P.L. 115-97. The 37% rate is mandatory on supplemental wages above $1 million; the 22% flat rate is the optional method below that, with procedures in Pub 15 section 7 and Pub 15-T [conditions of the optional method not read in full]. Secondary sources state the $1 million threshold is per employer. Withholding is not the final tax; the real liability is set on the return, so a client in a bracket above 22% can be under-withheld [INFERENCE].
-- Data an advisor needs: expected supplemental income per year from settlements and exercises (per employer), year-to-date supplemental wages, client marginal bracket, whether the employer withholds at 22% or another elected rate.
+- Finding: Publication 15 (2026), "What's New": "The withholding rate on supplemental wages remains 22% (37% if supplemental wages paid to an employee during the calendar year exceed $1 million)", because P.L. 119-21 permanently extended the individual tax rates of P.L. 115-97. The 37% rate is mandatory on supplemental wages above $1 million; the 22% flat rate is the optional method below that, and under it no other percentage is allowed; it needs income tax withheld from regular wages in the current or preceding calendar year, otherwise the employer aggregates with regular wages, and other outcomes come only from that aggregate method (R-022). The $1 million counts all supplemental wages paid to the employee in the calendar year, including all businesses under common control (R-022). Withholding is not the final tax; the real liability is set on the return, so a client in a bracket above 22% can be under-withheld [INFERENCE].
+- Data an advisor needs: expected supplemental income per year from settlements and exercises (per employer), year-to-date supplemental wages, client marginal bracket, whether the employer uses the flat 22% method (no other percentage allowed) or the aggregate method, whose outcome follows the Form W-4 (R-022).
 - Source: IRS Publication 15 (2026), (Circular E) Employer's Tax Guide, https://www.irs.gov/publications/p15 · Accessed: 2026-10-05 · Source date: tax year 2026
 - Evidence size: primary rule
 - Signal: STRONG
 - Changes: settlement creates income plus a possible tax liability not covered by withholding (liability/expense in the year); shares withheld for tax reduce the asset received. [INFERENCE]
-- Assumption carried forward: employers use the 22% flat method for amounts below $1 million [ASSUMPTION: confirm, employers may aggregate instead].
+- Assumption carried forward: employers use the 22% flat method for amounts below $1 million [ASSUMPTION: A-40].
 
 ## R-009 · Which time-based vesting patterns are common, with filing examples, and do new-hire grants differ from annual refresh grants?
 - Category: 1 (instruments)
@@ -159,7 +160,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: several sources agree (four filings; text read through a page-summarising fetch tool, quotes not checked against the raw filing).
 - Signal: STRONG for "these shapes exist"; WEAK for "new-hire differs from refresh" (director examples only).
 - Changes: Future shares: the count and date of each tranche set when shares arrive; a cliff means zero shares until month 12, then a step. Future income: each tranche is ordinary income at vest for RSUs [INFERENCE]. Concentration: stays flat until the first tranche, then rises in steps. Liquidity: shares are unsellable (and taxes unfunded) until vest dates.
-- Assumption carried forward: Employee (non-executive, non-director) grants follow the same shapes as the executive and director examples. [ASSUMPTION: confirm]
+- Assumption carried forward: Employee (non-executive, non-director) grants follow the same shapes as the executive and director examples. [ASSUMPTION: A-41]
 
 ## R-010 · What is back-loaded vesting (Amazon) and which large tech companies moved to front-loaded schedules?
 - Category: 1 (instruments)
@@ -177,7 +178,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one secondary pattern repeated by several vendors; no primary source for Amazon or Google percentages.
 - Signal: WEAK (Amazon and Google percentages); STRONG (that unequal annual tranches exist, via Rubrik).
 - Changes: Back-loaded schedules push income, share count and concentration to years 3 and 4 and make early departure forfeit most of the grant; front-loaded schedules do the opposite, so a projection that assumes even tranches would misstate year-by-year income, shares and concentration. [INFERENCE]
-- Assumption carried forward: Back-loaded schedules at the largest tech employers are present in client portfolios, so tranche percentages must be free-form. [ASSUMPTION: confirm]
+- Assumption carried forward: Back-loaded schedules at the largest tech employers are present in client portfolios, so tranche percentages must be free-form. [ASSUMPTION: A-42]
 
 ## R-011 · How do PSUs, double-trigger RSUs and option expiry or post-termination windows affect a vesting schedule?
 - Category: 1 (instruments)
@@ -197,7 +198,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: PSUs two filings agree; double-trigger several S-1s agree; options one to two vendors.
 - Signal: STRONG (PSU structure, double-trigger structure); WEAK (option post-termination windows).
 - Changes: PSUs: future shares are a range (0 to 2x target) resolved only at certification, so income and concentration become scenarios, not a single number. Double-trigger: before the liquidity event, no shares and no income are realised even if the time condition is met; at the event, many tranches vest at once, creating a one-time income and tax event and a concentration step with the shares often locked up [INFERENCE on lock-up; not found in this block]. Options: a clock to expiry and a shorter clock after leaving the employer limit the time in which liquidity can be created.
-- Assumption carried forward: Double-trigger RSU holders in advisor client lists are mainly pre-IPO private-company employees, so the liquidity condition is a pending event with no date. [ASSUMPTION: confirm]
+- Assumption carried forward: Double-trigger RSU holders in advisor client lists are mainly pre-IPO private-company employees, so the liquidity condition is a pending event with no date. [ASSUMPTION: A-43]
 
 ## R-012 · How do advisor planning tools (RightCapital, eMoney, MoneyGuide) handle equity compensation?
 - Category: 4 advisor practice
@@ -209,7 +210,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: two vendors (RightCapital strong, eMoney partial); MoneyGuide not found
 - Signal: WEAK for the whole question (MoneyGuide missing, eMoney page may be 2020), STRONG for the RightCapital field list
 - Changes: The grant field set (type, grant date, shares, strike, vest schedule, expiry) is the industry baseline and matches what a questionnaire step can ask. Concentration in these tools is "stock plan as % of investment portfolio", not % of net worth including salary dependence. [INFERENCE: from the RightCapital and eMoney help pages]
-- Assumption carried forward: how MoneyGuide handles equity compensation is unknown [ASSUMPTION: confirm].
+- Assumption carried forward: how MoneyGuide handles equity compensation is unknown [ASSUMPTION: A-44].
 - Note: advisor-side gap evidence is vendor marketing only (Grantd, "Equity compensation needs to evolve beyond spreadsheets", https://www.grantdequity.com/articles/equity-compensation-needs-to-evolve-beyond-spreadsheets-heres-why, no date shown): it claims planning tools "lack integrated equity compensation features" and that advisors use spreadsheets. Treated as WEAK, an interested party. Specialist tools named in search results (not opened): EquityNav, Net Worth Strategies "Stockopter", Grantd, Worthy, myStockOptions.com Pro.
 
 ## R-013 · Can advisors or aggregators (Plaid, Yodlee) pull unvested grants from stock-plan platforms?
@@ -221,7 +222,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one vendor (Plaid), absence of evidence for Yodlee, Carta, Fidelity SPS, Schwab EAC, E*Trade
 - Signal: WEAK (absence of documentation is not proof of absence)
 - Changes: Do not assume aggregation delivers unvested grants. Plan for the questionnaire and document upload (grant agreement, award statement) as the main route for unvested equity; aggregation covers only vested shares already in a brokerage account. [INFERENCE: from Plaid field docs]
-- Assumption carried forward: Aggregators do not return unvested awards from Carta, Shareworks, Fidelity SPS, Schwab EAC or E*Trade Equity Edge. [ASSUMPTION: confirm with Plaid/Yodlee coverage lists or support]
+- Assumption carried forward: Aggregators do not return unvested awards from Carta, Shareworks, Fidelity SPS, Schwab EAC or E*Trade Equity Edge. [ASSUMPTION: A-45]
 
 ## R-014 · What guidance exists on a concentration threshold and on double exposure to the employer?
 - Category: 3 financial-health effect
@@ -232,7 +233,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one regulator-affiliated primary (FINRA) plus one large firm; others are weak snippets
 - Signal: STRONG that the qualitative double-exposure risk is official; WEAK for any single numeric threshold
 - Changes: A threshold in the score is a product choice, not a regulatory one, and must be labelled a rule of thumb (10% is the most cited; FINRA's own caveat applies). Employer stock is exposed through income as well as wealth, so unvested grants and the employer link cannot be seen by a single-largest-position check alone. [INFERENCE: from FINRA and T. Rowe Price text]
-- Assumption carried forward: 10% of investable assets as the default flag level; denominator (portfolio vs net worth) is undecided and sources differ. [ASSUMPTION: confirm]
+- Assumption carried forward: 10% of investable assets as the default flag level; denominator (portfolio vs net worth) is undecided and sources differ. [ASSUMPTION: A-46]
 - Note: not found: Investor.gov concentration page (HTTP 403), SEC bulletin, CFP Board, Morgan Stanley, Fidelity, Schwab, J.P. Morgan primary pages with a threshold.
 
 ## R-015 · How common are RSUs, options and ESPPs among US employees and high earners, and what is the trend?
@@ -243,7 +244,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: none read
 - Signal: WEAK
 - Changes: The order of types cannot be set from prevalence data; it has to rest on other criteria (fit with the platform, modelling effort, advisor tools' coverage). [INFERENCE]
-- Assumption carried forward: current share of RSUs, options and ESPP among US high earners is unknown [ASSUMPTION: confirm].
+- Assumption carried forward: current share of RSUs, options and ESPP among US high earners is unknown [ASSUMPTION: A-25].
 
 ## R-016 · Which equity award types do US companies grant today?
 - Category: 5 (market size)
@@ -254,7 +255,7 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: one industry survey reported by a secondary source; survey report itself not read; respondent count and company mix not stated
 - Signal: WEAK for exact figures (secondary report of a survey); consistent in direction with V04 in `discovery/voices.md` (advisors see more RSUs, fewer options)
 - Changes: RSUs (and performance-based units) are granted by almost every responding company, options by a minority and falling, ESPP by about half and more often in technology. This is prevalence among companies, not among advisors' client households. [INFERENCE]
-- Assumption carried forward: respondents are mostly public companies, so private-company practice (options more common) is under-represented [ASSUMPTION: confirm against the survey report].
+- Assumption carried forward: respondents are mostly public companies, so private-company practice (options more common) is under-represented [ASSUMPTION: A-47].
 
 ## R-017 · How is private-company stock valued for employees?
 - Category: 2 (tax and regulation)
@@ -265,4 +266,116 @@ Public facts about US stock compensation, one entry per question. Append-only. F
 - Evidence size: primary rule (regulation); one vendor for the common vs preferred gap
 - Signal: STRONG for the rule; WEAK for typical discounts
 - Changes: a private-company share has a tax value (the latest 409A FMV, up to 12 months old) but no market price and no liquidity; it is a different number from what the employee could sell it for. A product can record that value and its date, but cannot treat it like a listed price. [INFERENCE]
-- Assumption carried forward: clients or advisors can obtain the latest 409A value from the employer or the grant documents [ASSUMPTION: confirm].
+- Assumption carried forward: clients or advisors can obtain the latest 409A value from the employer or the grant documents [ASSUMPTION: A-48].
+
+## R-018 · What are the employee Social Security and Medicare rates and the Social Security wage base for tax year 2026?
+- Category: 2 (tax and regulation)
+- Decision it unblocks: the Social Security and Medicare part of the tax owed on each vest (AC-C-03, AC-C-14) and the FICA constants of the simulator.
+- Finding: for 2026 the employee Social Security rate is 6.2% on wages up to $184,500; the employee Medicare rate is 1.45% with no wage base. Pub 15 (2026): "The social security wage base limit is $184,500." "The rate of social security tax on taxable wages is 6.2% each for the employer and employee. The Medicare tax rate is 1.45% each for the employee and employer, unchanged from 2025." "There is no wage base limit for Medicare tax; all covered wages are subject to Medicare tax." Topic 751: "For earnings in 2026, this base limit is $184,500."
+- Source: IRS Publication 15 (2026), (Circular E) Employer's Tax Guide, https://www.irs.gov/publications/p15 · Accessed: 2026-10-06 · Source date: tax year 2026 (dated Dec 15, 2025)
+- Source: IRS Topic no. 751, Social Security and Medicare withholding rates, https://www.irs.gov/taxtopics/tc751 · Accessed: 2026-10-06 · Source date: tax year 2026 (Tier 2, informational)
+- Evidence size: primary rule; two IRS pages agree (ssa.gov returned HTTP 403 and was not read)
+- Signal: STRONG
+- Changes: the simulator's wage base was a placeholder ($180,000); 2026 is $184,500. The wage base changes every year, so each figure carries its tax year.
+- Assumption carried forward: none
+
+## R-019 · Additional Medicare Tax: rate, who withholds it, and the thresholds owed by filing status (tax year 2026)
+- Category: 2 (tax and regulation)
+- Decision it unblocks: whether the FICA line of AC-C-14 includes the 0.9% Additional Medicare Tax, and whether FICA withheld at vest can differ from FICA owed.
+- Finding: the employer withholds 0.9% on wages it pays to an employee above $200,000 in a calendar year, whatever the filing status. The tax owed on the return starts above $250,000 (married filing jointly), $125,000 (married filing separately) or $200,000 (single, head of household, qualifying surviving spouse), on combined wages, so the amount withheld can be more or less than the amount owed; Form 8959 reconciles them. Pub 15 (2026): "you must withhold a 0.9% Additional Medicare Tax from wages you pay to an employee in excess of $200,000 in a calendar year". Topic 751: "Employers are responsible for withholding the 0.9% Additional Medicare tax on an individual's wages paid in excess of $200,000 in a calendar year, without regard to filing status." IRS Q&A: an individual "may owe more than the amount withheld by the employer, depending on the individual's filing status, wages, compensation, and self-employment income."
+- Source: IRS Publication 15 (2026), https://www.irs.gov/publications/p15 · Accessed: 2026-10-06 · Source date: tax year 2026
+- Source: IRS Topic no. 751, https://www.irs.gov/taxtopics/tc751 · Accessed: 2026-10-06 · Source date: tax year 2026 (Tier 2, informational)
+- Source: IRS, Questions and Answers for the Additional Medicare Tax, https://www.irs.gov/businesses/small-businesses-self-employed/questions-and-answers-for-the-additional-medicare-tax · Accessed: 2026-10-06 · Source date: undated (Tier 2, not binding)
+- Source: IRS, Instructions for Form 8959, https://www.irs.gov/instructions/i8959 · Accessed: 2026-10-06 · Source date: edition year not confirmed; the thresholds are fixed in the statute, not indexed
+- Evidence size: primary rule; four IRS pages agree (Q&A and Form 8959 text read through a summarising fetch tool)
+- Signal: STRONG
+- Changes: FICA on a vest for a person above $200,000 of wages has a third part (0.9%); the simulator had none. Withheld and owed use different thresholds.
+- Assumption carried forward: each person has one employer in the year, so the employer's $200,000 test reads that person's wages [ASSUMPTION: A-56].
+
+## R-020 · How do Social Security and Medicare apply to vest income, above the wage base and with two employers? (tax year 2026)
+- Category: 2 (tax and regulation)
+- Decision it unblocks: whether AC-C-14 can compute FICA on each vest as the full rates up to the wage base, and what happens with two employers.
+- Finding: supplemental wages are subject to Social Security and Medicare whatever the income tax withholding method. The employer stops the employee's Social Security once the year's wages reach the base. With more than one employer, each withholds up to the base, and the excess is a credit on the income tax return, so Social Security owed is capped per person. Pub 15 (2026): "Regardless of the method you use to withhold income tax on supplemental wages, they're subject to social security, Medicare, and FUTA taxes." "Stop collecting the employee share of social security tax when their wages and tips for tax year 2026 reach $184,500". Topic 608: with more than one employer and wages over the base, the tax withheld "may have exceeded the maximum amount due", and "you may be able to claim the excess as a credit against your income tax on your income tax return." That RSU vest income is wages for FICA comes from R-001.
+- Source: IRS Publication 15 (2026), https://www.irs.gov/publications/p15 · Accessed: 2026-10-06 · Source date: tax year 2026
+- Source: IRS Topic no. 608, Excess Social Security and RRTA tax withheld, https://www.irs.gov/taxtopics/tc608 · Accessed: 2026-10-06 · Source date: undated (Tier 2, informational)
+- Evidence size: primary rule plus one IRS informational page; IRC §3101, §3102(f) and Treas. Reg. §31.3121(v)(2)-1 not read
+- Signal: STRONG
+- Changes: a vest before the person's wages reach the base pays 6.2% Social Security; a vest after it pays none, so tranche order within a year matters. FICA withheld equals FICA owed for one employer under the thresholds [INFERENCE: from the Pub 15 quotes; no IRS sentence says so]; it differs with two employers above the base and through the Additional Medicare Tax (R-019).
+- Assumption carried forward: FICA withheld at vest equals FICA owed except in the listed cases [ASSUMPTION: A-53]; each person's reported salary is the vesting employer's wages for the year [ASSUMPTION: A-56].
+
+## R-021 · What are the 2026 federal brackets and standard deductions?
+- Category: 2 (tax and regulation)
+- Decision it unblocks: replaces the SIMULATED brackets and deductions of the simulator's tax engine, used for the tax owed on each vest (AC-C-03) and the gap (AC-C-10).
+- Finding: for taxable years beginning in 2026, Rev. Proc. 2025-32 sets the tables below; rates stay 10/12/22/24/32/35/37 (P.L. 119-21 "permanently extended the individual tax rates enacted in P.L. 115-97", Pub 15 (2026)). Top of each bracket, on taxable income (after the deduction):
+  - Married filing jointly (Table 1): 10% to $24,800; 12% to $100,800; 22% to $211,400; 24% to $403,550; 32% to $512,450; 35% to $768,700; 37% above.
+  - Single (Table 3): 10% to $12,400; 12% to $50,400; 22% to $105,700; 24% to $201,775; 32% to $256,225; 35% to $640,600; 37% above.
+  - Head of household (Table 2): 10% to $17,700; 12% to $67,450; 22% to $105,700; 24% to $201,750; 32% to $256,200; 35% to $640,600; 37% above.
+  - Standard deduction (section 4.14(1)): joint $32,200; head of household $24,150; single and married filing separately $16,100.
+  Single is not half of joint at the top: half of the joint 35% top is $384,350, the single top is $640,600.
+- Source: Rev. Proc. 2025-32, https://www.irs.gov/pub/irs-drop/rp-25-32.pdf · Accessed: 2026-10-06 · Source date: 2025-10-09 (taxable years beginning in 2026)
+- Source: IRS newsroom, "IRS releases tax inflation adjustments for tax year 2026", https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill · Accessed: 2026-10-06 · Source date: 2025-10-09 (Tier 2)
+- Evidence size: primary rule; the newsroom agrees on every number
+- Signal: STRONG
+- Changes: the engine uses the real 2026 tables, separate for joint and single; head of household is a third schedule the model does not have.
+- Assumption carried forward: tax figures for vests in later years use the 2026 rules, labelled "today's tax rules" (AC-C-04) [ASSUMPTION: A-57].
+
+## R-022 · How does federal supplemental wage withholding work for a vest in 2026: the $1 million scope, the flat 22% conditions, other rates?
+- Category: 2 (tax and regulation)
+- Decision it unblocks: AC-C-05, AC-C-06, AC-C-10, EC-C-02 and EC-C-10 (the withholding estimate, its label and its scope).
+- Finding: (a) The $1 million threshold counts all supplemental wages paid to one employee in the calendar year, including payments from all businesses under common control; it is not limited to vests. The excess is withheld at 37% without regard to Form W-4. (b) The flat 22% is optional and needs income tax withheld from the employee's regular wages in the current or preceding calendar year and supplemental wages identified separately; otherwise the employer aggregates them with regular wages (method 1b). (c) Under the flat method no other percentage is allowed; a different amount comes only from the aggregate method, which follows the Form W-4. Pub 15 (2026), section 7: "If a supplemental wage payment, together with other supplemental wage payments made to the employee during the calendar year, exceeds $1 million, the excess is subject to withholding at 37% (or the highest rate of income tax for the year). Withhold using the 37% rate without regard to the employee's Form W-4. In determining supplemental wages paid to the employee during the year, include payments from all businesses under common control." "If you withheld income tax from an employee's regular wages in the current or immediately preceding calendar year, you can use one of the following methods for the supplemental wages. a. Withhold a flat 22% (no other percentage allowed)." "If you didn't withhold income tax from the employee's regular wages in the current or immediately preceding calendar year, use method 1b."
+- Source: IRS Publication 15 (2026), section 7, https://www.irs.gov/publications/p15 · Accessed: 2026-10-06 · Source date: tax year 2026 (dated Dec 15, 2025)
+- Source: 26 CFR §31.3402(g)-1, https://www.law.cornell.edu/cfr/text/26/31.3402(g)-1 · Accessed: 2026-10-06 · Source date: current regulation (read through a summarising fetch tool; names an older rate, Pub 15 gives the 2026 rate)
+- Evidence size: primary rule (publication and regulation agree)
+- Signal: STRONG for (a), (b) and (c); WEAK for how a single vest could be withheld above 22% in practice (not described in the sources read)
+- Changes: the 22% and 37% rates and the per-employer scope of AC-C-05 hold, but the $1 million counts all supplemental pay and the controlled group, not only vests. The 22% is an assumption about the employer's method.
+- Assumption carried forward: the employer uses the flat 22% method for each vest below $1 million [ASSUMPTION: A-40]; the platform does not hold other supplemental pay or the controlled group, so the $1 million test counts vests only [ASSUMPTION: A-55].
+
+## R-023 · Does holding back or selling shares at vest change the withholding rules?
+- Category: 2 (tax and regulation)
+- Decision it unblocks: AC-C-05 and AC-C-10 (whether the estimate holds whichever way the tax is funded).
+- Finding: stock paid as wages is subject to income tax withholding, and the employer pays the tax in money. No IRS source read names net share settlement or sell to cover, and none gives a different rate for them. 26 CFR §31.3402(a)-1(c): an employer is required to withhold "notwithstanding the wages are paid in something other than money (for example, wages paid in stocks or bonds". Chief Counsel memo 202327014: the employer must "pay over the tax in money". Information Letter 2024-0010: "equity compensation such as restricted stock and RSUs are wages subject to federal income tax withholding."
+- Source: 26 CFR §31.3402(a)-1, https://www.law.cornell.edu/cfr/text/26/31.3402(a)-1 · Accessed: 2026-10-06 · Source date: current regulation (read through a summarising fetch tool)
+- Source: IRS Chief Counsel memorandum 202327014, https://www.irs.gov/pub/irs-wd/202327014.pdf · Accessed: 2026-10-06 · Source date: 2023-04-04 (Tier 2, not binding)
+- Source: IRS Information Letter 2024-0010, https://www.irs.gov/pub/irs-wd/24-0010.pdf · Accessed: 2026-10-06 · Source date: 2024-06-18 (Tier 2, not binding)
+- Evidence size: one regulation plus two IRS documents agree on withholding in money; nothing primary on share withholding by name
+- Signal: STRONG that stock wages are withheld; WEAK that the share-withholding amount equals the supplemental amount (inference)
+- Changes: none to the formula; the gap stays federal tax owed minus withholding whichever way the employer funds it.
+- Assumption carried forward: the amount withheld by holding back or selling shares equals the supplemental-rate amount [ASSUMPTION: A-51].
+
+## R-024 · What is the cost basis and holding-period start of shares received when an RSU settles?
+- Category: 2 (tax and regulation)
+- Decision it unblocks: AC-A-03 and AC-B-14 (cost basis of a flagged position and of shares kept per tranche, Next).
+- Finding: basis is the amount paid plus the amount included in income as compensation; the holding period starts when the property becomes substantially vested. For an RSU, property exists only at delivery: before it there is only an unfunded promise, which is not property (§1.83-3(e)). Pub 551: "If you receive property for services, include the property's FMV in income. The amount you include in income becomes your basis." 26 U.S.C. §83(f): the holding period includes "only the period beginning at the first time his rights in such property are transferable or are not subject to a substantial risk of forfeiture". 26 CFR §1.83-3(e): property excludes "an unfunded and unsecured promise to pay money or property in the future." Pub 525 (2025), Restricted Property, states the same basis and holding-period rule (two reads of the page returned slightly different wording; the section is cited, not a sentence).
+- Source: IRS Publication 551, Basis of Assets, https://www.irs.gov/publications/p551 · Accessed: 2026-10-06 · Source date: current edition (year not shown)
+- Source: IRS Publication 525 (2025), https://www.irs.gov/publications/p525 · Accessed: 2026-10-06 · Source date: tax year 2025
+- Source: 26 U.S.C. §83, https://www.law.cornell.edu/uscode/text/26/83 · Accessed: 2026-10-06 · Source date: current code
+- Source: 26 CFR §1.83-3, https://www.law.cornell.edu/cfr/text/26/1.83-3 · Accessed: 2026-10-06 · Source date: current regulation
+- Evidence size: statute plus two IRS publications agree
+- Signal: STRONG for restricted property; applying it to RSU shares is an inference (no IRS text names RSU shares in the basis sentence)
+- Changes: cost basis and holding period are Next; concentration reads market value, so no first-release figure changes.
+- Assumption carried forward: RSU shares kept take a basis equal to the income included [ASSUMPTION: A-49]; the advisor can read the value at vest from the W-2 or the plan statement [ASSUMPTION: A-58].
+
+## R-025 · Are dividend equivalents paid on unvested RSUs wages?
+- Category: 2 (tax and regulation)
+- Decision it unblocks: whether the vest tax of F-C may leave dividend equivalents out.
+- Finding: no IRS or code text found names dividend equivalents on RSUs. The closest rules: income from restricted property received by the employee is additional compensation in the year received (§1.83-1(a)(1)); wages are "all remuneration" for services, for withholding (§3401(a)) and FICA (§3121(a)); RSUs are wages (Information Letter 2024-0010). So a cash dividend equivalent paid to an employee is wages when paid [INFERENCE]. Plan terms differ: one sample pays them whether or not the unit has vested, another credits them (R-002). 26 CFR §1.83-1(a)(1): "any income from such property received by the employee ... constitutes additional compensation and shall be included in the gross income of such employee ... for the taxable year in which such income is received". Rev. Rul. 2012-19 treats dividend equivalents on RSUs as compensation for the §162(m) deduction test only.
+- Source: 26 CFR §1.83-1, https://www.law.cornell.edu/cfr/text/26/1.83-1 · Accessed: 2026-10-06 · Source date: current regulation
+- Source: 26 U.S.C. §3401, https://www.law.cornell.edu/uscode/text/26/3401 · Accessed: 2026-10-06 · Source date: current code
+- Source: 26 U.S.C. §3121, https://www.law.cornell.edu/uscode/text/26/3121 · Accessed: 2026-10-06 · Source date: current code (subsection (v) not read on this page)
+- Source: IRS Information Letter 2024-0010, https://www.irs.gov/pub/irs-wd/24-0010.pdf · Accessed: 2026-10-06 · Source date: 2024-06-18 (Tier 2, not binding)
+- Source: Rev. Rul. 2012-19, https://www.irs.gov/pub/irs-drop/rr-12-19.pdf · Accessed: 2026-10-06 · Source date: 2012
+- Evidence size: statute wage definitions plus the restricted-property rule; no direct text on RSU dividend equivalents in three searches
+- Signal: WEAK (inference for RSU dividend equivalents)
+- Changes: where a plan pays dividend equivalents before vest, that cash is wages of the year paid, outside the tranche; leaving it out makes the year's tax owed slightly too low.
+- Assumption carried forward: dividend equivalents are wages when paid and small against vest value, so the first release leaves them out [ASSUMPTION: A-50].
+
+## R-026 · Is there a legal limit on the RSUs an employee can receive?
+- Category: 2 (tax and regulation)
+- Decision it unblocks: whether the grant form needs a validation cap like the ISO $100,000 rule (R-004) or the ESPP $25,000 rule (R-005).
+- Finding: no statutory or regulatory limit on the number or value of RSUs per employee was found in §83 or the IRS texts read. §83 taxes what is transferred and sets no cap. §162(m) limits the employer's deduction for covered employees above $1,000,000, not the employee's award: Rev. Rul. 2012-19: "no deduction is allowed for applicable employee remuneration with respect to any covered employee to the extent that the amount of the remuneration for the taxable year exceeds $1,000,000." (2012 wording; later changes to §162(m) not checked). Any cap comes from the plan document, a company term.
+- Source: 26 U.S.C. §83, https://www.law.cornell.edu/uscode/text/26/83 · Accessed: 2026-10-06 · Source date: current code ((a) and (f) read)
+- Source: Rev. Rul. 2012-19, https://www.irs.gov/pub/irs-drop/rr-12-19.pdf · Accessed: 2026-10-06 · Source date: 2012
+- Evidence size: absence of a limit; no primary source states the absence
+- Signal: WEAK (absence)
+- Changes: no cap in the model; the intake accepts any grant size.
+- Assumption carried forward: no legal cap on RSUs per employee; plan-level caps are company terms and are not modelled [ASSUMPTION: A-52].
