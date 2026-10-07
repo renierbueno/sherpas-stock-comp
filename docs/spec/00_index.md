@@ -38,6 +38,7 @@ The prototype pull request (F6) is a reference implementation that shows the spe
 | Key Entities | Shared data, in this index |
 | Success Criteria | Instrumentation (`EV-`) and `../07_success_criteria.md` (`M-`) |
 | Assumptions | `[ASSUMPTION: A-NN]` tags and `../02_open_questions.md` |
+- Engineering owns the plan: how to split each feature into stories and tasks, and in what order. The requirement groups inside a feature (for example in F-B: Grant, Schedule, PSU, Private employer, What the analysis shows, Completeness) are natural split points; the release order is in Features below.
 - A requirement that cannot be built as written comes back to product as a change with its ID, not a fix in code.
 
 ## Definition of done (proposed; the team agrees it, D-121)
@@ -59,6 +60,55 @@ A feature is done when:
 | `<Company>`, `<company>`, `<Name>`, `<goal>`, `<grant>`, `<ticker>`, `<document>` | The value as recorded, unchanged | Halden Robotics |
 | `<n>`, `<m>`, `<accounts>`, `<year>`, `<Year>` | Whole number, comma for thousands; years without it | 1,600 of 2,000 units; 2028 |
 | Exactly as today | The same screens, figures, lines and score the current release produces for the same household data; QA checks it against the current release | |
+
+## How the model changes
+
+What comes in, what the household model adds, and what the advisor and the client see. Yellow is new, orange is an existing part that changes, grey is unchanged; each arrow carries the decision behind it. Release 1 is the employer flag and the concentration check (F-A); release 2 is everything else (D-080, D-106).
+
+```mermaid
+flowchart LR
+  subgraph IN["Comes in"]
+    Q["Client questionnaire:<br/>Stock compensation row"]
+    ADV["Advisor:<br/>Data & Assumptions"]
+    STMT["Plan statement<br/>upload"]
+    POS["Held positions"]
+  end
+  subgraph MODEL["Household model"]
+    FLAG["Employer flag<br/>on a held position"]
+    GRANT["Grant: RSU or PSU<br/>complete · pending detail ·<br/>awaiting a liquidity event"]
+    TR["Tranche:<br/>vest date, delivery date, units"]
+    VINC["Vest income:<br/>wages of the delivery year"]
+    TAX["Tax at vest<br/>and withholding gap"]
+  end
+  subgraph OUT["What advisor and client see"]
+    CONC["Concentration check"]
+    ALERT["Advisor alert:<br/>grant pending detail"]
+    LIQ["Liquidity check and<br/>We should look into"]
+    PROJ["Projection, goals,<br/>Retirement & Goals"]
+    SAME["Everything else, and everything<br/>without stock compensation or with<br/>the firm setting off:<br/>exactly as today (D-023, D-049)"]
+  end
+  Q -->|"client gives what they know;<br/>advisor completes (D-030)"| GRANT
+  ADV --> GRANT
+  ADV --> FLAG
+  POS --> FLAG
+  STMT -->|"advisor confirms<br/>what was read (D-042)"| TR
+  GRANT --> TR
+  GRANT -->|"pending"| ALERT
+  FLAG -->|"summed by employer:<br/>one position (D-040)"| CONC
+  TR -->|"on its delivery date<br/>(D-101, D-106)"| VINC
+  VINC -->|"platform's tax engine<br/>(D-033)"| TAX
+  TAX -->|"gap lowers Liquidity<br/>(D-038, D-039)"| LIQ
+  VINC -->|"after tax (D-106)"| PROJ
+  classDef new fill:#FFF3B0,stroke:#B38F00,color:#1a1a1a
+  classDef changed fill:#FFD8B0,stroke:#C05A00,color:#1a1a1a
+  classDef same fill:#EEEEEE,stroke:#888888,color:#1a1a1a
+  class STMT,FLAG,GRANT,TR,VINC,TAX,ALERT new
+  class Q,ADV,CONC,LIQ,PROJ changed
+  class POS,SAME same
+  style IN fill:#FFFFFF,stroke:#999999
+  style MODEL fill:#FFFFFF,stroke:#999999
+  style OUT fill:#FFFFFF,stroke:#999999
+```
 
 ## G · Rules for every feature
 
