@@ -30,10 +30,10 @@ Strategy and the README walk these stages in order; each names what it decided a
 
 | # | Stage | What it answers | Artefacts | Miro |
 |---|---|---|---|---|
-| 1 | Context and problem | What the platform does today and where stock compensation has no place | `00_brief.md`, `01_context.md`, `platform_map.md`, `questionnaire_map.md`, `data_model.md`, `design_tokens.md` | Flows today (format update only if time is left, D-125) |
+| 1 | Context and problem | What the platform does today and where stock compensation has no place | `00_brief.md`, `01_context.md`, `platform_map.md`, `questionnaire_map.md`, `data_model.md`, `design_tokens.md` | Flows today, in their own format (D-127) |
 | 2 | Research | The US facts: types, vesting, tax, concentration, tools | `research.md`, `12_stock_comp_rules.md` | Not on the board |
 | 3 | Discovery | What advisors and clients actually struggle with, and how sure we are | `discovery/` (synthesis, voices, SIMULATED personas and snapshots) | Not on the board |
-| 4 | Options and decisions | The direction, the three options for the first release and the chosen one, what is left out and why | `06_direction.md`, `03_decision_log.md`, `02_open_questions.md` | Options frame; decision map only if time is left (D-125) |
+| 4 | Options and decisions | The direction, the three options for the first release and the chosen one, what is left out and why | `06_direction.md`, `03_decision_log.md`, `02_open_questions.md` | What we propose; options frame; decision map of 10 decisions; what is left out (D-127) |
 | 5 | How we will know | The pilot, metrics per release, continue, change or stop | `07_success_criteria.md` | Pilot and metrics |
 | 6 | Launch | What advisors are told and how they are trained | `08_release_notes.md`, `09_enablement.md` | Not on the board |
 | 7 | What the change touches | Every screen element today and with the feature; gaps and how each closed | `10_flow_review.md` | Change maps |
