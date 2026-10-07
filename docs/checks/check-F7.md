@@ -43,3 +43,17 @@ FAILs to fix before the gate:
 Still open, outside this commit:
 1. 6.6: the commit on the Notion home page, once the last commit of the phase is known.
 2. 6.8: Renier tests the protected copy with the right password in a private window and keeps one password; the Miro agent removes the five "no rule ID" notes and the two embeds and checks read access; the video is recorded and linked.
+
+## Re-check 2026-10-07 · before the gate
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| 6.8 | Delivery items outside the repo | PASS | Protected copy: Renier tested the published copy with his password in a private window; one password kept (the file in `private/` and Claude's local copy deleted). Miro: the nine leftovers removed from the working board (1035 to 1026 items; a new search finds no "no rule ID", no embed to a private board, no "stock pay"); Renier pasted the board into Sherpas' Miro, https://miro.com/app/board/uXjVEfJNAvQ=/, which Claude's Miro connection cannot open, so that copy rests on Renier's word (D-129). The README and the Notion home page link Sherpas' board and the copy. |
+| 6.6 | Notion names the commit it was built from | PASS after commit | The commit of this re-check is named on the Notion home page once made. |
+| 4 | Decisions logged | PASS | D-129: the board Sherpas reads is the copy on Sherpas' Miro (amends D-127). |
+| 9 | README phase table | PASS | F7 "done" in `README.md`; the consistency check "README phases match the closed checks" passes. |
+| 6b | Consistency | PASS | `npm run check`: all consistency checks PASS, 238 tests, build OK, trace 178 · 160 · 18 · 0. `npm run e2e`: 1 passed. |
+
+The video is recorded after the gate and goes with the delivery email and on the Notion home page; the README points to Notion for it, so no repo change follows.
+
+Ready for gate

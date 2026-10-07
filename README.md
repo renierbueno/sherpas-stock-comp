@@ -43,7 +43,7 @@ The work ran in phases (understand, research, discover, decide, specify, review 
 | The prototype, to try in a browser | [Password-protected copy](https://stock-comp-prototype-k7q2.netlify.app); the password comes with the delivery email (D-124) |
 | The pull request | [PR #1](https://github.com/renierbueno/sherpas-stock-comp/pull/1) |
 | The repository | [github.com/renierbueno/sherpas-stock-comp](https://github.com/renierbueno/sherpas-stock-comp) (private) |
-| Miro board | [The thinking board](https://miro.com/app/board/uXjVEecsLmY=/): flows today and with the feature, the options, the ten decisions, the pilot |
+| Miro board | [The thinking board](https://miro.com/app/board/uXjVEfJNAvQ=/): flows today and with the feature, the options, the ten decisions, the pilot |
 | Video | Linked from the Notion page |
 
 ## The work, stage by stage
@@ -74,7 +74,7 @@ The work runs in phases. Each phase ends with a check (`/check`) and a human gat
 | F4 · Spec | Feature specs with EARS acceptance criteria and edge cases, success criteria, release notes and enablement | done |
 | F5 · Flow review | What the change touches that no requirement covers: screens, figures, shared reports, user flows | done |
 | F6 · Prototype | A pull request implementing the MVP as a reference: input, model, score simulator, analysis view; each criterion linked to its test | done |
-| F7 · Delivery | This README, the Notion pages, the video, the protected prototype copy | in progress |
+| F7 · Delivery | This README, the Notion pages, the Miro board, the protected prototype copy; the video goes with the delivery email | done |
 
 Phases were renumbered when the flow review became its own phase (D-053).
 
