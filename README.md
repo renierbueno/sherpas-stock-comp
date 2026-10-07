@@ -17,8 +17,8 @@ RSUs and PSUs in full: the grant, its vest dates and the tax at each vest. Any e
 Deeper: [F3-01, F3-02](docs/06_direction.md), [research](docs/research.md).
 
 **3. How is it modelled in the analysis?**
-In the platform's four dimensions. Held employer shares are an **asset**: an existing position, flagged and summed by employer. An unvested grant is not an asset yet, only future vests. Each vest is **income**: wages of the year the shares are delivered. The tax on each vest is estimated with the platform's tax engine, and the part withholding does not cover is a near-term cash commitment, not a new **liability**.
-*Why:* under US tax rules an RSU is not owned until it vests, and its value at vest is taxed as wages; treating it as owned before then inflates wealth and counts it twice. Using the platform's own dimensions, tax engine and score checks means no new score area, and a household without stock compensation sees exactly what it sees today.
+In the platform's four dimensions. Held employer shares are an **asset**: an existing position, flagged and summed by employer. An unvested grant is not an asset yet, only future vests. Each vest is **income**: wages of the year the shares are delivered. The tax on each vest is estimated with the platform's tax engine, and the part withholding does not cover is a near-term cash commitment, not a new **liability**. The score moves only through two checks it already has, concentration and near-term commitments, plus the figures read from the projection, each change explained in View more; there is no new score area.
+*Why:* under US tax rules an RSU is not owned until it vests, and its value at vest is taxed as wages; treating it as owned before then inflates wealth and counts it twice. Using the platform's own dimensions, tax engine and score checks keeps the score's structure, and a household without stock compensation sees exactly what it sees today.
 Deeper: [how the model changes](docs/spec/00_index.md#how-the-model-changes), [the rules and their numbers](docs/12_stock_comp_rules.md).
 
 **4. Which analyses can we offer the advisor?**

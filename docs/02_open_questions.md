@@ -100,6 +100,7 @@ Work left out of the delivery on purpose, with what covers it meanwhile.
 | Help Center article on how stock compensation changes the score | Route to market is already written for advisors | `08_release_notes.md`, `09_enablement.md` |
 | Screenshots in the pull request | The screens are shown elsewhere | The video and the password-protected copy (D-124) |
 | Full re-read of release notes and enablement | No product behaviour changed since their last review | A TL;DR at the top of each |
+| A "When" for each edge case of the spec, so every case reads as Given, When, Then | The Notion feature pages already show each case as Given, When, Then; the spec keeps situation and expected result | The edge cases as they are, with the requirements they cite |
 | Miro: flows of today in the change maps' format, and the decision map | Done only if time is left at delivery | The change maps on the board; the decisions on the Notion pages |
 
 ## Answered
