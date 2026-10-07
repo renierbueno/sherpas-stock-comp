@@ -21,7 +21,7 @@ Notion holds one page per stage, the Miro board one area per stage left to right
 | 5 | How we will know | The pilot, metrics per release, continue, change or stop | `07_success_criteria.md` | Page | Pilot and metrics |
 | 6 | Launch | What advisors are told and how they are trained | `08_release_notes.md`, `09_enablement.md` | Page | Not on the board |
 | 7 | What the change touches | Every screen element today and with the feature; gaps and how each closed | `10_flow_review.md` | Page | Flows with the feature |
-| 8 | The spec | What engineering builds: requirements with IDs, edge cases, events, the score simulator contract, traceability to tests | `spec/`, `prototype/` (pull request) | Page per feature: plain sentence, example, what changes, then the criteria word for word, with test cases only in the repo (D-120) | Not on the board; linked |
+| 8 | The spec | What engineering builds: requirements with IDs, edge cases, events, the score simulator contract, traceability to tests | `spec/`, `prototype/` (pull request) | Page per feature in the GitHub Spec Kit template: user story, acceptance scenarios citing the repo IDs, requirements word for word, entities, success criteria, assumptions; full edge cases and tests only in the repo (D-120, D-122) | Not on the board; linked |
 | · | How the work was done | Phases, the harness, checks, how AI was used, history | `README.md`, `.claude/skills/`, `checks/`, git log | Last page | Process strip |
 
 Launch (6) sits before the spec so that the spec is the last thing handed over; what advisors are told is settled with the product, not after the build. [INFERENCE: from how the stages depend on each other]

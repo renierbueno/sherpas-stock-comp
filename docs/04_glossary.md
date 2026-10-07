@@ -47,6 +47,7 @@ One term, one meaning, used the same way everywhere in the repo. Sherpas terms c
 | EARS | A fixed way to write a requirement: one testable sentence per behaviour, with five patterns (always; when an event; while a state; if something unwanted, then; where a feature is enabled). | `.claude/skills/spec/SKILL.md` |
 | Definition of done | What must be true for a feature to count as finished; proposed in the spec, agreed by the team. | `spec/00_index.md`, D-121 |
 | Exactly as today | The same screens, figures, lines and score the current release produces for the same household data. | `spec/00_index.md`, D-121 |
+| Acceptance scenario | A key example of a requirement written as Given (the starting situation) / When (the action) / Then (the expected result), citing the IDs it comes from. Product writes it; QA builds its test cases. | D-122 |
 | Acceptance criterion | A yes/no check that a requirement is met; ID `AC-<feature>-NN`, linked to a test. | D-004, D-047 |
 | Edge case | An unusual but possible situation that tends to break the logic; ID `EC-<feature>-NN`. | `.claude/skills/spec/SKILL.md` |
 | Instrumentation event | What the system records so a metric can be measured; ID `EV-<feature>-NN`. | D-043 |

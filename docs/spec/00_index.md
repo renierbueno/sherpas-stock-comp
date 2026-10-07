@@ -26,8 +26,18 @@ The prototype pull request (F6) is a reference implementation that shows the spe
 
 - Product defines what the system does; how and at what level each requirement is verified is QA's and engineering's call (D-121). The Test column only shows how the prototype proved a line can be tested.
 - Teams that automate tests can keep the same trace: start each test title with the IDs it proves, and `npm run trace` in `prototype/` lists every requirement with its tests.
-- Teams that verify by hand can read the criteria in the Notion page of each feature, word for word (D-120), and take the test cases from this repo.
-- The edge cases of each feature (`EC-…`) are product's test cases, with the situation, the expected result and the criteria they cover; with the prototype's tests, they live only in this repo. QA builds its own test cases from them and from the criteria.
+- Each feature also has a Notion page in the GitHub Spec Kit template (D-122). Its requirements are these, word for word and with these IDs; its acceptance scenarios are key examples, each citing the `EC-` and `AC-` IDs it comes from. Where the two differ, this repo is right.
+- The edge cases of each feature (`EC-…`) are product's full set of examples, with the situation, the expected result and the criteria they cover; with the prototype's tests, they live only in this repo. QA builds its own test cases from them and from the criteria.
+
+| Notion (Spec Kit) | This repo |
+|---|---|
+| User Story, Why this priority, Independent Test | User story and Context of the feature file |
+| Acceptance Scenarios | Edge cases (`EC-`) and the requirements they cite |
+| Edge Cases | Edge cases (`EC-`) |
+| Functional Requirements | Requirements (`AC-`), with the Test column |
+| Key Entities | Shared data, in this index |
+| Success Criteria | Instrumentation (`EV-`) and `../07_success_criteria.md` (`M-`) |
+| Assumptions | `[ASSUMPTION: A-NN]` tags and `../02_open_questions.md` |
 - A requirement that cannot be built as written comes back to product as a change with its ID, not a fix in code.
 
 ## Definition of done (proposed; the team agrees it, D-121)
