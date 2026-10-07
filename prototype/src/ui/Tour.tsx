@@ -116,7 +116,7 @@ function SceneView({ scene, onNav, onTry }: { scene: Scene; onNav: (n: number | 
 
 export function Root() {
   const [at, setAt] = useState<number | 'start' | 'explore' | 'evidence'>('start');
-  const [tryIt, setTryIt] = useState<{ household: string; mode: 'client' | 'advisor' }>({ household: 'H2', mode: 'client' });
+  const [tryIt, setTryIt] = useState<Scene['tryIt']>({ household: 'H2', mode: 'client' });
 
   if (at === 'evidence') return <><div className="sim-banner"><strong>SIMULATED prototype · not Sherpas code or data</strong></div><Evidence onBack={() => setAt('start')} /></>;
   if (at === 'explore') {
@@ -126,7 +126,7 @@ export function Root() {
           <button className="link" onClick={() => setAt('start')}>← Start here</button>
           <span className="caps">Explore freely: pick a household, switch between the client view, advisor mode and the shared PDF, and turn the firm setting on or off.</span>
         </div></div></div>
-        <App key={`${tryIt.household}-${tryIt.mode}`} initialHousehold={tryIt.household} initialMode={tryIt.mode} />
+        <App key={`${tryIt.household}-${tryIt.mode}-${tryIt.tab ?? ''}`} initialHousehold={tryIt.household} initialMode={tryIt.mode} initialTab={tryIt.tab} />
       </>
     );
   }

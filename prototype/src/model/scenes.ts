@@ -18,7 +18,7 @@ export interface Scene {
   before: Household;
   after: Household;
   /** Household and view to open in "Try it yourself". */
-  tryIt: { household: string; mode: 'client' | 'advisor' };
+  tryIt: { household: string; mode: 'client' | 'advisor'; tab?: 'data' };
   ready: boolean;
   /** The guide strip: steps lit, what the scene shows, how the model changes. */
   guide: Guide;
@@ -89,7 +89,7 @@ export const SCENES: Scene[] = [
     advisorDid: 'The client picks a "Stock compensation" chip in Income and says what they know; the advisor sees an alert and completes the detail, by hand or from the plan statement.',
     lookAt: 'One new chip and one helper line for everyone; nothing else changes for households without stock compensation.',
     before: H2_NO_GRANT, after: H2,
-    tryIt: { household: 'H1', mode: 'client' }, ready: true,
-    guide: { steps: [1, 2], see: 'One stock compensation row in Income; the advisor gets an alert.', model: 'No figure uses the client’s estimate until the advisor completes the grant.' },
+    tryIt: { household: 'H2', mode: 'advisor', tab: 'data' }, ready: true,
+    guide: { steps: [1, 2], see: 'One stock compensation row in Income; the advisor gets an alert.', model: 'The plan statement completes the reported grant; until then, no figure uses the estimate.' },
   },
 ];

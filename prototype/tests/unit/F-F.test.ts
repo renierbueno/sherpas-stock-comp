@@ -136,4 +136,26 @@ describe('F-F · simulator relations (spec "Simulator tests")', () => {
     household = confirmProposed(household, rsu);
     expect(duplicateOf(household, household.grants.find((g) => g.id === psu.id)!)).toBeUndefined();
   });
+
+  it('AC-F-14 · EC-F-07 · EV-B-02 · a confirmed proposal completes the grant the client reported, keeping the estimate and the date', () => {
+    const pending = H2.grants[0];
+    const log = new EventLog();
+    let { household } = uploadStatement(H2, HALDEN, 'advisor');
+    household = confirmProposed(household, proposals(household)[0], log);
+    expect(household.grants).toHaveLength(1);
+    const [g] = household.grants;
+    expect(g.id).toBe(pending.id);
+    expect(statusOf(household, g)).toBe('complete');
+    expect(g.clientEstimate).toEqual(pending.clientEstimate);
+    expect(g.reportedOn).toBe(pending.reportedOn);
+    expect(g.tranches).toHaveLength(13);
+    expect(log.of('EV-B-02')).toHaveLength(1);
+  });
+
+  it('AC-F-14 · further proposals of the same statement are added as new grants; without a pending grant nothing changes', () => {
+    const done = confirmAll(uploadStatement(H2, THREE, 'advisor').household, THREE);
+    expect(done.grants).toHaveLength(3);
+    expect(done.grants.some((g) => g.id === H2.grants[0].id)).toBe(true);
+    expect(confirmAll(uploadStatement(BASE, THREE, 'advisor').household, THREE).grants).toHaveLength(3);
+  });
 });

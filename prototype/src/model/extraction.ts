@@ -2,7 +2,7 @@
 // Extraction is SIMULATED (D-063): each sample document returns a fixed result. How the platform
 // reads documents, and how well, is riskiest assumption 1.
 import type { EventLog } from './events';
-import { PSU_DEFAULT_RANGE } from './grants';
+import { PSU_DEFAULT_RANGE, statusOf } from './grants';
 import type { Grant, Household } from './types';
 
 type Found = Omit<Grant, 'id' | 'category' | 'subType' | 'source' | 'proposed'>;
@@ -61,7 +61,22 @@ export function confirmProposed(h: Household, edited: Grant, log?: EventLog, kee
     + edited.tranches.filter((t) => { const o = original.tranches.find((x) => x.id === t.id); return !o || o.date !== t.date || o.units !== t.units; }).length;
   log?.record('EV-F-02', h.id, { grant: edited.id, fieldsChanged: changed });
   const confirmed: Grant = { ...edited, proposed: undefined, id: dup ? dup.id : edited.id };
+  if (!dup) return completePending(h, edited.id, confirmed, log);
   return { ...h, grants: [...h.grants.filter((g) => g.id !== edited.id && g.id !== dup?.id), confirmed] };
+}
+
+/**
+ * AC-F-14, EV-B-02: a confirmed proposal with the same owner and employer as a grant pending
+ * detail completes that grant instead of adding a second one, keeping the client's estimate and
+ * the date it was reported. Without such a grant, the proposal is added as a new grant.
+ */
+function completePending(h: Household, proposalId: string, confirmed: Grant, log?: EventLog): Household {
+  const pending = h.grants.find((g) => !g.proposed && g.ownerId === confirmed.ownerId && g.employerId === confirmed.employerId
+    && statusOf(h, g) === 'pending detail');
+  if (!pending) return { ...h, grants: [...h.grants.filter((g) => g.id !== proposalId), confirmed] };
+  const done: Grant = { ...confirmed, id: pending.id, clientEstimate: pending.clientEstimate, reportedOn: pending.reportedOn, completedOn: h.analysisDate };
+  if (pending.reportedOn) log?.record('EV-B-02', h.id, { grant: pending.id, daysSinceReported: (Date.parse(h.analysisDate) - Date.parse(pending.reportedOn)) / 86_400_000 });
+  return { ...h, grants: h.grants.filter((g) => g.id !== proposalId).map((g) => (g.id === pending.id ? done : g)) };
 }
 
 /**
@@ -71,9 +86,11 @@ export function confirmProposed(h: Household, edited: Grant, log?: EventLog, kee
 export function confirmAll(h: Household, document: string, log?: EventLog): Household {
   // Duplicates are judged against the grants before this confirmation: grants of one statement
   // are never duplicates of each other.
-  const ids = new Set(h.grants.filter((g) => g.proposed?.document === document && !duplicateOf(h, g)).map((g) => g.id));
-  for (const id of ids) log?.record('EV-F-02', h.id, { grant: id, fieldsChanged: 0 });
-  return { ...h, grants: h.grants.map((g) => (ids.has(g.id) ? { ...g, proposed: undefined } : g)) };
+  const ready = h.grants.filter((g) => g.proposed?.document === document && !duplicateOf(h, g));
+  return ready.reduce((acc, g) => {
+    log?.record('EV-F-02', h.id, { grant: g.id, fieldsChanged: 0 });
+    return completePending(acc, g.id, { ...g, proposed: undefined }, log);
+  }, h);
 }
 
 /** AC-F-07, EV-F-03: reject discards the proposal and changes nothing else. */

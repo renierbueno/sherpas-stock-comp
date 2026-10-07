@@ -170,7 +170,7 @@ function Scene5({ scene }: { scene: Scene }) {
         ['Households without stock compensation see one more chip and one helper line; nothing else changes.', 'AC-G-02, AC-E-06'],
         ['On submit, the row becomes a grant "pending detail" with the client’s estimate; nothing blocks the questionnaire or the analysis.', 'AC-E-07, AC-E-20'],
         ['The advisor sees the alert "Stock compensation: detail pending" and the estimate, labelled as not used in the figures.', 'AC-E-08, AC-E-14'],
-        ['The advisor completes the grant by hand, or uploads the plan statement and confirms what was extracted (extraction SIMULATED).', 'AC-B-01, AC-F-02, AC-F-06'],
+        ['The advisor completes the grant by hand, or uploads the plan statement and confirms what was extracted (extraction SIMULATED); confirming completes the grant the client reported, with no second grant.', 'AC-B-01, AC-F-02, AC-F-06, AC-F-14'],
         ['Until then the client’s analysis says so in one line, and no figure uses the estimate. Once complete, scenes 2 to 4 apply.', 'AC-E-10, AC-G-04'],
       ]} />
     </>

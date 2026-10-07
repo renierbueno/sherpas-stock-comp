@@ -20,7 +20,7 @@ type Tab = 'health' | 'investment' | 'statements' | 'income' | 'questionnaire' |
 
 const byId = <T extends { id: string }>(xs: T[]) => Object.fromEntries(xs.map((x) => [x.id, x]));
 
-export function App({ initialHousehold = 'H2', initialMode = 'client', households: seed = HOUSEHOLDS }: { initialHousehold?: string; initialMode?: Mode; households?: Household[] }) {
+export function App({ initialHousehold = 'H2', initialMode = 'client', initialTab = 'health', households: seed = HOUSEHOLDS }: { initialHousehold?: string; initialMode?: Mode; initialTab?: Tab; households?: Household[] }) {
   const log = useRef(new EventLog()).current;
   const [firm, setFirm] = useState<Firm>({ id: 'firm-sim', stockComp: true });
   const [households, setHouseholds] = useState<Record<string, Household>>(() => byId(seed));
@@ -29,7 +29,7 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
     Object.fromEntries(seed.map((h) => [h.id, analyze(h, { id: 'firm-sim', stockComp: true })])));
   const [hid, setHid] = useState(initialHousehold);
   const [mode, setMode] = useState<Mode>(initialMode);
-  const [tab, setTab] = useState<Tab>('health');
+  const [tab, setTab] = useState<Tab>(initialTab);
 
   const [edits, setEdits] = useState<Record<string, LineEdits>>({});
   const [shared, setShared] = useState<string | null>(null);

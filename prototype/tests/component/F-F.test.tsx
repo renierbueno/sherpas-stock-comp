@@ -89,4 +89,15 @@ describe('F-F · screens', () => {
     expect(screen.queryByLabelText('Proposed grant')).toBeNull();
     expect(within(screen.getByLabelText('Stock compensation grants')).getAllByRole('button', { name: 'Edit' })).toHaveLength(3);
   });
+
+  it('AC-F-14 · confirming the statement completes the reported grant: one grant, the alert goes', async () => {
+    render(<App initialHousehold="H2" />);
+    await upload(HALDEN);
+    expect(screen.getByLabelText('Opportunity alerts')).toBeInTheDocument();
+    await user().click(screen.getByRole('button', { name: 'Review and confirm' }));
+    await user().click(within(screen.getAllByLabelText('Grant editor').at(-1)!).getByRole('button', { name: 'Confirm grant' }));
+    expect(screen.queryByLabelText('Opportunity alerts')).toBeNull();
+    expect(within(screen.getByLabelText('Stock compensation grants')).getAllByRole('button', { name: 'Edit' })).toHaveLength(1);
+    expect(within(screen.getByLabelText('Stock compensation grants')).getByText('complete')).toBeInTheDocument();
+  });
 });
