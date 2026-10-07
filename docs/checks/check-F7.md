@@ -57,3 +57,15 @@ Still open, outside this commit:
 The video is recorded after the gate and goes with the delivery email and on the Notion home page; the README points to Notion for it, so no repo change follows.
 
 Ready for gate
+
+## Re-check 2026-10-07 · after the gate: four-week verdict and the chain from signal to impact (D-130)
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| 1 | Secrets and confidentiality | PASS | Changed files: `docs/07_success_criteria.md`, `docs/03_decision_log.md`, this report. No capture, credential or image. |
+| 2 | No invented facts | PASS | The new "From signal to impact" table restates metrics already defined in `07` (M-01, M-07, M-08, GR-02) and the value validated in discovery; the 20-household minimum is marked "proposed". The time claim stands on the Sherpas website line already tagged in `07` ("Cadence"). |
+| 4 | Decisions logged | PASS | D-130 amends D-088: verdict at four weeks with a minimum of households, six at most; the chain from signal to impact; F3-13 keeps the window it was judged on. |
+| 6 | Every place that states the pilot length is current | PASS | `07` TL;DR, "Cadence", "Gates by release" text and table, M-01 window; Notion Strategy, section 7; the Miro frame "Pilot and metrics · From signal to impact" on the working board (rebuilt from `07`); the video script. `06_direction.md` F3-13 keeps "four to six weeks" as the window the options were judged on (D-130). |
+| 6b | Consistency | PASS | `npm run check`: all consistency checks PASS, 238 tests, build OK, trace 178 · 160 · 18 · 0. `npm run e2e`: 1 passed. |
+
+Ready for merge, after Renier pastes the rebuilt frame into Sherpas' board.
