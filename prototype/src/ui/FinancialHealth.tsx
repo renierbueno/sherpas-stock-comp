@@ -5,8 +5,8 @@ import { investableAssets } from '../model/exposure';
 import { dateLabel, money, pct } from '../model/format';
 import type { ReportLine, Surface } from '../model/lines';
 import type { Area } from '../model/params';
-import type { Household } from '../model/types';
-import { projection } from '../model/projection';
+import type { Firm, Household } from '../model/types';
+import { projectedFigure, projectedFigureText, projection } from '../model/projection';
 import { ProjectionChart } from './ProjectionChart';
 import { Mark, TabDot } from './Guide';
 
@@ -114,8 +114,20 @@ function GoalsSection({ household, analysis, lines }: { household: Household; an
     <section className="section" aria-label="Retirement & Goals">
       <h2>Retirement & Goals</h2>
       <ProjectionChart points={projection(household, firm)} goals={household.goals} />
+      <RetirementFigure household={household} firm={firm} />
       <Bullets lines={bullets} label="Vests and goals" />
     </section>
+  );
+}
+
+/** AC-D-11: a figure read from the projection carries its label when it includes vests. */
+function RetirementFigure({ household, firm }: { household: Household; firm: Firm }) {
+  const f = projectedFigure(household, firm);
+  return (
+    <p className="figure" aria-label="Projected net worth figure">
+      {projectedFigureText(household, firm)}
+      {f.label && <><span className="small"> · {f.label}</span><Mark kind="changed" why="Every figure read from the projection includes future vests, as wages of their year (AC-D-11, D-106)." /></>}
+    </p>
   );
 }
 

@@ -98,6 +98,7 @@ The simulator reproduces only what the score article makes public [brief]; every
 | `P-LIQ-HORIZON` | What "near-term" means in the Liquidity commitments check | No | SIMULATED, [ASSUMPTION: A-31] |
 | `P-LIQ` | Curve of the near-term commitments check | No | SIMULATED, [ASSUMPTION: A-31] |
 | `P-AREA-MIX` | How the check scores of one area combine into its points | No | SIMULATED: equal weights, [ASSUMPTION: A-31] (D-066) |
+| `P-VEST-SAVE` | The share of a vest, after its tax, the projection saves, treating the vest as wages of its year (AC-D-10) | No | SIMULATED: the household's own saving rate on its reported salary, the rest spent as wages are [ASSUMPTION: A-62] (D-118) |
 | `P-STAGE` | Weights of a household in transition | No ("values in between") | SIMULATED [ASSUMPTION: A-31] |
 | `P-LIMITS` | Serious issues that hold the score down | No | Left out of the simulator, labelled [ASSUMPTION: A-31] |
 

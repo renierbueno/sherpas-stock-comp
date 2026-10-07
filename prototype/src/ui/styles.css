@@ -192,3 +192,4 @@ fieldset { border: 1px solid var(--border); border-radius: var(--r); padding: 8p
 .sectionrail .skipped { color: var(--border-strong); }
 .sectionrail .shown { color: var(--muted); }
 .sectionrail .here { color: var(--text); font-weight: 600; }
+.figure { margin: 8px 0 0; font-size: 14px; }

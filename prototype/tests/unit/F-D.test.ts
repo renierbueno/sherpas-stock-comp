@@ -2,7 +2,7 @@
 // savings are SIMULATED; the tests check how vests enter it.
 import { analyze } from '../../src/model/analysis';
 import { H2, H2_COMPLETE, H3, H4, H5 } from '../../src/model/households';
-import { projection, vestInflows } from '../../src/model/projection';
+import { projectedFigure, projection, savingRate, vestInflows } from '../../src/model/projection';
 import { simulateScore } from '../../src/model/score';
 import type { Firm, Household } from '../../src/model/types';
 import { totalOwed, vestTaxes } from '../../src/model/vestTax';
@@ -59,14 +59,26 @@ describe('F-D · inflows and goals', () => {
     const a = simulateScore(H2_COMPLETE, ON).areas.find((x) => x.area === 'liquidity')!.checks.monthsOfReserve;
     const b = simulateScore(NONE, ON).areas.find((x) => x.area === 'liquidity')!.checks.monthsOfReserve;
     expect(a).toBe(b);
-    expect(projection(H2_COMPLETE, ON)[0].netWorth - projection(NONE, ON)[0].netWorth).toBeCloseTo(vestInflows(H2_COMPLETE, ON).filter((i) => i.date < '2027').reduce((s, i) => s + i.after, 0));
+    expect(projection(H2_COMPLETE, ON)[0].netWorth - projection(NONE, ON)[0].netWorth)
+      .toBeCloseTo(savingRate(H2_COMPLETE) * vestInflows(H2_COMPLETE, ON).filter((i) => i.date < '2027').reduce((s, i) => s + i.after, 0));
   });
 
-  it('AC-D-10 · EC-D-07 · each vest enters once, after tax, then grows as cash savings', () => {
+  it('AC-D-10 · EC-D-07 · each vest enters once as wages of its year: the household saves its usual share, after tax (D-118)', () => {
     const diff = (y: number) => projection(EC_D_01, ON).find((p) => p.year === y)!.netWorth - projection({ ...EC_D_01, grants: [] }, ON).find((p) => p.year === y)!.netWorth;
     const [a, b] = vestInflows(EC_D_01, ON);
-    expect(diff(2027)).toBeCloseTo(a.after);
-    expect(diff(2028)).toBeCloseTo(a.after * 1.05 + b.after);
+    const rate = savingRate(EC_D_01);
+    expect(rate).toBeCloseTo(EC_D_01.annualSavings / Object.values(EC_D_01.salary).reduce((x, y) => x + y, 0));
+    expect(diff(2027)).toBeCloseTo(a.after * rate);
+    expect(diff(2028)).toBeCloseTo(a.after * rate * 1.05 + b.after * rate);
+    expect(diff(2027)).toBeLessThan(a.after);
+  });
+
+  it('AC-D-11 · the figure read from the projection includes vests and says so, with the price date', () => {
+    const f = projectedFigure(H2_COMPLETE, ON);
+    expect(f.value).toBeGreaterThan(projectedFigure(NONE, ON).value);
+    expect(f.label).toBe('includes future vests after estimated tax, at the October 5, 2026 price');
+    expect(projectedFigure(H3, ON).label).toMatch(/, at target$/);
+    expect(projectedFigure(NONE, ON).label).toBeNull();
   });
 
   it('AC-D-09 · AC-G-04 · AC-G-05 · EC-D-04 · EC-D-05 · no complete listed grant: projection and goals as today', () => {
@@ -79,8 +91,8 @@ describe('F-D · inflows and goals', () => {
 
 describe('F-D · simulator relations (spec "Simulator tests")', () => {
   it('REL-D-1 · adding a future tranche never changes current net worth or months of reserve', () => {
-    expect(projection(H2_COMPLETE, ON)[0].netWorth - vestInflows(H2_COMPLETE, ON).filter((i) => i.date < '2027').reduce((s, i) => s + i.after, 0))
-      .toBeCloseTo(projection(NONE, ON)[0].netWorth);
+    const vestsThisYear = vestInflows(H2_COMPLETE, ON).filter((i) => i.date < '2027').reduce((s, i) => s + i.after, 0);
+    expect(projection(H2_COMPLETE, ON)[0].netWorth - savingRate(H2_COMPLETE) * vestsThisYear).toBeCloseTo(projection(NONE, ON)[0].netWorth);
     expect(simulateScore(H2_COMPLETE, ON).areas.find((a) => a.area === 'liquidity')!.checks.monthsOfReserve)
       .toBe(simulateScore(NONE, ON).areas.find((a) => a.area === 'liquidity')!.checks.monthsOfReserve);
   });

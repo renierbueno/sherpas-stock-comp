@@ -37,4 +37,9 @@ describe('F-D · screens', () => {
     expect(screen.queryByLabelText('Projected net worth')).toBeNull();
     expect(within(screen.getByLabelText('Retirement & Goals')).getByText('Unchanged, as today.')).toBeInTheDocument();
   });
+
+  it('AC-D-11 · Retirement & Goals shows the projected figure with its label', () => {
+    render(<App initialHousehold="H2" households={[GOAL]} />);
+    expect(within(screen.getByLabelText('Projected net worth figure')).getByText(/includes future vests after estimated tax, at the October 5, 2026 price/)).toBeInTheDocument();
+  });
 });

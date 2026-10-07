@@ -54,3 +54,14 @@ export function pLiq(cover: number): number {
   if (cover <= 0.5) return 0;
   return 100 * (cover - 0.5);
 }
+
+/**
+ * P-VEST-SAVE · SIMULATED (D-118, A-62): a vest is wages of its delivery year (AC-D-10), so the
+ * projection saves the same share of it, after tax, as the household saves of its reported
+ * salary; the rest is spent, as wages are. The platform's own spending and saving logic is not
+ * public.
+ */
+export function vestSavingRate(annualSavings: number, salaries: number[]): number {
+  const wages = salaries.reduce((a, b) => a + b, 0);
+  return wages > 0 ? Math.min(1, Math.max(0, annualSavings / wages)) : 0;
+}
