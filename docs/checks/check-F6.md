@@ -26,3 +26,18 @@ Phase F6 ran in steps F6.1 to F6.6 (D-081), each closed by its own check: `check
 | 8 | Git | PASS | `git log --oneline | grep -ic wip`: 0; 42 commits on `f6-prototype` since `main`, each with a "why" body; this check's fixes (three tags, A-64, this file) and the README phase row (F6 "done") are ready for one commit after the gate |
 
 Ready for gate.
+
+## Re-check after the gate · 2026-10-07
+
+One commit entered after the gate, before the merge: `1873df3` (the "How the model changes" diagram and the line on how engineering splits each feature, both in `docs/spec/00_index.md`). The pull request text was checked in the same pass.
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| R1 | Secrets and confidentiality | PASS | `git add -A --dry-run`: `.claude/settings.json` only; pre-commit hook exit 0; no rtf, har, png or jpg outside `prototype/` |
+| R2 | Each arrow of the diagram says what its decision says | PASS | D-030 (client answers, advisor completes), D-042 (extracted tranches reach the figures only after the advisor confirms), D-040 (held employer shares summed across accounts in the concentration check), D-101 and D-106 (each tranche enters as wage income on its delivery date), D-033 (the platform's tax engine computes the tax), D-038 and D-039 (the gap counts in the Liquidity check), D-023 and D-049 (as today without stock compensation; one firm setting); releases as in "First release and Next" (D-080, D-106) |
+| R3 | No new decision or fact | PASS | The diagram and the split line restate D-004, D-047 and the decisions in R2; no Sherpas or US fact added |
+| R4 | Pull request text, for a reader without the repo | PASS | Plain statement first; every code beside its plain label (the six specs in a table with what each does); figures match `npm run trace`; history paragraph matches `git log main..f6-prototype` (decision commit, then F-A, F-B, F-C, then the model of F-D to F-F); no call or JD context; screenshots deferred to F7, as agreed with Renier |
+| R5 | Consistency, tests, build, e2e, from a clean clone | PASS | Fresh `git clone` of `f6-prototype`, `npm ci`, `npm run check`: "Consistency: all checks pass", "238 passed (238)", build OK, "178 criteria and events · 160 tested · 18 spec only · 0 pending"; `npm run e2e`: "1 passed" |
+
+Ready to merge.
+
