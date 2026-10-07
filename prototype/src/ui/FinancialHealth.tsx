@@ -8,6 +8,7 @@ import type { Area } from '../model/params';
 import type { Household } from '../model/types';
 import { projection } from '../model/projection';
 import { ProjectionChart } from './ProjectionChart';
+import { Mark, TabDot } from './Guide';
 
 export type Mode = 'client' | 'advisor' | 'print';
 
@@ -132,7 +133,7 @@ function SavingsSection({ lines }: { lines: ReportLine[] }) {
       <p className="caps">Income flow: unchanged, as today</p>
       <Bullets lines={bullets} label="Vests by year" />
       <details className="grantblock" aria-label="Tax on each vest" open={!!scene}>
-        <summary><strong>Tax on each vest</strong></summary>
+        <summary><strong>Tax on each vest</strong><Mark kind="new" why="Estimated tax and the gap after withholding, per vest (F-C)." /></summary>
         <Bullets lines={perVest.filter((l) => !l.group)} label="Withholding estimate" />
         {groups.map((g) => (
           <div key={g}>
@@ -171,6 +172,10 @@ function GrantBlock({ lines }: { lines: ReportLine[] }) {
 export function ViewMore({ analysis, household, lines, onClose }: { analysis: Analysis; household: Household; lines: ReportLine[]; onClose: () => void }) {
   const conc = analysis.score.concentration;
   const concLines = on(lines, 'viewMore.concentration');
+  // Areas holding a new reading open by default and carry the dot, so nothing new hides folded.
+  const fresh = (area: string) => (area === 'investing' && concLines.length > 0)
+    || (area === 'liquidity' && on(lines, 'viewMore.liquidity').length > 0)
+    || (area === 'cashFlow' && on(lines, 'viewMore.cashFlow').length > 0);
   return (
     <>
       <div className="panel-backdrop" onClick={onClose} />
@@ -181,9 +186,9 @@ export function ViewMore({ analysis, household, lines, onClose }: { analysis: An
         </header>
         <p className="caps">SIMULATED score: public weights, simulated curves and readings</p>
         {analysis.score.areas.map((a) => (
-          <details key={a.area} className="area" open={a.area === 'investing'}>
+          <details key={a.area} className="area" open={a.area === 'investing' || fresh(a.area)}>
             <summary>
-              <span>{AREA_LABEL[a.area]}</span>
+              <span>{AREA_LABEL[a.area]}{fresh(a.area) && <TabDot kind="new" />}</span>
               <span>{Math.round(a.points)} / {a.available}</span>
             </summary>
             <ul className="checks">
@@ -192,12 +197,12 @@ export function ViewMore({ analysis, household, lines, onClose }: { analysis: An
                   {CHECK_LABEL[c] ?? c}
                   {c === 'nearTermCommitments' && on(lines, 'viewMore.liquidity').length > 0 && (
                     <ul aria-label="Near-term commitments reading">
-                      {on(lines, 'viewMore.liquidity').map((l) => <li key={l.id} data-line={l.id}>{l.text}</li>)}
+                      {on(lines, 'viewMore.liquidity').map((l) => <li key={l.id} data-line={l.id}>{l.text}<Mark kind="new" why={`Requirement ${l.ac} in the spec`} /></li>)}
                     </ul>
                   )}
                   {c === 'savingsRate' && on(lines, 'viewMore.cashFlow').length > 0 && (
                     <ul aria-label="Savings rate reading">
-                      {on(lines, 'viewMore.cashFlow').map((l) => <li key={l.id} data-line={l.id}>{l.text}</li>)}
+                      {on(lines, 'viewMore.cashFlow').map((l) => <li key={l.id} data-line={l.id}>{l.text}<Mark kind="new" why={`Requirement ${l.ac} in the spec`} /></li>)}
                     </ul>
                   )}
                   {c === 'concentration' && (
@@ -205,7 +210,7 @@ export function ViewMore({ analysis, household, lines, onClose }: { analysis: An
                       {concLines.length === 0 && conc.largest && (
                         <li>{conc.largest.position.ticker ?? conc.largest.position.name} is about {pct(conc.largest.share)} of investable assets.</li>
                       )}
-                      {concLines.map((l) => <li key={l.id} data-line={l.id}>{l.text}</li>)}
+                      {concLines.map((l) => <li key={l.id} data-line={l.id}>{l.text}<Mark kind="new" why={`Requirement ${l.ac} in the spec`} /></li>)}
                     </ul>
                   )}
                 </li>
@@ -233,7 +238,7 @@ export function FinancialHealth({ household, analysis, mode }: { household: Hous
         <h1>Financial health</h1>
         <div className={`score ${scoreColour(s)}`} aria-label="Score">{s}</div>
         {household.manualAdjustment && mode === 'advisor' && <div className="meta">Includes a manual adjustment of {household.manualAdjustment.points > 0 ? '+' : ''}{household.manualAdjustment.points}: {household.manualAdjustment.reason}</div>}
-        {mode !== 'print' && <button className="link" onClick={() => setPanel(true)}>View more</button>}
+        {mode !== 'print' && <button className="link" onClick={() => setPanel(true)}>View more{lines.some((l) => l.surface.startsWith('viewMore.')) && <TabDot kind="new" />}</button>}
       </div>
       <main>
         <section className="section" aria-label="Summary">

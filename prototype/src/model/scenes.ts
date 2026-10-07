@@ -2,6 +2,7 @@
 // SIMULATED: every household, company, price and state tax rate is invented; the federal and
 // FICA rules are the real 2026 ones (docs/12_stock_comp_rules.md).
 import { H2, H2_COMPLETE } from './households';
+import type { Guide } from './guide';
 import type { EmployerFlag, Household } from './types';
 
 const flag = (positionId: string): EmployerFlag => ({ positionId, employerId: 'halden', personId: 'p1', currentEmployer: 'yes' });
@@ -19,6 +20,8 @@ export interface Scene {
   /** Household and view to open in "Try it yourself". */
   tryIt: { household: string; mode: 'client' | 'advisor' };
   ready: boolean;
+  /** The guide strip: steps lit, what the scene shows, how the model changes. */
+  guide: Guide;
 }
 
 const H2_NO_GRANT: Household = { ...H2, grants: [] };
@@ -51,6 +54,7 @@ export const SCENES: Scene[] = [
     before: H2_NO_GRANT,
     after: { ...H2_NO_GRANT, flags: [flag('h2-hldn-brk'), flag('h2-hldn-401k')] },
     tryIt: { household: 'H2', mode: 'advisor' }, ready: true,
+    guide: { steps: [2, 3, 5], see: 'Halden stock in two accounts now reads as one 30% position.', model: 'The concentration check sums employer stock across accounts and owners.' },
   },
   {
     id: 2, title: 'A grant that vests over four years', feature: 'F-B', spec: 'docs/spec/F-B_record-grant-and-vests.md',
@@ -59,6 +63,7 @@ export const SCENES: Scene[] = [
     lookAt: 'The ten future vests are listed with their value at today’s price, in their own block, and stay out of net worth.',
     before: H2, after: H2_COMPLETE,
     tryIt: { household: 'H2', mode: 'advisor' }, ready: true,
+    guide: { steps: [2, 3, 5], see: 'Ten future vests, valued at today’s price, in their own block.', model: 'Unvested shares stay out of net worth; each vest is dated future income.' },
   },
   {
     id: 3, title: 'Withholding that will not cover the tax', feature: 'F-C', spec: 'docs/spec/F-C_tax-at-vest.md',
@@ -67,6 +72,7 @@ export const SCENES: Scene[] = [
     lookAt: 'Savings & Expenses estimates the tax and the gap after withholding. The household holds just enough cash for what it already owes soon, so the Liquidity check, which now counts the gap as a near-term commitment, drops.',
     before: { ...H2_GAP, grants: [] }, after: H2_GAP,
     tryIt: { household: 'H2', mode: 'advisor' }, ready: true,
+    guide: { steps: [2, 3, 5], see: 'The tax on a $100,000 vest and the gap after withholding.', model: 'The gap counts as a near-term commitment, so the Liquidity check drops.' },
   },
   {
     id: 4, title: 'Vests that help fund a goal', feature: 'F-D', spec: 'docs/spec/F-D_vest-proceeds-dated-cash.md',
@@ -75,6 +81,7 @@ export const SCENES: Scene[] = [
     lookAt: 'Retirement & Goals shows the vests after tax beside the goal, and the projection marks the years with vests.',
     before: { ...H2_GOAL, grants: [] }, after: H2_GOAL,
     tryIt: { household: 'H2', mode: 'client' }, ready: true,
+    guide: { steps: [3, 5], see: 'Vests after tax beside the 2028 home goal; vest years marked.', model: 'Vests enter the projection as dated cash in their vest year.' },
   },
   {
     id: 5, title: 'The client reports it', feature: 'F-E, F-F', spec: 'docs/spec/F-E_client-reports-stock-pay.md',
@@ -83,5 +90,6 @@ export const SCENES: Scene[] = [
     lookAt: 'One new chip and one helper line for everyone; nothing else changes for households without stock pay.',
     before: H2_NO_GRANT, after: H2,
     tryIt: { household: 'H1', mode: 'client' }, ready: true,
+    guide: { steps: [1, 2], see: 'One stock pay row in Income; the advisor gets an alert.', model: 'No figure uses the client’s estimate until the advisor completes the grant.' },
   },
 ];

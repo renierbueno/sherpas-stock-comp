@@ -6,6 +6,7 @@ import { money } from '../model/format';
 import { generateTranches, PSU_DEFAULT_RANGE, statusOf, trancheUnitsMismatch } from '../model/grants';
 import { duplicateOf, NO_GRANTS, proposedLabel, SAMPLE_DOCUMENTS } from '../model/extraction';
 import { dateLabel } from '../model/format';
+import { Mark } from './Guide';
 import type { Employer, Grant, Household, Tranche } from '../model/types';
 
 export interface GrantSave {
@@ -122,7 +123,7 @@ export function GrantForm({ household, grant, onSave, onCancel, saveLabel = 'Sav
           <span className="caps">From the paystub or plan statement</span>
         </label>
       )}
-      <div className="helper" role="note">{SALARY_CHECK}</div>
+      <div className="helper" role="note">{SALARY_CHECK}<Mark kind="new" why="Replaces the income question: salary on file must not include stock, or vests count twice." /></div>
       {confirming && <div className="warning" role="alert">{ADJUSTMENT_WARNING}</div>}
       <div className="row">
         <button className="btn" onClick={save}>{confirming ? 'Save and reprocess' : saveLabel}</button>

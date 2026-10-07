@@ -13,6 +13,8 @@ import { confirmProposed, rejectProposed, uploadStatement } from '../model/extra
 import { opportunityAlerts, recordAlertChange, recordRowChange, submitQuestionnaire } from '../model/intake';
 import { HoldingsEditor } from './HoldingsEditor';
 import { InvestmentAnalysis } from './InvestmentAnalysis';
+import { GuideStrip, TabDot } from './Guide';
+import { SCREEN_GUIDES, tabMarks } from '../model/guide';
 
 type Tab = 'health' | 'investment' | 'statements' | 'income' | 'questionnaire' | 'data';
 
@@ -84,6 +86,14 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
 
   const notices = visibleLines(analysis, mode).filter((l) => l.surface === 'advisor.notices');
   const alerts = mode === 'advisor' ? opportunityAlerts(household, firm) : [];
+  const marks = tabMarks({
+    stockComp: firm.stockComp,
+    surfaces: visibleLines(analysis, mode).map((l) => l.surface),
+    flagged: household.flags.length > 0,
+    score: analysis.score.score,
+    scoreWithoutFeature: analyze(household, { ...firm, stockComp: false }).score.score,
+  });
+  const guide = SCREEN_GUIDES[mode === 'print' ? 'print' : activeTab === 'investment' || activeTab === 'statements' ? activeTab : `${mode}.${activeTab}`];
 
   return (
     <>
@@ -118,10 +128,11 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
       {mode !== 'print' && (
         <nav className="topbar" role="tablist">
           {tabs.map(([t, label]) => (
-            <button key={t} role="tab" aria-selected={activeTab === t} onClick={() => setTab(t)}>{label}</button>
+            <button key={t} role="tab" aria-selected={activeTab === t} onClick={() => setTab(t)}>{label}{marks[t] && <TabDot kind={marks[t]!} />}</button>
           ))}
         </nav>
       )}
+      {guide && <GuideStrip guide={guide} />}
       {alerts.length > 0 && (
         <div style={{ maxWidth: 960, margin: '16px auto 0', padding: '0 16px' }} aria-label="Opportunity alerts">
           {alerts.map((a) => <div key={a} className="warning"><strong>Opportunity alert:</strong> {a}</div>)}

@@ -11,6 +11,7 @@ import { App } from './App';
 import { FinancialHealth, NewLines } from './FinancialHealth';
 import { SceneDetail } from './SceneDetail';
 import { Evidence } from './Evidence';
+import { FlowRail, GuideStrip } from './Guide';
 
 const FIRM: Firm = { id: 'firm-sim', stockComp: true };
 
@@ -67,9 +68,7 @@ function SceneView({ scene, onNav, onTry }: { scene: Scene; onNav: (n: number | 
             <span className="caps">Scene {scene.id} of {SCENES.length} · {scene.feature} · SIMULATED household</span>
           </div>
           <h2>{scene.title}</h2>
-          <p><strong>Today:</strong> {scene.problem}</p>
-          <p><strong>With the change:</strong> {scene.advisorDid}</p>
-          <p><strong>Look at:</strong> {scene.lookAt}</p>
+          <GuideStrip guide={{ ...scene.guide, why: `Today: ${scene.problem}\nWith the change: ${scene.advisorDid}\n${scene.lookAt}` }} />
           <div className="row">
             <div className="toggle" role="group" aria-label="Before or after">
               <button aria-pressed={!after} onClick={() => setAfter(false)}>Before (today)</button>
@@ -143,6 +142,8 @@ export function Root() {
         <h1>Stock compensation in the Financial Health analysis</h1>
         <p className="lead">Many clients are paid partly in company stock. Today the analysis cannot see it: shares of the employer split across accounts look small, grants that have not vested have no place, and the tax due when they vest is a surprise.</p>
         <p>This prototype shows what changes for the advisor and the client, five scenes of about a minute each. Every figure is SIMULATED; the screens imitate the platform only where something changes. It is a reference implementation of the spec, not production code: each new line is linked to the requirement that defines it, and each requirement to its test.</p>
+        <FlowRail big />
+        <p className="caps">Every step is in the prototype; the firm setting is a switch in "Explore freely".</p>
         <ol className="scenelist">
           {SCENES.map((s) => (
             <li key={s.id}>

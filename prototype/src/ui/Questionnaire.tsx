@@ -6,6 +6,7 @@ import { SAMPLE_DOCUMENTS } from '../model/extraction';
 import { HELPER_LINE, INCOME_QUESTION, INCOME_QUESTION_TODAY, rowErrors, type StockPayRow } from '../model/intake';
 import { money } from '../model/format';
 import type { Firm, Household } from '../model/types';
+import { Mark } from './Guide';
 
 const OTHER_CHIPS = ['Pension', 'Annuity', 'Rental property', 'Business', 'Side hustle', 'Royalty'];
 const FREQS = ['monthly', 'quarterly', 'every six months', 'yearly', 'not sure'] as const;
@@ -52,16 +53,17 @@ export function IncomeStep({ household, firm, template, onSubmit, onRowChange, i
         {household.people.map((p) => (
           <div key={p.id} className="qfield">
             <label>{p.name}: {firm.stockComp ? INCOME_QUESTION : INCOME_QUESTION_TODAY}
+              {firm.stockComp && <Mark kind="changed" why="Income now excludes company stock, so each vest is counted once, beside salary." />}
               <input readOnly value={money(household.salary[p.id] ?? 0)} />
             </label>
-            {firm.stockComp && <div className="helper">{HELPER_LINE}</div>}
+            {firm.stockComp && <div className="helper">{HELPER_LINE}<Mark kind="new" why="Tells the client where stock pay goes." /></div>}
           </div>
         ))}
         <div className="qfield">
           <div>What other current income do you currently have right now?</div>
           <div className="chips" role="group" aria-label="Other current income">
             {OTHER_CHIPS.map((c) => <button key={c} className="chip" onClick={() => setOthers((o) => [...o, c])}>+ {c}</button>)}
-            {firm.stockComp && <button className="chip" onClick={add}>+ Stock compensation</button>}
+            {firm.stockComp && <button className="chip" onClick={add}>+ Stock compensation<Mark kind="new" why="One row per employer; the advisor completes the detail." /></button>}
             <button className="chip" onClick={() => setOthers((o) => [...o, 'Other income'])}>+ Other income</button>
           </div>
         </div>
