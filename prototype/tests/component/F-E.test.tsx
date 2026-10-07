@@ -90,11 +90,25 @@ describe('F-E · screens', () => {
     expect(within(ed).getByRole('button', { name: 'Generate tranches' })).toBeInTheDocument();
   });
 
-  it('AC-E-17 · AC-G-11 · advisor notices show in advisor mode only', async () => {
+  it('AC-E-17 · AC-G-11 · completing the grant flags the employer shares with Undo, in advisor mode only', async () => {
     render(<App initialHousehold="H2" />);
-    expect(screen.queryByText(/Flag as employer stock\?/)).toBeNull();
     await user().selectOptions(screen.getByLabelText('View'), 'advisor');
-    expect(screen.getByText('Halden Robotics (HLDN) is held in Maya brokerage and Maya 401(k). Flag as employer stock?')).toBeInTheDocument();
+    await user().click(screen.getByRole('tab', { name: 'Data & Assumptions' }));
+    await user().click(within(screen.getByLabelText('Stock compensation grants')).getByRole('button', { name: 'Edit' }));
+    const ed = screen.getByLabelText('Grant editor');
+    fireEvent.change(within(ed).getByLabelText('Grant date'), { target: { value: '2025-03-01' } });
+    await user().type(within(ed).getByLabelText('Units'), '4000');
+    await user().click(within(ed).getByRole('button', { name: 'Generate tranches' }));
+    await user().click(within(ed).getByRole('button', { name: 'Save grant' }));
+    const note = 'Halden Robotics (HLDN) held in Maya brokerage and Maya 401(k) flagged as employer stock.';
+    expect(screen.getByText(note)).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Remove flag' })).toHaveLength(2);
+    await user().selectOptions(screen.getByLabelText('View'), 'client');
+    expect(screen.queryByText(note)).toBeNull();
+    await user().selectOptions(screen.getByLabelText('View'), 'advisor');
+    await user().click(screen.getByRole('button', { name: 'Undo' }));
+    expect(screen.queryByText(note)).toBeNull();
+    expect(screen.queryAllByRole('button', { name: 'Remove flag' })).toHaveLength(0);
   });
 
   it('AC-E-09 · EC-E-09 · the advisor deletes a grant reported by mistake; the alert goes', async () => {

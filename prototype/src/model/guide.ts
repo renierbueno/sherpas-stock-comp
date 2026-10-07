@@ -39,7 +39,7 @@ export const SCREEN_GUIDES: Record<string, Guide> = {
   },
   'advisor.data': {
     steps: [2],
-    see: 'Grants and holdings; the advisor flags shares of the employer.',
+    see: 'Grants and holdings; confirming a grant flags its employer’s shares, with Undo.',
     model: 'Flagged shares join the concentration check, summed across accounts and owners.',
     why: 'Employer stock split across accounts looks small one holding at a time (F-A).',
   },

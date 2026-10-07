@@ -5,7 +5,7 @@ import { analyze } from '../../src/model/analysis';
 import { EventLog } from '../../src/model/events';
 import { saveGrant, statusOf } from '../../src/model/grants';
 import { H1, H2, H2_GRANT, H5 } from '../../src/model/households';
-import { flagSuggestions, opportunityAlerts, PENDING_ALERT, recordAlertChange, recordRowChange, rowErrors, submitQuestionnaire, type StockPayRow } from '../../src/model/intake';
+import { flagOnConfirm, opportunityAlerts, PENDING_ALERT, recordAlertChange, recordRowChange, rowErrors, submitQuestionnaire, type StockPayRow } from '../../src/model/intake';
 import { simulateScore } from '../../src/model/score';
 import type { Firm, Household } from '../../src/model/types';
 
@@ -68,12 +68,22 @@ describe('F-E · alert and notices', () => {
     expect(text(h, 'AC-E-16')).toEqual(['This type is not modelled in this version; flag any shares already held as employer stock.']);
   });
 
-  it('AC-E-17 · AC-E-18 · one suggestion per employer naming every account; flagged only after the advisor confirms each position', () => {
-    expect(flagSuggestions(H2, ON).map((x) => x.positionIds)).toEqual([['h2-hldn-brk', 'h2-hldn-401k']]);
-    expect(text(H2, 'AC-E-17')).toEqual(['Halden Robotics (HLDN) is held in Maya brokerage and Maya 401(k). Flag as employer stock?']);
-    expect(H2.flags).toEqual([]);
-    const confirmed = setFlag(H2, { positionId: 'h2-hldn-brk', employerId: 'halden', personId: 'p1', currentEmployer: 'yes' }, ON);
-    expect(text(confirmed, 'AC-E-17')).toEqual(['Halden Robotics (HLDN) is held in Maya 401(k). Flag as employer stock?']);
+  it('AC-E-17 · confirming a grant flags every held position of its ticker, across accounts, with one notice', () => {
+    const { household, notices } = flagOnConfirm(H2, saveGrant(H2, H2_GRANT, ON), ON);
+    expect(household.flags.map((f) => f.positionId)).toEqual(['h2-hldn-brk', 'h2-hldn-401k']);
+    expect(notices.map((n) => n.text)).toEqual(['Halden Robotics (HLDN) held in Maya brokerage and Maya 401(k) flagged as employer stock.']);
+  });
+
+  it('AC-E-17 · nothing is flagged while the grant is pending, nor again for a grant already confirmed', () => {
+    expect(flagOnConfirm(H2, H2, ON).household.flags).toEqual([]);
+    const done = flagOnConfirm(H2, saveGrant(H2, H2_GRANT, ON), ON).household;
+    const unflagged = { ...done, flags: [] };
+    expect(flagOnConfirm(unflagged, unflagged, ON).notices).toEqual([]);
+  });
+
+  it('AC-E-18 · each flagged position takes the grant owner as person and "current employer: yes"', () => {
+    const { household } = flagOnConfirm(H2, saveGrant(H2, H2_GRANT, ON), ON);
+    expect(household.flags.every((f) => f.personId === H2_GRANT.ownerId && f.currentEmployer === 'yes' && f.employerId === 'halden')).toBe(true);
   });
 
   it('AC-G-11 · F-E notices never reach the shared view', () => {

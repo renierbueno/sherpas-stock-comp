@@ -69,20 +69,32 @@ export function recordAlertChange(before: Household, after: Household, firm: Fir
   if (a !== b) log?.record('EV-E-03', after.id, { change: b ? 'raised' : 'removed', at });
 }
 
+export interface AutoFlag { employerId: string; positionIds: string[]; text: string }
+
 /**
- * AC-E-17 (D-070): one suggestion per employer the client gave, naming every held, unflagged
- * position with its ticker. Flagging stays one position at a time, after the advisor confirms (AC-E-18).
+ * AC-E-17, AC-E-18 (D-090, D-092, D-110): when the advisor confirms a grant (saved complete, or a
+ * proposal confirmed), every held, unflagged position with the grant's employer ticker is flagged
+ * as employer stock, whatever its source, for the grant owner and "current employer: yes". The
+ * advisor sees one notice per employer with Undo.
  */
-export function flagSuggestions(h: Household, firm: Firm): { employerId: string; positionIds: string[]; label: string }[] {
-  if (!firm.stockComp) return [];
-  const out: { employerId: string; positionIds: string[]; label: string }[] = [];
-  for (const e of h.employers) {
-    if (!e.ticker || !h.grants.some((g) => g.employerId === e.id)) continue;
+export function flagOnConfirm(before: Household, after: Household, firm: Firm, log?: EventLog): { household: Household; notices: AutoFlag[] } {
+  if (!firm.stockComp) return { household: after, notices: [] };
+  const confirmed = after.grants.filter((g) => statusOf(after, g) === 'complete'
+    && !before.grants.some((b) => b.id === g.id && !b.proposed && statusOf(before, b) === 'complete'));
+  let h = after;
+  const notices: AutoFlag[] = [];
+  for (const g of confirmed) {
+    const e = h.employers.find((x) => x.id === g.employerId);
+    if (!e?.ticker) continue;
     const held = heldPositions(h).filter(({ position }) => position.ticker === e.ticker && !h.flags.some((f) => f.positionId === position.id));
     if (held.length === 0) continue;
+    for (const { position } of held) {
+      log?.record('EV-A-01', h.id, { firm: firm.id, action: 'flag', issuer: e.id, listed: e.listed });
+      h = { ...h, flags: [...h.flags, { positionId: position.id, employerId: e.id, personId: g.ownerId, currentEmployer: 'yes' }] };
+    }
     const accounts = [...new Set(held.map(({ account }) => account.name))];
     const where = accounts.length === 1 ? accounts[0] : `${accounts.slice(0, -1).join(', ')} and ${accounts[accounts.length - 1]}`;
-    out.push({ employerId: e.id, positionIds: held.map(({ position }) => position.id), label: `${e.name} (${e.ticker}) is held in ${where}. Flag as employer stock?` });
+    notices.push({ employerId: e.id, positionIds: held.map(({ position }) => position.id), text: `${e.name} (${e.ticker}) held in ${where} flagged as employer stock.` });
   }
-  return out;
+  return { household: h, notices };
 }

@@ -6,7 +6,6 @@ import { countedFutureVests, countedGrants, employerOf, pastTranches, statusOf, 
 import { priceOf } from './market';
 import { totalOwed, vestTaxes } from './vestTax';
 import { vestInflows } from './projection';
-import { flagSuggestions } from './intake';
 import type { ScoreResult } from './score';
 import type { Firm, Household } from './types';
 
@@ -264,9 +263,6 @@ export function linesFE(h: Household, firm: Firm): ReportLine[] {
   for (const g of h.grants.filter((x) => x.clientEstimate?.type === 'other')) {
     out.push({ id: `E-16-${g.id}`, ac: 'AC-E-16', surface: 'advisor.notices', audience: 'advisor',
       text: 'This type is not modelled in this version; flag any shares already held as employer stock.' });
-  }
-  for (const s of flagSuggestions(h, firm)) {
-    out.push({ id: `E-17-${s.employerId}`, ac: 'AC-E-17', surface: 'advisor.notices', audience: 'advisor', text: s.label });
   }
   return out;
 }

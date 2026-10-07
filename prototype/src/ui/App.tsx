@@ -10,10 +10,10 @@ import { adjustScore, shareAnalysis, type LineEdits } from '../model/sharing';
 import { GrantsPanel, type GrantSave, type ProposalActions } from './GrantEditor';
 import { IncomeStep, type QuestionnaireSubmit } from './Questionnaire';
 import { confirmAll, confirmProposed, rejectProposed, uploadStatement } from '../model/extraction';
-import { opportunityAlerts, recordAlertChange, recordRowChange, submitQuestionnaire } from '../model/intake';
+import { flagOnConfirm, opportunityAlerts, recordAlertChange, recordRowChange, submitQuestionnaire, type AutoFlag } from '../model/intake';
 import { HoldingsEditor } from './HoldingsEditor';
 import { InvestmentAnalysis } from './InvestmentAnalysis';
-import { GuideStrip, TabDot } from './Guide';
+import { GuideStrip, Mark, TabDot } from './Guide';
 import { SCREEN_GUIDES, tabMarks } from '../model/guide';
 
 type Tab = 'health' | 'investment' | 'statements' | 'income' | 'questionnaire' | 'data';
@@ -48,6 +48,17 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
     setHouseholds((all) => ({ ...all, [h.id]: h }));
     setAnalyses((all) => ({ ...all, [h.id]: analyze(h, firm, log) }));
   };
+  // AC-E-17: confirming a grant flags its employer's held shares; the notice offers Undo.
+  const [autoFlags, setAutoFlags] = useState<{ hid: string; notices: AutoFlag[] } | null>(null);
+  const confirmAndFlag = (next: Household) => {
+    const r = flagOnConfirm(household, next, firm, log);
+    if (r.notices.length > 0) setAutoFlags({ hid, notices: r.notices });
+    reprocess(afterSave(r.household));
+  };
+  const undoAutoFlag = (n: AutoFlag) => {
+    reprocess(afterSave(n.positionIds.reduce((h, id) => removeFlag(h, id, firm, log), household)));
+    setAutoFlags((a) => (a ? { ...a, notices: a.notices.filter((x) => x !== n) } : a));
+  };
   const saveFlag = (f: EmployerFlag) => reprocess(afterSave(setFlag(household, f, firm, log)));
   const dropFlag = (positionId: string) => reprocess(afterSave(removeFlag(household, positionId, firm, log)));
   const saveGrantEdit = ({ grant, employer, generated }: GrantSave) => {
@@ -59,17 +70,17 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
     const before = household.grants.find((g) => g.id === grant.id)?.stateWithholdingRate;
     let next = isNew ? addGrant(base, { ...grant, stateWithholdingRate: undefined }, firm, log) : saveGrant(base, { ...grant, stateWithholdingRate: before }, firm, log, generated);
     if (grant.stateWithholdingRate !== before) next = setStateWithholding(next, grant.id, grant.stateWithholdingRate, household.analysisDate, log);
-    reprocess(afterSave(next));
+    confirmAndFlag(next);
   };
 
   const proposals: ProposalActions = {
     onUpload: (doc) => reprocess(uploadStatement(household, doc, 'advisor', log).household),
-    onConfirm: ({ grant, employer }, keep) => reprocess(afterSave(confirmProposed({
+    onConfirm: ({ grant, employer }, keep) => confirmAndFlag(confirmProposed({
       ...household,
       employers: household.employers.map((e) => (e.id === employer.id ? employer : e)),
-    }, grant, log, keep))),
+    }, grant, log, keep)),
     onReject: (id) => reprocess(rejectProposed(household, id, log)),
-    onConfirmAll: (doc) => reprocess(afterSave(confirmAll(household, doc, log))),
+    onConfirmAll: (doc) => confirmAndFlag(confirmAll(household, doc, log)),
   };
   const submitClient = ({ rows, documents }: QuestionnaireSubmit) => {
     let h = submitQuestionnaire(household, rows, firm, household.analysisDate, log);
@@ -137,6 +148,16 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
       {alerts.length > 0 && (
         <div style={{ maxWidth: 960, margin: '16px auto 0', padding: '0 16px' }} aria-label="Opportunity alerts">
           {alerts.map((a) => <div key={a} className="warning"><strong>Opportunity alert:</strong> {a}</div>)}
+        </div>
+      )}
+      {mode === 'advisor' && autoFlags?.hid === hid && autoFlags.notices.length > 0 && (
+        <div style={{ maxWidth: 960, margin: '16px auto 0', padding: '0 16px' }} aria-label="Employer stock flagged">
+          {autoFlags.notices.map((n) => (
+            <div key={n.employerId} className="notice row" data-ac="AC-E-17">
+              <span>{n.text}<Mark kind="new" why="Confirming a grant flags its employer's shares at once (AC-E-17)." /></span>
+              <button className="link" onClick={() => undoAutoFlag(n)}>Undo</button>
+            </div>
+          ))}
         </div>
       )}
       {mode === 'advisor' && notices.length > 0 && (
