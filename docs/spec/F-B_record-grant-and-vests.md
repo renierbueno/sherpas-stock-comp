@@ -16,64 +16,64 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-B-01 | Where the firm has enabled stock compensation, the system shall let the advisor add a grant in advisor mode and in Data & Assumptions. | D-030, D-036; [brief] Data & Assumptions | e2e | (F6) |
-| AC-B-02 | The system shall assign each grant to one person of the household, never joint. | D-026; [FACT: data_model, every element has an owner] | unit | (F6) |
-| AC-B-03 | The system shall offer RSU and PSU as grant types. | D-024 | e2e | (F6) |
-| AC-B-04 | The system shall record for each grant its employer, grant date and units (target units for a PSU). | D-027, D-031; R-002; SC-05, SC-28 | unit | (F6) |
-| AC-B-05 | When the advisor saves a grant, the system shall reprocess the analysis. | [brief] saving in Data & Assumptions reprocesses | e2e | (F6) |
-| AC-B-06 | If the analysis has a manual score adjustment, then the system shall show "Saving reprocesses the analysis and replaces your manual score adjustment." before the advisor saves a grant. | D-033; [brief] | e2e | (F6) |
+| AC-B-01 | Where the firm has enabled stock compensation, the system shall let the advisor add a grant in advisor mode and in Data & Assumptions. | D-030, D-036; [brief] Data & Assumptions | e2e | unit F-B, component F-B |
+| AC-B-02 | The system shall assign each grant to one person of the household, never joint. | D-026; [FACT: data_model, every element has an owner] | unit | unit F-B |
+| AC-B-03 | The system shall offer RSU and PSU as grant types. | D-024 | e2e | component F-B |
+| AC-B-04 | The system shall record for each grant its employer, grant date and units (target units for a PSU). | D-027, D-031; R-002; SC-05, SC-28 | unit | unit F-B |
+| AC-B-05 | When the advisor saves a grant, the system shall reprocess the analysis. | [brief] saving in Data & Assumptions reprocesses | e2e | component F-B |
+| AC-B-06 | If the analysis has a manual score adjustment, then the system shall show "Saving reprocesses the analysis and replaces your manual score adjustment." before the advisor saves a grant. | D-033; [brief] | e2e | component F-A, component F-B |
 
 ### Schedule
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-B-07 | When the advisor enters a pattern (length, frequency, cliff), the system shall generate the dated tranches. | D-027; R-009; SC-06 | unit | (F6) |
-| AC-B-08 | The system shall let the advisor edit the date and units of each tranche. | D-027; R-010; SC-06 | e2e | (F6) |
-| AC-B-09 | The system shall let the advisor add and delete tranches. | D-027 | e2e | (F6) |
-| AC-B-10 | If the units of all tranches differ from the grant's units, then the system shall show "Tranches add up to <n> of <m> units." without blocking the save. | D-027 | unit + e2e | (F6) |
-| AC-B-11 | If a tranche's delivery date is on or before the analysis date, then the system shall leave it out of the grant's figures, except the current year's tax figures of AC-C-31. | D-028, D-037, D-107 | unit | (F6) |
-| AC-B-12 | If a tranche's delivery date is on or before the analysis date, then the system shall show "Vested on <vest date>: record the shares kept as a held position." | D-028, D-037, D-110 | e2e | (F6) |
-| AC-B-13 | When the advisor marks a tranche as forfeited, the system shall remove it from the grant's figures. | D-026; R-002; SC-04 | unit | (F6) |
-| AC-B-14 | The system shall let the advisor record, per tranche, the shares kept after withholding and their cost basis. | Next (D-080); D-029; R-011; SC-18, SC-30 | e2e | (F6) |
-| AC-B-32 | The system shall record, per tranche, a delivery date, prefilled with the tranche's vest date and editable by the advisor, labelled "Shares delivered on". | D-101; SC-02, SC-03 | unit + e2e | (F6) |
-| AC-B-33 | The system shall let the advisor enter, per delivered tranche, its value at delivery, with the helper text "From the W-2 or the plan statement". | D-107 [ASSUMPTION: A-58] | e2e | (F6) |
+| AC-B-07 | When the advisor enters a pattern (length, frequency, cliff), the system shall generate the dated tranches. | D-027; R-009; SC-06 | unit | unit F-B, component F-B |
+| AC-B-08 | The system shall let the advisor edit the date and units of each tranche. | D-027; R-010; SC-06 | e2e | component F-B |
+| AC-B-09 | The system shall let the advisor add and delete tranches. | D-027 | e2e | component F-B |
+| AC-B-10 | If the units of all tranches differ from the grant's units, then the system shall show "Tranches add up to <n> of <m> units." without blocking the save. | D-027 | unit + e2e | unit F-B, component F-B |
+| AC-B-11 | If a tranche's delivery date is on or before the analysis date, then the system shall leave it out of the grant's figures, except the current year's tax figures of AC-C-31. | D-028, D-037, D-107 | unit | unit F-B |
+| AC-B-12 | If a tranche's delivery date is on or before the analysis date, then the system shall show "Vested on <vest date>: record the shares kept as a held position." | D-028, D-037, D-110 | e2e | unit F-B, component F-B |
+| AC-B-13 | When the advisor marks a tranche as forfeited, the system shall remove it from the grant's figures. | D-026; R-002; SC-04 | unit | unit F-B |
+| AC-B-14 | The system shall let the advisor record, per tranche, the shares kept after withholding and their cost basis. | Next (D-080); D-029; R-011; SC-18, SC-30 | e2e | component F-B |
+| AC-B-32 | The system shall record, per tranche, a delivery date, prefilled with the tranche's vest date and editable by the advisor, labelled "Shares delivered on". | D-101; SC-02, SC-03 | unit + e2e | unit F-B, component F-B |
+| AC-B-33 | The system shall let the advisor enter, per delivered tranche, its value at delivery, with the helper text "From the W-2 or the plan statement". | D-107 [ASSUMPTION: A-58] | e2e | spec only (see index) |
 | AC-B-15 | Dropped: shares kept are not estimated; they are recorded when known (AC-B-14). | D-050 | | |
 
 ### PSU
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-B-16 | Where the grant is a PSU, the system shall record its performance condition and the end of its performance period. | D-027; R-002, R-011; SC-05 | e2e | (F6) |
-| AC-B-17 | Where the grant is a PSU, the system shall record its payout range, 0% to 200% of target unless the advisor changes it. | D-027; R-002 (sample agreements); SC-05 | unit | (F6) |
+| AC-B-16 | Where the grant is a PSU, the system shall record its performance condition and the end of its performance period. | D-027; R-002, R-011; SC-05 | e2e | component F-B |
+| AC-B-17 | Where the grant is a PSU, the system shall record its payout range, 0% to 200% of target unless the advisor changes it. | D-027; R-002 (sample agreements); SC-05 | unit | unit F-B |
 
 ### Private employer
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-B-18 | Where the employer is private, the system shall let the advisor save an RSU grant without vest dates. | D-025; R-011 (double trigger); SC-08 | e2e | (F6) |
-| AC-B-19 | Where the employer is private, with or without vest dates, the system shall show the grant as "Awaiting a liquidity event". | D-025, D-068 | e2e | (F6) |
-| AC-B-20 | Where the employer is private, the system shall let the advisor enter the latest 409A value and its date. | Next (D-080); D-025; R-017; SC-31 | e2e | (F6) |
-| AC-B-21 | Where a 409A value is entered, the system shall show "409A value <$> per share as of <date>, for information only; not counted in the figures." | Next (D-080); D-025; R-017; SC-31 | e2e | (F6) |
+| AC-B-18 | Where the employer is private, the system shall let the advisor save an RSU grant without vest dates. | D-025; R-011 (double trigger); SC-08 | e2e | unit F-B, component F-B |
+| AC-B-19 | Where the employer is private, with or without vest dates, the system shall show the grant as "Awaiting a liquidity event". | D-025, D-068 | e2e | unit F-B, component F-B |
+| AC-B-20 | Where the employer is private, the system shall let the advisor enter the latest 409A value and its date. | Next (D-080); D-025; R-017; SC-31 | e2e | component F-B |
+| AC-B-21 | Where a 409A value is entered, the system shall show "409A value <$> per share as of <date>, for information only; not counted in the figures." | Next (D-080); D-025; R-017; SC-31 | e2e | unit F-B, component F-B |
 
 ### What the analysis shows
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-B-22 | The system shall leave unvested tranches out of current net worth. | D-026 | unit | (F6) |
-| AC-B-23 | While a household has a complete grant of a listed employer, the analysis shall list each future tranche with its delivery date, units and value at the <analysis date> price. | D-038 (vest calendar as data), D-045, D-110 | e2e | (F6) |
-| AC-B-24 | Where a tranche is a performance unit tranche, the list shall show its value at target followed by "(range $<min> to $<max>)". | D-045 | unit + e2e | (F6) |
-| AC-B-25 | The system shall not send reminders or notifications for vest dates. | D-038 | manual (absence; nothing to show) | (F6) |
-| AC-B-26 | If the household has no grant, then the system shall show no grant section in the analysis. | D-023 | e2e | (F6) |
-| AC-B-27 | The analysis shall show grants in the Assets & Investments section, in a block "Stock compensation not yet vested (not in net worth)" after the asset totals, holding the tranche list (AC-B-23), "Awaiting a liquidity event" (AC-B-19) and the pending line (AC-E-10). | D-026, D-060 | e2e | (F6) |
+| AC-B-22 | The system shall leave unvested tranches out of current net worth. | D-026 | unit | unit F-B |
+| AC-B-23 | While a household has a complete grant of a listed employer, the analysis shall list each future tranche with its delivery date, units and value at the <analysis date> price. | D-038 (vest calendar as data), D-045, D-110 | e2e | unit F-B, component F-B |
+| AC-B-24 | Where a tranche is a performance unit tranche, the list shall show its value at target followed by "(range $<min> to $<max>)". | D-045 | unit + e2e | unit F-B, component F-B |
+| AC-B-25 | The system shall not send reminders or notifications for vest dates. | D-038 | manual (absence; nothing to show) | spec only (see index) |
+| AC-B-26 | If the household has no grant, then the system shall show no grant section in the analysis. | D-023 | e2e | unit F-B, component F-B |
+| AC-B-27 | The analysis shall show grants in the Assets & Investments section, in a block "Stock compensation not yet vested (not in net worth)" after the asset totals, holding the tranche list (AC-B-23), "Awaiting a liquidity event" (AC-B-19) and the pending line (AC-E-10). | D-026, D-060 | e2e | component F-B |
 
 ### Completeness, price and storage
 
 | ID | Requirement (EARS) | From | Verify | Test |
 |---|---|---|---|---|
-| AC-B-28 | The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one tranche with date and units that is either future or delivered in the current tax year, and PSU terms for a PSU. | D-035, D-060, D-094, D-109 | unit | (F6) |
+| AC-B-28 | The system shall mark a grant complete when it has an owner, a type, a listed employer with a ticker, its units, at least one tranche with date and units that is either future or delivered in the current tax year, and PSU terms for a PSU. | D-035, D-060, D-094, D-109 | unit | unit F-B |
 | AC-B-29 | Dropped: the advisor is not asked whether the salary includes vests; the income question excludes stock compensation and the grant review shows the line of AC-F-17. | D-094, D-108 | | |
-| AC-B-30 | If the employer's ticker has no market price, then the system shall leave the grant out of every figure and show the advisor "Price not available for <ticker>: grant not counted." | [brief] missing data; D-060 | unit + e2e | (F6) |
-| AC-B-31 | The system shall store a grant as an element of the platform's stock compensation asset category, sub-type RSU, and a PSU as an RSU with its performance terms; unvested value stays out of net worth (AC-B-22). | D-058, D-026 | unit | (F6) |
+| AC-B-30 | If the employer's ticker has no market price, then the system shall leave the grant out of every figure and show the advisor "Price not available for <ticker>: grant not counted." | [brief] missing data; D-060 | unit + e2e | unit F-B, component F-B |
+| AC-B-31 | The system shall store a grant as an element of the platform's stock compensation asset category, sub-type RSU, and a PSU as an RSU with its performance terms; unvested value stays out of net worth (AC-B-22). | D-058, D-026 | unit | unit F-B |
 
 ## Edge cases
 
@@ -103,9 +103,9 @@ As an advisor, I want to record a client's RSU or PSU grant with its vesting sch
 
 | ID | Event (EARS) | Feeds | Verify | Test |
 |---|---|---|---|---|
-| EV-B-01 | When a grant is created, the system shall record the firm, the household, the type and the source (advisor, questionnaire, extraction). | M-02, M-06 | unit | (F6) |
-| EV-B-02 | When a grant changes from pending detail to complete, the system shall record the time since it was reported. | M-02 | unit | (F6) |
-| EV-B-03 | When the advisor edits generated tranches, the system shall record how many tranches were changed. | M-03 (with F-F) | unit | (F6) |
+| EV-B-01 | When a grant is created, the system shall record the firm, the household, the type and the source (advisor, questionnaire, extraction). | M-02, M-06 | unit | unit F-B |
+| EV-B-02 | When a grant changes from pending detail to complete, the system shall record the time since it was reported. | M-02 | unit | unit F-B, unit F-F |
+| EV-B-03 | When the advisor edits generated tranches, the system shall record how many tranches were changed. | M-03 (with F-F) | unit | unit F-B |
 
 ## Simulator tests (relations)
 

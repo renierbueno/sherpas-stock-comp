@@ -23,6 +23,7 @@ export function Evidence({ onBack }: { onBack: () => void }) {
           <li><strong>Proves:</strong> the relations below hold. They are what the change must never break, whatever Sherpas' real curves are.</li>
           <li><strong>Does not prove:</strong> that Sherpas' unpublished check curves, horizons and thresholds match the SIMULATED ones, or that this tax engine matches the platform's (its 2026 federal brackets, standard deductions and Social Security and Medicare rates are real; the state rate is SIMULATED). Absolute scores and tax amounts here are illustrations.</li>
           <li><strong>Does not prove:</strong> that plan statements can be read automatically: extraction is SIMULATED (riskiest assumption 1).</li>
+          <li><strong>Does not replace QA:</strong> QA verifies the production build against the same requirement IDs.</li>
         </ul>
       </div>
       <div className="section" style={{ marginTop: 16 }}>

@@ -36,7 +36,7 @@ What the pilot (the first release) covers and what comes later is the MVP cut in
 | Firm setting, PDF, sharing (G) | The firm switch and the print view | Only Sherpas switches the setting (AC-G-18); the notice when it is turned off after use (AC-G-19); the share event (EV-G-01); the platform's written paragraphs (AC-G-17) |
 | Head of household filing status in the tax figures | No: the simulator uses single and joint | Not built |
 
-The full list, criterion by criterion, with its test or its reason, is printed by `npm run trace`; the reasons live in `src/model/scope.ts`.
+The full list, criterion by criterion, with its test or its reason, is printed by `npm run trace` and written into the spec by `npm run trace -- --write` (the Test column of each feature file and the Traceability section of `docs/spec/00_index.md`, which also says what these tests check and why they are not QA, D-119); the reasons live in `src/model/scope.ts`.
 
 ## How it is built
 

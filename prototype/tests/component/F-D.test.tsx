@@ -24,7 +24,7 @@ describe('F-D · screens', () => {
     expect(screen.getByLabelText('Projected net worth').querySelector('path.band')).not.toBeNull();
   });
 
-  it('AC-D-06 · AC-D-07 · AC-D-08 · AC-G-15 · Retirement & Goals bullets with the price date and the sell-or-keep note', () => {
+  it('AC-D-02 · AC-D-06 · AC-D-07 · AC-D-08 · AC-G-15 · Retirement & Goals bullets with the price date and the sell-or-keep note', () => {
     render(<App initialHousehold="H2" households={[GOAL]} />);
     const goals = screen.getByLabelText('Retirement & Goals');
     expect(within(goals).getByText(/^Halden Robotics vests: \$[\d,]+ after estimated tax \(\$80,000 before tax\) between June 1, 2027 and June 1, 2028, at the October 5, 2026 price\.$/)).toBeInTheDocument();
