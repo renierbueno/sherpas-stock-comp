@@ -8,7 +8,7 @@ import { H1, H2, H2_COMPLETE, H2_GRANT, H3, H6 } from '../../src/model/household
 import { simulateScore } from '../../src/model/score';
 import { householdTax } from '../../src/model/tax';
 import type { Firm, Grant, Household } from '../../src/model/types';
-import { addedVestIncome, baseWages, countedVestGaps, vestTaxes } from '../../src/model/vestTax';
+import { addedVestIncome, baseWages, countedVestGaps, taxYears, vestTaxes } from '../../src/model/vestTax';
 
 const ON: Firm = { id: 'firm-sim', stockComp: true };
 const text = (h: Household, ac: string) => analyze(h, ON).lines.filter((l) => l.ac === ac).map((l) => l.text);
@@ -199,5 +199,16 @@ describe('F-C · simulator relations (spec "Simulator tests")', () => {
   it('REL-C-4 · a vest outside the horizon changes no score figure', () => {
     const far: Household = { ...near(2_000), grants: [grant('f', 'halden', '2028-06-01', 2_000)] };
     expect(simulateScore(far, ON)).toEqual(simulateScore({ ...far, grants: [] }, ON));
+  });
+
+  it('AC-C-30 · EC-C-12 · vest on 15 December, shares delivered on 5 January: income tax and its lines in the next year, Social Security and Medicare in the vest year', () => {
+    const h: Household = { ...EC_C_01, grants: [grant('dec', 'halden', '2026-12-15', 2_000, { tranches: [{ id: 'dec-t', date: '2026-12-15', deliveryDate: '2027-01-05', units: 2_000 }] })] };
+    const [t] = vestTaxes(h, ON);
+    expect(taxYears(t.vest)).toEqual({ income: 2027, fica: 2026 });
+    expect(addedVestIncome(h, ON, 2027)).toBe(100_000);
+    expect(addedVestIncome(h, ON, 2026)).toBe(0);
+    expect(text(h, 'AC-C-23')[0]).toMatch(/^2027 vests: \$100,000 of income/);
+    expect(text(h, 'AC-C-24')[0] ?? '').not.toMatch(/December 2026/);
+    expect(text(h, 'AC-C-26')).toEqual([]);
   });
 });

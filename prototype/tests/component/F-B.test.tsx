@@ -149,4 +149,11 @@ describe('F-B · screens', () => {
     await user().click(within(ed).getByRole('button', { name: 'Save and reprocess' }));
     expect(within(screen.getByLabelText('Stock compensation grants')).getByText('complete')).toBeInTheDocument();
   });
+
+  it('AC-B-32 · each tranche has "Shares delivered on", prefilled with its vest date', async () => {
+    render(<App initialHousehold="H2" />);
+    const ed = await completeH2();
+    expect(within(ed).getByRole('columnheader', { name: /^Shares delivered on/ })).toBeInTheDocument();
+    expect(within(ed).getByLabelText('Tranche 1 shares delivered on')).toHaveValue((within(ed).getByLabelText('Tranche 1 date') as HTMLInputElement).value);
+  });
 });

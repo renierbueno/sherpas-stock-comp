@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ADJUSTMENT_WARNING, SALARY_CHECK } from '../model/actions';
 import { money } from '../model/format';
-import { generateTranches, PSU_DEFAULT_RANGE, statusOf, trancheUnitsMismatch } from '../model/grants';
+import { deliveryOf, generateTranches, PSU_DEFAULT_RANGE, statusOf, trancheUnitsMismatch } from '../model/grants';
 import { duplicateOf, NO_GRANTS, proposedLabel, SAMPLE_DOCUMENTS } from '../model/extraction';
 import { dateLabel } from '../model/format';
 import { Mark } from './Guide';
@@ -97,11 +97,12 @@ export function GrantForm({ household, grant, onSave, onCancel, saveLabel = 'Sav
       </fieldset>
       {g.tranches.length > 0 && (
         <table aria-label="Tranches">
-          <thead><tr><th>Vest date</th><th>{g.type === 'PSU' ? 'Target units' : 'Units'}</th><th>Forfeited</th><th>Shares kept</th><th>Cost basis</th><th /></tr></thead>
+          <thead><tr><th>Vest date</th><th>Shares delivered on<Mark kind="new" why="Income tax falls in the delivery year; Social Security and Medicare in the vest year (AC-B-32, AC-C-30)." /></th><th>{g.type === 'PSU' ? 'Target units' : 'Units'}</th><th>Forfeited</th><th>Shares kept</th><th>Cost basis</th><th /></tr></thead>
           <tbody>
             {g.tranches.map((t, i) => (
               <tr key={t.id}>
                 <td><input type="date" aria-label={`Tranche ${i + 1} date`} value={t.date} onChange={(e) => setTranche(t.id, { date: e.target.value })} /></td>
+                <td><input type="date" aria-label={`Tranche ${i + 1} shares delivered on`} value={deliveryOf(t)} onChange={(e) => setTranche(t.id, { deliveryDate: e.target.value === t.date ? undefined : e.target.value })} /></td>
                 <td><input inputMode="numeric" aria-label={`Tranche ${i + 1} units`} value={t.units} onChange={(e) => setTranche(t.id, { units: Number(e.target.value) })} size={6} /></td>
                 <td><input type="checkbox" aria-label={`Tranche ${i + 1} forfeited`} checked={!!t.forfeited} onChange={(e) => setTranche(t.id, { forfeited: e.target.checked })} /></td>
                 <td><input inputMode="numeric" aria-label={`Tranche ${i + 1} shares kept`} value={t.sharesKept ?? ''} onChange={(e) => setTranche(t.id, { sharesKept: num(e.target.value) })} size={6} /></td>
@@ -142,7 +143,7 @@ function DocumentPreview({ household, doc }: { household: Household; doc: string
       {found.length === 0 ? <div className="small">[unreadable scan]</div> : found.map((f, i) => (
         <div key={i} className="small">
           Award {i + 1} · {f.type} · granted {f.grantDate ? dateLabel(f.grantDate) : '?'} · {f.units?.toLocaleString('en-US')} units
-          {f.tranches.map((t) => <div key={t.id}>&nbsp;&nbsp;{dateLabel(t.date)} · {t.units.toLocaleString('en-US')} units{t.sharesKept ? ` · ${t.sharesKept} shares kept after withholding` : ''}</div>)}
+          {f.tranches.map((t) => <div key={t.id}>&nbsp;&nbsp;{dateLabel(t.date)}{t.deliveryDate ? `, released ${dateLabel(t.deliveryDate)}` : ''} · {t.units.toLocaleString('en-US')} units{t.sharesKept ? ` · ${t.sharesKept} shares kept after withholding` : ''}</div>)}
         </div>
       ))}
     </div>

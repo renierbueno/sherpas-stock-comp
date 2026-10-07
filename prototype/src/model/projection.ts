@@ -1,7 +1,7 @@
 // F-D · Vest proceeds as dated cash for goals (docs/spec/F-D_vest-proceeds-dated-cash.md).
 // The projection itself is SIMULATED (growth and savings below): the platform's projection is not
 // public. What is tested is how vests enter it, not the projection.
-import { netWorth } from './grants';
+import { deliveryOf, netWorth } from './grants';
 import { dateLabel, money } from './format';
 import { vestSavingRate } from './params';
 import type { Firm, Household } from './types';
@@ -26,7 +26,7 @@ export function vestInflows(h: Household, firm: Firm): Inflow[] {
     const after = t.vest.value - totalOwed(t.owed);
     const share = t.vest.value > 0 ? after / t.vest.value : 0;
     return {
-      date: t.vest.tranche.date,
+      date: deliveryOf(t.vest.tranche), // AC-D-01: on its delivery date
       company: h.employers.find((e) => e.id === t.vest.grant.employerId)?.name ?? '',
       before: t.vest.value,
       after,

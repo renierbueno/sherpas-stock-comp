@@ -100,4 +100,13 @@ describe('F-F · screens', () => {
     expect(within(screen.getByLabelText('Stock compensation grants')).getAllByRole('button', { name: 'Edit' })).toHaveLength(1);
     expect(within(screen.getByLabelText('Stock compensation grants')).getByText('complete')).toBeInTheDocument();
   });
+
+  it('AC-F-16 · the review proposes the statement’s release date as "Shares delivered on"', async () => {
+    render(<App initialHousehold="H2" households={[{ ...H2, grants: [] }]} />);
+    await upload('Brokerage statement with three grants (SIMULATED).pdf');
+    await user().click(screen.getAllByRole('button', { name: 'Review and confirm' })[1]);
+    const ed = screen.getAllByLabelText('Grant editor').at(-1)!;
+    expect(within(ed).getByLabelText('Tranche 1 shares delivered on')).toHaveValue('2027-01-05');
+    expect(within(ed).getByLabelText('Tranche 1 date')).toHaveValue('2026-12-15');
+  });
 });

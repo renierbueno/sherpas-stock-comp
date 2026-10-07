@@ -55,7 +55,10 @@ export interface EmployerFlag {
 /** One vest of a grant (AC-B-07 to AC-B-14). A PSU tranche holds target units. */
 export interface Tranche {
   id: string;
+  /** Vest date: Social Security and Medicare, and the "Vested on" prompt, read it (AC-C-30, AC-B-12). */
   date: IsoDate;
+  /** "Shares delivered on": every income, cash, goal and chart line reads it; the vest date when not set (AC-B-32, D-110). */
+  deliveryDate?: IsoDate;
   units: number;
   forfeited?: boolean;
   /** Recorded when known, never estimated (AC-B-14, D-050). */

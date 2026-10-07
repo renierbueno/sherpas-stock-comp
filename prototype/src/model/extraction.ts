@@ -20,7 +20,8 @@ export const SAMPLE_DOCUMENTS: Record<string, (h: Household) => Found[]> = {
   }],
   'Brokerage statement with three grants (SIMULATED).pdf': (h) => [
     { ownerId: h.people[0].id, type: 'RSU', employerId: 'halden', grantDate: '2024-03-01', units: 1_200, tranches: [{ id: 'a1', date: '2027-03-01', units: 1_200 }] },
-    { ownerId: h.people[0].id, type: 'RSU', employerId: 'halden', grantDate: '2026-03-01', units: 800, tranches: [{ id: 'b1', date: '2027-09-01', units: 800 }] },
+    // EC-C-12, AC-F-16: the statement shows a release date after the vest date, in the next year.
+    { ownerId: h.people[0].id, type: 'RSU', employerId: 'halden', grantDate: '2026-03-01', units: 800, tranches: [{ id: 'b1', date: '2026-12-15', deliveryDate: '2027-01-05', units: 800 }] },
     { ownerId: h.people[0].id, type: 'PSU', employerId: 'halden', grantDate: '2026-03-01', units: 600, psu: { condition: 'Revenue growth target', periodEnd: '2028-12-31', ...PSU_DEFAULT_RANGE }, tranches: [{ id: 'c1', date: '2029-02-15', units: 600 }] },
   ],
   'Unreadable scan (SIMULATED).pdf': () => [],
@@ -29,7 +30,10 @@ export const SAMPLE_DOCUMENTS: Record<string, (h: Household) => Found[]> = {
 export const NO_GRANTS = 'No grants found in this document. Enter them by hand.'; // AC-F-08
 export const proposedLabel = (doc: string) => `Extracted from ${doc}, not confirmed`; // AC-F-12
 
-/** AC-F-02, AC-F-13, EV-F-01: one proposed grant per grant found; nothing reaches the figures. */
+/**
+ * AC-F-02, AC-F-13, EV-F-01: one proposed grant per grant found; nothing reaches the figures.
+ * AC-F-16: a release date on the statement is proposed as the delivery date; otherwise the vest date is.
+ */
 export function uploadStatement(h: Household, document: string, by: 'advisor' | 'client', log?: EventLog): { household: Household; found: number } {
   const found = (SAMPLE_DOCUMENTS[document] ?? (() => []))(h);
   log?.record('EV-F-01', h.id, { document, by, grantsFound: found.length });

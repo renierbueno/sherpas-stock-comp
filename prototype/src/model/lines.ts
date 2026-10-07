@@ -2,7 +2,7 @@
 // who sees it: advisor notices never reach the client view or the PDF (AC-G-11).
 import { employerExposures, investableAssets, unpricedFlagged } from './exposure';
 import { dateLabel, money, pct } from './format';
-import { countedFutureVests, countedGrants, employerOf, pastTranches, statusOf, trancheUnitsMismatch } from './grants';
+import { countedFutureVests, countedGrants, deliveryOf, employerOf, pastTranches, statusOf, trancheUnitsMismatch } from './grants';
 import { priceOf } from './market';
 import { totalOwed, vestTaxes } from './vestTax';
 import { vestInflows } from './projection';
@@ -77,7 +77,7 @@ export function linesFB(h: Household, firm: Firm): ReportLine[] {
           ? `${units(t.units)} target units, ${money(v.value)} at target (range ${money(v.min)} to ${money(v.max)})` // AC-B-24
           : `${units(t.units)} units, ${money(v.value)}`;
         out.push({ id: `B-23-${g.id}-${t.id}`, ac: v.psu ? 'AC-B-24' : 'AC-B-23', surface: 'assets.grants', audience: 'shared', group: head,
-          text: `${dateLabel(t.date)}: ${val}, ${atPrice(h)}.` });
+          text: `${dateLabel(deliveryOf(t))}: ${val}, ${atPrice(h)}.` }); // AC-B-23: the delivery date (D-110)
       }
     } else if (status === 'awaiting a liquidity event') {
       out.push({ id: `B-19-${g.id}`, ac: 'AC-B-19', surface: 'assets.grants', audience: 'shared', group: head, text: 'Awaiting a liquidity event' });
@@ -160,9 +160,9 @@ export function linesFC(h: Household, firm: Firm, score: ScoreResult): ReportLin
   const range = (a: number, b: number) => ` (range ${money(a)} to ${money(b)})`;
 
   // AC-C-23: per year
-  const years = [...new Set(taxes.map((t) => t.vest.tranche.date.slice(0, 4)))];
+  const years = [...new Set(taxes.map((t) => deliveryOf(t.vest.tranche).slice(0, 4)))];
   for (const y of years) {
-    const ts = taxes.filter((t) => t.vest.tranche.date.startsWith(y));
+    const ts = taxes.filter((t) => deliveryOf(t.vest.tranche).startsWith(y));
     const value = ts.reduce((s, t) => s + t.vest.value, 0);
     const owed = ts.reduce((s, t) => s + totalOwed(t.owed), 0);
     const gap = ts.reduce((s, t) => s + t.gap, 0);
@@ -174,7 +174,7 @@ export function linesFC(h: Household, firm: Firm, score: ScoreResult): ReportLin
   out.push({ id: 'C-06', ac: 'AC-C-06', surface: 'savings.vestTax', audience: 'shared',
     text: 'Federal withholding estimated at the supplemental rate (22%, 37% above $1 million).' });
   for (const t of taxes) {
-    const g = `${dateLabel(t.vest.tranche.date)} vest`;
+    const g = `${dateLabel(deliveryOf(t.vest.tranche))} vest`;
     const id = `${t.vest.grant.id}-${t.vest.tranche.id}`;
     const owed = totalOwed(t.owed);
     out.push({ id: `C-03-${id}`, ac: t.vest.psu ? 'AC-C-16' : 'AC-C-03', surface: 'savings.vestTax', audience: 'shared', group: g,
@@ -212,14 +212,14 @@ export function linesFC(h: Household, firm: Firm, score: ScoreResult): ReportLin
 
   // AC-C-24, AC-C-28: look into and Summary candidate
   for (const t of taxes.filter((x) => x.withinHorizon && x.gap > 0)) {
-    const text = `Tax on the ${monthYear(t.vest.tranche.date)} vest may exceed withholding by ${money(t.gap)}.`;
+    const text = `Tax on the ${monthYear(deliveryOf(t.vest.tranche))} vest may exceed withholding by ${money(t.gap)}.`;
     out.push({ id: `C-24-${t.vest.grant.id}-${t.vest.tranche.id}`, ac: 'AC-C-24', surface: 'savings.lookInto', audience: 'shared', text });
     out.push({ id: `C-28-${t.vest.grant.id}-${t.vest.tranche.id}`, ac: 'AC-C-28', surface: 'summary.candidates', audience: 'shared', text });
   }
 
   // AC-C-26: cash flow statement, vests this year
   const thisYear = h.analysisDate.slice(0, 4);
-  const now = taxes.filter((t) => t.vest.tranche.date.startsWith(thisYear));
+  const now = taxes.filter((t) => deliveryOf(t.vest.tranche).startsWith(thisYear));
   if (now.length > 0) {
     const value = now.reduce((s, t) => s + t.vest.value, 0);
     const owed = now.reduce((s, t) => s + totalOwed(t.owed), 0);

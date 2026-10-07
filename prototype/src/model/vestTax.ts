@@ -1,12 +1,16 @@
 // F-C · Tax at vest and the withholding gap (docs/spec/F-C_tax-at-vest.md), with the income
 // income rule of F-E it depends on (AC-E-12). Tax figures come from src/model/tax.ts
 // (real 2026 federal and FICA rules, SIMULATED state rate).
-import { countedFutureVests, type TrancheValue } from './grants';
+import { countedFutureVests, deliveryOf, type TrancheValue } from './grants';
 import { P_LIQ_HORIZON_MONTHS } from './params';
 import { householdTax, SUPPLEMENTAL, type TaxByLevel } from './tax';
 import type { Firm, Household, PersonId } from './types';
 
 const yearOf = (iso: string) => Number(iso.slice(0, 4));
+
+/** AC-C-30: income tax in the year of delivery; Social Security and Medicare in the year of the vest. */
+export const taxYears = (v: TrancheValue) => ({ income: yearOf(deliveryOf(v.tranche)), fica: yearOf(v.tranche.date) });
+const keyOf = (v: TrancheValue) => `${v.grant.id}|${v.tranche.id}`;
 
 /**
  * Wages per person for a year before the vests are added: the reported salary, which excludes
@@ -19,7 +23,7 @@ export function baseWages(h: Household, _firm: Firm, _year: number): Record<Pers
 /** AC-E-12: every future vest of a year is added beside the reported salary. */
 export function addedVestIncome(h: Household, firm: Firm, year: number): number {
   return countedFutureVests(h, firm)
-    .filter((v) => yearOf(v.tranche.date) === year)
+    .filter((v) => taxYears(v).income === year)
     .reduce((s, v) => s + v.value, 0);
 }
 
@@ -44,14 +48,27 @@ function computeAll(h: Household, firm: Firm, scale?: { trancheId: string; facto
   const horizon = new Date(h.analysisDate);
   horizon.setUTCMonth(horizon.getUTCMonth() + P_LIQ_HORIZON_MONTHS);
   const out: VestTax[] = [];
-  for (const year of [...new Set(vests.map((v) => yearOf(v.tranche.date)))]) {
+  // AC-C-30: Social Security and Medicare on the wages of the vest year (SC-03).
+  const fica = new Map<string, number>();
+  for (const year of [...new Set(vests.map((v) => taxYears(v).fica))]) {
+    const wages = baseWages(h, firm, year);
+    let prev = householdTax(h, wages).fica;
+    for (const v of vests.filter((x) => taxYears(x).fica === year)) {
+      wages[v.grant.ownerId] = (wages[v.grant.ownerId] ?? 0) + v.value;
+      const next = householdTax(h, wages).fica;
+      fica.set(keyOf(v), next - prev);
+      prev = next;
+    }
+  }
+  // AC-C-01, AC-C-30: income tax on the wages of the delivery year (SC-02).
+  for (const year of [...new Set(vests.map((v) => taxYears(v).income))]) {
     const wages = baseWages(h, firm, year);
     let prev = householdTax(h, wages);
-    const perEmployer = new Map<string, number>(); // AC-C-05: per person and employer (D-060)
-    for (const v of vests.filter((x) => yearOf(x.tranche.date) === year)) {
+    const perEmployer = new Map<string, number>(); // AC-C-05: per person and employer, by delivery year (D-060, D-110)
+    for (const v of vests.filter((x) => taxYears(x).income === year)) {
       wages[v.grant.ownerId] = (wages[v.grant.ownerId] ?? 0) + v.value; // AC-C-01
       const next = householdTax(h, wages);
-      const owed = { federal: next.federal - prev.federal, fica: next.fica - prev.fica, state: next.state - prev.state }; // AC-C-03
+      const owed = { federal: next.federal - prev.federal, fica: fica.get(keyOf(v)) ?? 0, state: next.state - prev.state }; // AC-C-03
       prev = next;
       const key = `${v.grant.ownerId}|${v.grant.employerId}`;
       const before = perEmployer.get(key) ?? 0;
@@ -62,7 +79,7 @@ function computeAll(h: Household, firm: Firm, scale?: { trancheId: string; facto
       const rate = v.grant.stateWithholdingRate;
       const stateGap = rate === undefined ? null : owed.state - rate * v.value;
       const gap = Math.max(0, federalGap + (stateGap ?? 0)); // AC-C-15: zero or below counts nothing
-      out.push({ vest: v, owed, withheldFederal, federalGap, stateGap, gap, withinHorizon: new Date(v.tranche.date) <= horizon });
+      out.push({ vest: v, owed, withheldFederal, federalGap, stateGap, gap, withinHorizon: new Date(deliveryOf(v.tranche)) <= horizon });
     }
   }
   return out;

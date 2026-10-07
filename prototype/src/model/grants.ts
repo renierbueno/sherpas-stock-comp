@@ -10,8 +10,12 @@ export type GrantStatus = 'complete' | 'pending detail' | 'awaiting a liquidity 
 export const employerOf = (h: Household, g: Grant): Employer | undefined => h.employers.find((e) => e.id === g.employerId);
 
 /** AC-B-11, AC-B-13: tranches dated after the analysis date and not forfeited. */
+/** AC-B-32: the delivery date, prefilled with the vest date until the advisor or the statement sets it. */
+export const deliveryOf = (t: Tranche): IsoDate => t.deliveryDate ?? t.date;
+
+/** AC-B-11: tranches delivered after the analysis date, in delivery order. */
 export function futureTranches(h: Household, g: Grant): Tranche[] {
-  return g.tranches.filter((t) => t.date > h.analysisDate && !t.forfeited).sort((a, b) => a.date.localeCompare(b.date));
+  return g.tranches.filter((t) => deliveryOf(t) > h.analysisDate && !t.forfeited).sort((a, b) => deliveryOf(a).localeCompare(deliveryOf(b)));
 }
 
 /** AC-B-11: tranches on or before the analysis date (for the AC-B-12 prompt). */
@@ -73,7 +77,7 @@ export function trancheValue(h: Household, g: Grant, t: Tranche): TrancheValue {
 export function countedFutureVests(h: Household, firm: Firm): TrancheValue[] {
   return countedGrants(h, firm)
     .flatMap((g) => futureTranches(h, g).map((t) => trancheValue(h, g, t)))
-    .sort((a, b) => a.tranche.date.localeCompare(b.tranche.date));
+    .sort((a, b) => deliveryOf(a.tranche).localeCompare(deliveryOf(b.tranche)));
 }
 
 /** AC-B-22: current net worth reads held positions and cash; grants never enter it. */

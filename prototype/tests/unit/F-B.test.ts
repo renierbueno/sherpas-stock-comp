@@ -4,7 +4,7 @@ import { analyze } from '../../src/model/analysis';
 import { EventLog } from '../../src/model/events';
 import { concentration } from '../../src/model/exposure';
 import {
-  addGrant, countedFutureVests, countedGrants, generateTranches, netWorth, saveGrant, statusOf, trancheUnitsMismatch,
+  addGrant, countedFutureVests, countedGrants, deliveryOf, futureTranches, generateTranches, netWorth, saveGrant, statusOf, trancheUnitsMismatch,
 } from '../../src/model/grants';
 import { H1, H2, H2_COMPLETE, H2_GRANT, H3, H4, H5, H6 } from '../../src/model/households';
 import { simulateScore } from '../../src/model/score';
@@ -197,6 +197,15 @@ describe('F-B · simulator relations (spec "Simulator tests")', () => {
     const total = (h: Household) => countedFutureVests(h, ON).reduce((s, v) => s + v.value, 0);
     const forfeited = withGrant(H2_COMPLETE, { tranches: H2_GRANT.tranches.map((t, i) => (i === 6 ? { ...t, forfeited: true } : t)) });
     expect(total(forfeited)).toBeLessThanOrEqual(total(H2_COMPLETE));
+  });
+
+  it('AC-B-32 · AC-B-11 · the delivery date is prefilled with the vest date and, once edited, decides when the tranche counts', () => {
+    const g = H2_COMPLETE.grants[0];
+    expect(g.tranches.every((t) => deliveryOf(t) === t.date)).toBe(true);
+    const moved = { ...g, tranches: g.tranches.map((t, i) => (i === 0 ? { ...t, date: '2026-09-15', deliveryDate: '2026-10-20' } : t)) };
+    const h = { ...H2_COMPLETE, grants: [moved] };
+    expect(futureTranches(h, moved)[0].date).toBe('2026-09-15');
+    expect(deliveryOf(futureTranches(h, moved)[0])).toBe('2026-10-20');
   });
 });
 

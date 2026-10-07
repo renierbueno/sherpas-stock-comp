@@ -3,7 +3,7 @@
 import { analyze } from '../../src/model/analysis';
 import { EventLog } from '../../src/model/events';
 import { confirmAll, confirmProposed, duplicateOf, rejectProposed, uploadStatement } from '../../src/model/extraction';
-import { countedGrants, statusOf } from '../../src/model/grants';
+import { countedGrants, deliveryOf, statusOf } from '../../src/model/grants';
 import { H2, H2_COMPLETE } from '../../src/model/households';
 import { simulateScore } from '../../src/model/score';
 import type { Firm, Household } from '../../src/model/types';
@@ -157,5 +157,12 @@ describe('F-F · simulator relations (spec "Simulator tests")', () => {
     expect(done.grants).toHaveLength(3);
     expect(done.grants.some((g) => g.id === H2.grants[0].id)).toBe(true);
     expect(confirmAll(uploadStatement(BASE, THREE, 'advisor').household, THREE).grants).toHaveLength(3);
+  });
+
+  it('AC-F-16 · a release date on the statement is proposed as the delivery date; otherwise the vest date', () => {
+    const [a, b] = proposals(uploadStatement(BASE, THREE, 'advisor').household);
+    expect(deliveryOf(b.tranches[0])).toBe('2027-01-05');
+    expect(b.tranches[0].date).toBe('2026-12-15');
+    expect(deliveryOf(a.tranches[0])).toBe(a.tranches[0].date);
   });
 });
