@@ -1,5 +1,7 @@
 # 10 · Flow review
 
+**TL;DR:** What the change touches that no requirement covered: every surface, an impact map, the path of every new field, walk-throughs for client, advisor and firm admin, and every screen element today and with the feature, each tagged seen or inferred. Sixty gaps were found; 58 are resolved, each with a decision, and two stay open with their plan. The Miro change maps draw the same touchpoints.
+
 What the stock-compensation change touches that no decision or requirement covers (D-048). Method: `.claude/skills/flow-review/SKILL.md`: surfaces, an impact map, data paths, walk-throughs, touchpoints line by line, then each gap sorted and resolved. Pass 1 on paper (phase F5, D-053), redone on 2026-10-06 for the first release of D-080 as amended by D-101 to D-107: release 1 is F-A; release 2 is F-B, F-C, F-D with the projection, F-E and F-F together; Next is the 409A display, cost basis, shares kept per tranche, options, ESPP and vest conversion (D-037). Every row that rests on a US tax or legal rule cites its `SC-NN` in `12_stock_comp_rules.md` (D-100). Pass 2, on the prototype, runs in F7.
 
 Households in the walk-throughs are SIMULATED.

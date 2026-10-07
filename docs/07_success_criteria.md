@@ -1,5 +1,7 @@
 # 07 · Success criteria
 
+**TL;DR:** How we will know it works. A pilot with 3 to 5 firms, four to six weeks per release, a readout every week and a continue, change or stop decision every two weeks. Each release has a gate with its thresholds; metrics M-01 to M-08 and guardrails GR-01 and GR-02 each have a definition, events, target and decision rule. Test cards check the riskiest assumptions before building. All targets are proposals to agree with Sherpas.
+
 How we will know the stock-compensation MVP works, and what we do when a number says it does not. Product document, for follow-up with Sherpas (D-043). The events that measure each metric are requirements in the feature specs (`spec/`, `EV-` IDs); this document holds the definitions, targets, decision rules, the pilot and the readout. 2026-10-05.
 
 Targets marked "proposed" are our proposal for the pilot, in absolute numbers because a pilot is small (format adapted from jinjin1, credited in `NOTICE`); every target is agreed with Sherpas before the pilot starts, and those that need a baseline are set after the first weekly readout. [ASSUMPTION: A-32]

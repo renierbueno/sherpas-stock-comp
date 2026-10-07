@@ -1,5 +1,7 @@
 # Platform map
 
+**TL;DR:** What the demo platform shows, screen by screen, seen on 2026-10-03: the client's view of a shared analysis (Financial health, Investment analysis, Statements, Reports). Stock compensation has no place on any screen today. Our own notes; raw captures stay outside git. Advisor screens were not reachable.
+
 What the Sherpas demo platform shows, screen by screen, as seen on 2026-10-03. Our own notes; raw captures stay in `captures/` (outside git). One line per screen: view · screen · what it shows · what the user can do · open question it answers.
 
 ## Scope of what was captured

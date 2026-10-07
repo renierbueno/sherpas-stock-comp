@@ -1,5 +1,7 @@
 # Spec index · stock compensation MVP
 
+**TL;DR:** What engineering builds: six features (F-A to F-F), each one advisor outcome that can be released on its own, with requirements written as EARS lines with IDs, edge cases, events for the metrics, and rules every feature follows. This index holds the roles (product defines, QA verifies, engineering plans), the proposed definition of done, the formats of every line, the model diagram, the score simulator parameters and the traceability of every requirement to the prototype's tests.
+
 The feature specs for the MVP: what the system does, checked by tests. Product owns the what and why; engineering owns the plan and tasks; QA verifies against the acceptance criteria (D-004, D-047). Success criteria and their targets live in `../07_success_criteria.md` (D-043). Method: `.claude/skills/spec/SKILL.md`. 2026-10-05.
 
 ## How to read a feature

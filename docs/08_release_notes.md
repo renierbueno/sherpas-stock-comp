@@ -1,5 +1,7 @@
 # 08 · Release notes · Stock compensation (pilot)
 
+**TL;DR:** What advisors in the pilot firms are told, one note per release. Release 1: employer stock counted as one position in the concentration check. Release 2: grants with their vests, tax at vest and the withholding gap, the client's new income chip, plan statements read by the platform and confirmed by the advisor, and vests beside the client's goals and in the projection. The last section lists what comes next.
+
 For advisors in the pilot firms, where Sherpas turns on "stock compensation" (D-111). One note per release, in the order of `spec/00_index.md`. Written as they would ship; the product names and screens are those the client view shows [FACT: platform_map]; advisor screens were not seen (D-034). Each line that states a US tax rule cites its row in `12_stock_comp_rules.md`. 2026-10-06.
 
 ## Release 1 · Employer stock counted as one position

@@ -1,5 +1,7 @@
 # 06 · Direction
 
+**TL;DR:** Every product decision, each as three options with gains, costs and evidence, a recommendation and what was chosen: scope (RSU and PSU, any held employer shares flagged, private equity shown but not scored), model, intake, analysis, and the first release. The first release is the core loop (option B of F3-13): the client reports it, the advisor completes it with one review, vest income is counted once, and concentration and tax at vest reach the score and the shared report. The MVP cut lists what comes now, next, later and never, with the reason.
+
 The F3 decisions: for each, three options with trade-offs and evidence, the recommendation and what Renier chose. Method: `.claude/skills/decide/SKILL.md`. Every option is checked against D-023 (nothing gets worse for a household without stock compensation). Inputs: `discovery/synthesis.md` ("What F3 needs to decide"), `research.md`, `data_model.md`, `questionnaire_map.md`. 2026-10-05.
 
 ## Block 1 · Scope

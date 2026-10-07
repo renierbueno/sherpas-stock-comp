@@ -1,5 +1,7 @@
 # 09 · Enablement · Stock compensation (pilot)
 
+**TL;DR:** Material ready with each release. For advisors: a five-minute guide, the salary on file, proposals from the chat, when to change the delivery date, how to read and explain the new figures, how to talk with the client, known limits and an FAQ. For Client Success: the pilot playbook. It says what the product shows and never gives tax advice.
+
 Material for advisors and for Client Success, ready with each release. Advisor screens were not seen (D-034); steps name the places the score article and the client view show [brief; FACT: platform_map]. The guide says what the product shows; it never gives tax advice. 2026-10-06.
 
 ## For advisors

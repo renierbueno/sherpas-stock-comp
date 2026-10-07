@@ -1,5 +1,7 @@
 # 02 · Open questions
 
+**TL;DR:** What we do not know. Nothing is asked of Sherpas before delivery (D-099): each unknown is an assumption (A-12 onwards) with what changes if it is false, to discuss in the follow-up session. Also: questions for public research, the work left for after delivery on purpose (D-125), and what has been answered, with its source.
+
 What we do not know. Do not guess an answer anywhere else in the repo. When one is answered, move it to "Answered" with its source.
 
 ## For the platform (answer in F1 with capture-platform)
@@ -84,6 +86,18 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 - State supplemental withholding rules at vest (D-033: the MVP uses an optional advisor-entered rate instead).
 - What large firms' compliance review requires of a report shared with the client.
 - URLs of the Reddit threads read in Spanish machine translation (cited by title in `discovery/voices.md`).
+
+## Follow-up after delivery (D-125)
+
+Work left out of the delivery on purpose, with what covers it meanwhile.
+
+| Item | Why it waits | Covered meanwhile by |
+|---|---|---|
+| Second flow review pass on the prototype | The first pass covered every touchpoint (`10_flow_review.md`) | The five guided scenes, walked while recording the video |
+| Help Center article on how stock compensation changes the score | Route to market is already written for advisors | `08_release_notes.md`, `09_enablement.md` |
+| Screenshots in the pull request | The screens are shown elsewhere | The video and the password-protected copy (D-124) |
+| Full re-read of release notes and enablement | No product behaviour changed since their last review | A TL;DR at the top of each |
+| Miro: flows of today in the change maps' format, and the decision map | Done only if time is left at delivery | The change maps on the board; the decisions on the Notion pages |
 
 ## Answered
 

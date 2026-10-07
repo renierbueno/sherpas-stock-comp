@@ -1,5 +1,7 @@
 # Research
 
+**TL;DR:** Public US facts the work stands on, one entry per question (R-001 to R-026): the types of stock compensation and their lifecycle, vesting patterns, tax at vest and withholding for 2026, concentration guidance, advisor tools and prevalence. Each entry has its sources, date and signal strength. The rules the model applies are distilled in `12_stock_comp_rules.md`. Not tax advice.
+
 Public facts about US stock compensation, one entry per question. Append-only. Format and rules: `.claude/skills/research/SKILL.md`. Not tax advice.
 
 ## R-001 · When does an RSU become taxable income, and as what?
