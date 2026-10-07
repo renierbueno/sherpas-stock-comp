@@ -561,3 +561,8 @@ Every decision in the case: what, why, date, who confirmed. Newest at the bottom
 - What: each card of the change maps shows its badge (NEW, CHANGED or NO CHANGE, in the board's usual colours), "Screen > Element", "Today:" (empty for NEW), "With the feature:", "Why:" in one line, and the covering requirement and decision IDs. Written in the flow-review skill; the maps are rewritten with it, mirroring `10_flow_review.md` (D-085).
 - Why: the cards named what changed but not what the screen did before and does now, so a reader could not tell what is new without the repo; one format makes every card readable on its own and comparable with the prototype.
 - Date: 2026-10-06 · Confirmed by: Renier
+
+## D-113 · Every touchpoint and Miro card says whether it was seen, inferred or assumed; each change map is named by persona, page and job
+- What: each touchpoint in `10_flow_review.md` carries "seen" (observed on the captured screens) or "inferred" (not observed, rebuilt from the sources named), then any A-NN its new behaviour rests on; `npm run check` fails if a touchpoint lacks it. Each Miro card shows the same tag on its grey line, with a legend in the frame subtitle. Each change map is named "Persona · Page or module · Job to do", and its subtitle states what the person gets, where it sits in the flow and what the prototype shows.
+- Why: most of the advisor side was never seen (no advisor login, brief section 4), so a card read without its source looks like a fact about the platform; the tag lets Sherpas tell what exists today from what is rebuilt or assumed. The name tells the reader whose flow a map is before reading it.
+- Date: 2026-10-07 · Confirmed by: Renier

@@ -68,6 +68,8 @@ for (const { n, text } of tp) {
     if (!gaps.some((g) => (gapStatus.get(g) ?? '').startsWith('Open'))) tpProblems.push(`line ${n}: "not defined yet" but no open gap cited`);
   }
   for (const g of text.matchAll(/GAP-\d{2}/g)) if (!gapStatus.has(g[0])) tpProblems.push(`line ${n}: ${g[0]} has no row`);
+  // D-113: each touchpoint says whether it was seen or inferred.
+  if (!/\[TP-SF\d{2}(-\d{2})?(, TP-SF\d{2}-\d{2})* · (seen|inferred)[ \]]/.test(text)) tpProblems.push(`line ${n}: no "seen" or "inferred" tag after the touchpoint ID (D-113)`);
 }
 report('touchpoints unique and in step with their gaps', tpProblems);
 
