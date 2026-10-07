@@ -1,6 +1,6 @@
 # 07 · Success criteria
 
-**TL;DR:** How we will know it works. A pilot with 3 to 5 firms, four to six weeks per release, a readout every week and a continue, change or stop decision every two weeks. Each release has a gate with its thresholds; metrics M-01 to M-08 and guardrails GR-01 and GR-02 each have a definition, events, target and decision rule. Test cards check the riskiest assumptions before building. All targets are proposals to agree with Sherpas.
+**TL;DR:** How we will know it works. A pilot with 3 to 5 firms, four to six weeks per release, a readout every week and a continue, change or stop decision every two weeks. Each release has a gate with its thresholds; metrics M-01 to M-08 and guardrails GR-01 and GR-02 each have a definition, events, target and decision rule. Before building, test cards check the riskiest assumptions and five advisors try the prototype (D-126). All targets are proposals to agree with Sherpas.
 
 How we will know the stock-compensation MVP works, and what we do when a number says it does not. Product document, for follow-up with Sherpas (D-043). The events that measure each metric are requirements in the feature specs (`spec/`, `EV-` IDs); this document holds the definitions, targets, decision rules, the pilot and the readout. 2026-10-05.
 
@@ -9,11 +9,29 @@ Targets marked "proposed" are our proposal for the pilot, in absolute numbers be
 ## Pilot
 
 - **Who:** 3 to 5 advisory firms that turn on the "stock compensation" setting (D-030, D-049), ideally with corporate or tech clients (riskiest assumption 3).
-- **Before building:** the three test cards below and five interviews with advisors of the pilot firms run first; no public voice of Sherpas' customers confirms the demand (D-080).
+- **Before building:** the three test cards below and five sessions with advisors of the pilot firms, run with the prototype (see "Before building: validation with advisors and the prototype", D-126); no public voice of Sherpas' customers confirms the demand (D-080).
 - **Order:** F-A first (needs no grant), then F-B, F-C, F-E, F-F and the text lines of F-D together (D-080, `spec/00_index.md`).
 - **Cadence:** a readout every week, a decision every two weeks (continue, change, stop), a verdict in four to six weeks per release. A proposal cycle takes hours to days, not months ("8-10 hours" per client before, "20 min" with Sherpas [web: https://sherpaswealth.com, accessed 2026-10-05]), so every gate metric moves within the pilot.
 - **Comparison:** within the pilot firms, households with stock compensation before and after the feature, and against households without stock compensation at the same time; for the guardrail, each firm before and after turning the setting on.
 - **Baseline:** the platform has no record of which past households had stock compensation [FACT: questionnaire_map], so before the pilot each pilot advisor tags their opportunities of the last 3 to 6 months (stock compensation: yes or no), helped by what the platform already keeps (free-text answers, uploaded documents) [ASSUMPTION: A-21]. This gives conversion and time to proposal of households with stock compensation before the feature.
+
+## Before building: validation with advisors and the prototype (D-126)
+
+Before engineering builds release 2, five advisors of the pilot firms try the prototype, so the riskiest assumptions are tested on something they can click rather than described to them.
+
+- **Who and how:** five advisors, one session of 45 minutes each, remote, using the password-protected copy of the prototype (D-124). One person runs the session, one takes notes.
+- **Concept (10 minutes):** how they handle clients with stock compensation today, where they keep the detail, and what goes wrong. Nothing of the prototype is shown yet.
+- **Task test (25 minutes), on the "Start here" walk:** the client answers, the advisor completes the grant from the plan statement, the analysis recalculates, the advisor shares, the client reads. The advisor thinks aloud; nobody helps unless they are stuck for two minutes.
+- **What is observed:** whether they find the alert of a grant pending detail; whether they complete the grant with one review; whether they explain the tax gap at vest and the employer concentration in their own words; whether they would share the report as generated.
+- **Wrap-up (10 minutes):** what they would change, and whether they would turn it on for their clients.
+
+| Signal | Passes if (proposed) | Feeds |
+|---|---|---|
+| Completes the grant from the statement without help | 4 of 5 advisors | Test card 1, M-07, M-08 |
+| Explains the tax gap and the concentration correctly in their own words | 4 of 5 advisors | Test card 2, M-04 |
+| Would share the report as generated | At least 3 of 5 advisors | M-05 |
+
+If a signal fails, the screens or the wording change and are tried again with the next advisors before building; a failure on completing the grant reopens the intake route (test card 1, "If it fails"). The findings are logged as a decision with the session notes.
 
 ## Gates by release (D-088)
 

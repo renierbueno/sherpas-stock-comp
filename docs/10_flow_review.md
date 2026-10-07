@@ -1,6 +1,6 @@
 # 10 · Flow review
 
-**TL;DR:** What the change touches that no requirement covered: every surface, an impact map, the path of every new field, walk-throughs for client, advisor and firm admin, and every screen element today and with the feature, each tagged seen or inferred. Sixty gaps were found; 58 are resolved, each with a decision, and two stay open with their plan. The Miro change maps draw the same touchpoints.
+**TL;DR:** What the change touches that no requirement covered: every surface, an impact map, the path of every new field, walk-throughs for client, advisor and firm admin, and every screen element today and with the feature, each tagged seen or inferred. Sixty gaps were found; 58 are resolved, each with a decision, and two stay open with their plan. Impacts outside the screens (privacy, the setting turned off, compliance, accessibility) have their owner. The Miro change maps draw the same touchpoints.
 
 What the stock-compensation change touches that no decision or requirement covers (D-048). Method: `.claude/skills/flow-review/SKILL.md`: surfaces, an impact map, data paths, walk-throughs, touchpoints line by line, then each gap sorted and resolved. Pass 1 on paper (phase F5, D-053), redone on 2026-10-06 for the first release of D-080 as amended by D-101 to D-107: release 1 is F-A; release 2 is F-B, F-C, F-D with the projection, F-E and F-F together; Next is the 409A display, cost basis, shares kept per tranche, options, ESPP and vest conversion (D-037). Every row that rests on a US tax or legal rule cites its `SC-NN` in `12_stock_comp_rules.md` (D-100). Pass 2, on the prototype, runs in F7.
 
@@ -215,6 +215,17 @@ Resolution types: requirement (written into the feature after Renier's OK), out 
 | GAP-57 | The $1 million test of AC-C-05 counts the person's vest income "in the year" without saying which year (supplemental wages count by the year paid, the delivery year) or whether a tranche delivered earlier this year (AC-C-31) counts toward it (SC-14, SC-15). Rare: above $1 million of vests from one employer | F-C AC-C-05; SF-08 | Delivery year, tranches delivered earlier that year included (SC-15) | Resolved, D-110: AC-C-05 |
 | GAP-58 | The Retirement & Goals paragraphs read projection figures that now include vests (AC-D-11), but AC-G-17 lists only AC-D-06 and AC-D-07, so a paragraph could quote net worth at retirement without "includes future vests after estimated tax" | `00_index` AC-G-17; F-D AC-D-11; SF-02 | AC-G-17 covers projection figures and carries the AC-D-11 label | Resolved, D-110: AC-G-17 |
 | GAP-59 | After the setting is turned off, households whose income was reported without stock compensation lose their stock compensation from every figure, so income, tax and retirement figures read low | `00_index` AC-G-13; SF-20, SF-17 | In the first release only Sherpas turns the setting on and off (a pilot decision, D-088); on turning it off, advisors see a line in each household with a grant asking to check the salary on file | Resolved, D-111: AC-G-18, AC-G-19 |
+
+## Impacts beyond the screens (D-126)
+
+What the change touches outside any screen, which no requirement fully covers.
+
+| Impact | What the spec already does | What stays open | Who decides |
+|---|---|---|---|
+| Privacy and consent for plan statements | A statement is read only into proposals the advisor confirms (D-042); nothing read counts without the advisor | Consent, access and retention follow the platform's policy for client documents [ASSUMPTION: A-65] | Sherpas, with each pilot firm |
+| Data kept when a firm turns the setting off | Kept, hidden and left out of every figure from the next reprocessing; analyses and PDFs already shared stay as they are; turning it on again restores it (AC-G-13) | Nothing | Covered |
+| Compliance review of the tax lines the client reads | The lines state facts and gaps, never sell, hold or exercise advice (AC-G-06) | Each firm's compliance team reviews them before the pilot [ASSUMPTION: A-66] | Each pilot firm's compliance team |
+| Accessibility of the new elements | The new elements reuse the platform's existing components and patterns (chip, row, alert, table) | They meet the platform's accessibility standard [ASSUMPTION: A-67] | Sherpas design and engineering |
 
 ## Assumptions this review stands on
 
