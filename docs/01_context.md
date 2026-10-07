@@ -1,5 +1,7 @@
 # 01 · Context
 
+**TL;DR:** What is confirmed about Sherpas and the case, each line with its source: the brief, the public website and the demo platform. Sherpas builds AI agents that automate the invisible work of financial advisors at large US firms; the advisor collects the client's data with a questionnaire and the platform generates a Financial Health analysis with a score and a report. Anything not stated here is unknown and lives in `02_open_questions.md`.
+
 What is known about the case and the company, and nothing else. Anything not here or on the platform is unknown and lives in `02_open_questions.md`.
 
 Source tags: `[brief]` = `00_brief.md` · `[web: URL, date]` = public source · `[demo]` = seen on the demo platform.

@@ -1,5 +1,7 @@
 # 02 · Open questions
 
+**TL;DR:** What we do not know. Nothing is asked of Sherpas before delivery (D-099): each unknown is an assumption (A-12 onwards) with what changes if it is false, to discuss in the follow-up session. Also: questions for public research, the work left for after delivery on purpose (D-125), and what has been answered, with its source.
+
 What we do not know. Do not guess an answer anywhere else in the repo. When one is answered, move it to "Answered" with its source.
 
 ## For the platform (answer in F1 with capture-platform)
@@ -66,6 +68,9 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 | A-62 | The platform's projection reads a one-time future income of the stock compensation category the way it reads wages (tax, spending and saving), and can keep that income out of current-year totals, the Social Security estimate and contributions (AC-G-16) [FACT: incomes carry a phase, type, amount, frequency including one-time, and start age, `data_model.md`]. | `spec/F-D` (D-106); to discuss in the follow-up session (D-099) | The projection part of the first release waits for Next; the rest ships unchanged. |
 | A-63 | An RSU and a PSU can be granted on the same day by the same employer, so employer and grant date alone do not identify a grant; how often it happens is not in `research.md`. | `spec/F-F` AC-F-09 (D-115) | If it never happens, matching on type as well changes nothing; if a statement labels one award with two types, the advisor sees two grants and deletes one. |
 | A-64 | Some of the people at Sherpas who review the exercise do not run code locally, so a link they can open in a browser is the only way they try the prototype. | D-124; to discuss in the follow-up session (D-099) | If every reviewer runs code, the private repository is enough and the password-protected copy is not published. |
+| A-65 | Plan statements uploaded for stock compensation follow the platform's existing policy for client documents: the consent the client gives on upload, who can see them, and how long they are kept. | `10_flow_review.md`, "Impacts beyond the screens" (D-126); to discuss in the follow-up session (D-099) | Plan statements need their own consent line and retention rule before the pilot; extraction and review do not change. |
+| A-66 | Each pilot firm's compliance team reviews the new client-facing lines on tax at vest before the pilot, as it reviews the analysis today, and accepts them because they state facts and gaps, never advice (AC-G-06). | `10_flow_review.md`, "Impacts beyond the screens" (D-126); to discuss in the follow-up session (D-099) | The tax lines stay advisor-only until compliance approves them; the score and the advisor's view are unchanged. |
+| A-67 | The new elements (the income chip and row, the advisor alert, the vest table, the tax lines) can meet the accessibility standard the platform already follows, using its existing components. | `10_flow_review.md`, "Impacts beyond the screens" (D-126); to discuss in the follow-up session (D-099) | Each element gets an accessibility review and its fixes before release; behaviour does not change. |
 
 ## For public research (answer with research)
 
@@ -84,6 +89,20 @@ No question is sent to Sherpas before delivery (D-099). Each one is an assumptio
 - State supplemental withholding rules at vest (D-033: the MVP uses an optional advisor-entered rate instead).
 - What large firms' compliance review requires of a report shared with the client.
 - URLs of the Reddit threads read in Spanish machine translation (cited by title in `discovery/voices.md`).
+
+## Follow-up after delivery (D-125)
+
+Work left out of the delivery on purpose, with what covers it meanwhile.
+
+| Item | Why it waits | Covered meanwhile by |
+|---|---|---|
+| Second flow review pass on the prototype | The first pass covered every touchpoint (`10_flow_review.md`) | The five guided scenes, walked while recording the video |
+| Help Center article on how stock compensation changes the score | Route to market is already written for advisors | `08_release_notes.md`, `09_enablement.md` |
+| Screenshots in the pull request | The screens are shown elsewhere | The video and the password-protected copy (D-124) |
+| Full re-read of release notes and enablement | No product behaviour changed since their last review | A TL;DR at the top of each |
+| A "When" for each edge case of the spec, so every case reads as Given, When, Then (D-128) | The Notion feature pages already show each case as Given, When, Then; the spec keeps situation and expected result | The edge cases as they are, with the requirements they cite |
+| GAP-37 and GAP-38: which sections each prototype scene changes, and a note that the projection chart imitates the platform's (D-128) | They are about how the prototype explains itself; no requirement changes | The guide strip on every screen, and the prototype's "SIMULATED" banner |
+| Miro: flows of today in the change maps' format | No time left at delivery (D-127) | The flows as drawn, and the change maps beside them |
 
 ## Answered
 

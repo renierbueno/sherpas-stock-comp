@@ -1,5 +1,7 @@
 # Questionnaire map
 
+**TL;DR:** What the client questionnaire asks, step by step, how it validates and what it produces, read on 2026-10-04. Income is a set of chips with owner, amount and frequency; holdings are an instrument and a balance; there is a documents step. Nothing asks about stock compensation, so a client with it has nowhere to put it. The last section says where it would fit.
+
 What the Sherpas client questionnaire ("Financial Health & Portfolio Questionnaire") asks, how it validates and branches, what it produces, and where stock compensation would fit. Our own words, from the questionnaire definition and one set of submitted answers read on 2026-10-04. Raw material stays in `captures/questionnaire/` (outside git). No endpoints, internal IDs or code field names.
 
 ## How it was captured, and what is missing

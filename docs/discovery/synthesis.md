@@ -1,5 +1,7 @@
 # Discovery synthesis · F2
 
+**TL;DR:** What the eleven starting assumptions look like after research, real public voices and SIMULATED personas, under a strict rule: only behaviour from two independent real speakers validates, and SIMULATED material never does. The strongest patterns: the tax bill at vest is the main pain on both sides; advisors keep stock compensation in spreadsheets beside their tools; the data lives in documents, not in the client's head; concentration is tied to the job.
+
 What the case's assumptions look like after research (`research.md`), real public voices (`voices.md`) and SIMULATED personas (`personas.md`, `snapshots/`). Weights per D-019 and the filter per D-021: an assumption is validated only by behaviour or rule-consistent items from two independent real speakers; SIMULATED material never validates. 2026-10-05.
 
 ## Assumptions

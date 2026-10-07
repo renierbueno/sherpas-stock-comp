@@ -1,5 +1,7 @@
 # 06 · Direction
 
+**TL;DR:** Every product decision, each as three options with gains, costs and evidence, a recommendation and what was chosen: scope (RSU and PSU, any held employer shares flagged, private equity shown but not scored), model, intake, analysis, and the first release. The first release is the core loop (option B of F3-13): the client reports it, the advisor completes it with one review, vest income is counted once, and concentration and tax at vest reach the score and the shared report. The MVP cut lists what comes now, next, later and never, with the reason.
+
 The F3 decisions: for each, three options with trade-offs and evidence, the recommendation and what Renier chose. Method: `.claude/skills/decide/SKILL.md`. Every option is checked against D-023 (nothing gets worse for a household without stock compensation). Inputs: `discovery/synthesis.md` ("What F3 needs to decide"), `research.md`, `data_model.md`, `questionnaire_map.md`. 2026-10-05.
 
 ## Block 1 · Scope
@@ -313,6 +315,7 @@ Rule: impact decides between options that pass the gates, because the brief asks
 
 - **Recommendation:** B, because it is the smallest scope that keeps the whole chain (the client reports it, the advisor completes it with one review, vest income is counted once, concentration and tax at vest reach the score and the shared report). It beats A because A drops tax at vest, the strongest validated pain on both sides. It beats C because it delivers the same validated pains with about a fifth less work and leaves the figures with the widest reach and the weakest evidence for after the pilot. D-023: holds in all three; households without stock compensation see nothing new.
 - **Chosen:** B · D-080, with four refinements: present it as a first use of tax planning inside the existing analysis, not a separate module; release F-A first, then the rest together; test extraction on plan statements before the pilot; validate demand before building (test cards and advisor interviews).
+- **Validated before building (D-126):** the five advisor interviews run as sessions with the prototype, with what is observed and when they pass in `07_success_criteria.md`, "Before building: validation with advisors and the prototype".
 - **Amended (D-106):** the projection with vests joins the first release. Each vest enters the projection as a one-time wage income on its delivery date, not as savings, which removes the risk of the first fact above: the platform treats it as it treats wages. If the projection cannot read such an income (A-62), the projection part waits for Next and the rest ships.
 - **What would change the choice:**
   - A becomes right if extraction fails on plan statements (test card 1) and the advisor interviews say grants will not be typed: tax at vest would then reach few clients, and A delivers concentration at about half the cost of B.

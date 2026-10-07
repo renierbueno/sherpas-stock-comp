@@ -1,5 +1,7 @@
 # 04 · Glossary
 
+**TL;DR:** One term, one meaning, used the same way everywhere: the Sherpas terms from the brief and the platform, the terms of the case, and the stock compensation terms with their research source. The feature's main terms (grant, tranche, vest, delivery date, withholding gap, employer stock) are defined here.
+
 One term, one meaning, used the same way everywhere in the repo. Sherpas terms come from the brief or the platform. Finance terms are added by `research` with their `R-NNN` source.
 
 ## Sherpas terms

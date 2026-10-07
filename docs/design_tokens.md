@@ -1,5 +1,7 @@
 # Design tokens
 
+**TL;DR:** the colours, type and spacing the platform's client view uses, read on 2026-10-03, so the prototype can imitate the look where something changes. Values only, no code copied.
+
 Values read from the client view of the demo platform on 2026-10-03 (CSS custom properties and computed styles). Values only, for our prototype to imitate the look; no code copied. [FACT: captures/client/_tokens]
 
 ## Colour

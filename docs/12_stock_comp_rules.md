@@ -1,5 +1,7 @@
 # 12 · Stock compensation rules
 
+**TL;DR:** Every US tax or legal rule the model applies, one row each (SC-01 to SC-37), with its number, the research entry it stands on and how strong that source is. Every decision, spec line and simulator constant that depends on such a rule cites its row, and `npm run check` fails if a citation is missing or a constant differs from the table.
+
 The US tax and legal rules the model applies, one row each, with the research entry it stands on and how strong that source is.
 Every decision, flow-review gap, spec line and simulator constant that depends on a US tax or legal rule cites one `SC-NN`; `npm run check` checks the citations, and `tests/unit/rules.test.ts` checks that the Value column equals the simulator's constants (D-100).
 

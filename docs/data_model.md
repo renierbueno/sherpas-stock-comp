@@ -1,5 +1,7 @@
 # Data model
 
+**TL;DR:** How the platform represents a household, organised around the brief's four dimensions (asset, liability, income, expense) and the five score areas. The platform's type lists already carry a stock compensation asset and income category, unused on screen. The last sections say where stock compensation would fit and what the demo shows inconsistently.
+
 How the platform represents a household, described in our own words from what the client view shows (2026-10-03). Organised around the four dimensions (asset, liability, income, expense) and the five score areas. No endpoints, internal IDs or field names from their code. The advisor-side data view (Data & Assumptions) was not reachable, so field-level detail is incomplete.
 
 ## Household
