@@ -2,9 +2,11 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_WORDS, SCREEN_GUIDES, tabMarks } from '../../src/model/guide';
 import { SCENES } from '../../src/model/scenes';
+import { STORY_RSU } from '../../src/model/stories';
 
 const words = (s: string) => s.trim().split(/\s+/).length;
-const all = [...Object.entries(SCREEN_GUIDES), ...SCENES.map((s) => [`scene ${s.id}`, s.guide] as const)];
+const all = [...Object.entries(SCREEN_GUIDES), ...SCENES.map((s) => [`scene ${s.id}`, s.guide] as const),
+  ...STORY_RSU.steps.map((s, i) => [`walk 1 step ${i + 1}`, s.guide] as const)];
 
 describe('Guide strip (D-114)', () => {
   it('covers every view and tab of Explore freely', () => {
@@ -15,6 +17,7 @@ describe('Guide strip (D-114)', () => {
   it.each(all)('%s: "What you see" and "Model" stay within the word limit, and a step is lit', (_, g) => {
     expect(words(g.see)).toBeLessThanOrEqual(MAX_WORDS);
     expect(words(g.model)).toBeLessThanOrEqual(MAX_WORDS);
+    if (g.doThis) expect(words(g.doThis)).toBeLessThanOrEqual(MAX_WORDS);
     expect(g.steps.length).toBeGreaterThan(0);
   });
 });

@@ -31,6 +31,7 @@ export function GuideStrip({ guide }: { guide: Guide }) {
       <div className="guide-inner">
         <FlowRail lit={guide.steps} />
         <dl>
+          {guide.doThis && <><dt>Do this</dt><dd className="dothis">{guide.doThis}</dd></>}
           <dt>What you see</dt><dd>{guide.see}</dd>
           <dt>Model</dt><dd>{guide.model}</dd>
         </dl>

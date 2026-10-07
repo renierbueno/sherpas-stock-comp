@@ -13,15 +13,32 @@ const FREQS = ['monthly', 'quarterly', 'every six months', 'yearly', 'not sure']
 
 export interface QuestionnaireSubmit { rows: StockCompensationRow[]; documents: string[] }
 
+/**
+ * The questionnaire's sections in their real order [FACT: questionnaire_map, seen 2026-10-05]:
+ * the documents step comes before Personal information. Only Documents and Income change.
+ */
+const SECTIONS = ['Welcome', 'Documents', 'Personal information', 'Goals', 'Income', 'Investments', 'Expenses', 'Assets', 'Liabilities', 'Insurance'];
+
+function SectionRail({ at }: { at: 'Documents' | 'Income' }) {
+  return (
+    <div className="sectionrail" aria-label="Questionnaire sections">
+      {SECTIONS.map((s) => (
+        <span key={s} className={s === at ? 'here' : s === 'Documents' || s === 'Income' ? 'shown' : 'skipped'}
+          title={s === 'Documents' || s === 'Income' ? undefined : 'Unchanged, not in the prototype'}>{s}</span>
+      ))}
+    </div>
+  );
+}
+
 /** The Income widget is shared by every Financial Health template (AC-E-21, ASSUMPTION). */
-export function IncomeStep({ household, firm, template, onSubmit, onRowChange, initialRows = [] }: {
+export function IncomeStep({ household, firm, template, onSubmit, onRowChange, initialRows = [], initialStep = 'income', initialDocuments = [] }: {
   household: Household; firm: Firm; template: string;
-  onSubmit: (s: QuestionnaireSubmit) => void; onRowChange?: (action: 'added' | 'removed') => void; initialRows?: StockCompensationRow[];
+  onSubmit: (s: QuestionnaireSubmit) => void; onRowChange?: (action: 'added' | 'removed') => void; initialRows?: StockCompensationRow[]; initialStep?: 'income' | 'documents' | 'done'; initialDocuments?: string[];
 }) {
   const [rows, setRows] = useState<StockCompensationRow[]>(initialRows);
   const [others, setOthers] = useState<string[]>([]);
-  const [step, setStep] = useState<'income' | 'documents' | 'done'>('income');
-  const [docs, setDocs] = useState<string[]>([]);
+  const [step, setStep] = useState<'income' | 'documents' | 'done'>(initialStep);
+  const [docs, setDocs] = useState<string[]>(initialDocuments);
   const [tried, setTried] = useState(false);
   const set = (id: string, patch: Partial<StockCompensationRow>) => setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
   const add = () => { setRows((rs) => [...rs, { id: `r${rs.length + 1}`, ownerId: household.people[0].id, employer: '' }]); onRowChange?.('added'); };
@@ -35,6 +52,7 @@ export function IncomeStep({ household, firm, template, onSubmit, onRowChange, i
     return (
       <main>
         <section className="section q" aria-label="Documents step">
+          <SectionRail at="Documents" />
           <div className="caps">{template}</div>
           <h2>Let’s start gathering your info</h2>
           <p className="small">Investment & retirement accounts · SIMULATED sample documents</p>
@@ -49,6 +67,7 @@ export function IncomeStep({ household, firm, template, onSubmit, onRowChange, i
   return (
     <main>
       <section className="section q" aria-label="Income step">
+        <SectionRail at="Income" />
         <div className="row"><div className="caps">{template} · Income</div><button className="link" onClick={() => setStep('documents')}>Back to Documents</button>{docs.length > 0 && <span className="small">{docs.length} uploaded</span>}</div>
         {household.people.map((p) => (
           <div key={p.id} className="qfield">

@@ -165,10 +165,14 @@ function Scene5({ scene }: { scene: Scene }) {
         <IncomeStep household={scene.after} firm={FIRM} template="Financial Health & Portfolio Questionnaire" onSubmit={() => {}}
           initialRows={[{ id: 'r1', ownerId: g.ownerId, employer: 'Halden Robotics', ticker: 'HLDN', type: 'RSU', unvestedValue: g.clientEstimate?.unvestedValue, frequency: 'quarterly' }]} />
       </div>
+      <h3>Or the client uploads the plan statement, in the documents step where other statements go</h3>
+      <div className="embed">
+        <IncomeStep household={scene.after} firm={FIRM} template="Financial Health & Portfolio Questionnaire" onSubmit={() => {}} initialStep="documents" />
+      </div>
       <h3>What happens next</h3>
       <Steps steps={[
         ['Households without stock compensation see one more chip and one helper line; nothing else changes.', 'AC-G-02, AC-E-06'],
-        ['On submit, the row becomes a grant "pending detail" with the client’s estimate; nothing blocks the questionnaire or the analysis.', 'AC-E-07, AC-E-20'],
+        ['On submit, the row becomes a grant "pending detail" with the client’s estimate; nothing blocks the questionnaire or the analysis. An uploaded plan statement reaches the advisor as a proposal to confirm.', 'AC-E-07, AC-E-20, AC-F-13'],
         ['The advisor sees the alert "Stock compensation: detail pending" and the estimate, labelled as not used in the figures.', 'AC-E-08, AC-E-14'],
         ['The advisor completes the grant by hand, or uploads the plan statement and confirms what was extracted (extraction SIMULATED); confirming completes the grant the client reported, with no second grant.', 'AC-B-01, AC-F-02, AC-F-06, AC-F-14'],
         ['Until then the client’s analysis says so in one line, and no figure uses the estimate. Once complete, scenes 2 to 4 apply.', 'AC-E-10, AC-G-04'],

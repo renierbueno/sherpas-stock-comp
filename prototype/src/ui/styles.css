@@ -188,3 +188,7 @@ fieldset { border: 1px solid var(--border); border-radius: var(--r); padding: 8p
 .tabdot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 6px; vertical-align: super; }
 .tabdot.new { background: #ffdc4a; }
 .tabdot.changed { background: #fe9f4d; }
+.sectionrail { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.sectionrail .skipped { color: var(--border-strong); }
+.sectionrail .shown { color: var(--muted); }
+.sectionrail .here { color: var(--text); font-weight: 600; }

@@ -13,39 +13,51 @@ describe('Start here and the scenes (D-065)', () => {
     expect(screen.getByRole('button', { name: 'Explore freely →' })).toBeInTheDocument();
   });
 
-  it('scene 1: after marks the new lines with their requirement; before shows today with none', async () => {
+  it('scene 1 is a guided walk (D-117): prefilled steps, "Do it" runs each action, and the state carries over', async () => {
     render(<Root />);
     await user().click(screen.getByRole('button', { name: /^1/ }));
-    expect(screen.getAllByText(/^New · AC-A-/).length).toBe(6);
-    expect(screen.getByText(/6 new lines below.*also new in the Investment analysis tab/i)).toBeInTheDocument();
+    expect(screen.getByLabelText('Documents step')).toBeInTheDocument();
+    expect(screen.getByLabelText('Halden plan statement (SIMULATED).pdf')).toBeChecked();
+    expect(within(screen.getByLabelText('Questionnaire sections')).getByText('Personal information')).toHaveAttribute('title', 'Unchanged, not in the prototype');
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
+    expect(screen.getByDisplayValue('Halden Robotics')).toBeInTheDocument();
+    await user().click(screen.getByRole('button', { name: 'Do it: Submit questionnaire' }));
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
+    expect(screen.getByLabelText('View')).toHaveDisplayValue('Client view (live)');
+    expect(screen.getByText('Maya reported pay in Halden Robotics stock. It is not yet included in these figures.')).toBeInTheDocument();
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
+    expect(screen.getByLabelText('View')).toHaveDisplayValue('Advisor mode');
+    await user().click(screen.getByRole('button', { name: 'Do it: Confirm the statement' }));
+    expect(await screen.findByText('Halden Robotics (HLDN) held in Maya brokerage and Maya 401(k) flagged as employer stock.')).toBeInTheDocument();
+    await user().click(screen.getByRole('button', { name: '← Previous step' }));
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
+    expect(within(screen.getByLabelText('Stock compensation grants')).getAllByRole('button', { name: 'Edit' })).toHaveLength(1);
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
     expect(within(screen.getByLabelText('Key numbers')).getByText('was 20%')).toBeInTheDocument();
-    await user().click(screen.getByRole('button', { name: 'Before (today)' }));
-    expect(screen.queryAllByText(/^New · /)).toHaveLength(0);
-    expect(screen.queryByText(/Halden Robotics stock held across/)).toBeNull();
   });
 
-  it('scene 3: the tax gap is counted and Liquidity drops', async () => {
+  it('scene 2: the tax gap is counted and Liquidity drops', async () => {
     render(<Root />);
-    await user().click(screen.getByRole('button', { name: /^3/ }));
+    await user().click(screen.getByRole('button', { name: /^2/ }));
     const keys = screen.getByLabelText('Key numbers');
     expect(within(keys).getByText('was $0')).toBeInTheDocument();
     expect(within(keys).getByText('was 10 / 15')).toBeInTheDocument();
   });
 
-  it('next, previous and "Try it yourself" lead somewhere', async () => {
+  it('next scene and "Try it yourself" lead somewhere', async () => {
     render(<Root />);
-    await user().click(screen.getByRole('button', { name: /^1/ }));
+    await user().click(screen.getByRole('button', { name: /^2/ }));
     await user().click(screen.getByRole('button', { name: 'Next scene →' }));
-    expect(screen.getByText('A grant that vests over four years')).toBeInTheDocument();
+    expect(screen.getByText('Vests that help fund a goal')).toBeInTheDocument();
+    await user().click(screen.getByRole('button', { name: '← Previous' }));
     await user().click(screen.getByRole('button', { name: 'Try it yourself' }));
     expect(screen.getByLabelText('View')).toHaveDisplayValue('Advisor mode');
   });
 
-  it('each scene shows its inputs and its calculation, read from the model (D-071)', async () => {
+  it('a before-and-after scene shows its inputs and its calculation, read from the model (D-071)', async () => {
     render(<Root />);
-    await user().click(screen.getByRole('button', { name: /^1/ }));
-    const calc = screen.getByLabelText('How it is computed');
-    expect(within(calc).getByText(/\$150,000 \+ \$150,000 = \$300,000; \$300,000 \/ \$1,000,000 = 30%/)).toBeInTheDocument();
+    await user().click(screen.getByRole('button', { name: /^2/ }));
+    expect(screen.getByLabelText('How it is computed')).toBeInTheDocument();
   });
 
   it('"How we know it works" shows the last test run, what it proves and what it does not (D-071)', async () => {

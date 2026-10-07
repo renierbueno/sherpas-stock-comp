@@ -12,6 +12,8 @@ import { FinancialHealth, NewLines } from './FinancialHealth';
 import { SceneDetail } from './SceneDetail';
 import { Evidence } from './Evidence';
 import { FlowRail, GuideStrip } from './Guide';
+import { StoryView } from './Story';
+import { STORY_RSU, type Story } from '../model/stories';
 
 const FIRM: Firm = { id: 'firm-sim', stockComp: true };
 
@@ -46,7 +48,7 @@ const KEYS: Record<number, KeyNumber[]> = {
   5: [],
 };
 
-function SceneView({ scene, onNav, onTry }: { scene: Scene; onNav: (n: number | 'start' | 'evidence') => void; onTry: () => void }) {
+function SceneView({ scene, pos, total, onNav, onTry }: { scene: Scene; pos: number; total: number; onNav: (n: number | 'start' | 'evidence') => void; onTry: () => void }) {
   const [after, setAfter] = useState(true);
   const before = analyze(scene.before, FIRM);
   const now = analyze(scene.after, FIRM);
@@ -65,7 +67,7 @@ function SceneView({ scene, onNav, onTry }: { scene: Scene; onNav: (n: number | 
         <div className="inner">
           <div className="row">
             <button className="link" onClick={() => onNav('start')}>← Start here</button>
-            <span className="caps">Scene {scene.id} of {SCENES.length} · {scene.feature} · SIMULATED household</span>
+            <span className="caps">Scene {pos} of {total} · {scene.feature} · SIMULATED household</span>
           </div>
           <h2>{scene.title}</h2>
           <GuideStrip guide={{ ...scene.guide, why: `Today: ${scene.problem}\nWith the change: ${scene.advisorDid}\n${scene.lookAt}` }} />
@@ -93,8 +95,8 @@ function SceneView({ scene, onNav, onTry }: { scene: Scene; onNav: (n: number | 
             </div>
           )}
           <div className="row">
-            {scene.id > 1 && <button className="btn secondary" onClick={() => onNav(scene.id - 1)}>← Previous</button>}
-            {scene.id < SCENES.length && <button className="btn" onClick={() => onNav(scene.id + 1)}>Next scene →</button>}
+            {pos > 1 && <button className="btn secondary" onClick={() => onNav(pos - 1)}>← Previous</button>}
+            {pos < total && <button className="btn" onClick={() => onNav(pos + 1)}>Next scene →</button>}
             <button className="link" onClick={onTry}>Try it yourself</button>
             <button className="link" onClick={() => onNav('evidence')}>How we know it works</button>
             <span className="caps">Spec: {scene.spec}</span>
@@ -114,6 +116,19 @@ function SceneView({ scene, onNav, onTry }: { scene: Scene; onNav: (n: number | 
   );
 }
 
+/**
+ * The scenes in flow order (D-117): guided walks on the live prototype. Scenes 2 and 3 are still
+ * before-and-after views until they are rebuilt as walks; 4 and 5 come later in the build.
+ */
+type Entry = { title: string } & ({ story: Story } | { scene: Scene } | { later: string });
+const TOUR: Entry[] = [
+  { title: STORY_RSU.title, story: STORY_RSU },
+  { title: SCENES[2].title, scene: SCENES[2] },
+  { title: SCENES[3].title, scene: SCENES[3] },
+  { title: 'A PSU with a performance range', later: 'walk later in the build' },
+  { title: 'An existing client: the advisor adds the grant', later: 'walk later in the build' },
+];
+
 export function Root() {
   const [at, setAt] = useState<number | 'start' | 'explore' | 'evidence'>('start');
   const [tryIt, setTryIt] = useState<Scene['tryIt']>({ household: 'H2', mode: 'client' });
@@ -131,8 +146,9 @@ export function Root() {
     );
   }
   if (typeof at === 'number') {
-    const scene = SCENES[at - 1];
-    return <SceneView key={at} scene={scene} onNav={setAt} onTry={() => { setTryIt(scene.tryIt); setAt('explore'); }} />;
+    const e = TOUR[at - 1];
+    if ('story' in e) return <StoryView key={at} story={e.story} pos={at} total={TOUR.length} onNav={setAt} />;
+    if ('scene' in e) return <SceneView key={at} scene={e.scene} pos={at} total={TOUR.length} onNav={setAt} onTry={() => { setTryIt(e.scene.tryIt); setAt('explore'); }} />;
   }
   return (
     <>
@@ -141,16 +157,16 @@ export function Root() {
         <div className="caps">Start here</div>
         <h1>Stock compensation in the Financial Health analysis</h1>
         <p className="lead">Many clients receive stock compensation. Today the analysis cannot see it: shares of the employer split across accounts look small, grants that have not vested have no place, and the tax due when they vest is a surprise.</p>
-        <p>This prototype shows what changes for the advisor and the client, five scenes of about a minute each. Every figure is SIMULATED; the screens imitate the platform only where something changes. It is a reference implementation of the spec, not production code: each new line is linked to the requirement that defines it, and each requirement to its test.</p>
+        <p>This prototype shows what changes for the client and the advisor in five scenes, in the order things happen; in each you click through the real screens. Every figure is SIMULATED; the screens imitate the platform only where something changes. It is a reference implementation of the spec, not production code: each new line is linked to the requirement that defines it, and each requirement to its test.</p>
         <FlowRail big />
         <p className="caps">Every step is in the prototype; the firm setting is a switch in "Explore freely".</p>
         <ol className="scenelist">
-          {SCENES.map((s) => (
-            <li key={s.id}>
-              <button onClick={() => setAt(s.id)}>
-                <span className="n">{s.id}</span>
-                <span>{s.title}</span>
-                {!s.ready && <span className="soon">model and tests ready, screens later</span>}
+          {TOUR.map((e, i) => (
+            <li key={e.title}>
+              <button onClick={() => setAt(i + 1)} disabled={'later' in e}>
+                <span className="n">{i + 1}</span>
+                <span>{e.title}</span>
+                {'later' in e && <span className="soon">{e.later}</span>}
               </button>
             </li>
           ))}

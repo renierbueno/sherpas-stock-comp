@@ -15,6 +15,8 @@ export const FLOW: { step: Step; who: string; what: string }[] = [
 export interface Guide {
   /** Steps lit on the flow rail; the first is the step this screen belongs to. */
   steps: Step[];
+  /** In a guided scene: what to do on this step. */
+  doThis?: string;
   see: string;
   model: string;
   why?: string;

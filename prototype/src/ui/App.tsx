@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { afterSave, removeFlag, setFlag } from '../model/actions';
 import { analyze, type Analysis } from '../model/analysis';
 import { EventLog } from '../model/events';
@@ -10,17 +10,29 @@ import { adjustScore, shareAnalysis, type LineEdits } from '../model/sharing';
 import { GrantsPanel, type GrantSave, type ProposalActions } from './GrantEditor';
 import { IncomeStep, type QuestionnaireSubmit } from './Questionnaire';
 import { confirmAll, confirmProposed, rejectProposed, uploadStatement } from '../model/extraction';
-import { flagOnConfirm, opportunityAlerts, recordAlertChange, recordRowChange, submitQuestionnaire, type AutoFlag } from '../model/intake';
+import { flagOnConfirm, opportunityAlerts, recordAlertChange, recordRowChange, submitQuestionnaire, type AutoFlag, type StockCompensationRow } from '../model/intake';
 import { HoldingsEditor } from './HoldingsEditor';
 import { InvestmentAnalysis } from './InvestmentAnalysis';
 import { GuideStrip, Mark, TabDot } from './Guide';
 import { SCREEN_GUIDES, tabMarks } from '../model/guide';
 
-type Tab = 'health' | 'investment' | 'statements' | 'income' | 'questionnaire' | 'data';
+export type Tab = 'health' | 'investment' | 'statements' | 'income' | 'questionnaire' | 'data';
 
 const byId = <T extends { id: string }>(xs: T[]) => Object.fromEntries(xs.map((x) => [x.id, x]));
 
-export function App({ initialHousehold = 'H2', initialMode = 'client', initialTab = 'health', households: seed = HOUSEHOLDS }: { initialHousehold?: string; initialMode?: Mode; initialTab?: Tab; households?: Household[] }) {
+/** A guided scene drives the view and tab from outside; the household state carries over. */
+export interface Steering {
+  mode: Mode; tab: Tab; step: number;
+  /** The client's answers, prefilled so the scene shows only what matters. */
+  questionnaire?: { rows: StockCompensationRow[]; documents: string[]; start: 'documents' | 'income' };
+  /** "Do it": the step's action, run once per id. */
+  run?: { id: number; kind: 'submit' | 'confirm' | 'share'; document?: string };
+}
+
+export function App({ initialHousehold = 'H2', initialMode = 'client', initialTab = 'health', households: seed = HOUSEHOLDS, steer, onState }: {
+  initialHousehold?: string; initialMode?: Mode; initialTab?: Tab; households?: Household[];
+  steer?: Steering; onState?: (h: Household, a: Analysis) => void;
+}) {
   const log = useRef(new EventLog()).current;
   const [firm, setFirm] = useState<Firm>({ id: 'firm-sim', stockComp: true });
   const [households, setHouseholds] = useState<Record<string, Household>>(() => byId(seed));
@@ -34,6 +46,9 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', initialTa
   const [edits, setEdits] = useState<Record<string, LineEdits>>({});
   const [shared, setShared] = useState<string | null>(null);
   const [adjust, setAdjust] = useState({ points: '', reason: '' });
+  // A guided scene sets view and tab on each new step, in the same render (no stale frame).
+  const [steered, setSteered] = useState<number | undefined>(undefined);
+  if (steer && steer.step !== steered) { setSteered(steer.step); setMode(steer.mode); setTab(steer.tab); }
   const household = households[hid];
   const lineEdits = edits[hid] ?? {};
   const setEdit = (id: string, text: string | null | undefined) => setEdits((all) => {
@@ -42,6 +57,7 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', initialTa
     return { ...all, [hid]: mine };
   });
   const analysis = analyses[hid];
+  useEffect(() => { onState?.(household, analysis); }, [household, analysis]);
 
   const reprocess = (h: Household) => {
     recordAlertChange(households[h.id], h, firm, h.analysisDate, log); // EV-E-03
@@ -87,6 +103,18 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', initialTa
     for (const d of documents) h = uploadStatement(h, d, 'client', log).household; // AC-F-13
     reprocess(h);
   };
+
+  // "Do it" in a guided scene runs the step's action once, as the button on screen would.
+  const [submitted, setSubmitted] = useState(false);
+  const ran = useRef(new Set<number>()).current;
+  useEffect(() => {
+    const r = steer?.run;
+    if (!r || ran.has(r.id)) return;
+    ran.add(r.id);
+    if (r.kind === 'submit' && steer?.questionnaire) { submitClient(steer.questionnaire); setSubmitted(true); }
+    if (r.kind === 'confirm' && r.document) proposals.onConfirmAll(r.document);
+    if (r.kind === 'share') { shareAnalysis(household, analysis.lines, lineEdits, log); setShared(hid); }
+  }, [steer?.run?.id]);
 
   const tabs: [Tab, string][] = useMemo(() => {
     const t: [Tab, string][] = [['health', 'Financial health'], ['investment', 'Investment analysis'], ['statements', 'Statements']];
@@ -144,7 +172,7 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', initialTa
           ))}
         </nav>
       )}
-      {guide && <GuideStrip guide={guide} />}
+      {guide && !steer && <GuideStrip guide={guide} />}
       {alerts.length > 0 && (
         <div style={{ maxWidth: 960, margin: '16px auto 0', padding: '0 16px' }} aria-label="Opportunity alerts">
           {alerts.map((a) => <div key={a} className="warning"><strong>Opportunity alert:</strong> {a}</div>)}
@@ -171,8 +199,9 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', initialTa
       {mode !== 'print' && activeTab === 'statements' && <Statements analysis={analysis} mode={mode} />}
       </Edits.Provider>
       {mode === 'client' && activeTab === 'income' && (
-        <IncomeStep key={hid} household={household} firm={firm} template="Financial Health & Portfolio Questionnaire"
-          onSubmit={submitClient} onRowChange={(a) => recordRowChange(household, firm, a, log)} />
+        <IncomeStep key={`${hid}-${submitted}-${steer?.step ?? ''}`} household={household} firm={firm} template="Financial Health & Portfolio Questionnaire"
+          initialStep={submitted ? 'done' : steer?.questionnaire?.start ?? 'income'} initialRows={steer?.questionnaire?.rows} initialDocuments={steer?.questionnaire?.documents}
+          onSubmit={(s) => { submitClient(s); setSubmitted(true); }} onRowChange={(a) => recordRowChange(household, firm, a, log)} />
       )}
       {mode === 'advisor' && activeTab === 'questionnaire' && (
         <main>
