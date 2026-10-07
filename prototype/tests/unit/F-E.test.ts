@@ -4,7 +4,7 @@ import { setFlag } from '../../src/model/actions';
 import { analyze } from '../../src/model/analysis';
 import { EventLog } from '../../src/model/events';
 import { saveGrant, statusOf } from '../../src/model/grants';
-import { H1, H2, H2_GRANT, H6 } from '../../src/model/households';
+import { H1, H2, H2_GRANT, H5 } from '../../src/model/households';
 import { flagSuggestions, opportunityAlerts, PENDING_ALERT, recordAlertChange, recordRowChange, rowErrors, submitQuestionnaire, type StockPayRow } from '../../src/model/intake';
 import { simulateScore } from '../../src/model/score';
 import type { Firm, Household } from '../../src/model/types';
@@ -12,7 +12,7 @@ import type { Firm, Household } from '../../src/model/types';
 const ON: Firm = { id: 'firm-sim', stockComp: true };
 const text = (h: Household, ac: string) => analyze(h, ON).lines.filter((l) => l.ac === ac).map((l) => l.text);
 const row = (r: Partial<StockPayRow>): StockPayRow => ({ id: 'r1', ownerId: 'p1', employer: 'Halden Robotics', ...r });
-const BLANK: Household = { ...H2, grants: [], incomeIncludesVests: {} };
+const BLANK: Household = { ...H2, grants: [] };
 
 describe('F-E · questionnaire rows', () => {
   it('AC-E-04 · EC-E-03 · only the employer is required; every other field may be empty or "not sure"', () => {
@@ -21,7 +21,7 @@ describe('F-E · questionnaire rows', () => {
   });
 
   it('AC-E-07 · EC-E-03 · submitting a row creates a grant pending detail, source questionnaire, with the client estimate', () => {
-    const h = submitQuestionnaire(BLANK, [row({ ticker: 'HLDN', type: 'RSU', unvestedValue: 120_000, frequency: 'quarterly', incomeIncludesVests: 'no' })], ON, '2026-09-28');
+    const h = submitQuestionnaire(BLANK, [row({ ticker: 'HLDN', type: 'RSU', unvestedValue: 120_000, frequency: 'quarterly' })], ON, '2026-09-28');
     expect(h.grants).toHaveLength(1);
     expect(h.grants[0]).toMatchObject({ ownerId: 'p1', employerId: 'halden', source: 'questionnaire', clientEstimate: { unvestedValue: 120_000, frequency: 'quarterly' } });
     expect(statusOf(h, h.grants[0])).toBe('pending detail');
@@ -63,12 +63,6 @@ describe('F-E · alert and notices', () => {
     expect(opportunityAlerts({ ...H2, grants: [] }, ON)).toEqual([]);
   });
 
-  it('AC-E-13 · EC-E-04 · "not sure" keeps the grant pending and tells the advisor', () => {
-    const h = { ...H2, grants: [H2_GRANT], incomeIncludesVests: { p1: 'not sure' as const } };
-    expect(statusOf(h, H2_GRANT)).toBe('pending detail');
-    expect(analyze(h, ON).lines.find((l) => l.ac === 'AC-E-13')).toMatchObject({ audience: 'advisor', text: 'Check whether the reported income includes stock that vested this year.' });
-  });
-
   it('AC-E-16 · EC-E-06 · type "other": advisor notice to flag held shares instead', () => {
     const h = submitQuestionnaire(BLANK, [row({ type: 'other' })], ON, '2026-09-28');
     expect(text(h, 'AC-E-16')).toEqual(['This type is not modelled in this version; flag any shares already held as employer stock.']);
@@ -83,8 +77,7 @@ describe('F-E · alert and notices', () => {
   });
 
   it('AC-G-11 · F-E notices never reach the shared view', () => {
-    const h = { ...H2, incomeIncludesVests: { p1: 'not sure' as const } };
-    expect(analyze(h, ON).lines.filter((l) => l.ac.startsWith('AC-E-1') && l.ac !== 'AC-E-10').every((l) => l.audience === 'advisor')).toBe(true);
+    expect(analyze(H2, ON).lines.filter((l) => l.ac.startsWith('AC-E-1') && l.ac !== 'AC-E-10').every((l) => l.audience === 'advisor')).toBe(true);
   });
 });
 
@@ -113,14 +106,16 @@ describe('F-E · events', () => {
 });
 
 describe('F-E · simulator relations (spec "Simulator tests")', () => {
-  it('REL-E-1 · with "income includes vests", this year\'s total income equals reported income (see F-C, AC-E-11)', async () => {
-    const { addedVestIncome } = await import('../../src/model/vestTax');
-    const yes = { ...H2, grants: [H2_GRANT], incomeIncludesVests: { p1: 'yes' as const } };
-    expect(addedVestIncome(yes, ON, 2026)).toBe(0);
+  it('REL-E-1 · the current year\'s total income is the reported income plus that year\'s future vests (AC-E-12)', async () => {
+    const { addedVestIncome, baseWages } = await import('../../src/model/vestTax');
+    const h = saveGrant(H2, H2_GRANT, ON);
+    const reported = Object.values(h.salary).reduce((a, b) => a + b, 0);
+    const wages = Object.values(baseWages(h, ON, 2026)).reduce((a, b) => a + b, 0);
+    expect(wages).toBe(reported);
+    expect(addedVestIncome(h, ON, 2026)).toBeGreaterThan(0);
   });
 
-  it('REL-E-2 · with "not sure", no score figure changes', () => {
-    const unsure = { ...H6, incomeIncludesVests: { p1: 'not sure' as const, p2: 'not sure' as const } };
-    expect(simulateScore(unsure, ON)).toEqual(simulateScore({ ...H6, grants: [] }, ON));
+  it('REL-E-2 · a grant pending detail changes no score figure', () => {
+    expect(simulateScore(H5, ON)).toEqual(simulateScore({ ...H5, grants: [] }, ON));
   });
 });

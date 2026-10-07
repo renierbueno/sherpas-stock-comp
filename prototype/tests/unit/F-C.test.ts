@@ -3,7 +3,7 @@
 // SIMULATED state rate and households): the tests check how figures relate, not a real household's tax.
 import { analyze } from '../../src/model/analysis';
 import { EventLog } from '../../src/model/events';
-import { saveGrant, setStateWithholding } from '../../src/model/grants';
+import { countedFutureVests, saveGrant, setStateWithholding } from '../../src/model/grants';
 import { H1, H2, H2_COMPLETE, H2_GRANT, H3, H6 } from '../../src/model/households';
 import { simulateScore } from '../../src/model/score';
 import { householdTax } from '../../src/model/tax';
@@ -20,7 +20,7 @@ const grant = (id: string, employerId: string, date: string, units: number, extr
 /** EC-C-01 · SIMULATED: one $100K vest (2,000 HLDN at $50) in a household taxed at 32%. */
 const EC_C_01: Household = {
   ...H2, flags: [], salary: { p1: 360_000, p2: 90_000 }, stateTaxRate: 0.06,
-  grants: [grant('ec', 'halden', '2027-03-01', 2_000)], incomeIncludesVests: { p1: 'no' },
+  grants: [grant('ec', 'halden', '2027-03-01', 2_000)],
 };
 
 describe('F-C · tax owed', () => {
@@ -151,13 +151,10 @@ describe('F-E income rules used by F-C', () => {
     expect(addedVestIncome(H2_COMPLETE, ON, 2026)).toBe(12_500);
   });
 
-  it('AC-E-11 · EC-C-08 · "yes": nothing added this year; from next year salary is reported income minus this year\'s vests', () => {
-    const yes = { ...H2_COMPLETE, incomeIncludesVests: { p1: 'yes' as const } };
-    expect(addedVestIncome(yes, ON, 2026)).toBe(0);
-    // This year's vests at today's price: 3 past tranches (1,500 units) and 1 future (250) = $87,500
-    expect(baseWages(yes, ON, 2027).p1).toBe(260_000 - 87_500);
-    // This year: base plus this year's future vests equals reported salary
-    expect(baseWages(yes, ON, 2026).p1 + 12_500).toBe(260_000);
+  it('AC-E-12 · EC-C-08 · wages are the reported salary in every year; each future vest is added beside it once', () => {
+    for (const y of [2026, 2027, 2028]) expect(baseWages(H2_COMPLETE, ON, y)).toEqual({ p1: 260_000, p2: 90_000 });
+    const futureIn = (y: number) => countedFutureVests(H2_COMPLETE, ON).filter((v) => v.tranche.date.startsWith(String(y))).reduce((s, v) => s + v.value, 0);
+    for (const y of [2026, 2027]) expect(addedVestIncome(H2_COMPLETE, ON, y)).toBe(futureIn(y));
   });
 });
 

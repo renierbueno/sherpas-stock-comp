@@ -67,9 +67,6 @@ describe('F-D · inflows and goals', () => {
     const [a, b] = vestInflows(EC_D_01, ON);
     expect(diff(2027)).toBeCloseTo(a.after);
     expect(diff(2028)).toBeCloseTo(a.after * 1.05 + b.after);
-    // "yes" to the income question: this year's vests are in salary; the projection is unchanged by it
-    const yes = { ...EC_D_01, incomeIncludesVests: { p1: 'yes' as const } };
-    expect(projection(yes, ON).find((p) => p.year === 2027)!.vestAfterTax).toBeCloseTo(vestInflows(yes, ON)[0].after);
   });
 
   it('AC-D-09 · AC-G-04 · AC-G-05 · EC-D-04 · EC-D-05 · no complete listed grant: projection and goals as today', () => {

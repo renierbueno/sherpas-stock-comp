@@ -71,8 +71,8 @@ As a client, I want to say that part of my pay comes in company stock, the same 
 
 ## Simulator tests (relations)
 
-- With "income includes vests", the household's total income for the current year equals the reported income.
-- With "not sure", no score figure changes.
+- The household's wages for the current year equal the reported income, and every future vest of that year is added beside it once (AC-E-12, D-094).
+- A grant pending detail changes no score figure.
 
 ## Out of scope
 

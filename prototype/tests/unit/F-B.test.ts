@@ -104,21 +104,11 @@ describe('F-B · grant and schedule', () => {
     expect(h.grants.find((g) => g.id === 'p')?.tranches).toEqual([]);
   });
 
-  it('AC-B-28 · EC-B-17 · complete only with owner, type, listed employer with ticker, units, a future tranche, PSU terms and a yes or no', () => {
+  it('AC-B-28 · EC-B-17 · complete with owner, type, listed employer with ticker, units, a future tranche and PSU terms; no income answer needed', () => {
     expect(statusOf(H2_COMPLETE, H2_GRANT)).toBe('complete');
     expect(statusOf(H2, H2.grants[0])).toBe('pending detail'); // no units, no tranches
-    const unsure = { ...H2_COMPLETE, incomeIncludesVests: { p1: 'not sure' as const } };
-    expect(statusOf(unsure, H2_GRANT)).toBe('pending detail');
-    const unanswered = { ...H2_COMPLETE, incomeIncludesVests: {} };
-    expect(statusOf(unanswered, H2_GRANT)).toBe('pending detail');
     const noTerms = withGrant(H3, { psu: { ...H3.grants[0].psu!, condition: '' } });
     expect(statusOf(noTerms, noTerms.grants[0])).toBe('pending detail');
-  });
-
-  it('AC-B-29 · AC-G-04 · a "not sure" answer keeps the grant pending and out of every figure', () => {
-    const unsure = { ...H2_COMPLETE, incomeIncludesVests: { p1: 'not sure' as const } };
-    expect(countedGrants(unsure, ON)).toEqual([]);
-    expect(simulateScore(unsure, ON)).toEqual(simulateScore({ ...H2, grants: [] }, ON));
   });
 
   it('AC-B-30 · a grant whose ticker has no market price leaves the figures, with the advisor notice', () => {

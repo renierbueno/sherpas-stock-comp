@@ -31,7 +31,6 @@ const base = (id: string, name: string, people: Household['people']): Household 
   employers: [],
   flags: [],
   grants: [],
-  incomeIncludesVests: {},
   goals: [],
   annualSavings: 30_000,
   salary: Object.fromEntries(people.map((p) => [p.id, 120_000])),
@@ -87,7 +86,6 @@ export const H2: Household = {
   grants: [{ id: 'h2-g1', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'RSU', employerId: 'halden',
     tranches: [], source: 'questionnaire', reportedOn: '2026-09-28',
     clientEstimate: { type: 'RSU', unvestedValue: 120_000, frequency: 'quarterly' } }],
-  incomeIncludesVests: { p1: 'no' },
   salary: { p1: 260_000, p2: 90_000 },
   goals: [{ id: 'home', name: 'Home purchase', year: 2028, amount: 250_000 }, { id: 'college', name: 'College (Leo)', year: 2026, amount: 40_000 }],
   stateTaxRate: 0.06,
@@ -121,7 +119,6 @@ export const H3: Household = {
     grantDate: '2025-02-15', units: 1_200, source: 'advisor', reportedOn: '2026-09-20',
     psu: { condition: 'Relative total shareholder return against a sector index', periodEnd: '2027-12-31', rangeMin: 0, rangeMax: 2 },
     tranches: [{ id: 't1', date: '2028-02-15', units: 1_200 }] }],
-  incomeIncludesVests: { p1: 'no' },
 };
 
 /** H4 · Private employer. Private shares held as a free-text instrument (EC-A-07). */
@@ -137,7 +134,6 @@ export const H4: Household = {
   ],
   grants: [{ id: 'h4-g1', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'RSU', employerId: 'lumen',
     grantDate: '2023-05-01', units: 8_000, source: 'advisor', tranches: [] }],
-  incomeIncludesVests: { p1: 'no' },
 };
 
 /** H5 · Detail pending. The client knows only the employer. */
@@ -152,7 +148,6 @@ export const H5: Household = {
   ],
   grants: [{ id: 'h5-g1', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'RSU', employerId: 'kestrel',
     tranches: [], source: 'questionnaire', reportedOn: '2026-10-01', clientEstimate: { type: 'not sure', frequency: 'not sure' } }],
-  incomeIncludesVests: { p1: 'not sure' },
 };
 
 /** H6 · Co-client with stock pay: both work for the same employer and both hold its shares (EC-A-03). */
@@ -179,7 +174,6 @@ export const H6: Household = {
     { id: 'h6-g2', category: 'stockCompensation', subType: 'RSU', ownerId: 'p2', type: 'RSU', employerId: 'halden',
       grantDate: '2026-04-01', units: 1_200, source: 'advisor', tranches: generateTranches('2026-04-01', 1_200, { lengthMonths: 24, frequencyMonths: 6, cliffMonths: 6 }) },
   ],
-  incomeIncludesVests: { p1: 'yes', p2: 'no' },
   salary: { p1: 210_000, p2: 180_000 },
   stateTaxRate: 0, // a state with no income tax (EC-C-03)
 };

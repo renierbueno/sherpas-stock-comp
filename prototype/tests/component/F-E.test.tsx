@@ -10,8 +10,9 @@ const user = () => userEvent.setup();
 const ON: Firm = { id: 'firm-sim', stockComp: true };
 
 describe('F-E · screens', () => {
-  it('AC-E-01 · AC-E-02 · AC-G-02 · with the setting on, the Income step adds only the chip and the helper line', () => {
+  it('AC-E-01 · AC-E-02 · AC-E-25 · AC-G-02 · with the setting on, the income question excludes company stock and the helper line points to the chip', () => {
     render(<IncomeStep household={H1} firm={ON} template="T" onSubmit={() => {}} />);
+    expect(screen.getAllByText(/Total annual income before taxes, not counting company stock/)).toHaveLength(2);
     expect(within(screen.getByLabelText('Other current income')).getByRole('button', { name: '+ Stock compensation' })).toBeInTheDocument();
     expect(screen.getAllByText('Paid partly in company stock? Add it below as Stock compensation.')).toHaveLength(2);
     expect(screen.queryByText(/vested this year/)).toBeNull();
@@ -21,9 +22,11 @@ describe('F-E · screens', () => {
     render(<IncomeStep household={H1} firm={{ ...ON, stockComp: false }} template="T" onSubmit={() => {}} />);
     expect(screen.queryByRole('button', { name: '+ Stock compensation' })).toBeNull();
     expect(screen.queryByText(/Paid partly in company stock/)).toBeNull();
+    expect(screen.getAllByText(/What is your total annual income before taxes\?/)).toHaveLength(2);
+    expect(screen.queryByText(/not counting company stock/)).toBeNull();
   });
 
-  it('AC-E-03 · AC-E-05 · AC-E-19 · each click adds a row: owner, employer, ticker, type, value, frequency, the income question and the upload prompt', async () => {
+  it('AC-E-03 · AC-E-19 · each click adds a row: owner, employer, ticker, type, value, frequency; no income question, no upload prompt', async () => {
     render(<IncomeStep household={H2} firm={ON} template="T" onSubmit={() => {}} />);
     await user().click(screen.getByRole('button', { name: '+ Stock compensation' }));
     await user().click(screen.getByRole('button', { name: '+ Stock compensation' }));
@@ -32,8 +35,8 @@ describe('F-E · screens', () => {
     const r = rows[0];
     for (const l of ['Owner', 'Employer', 'Ticker, if listed', 'Type', 'Approximate value of unvested stock', 'How often it vests']) expect(within(r).getByLabelText(l)).toBeInTheDocument();
     expect(within(r).getByLabelText('How often it vests')).toHaveTextContent('MonthlyQuarterlyEvery six monthsYearlyNot sure');
-    expect(within(r).getByText('Does your employment income above include stock that vested this year?')).toBeInTheDocument();
-    expect(within(r).getByText(/Upload your plan statement if you have it/)).toBeInTheDocument();
+    expect(within(r).queryByText(/vested this year/)).toBeNull();
+    expect(within(r).queryByText(/Upload your plan statement/)).toBeNull();
   });
 
   it('AC-E-04 · the employer is required; the rest may stay empty', async () => {
@@ -87,7 +90,7 @@ describe('F-E · screens', () => {
     expect(within(ed).getByRole('button', { name: 'Generate tranches' })).toBeInTheDocument();
   });
 
-  it('AC-E-13 · AC-E-16 · AC-E-17 · AC-G-11 · advisor notices show in advisor mode only', async () => {
+  it('AC-E-17 · AC-G-11 · advisor notices show in advisor mode only', async () => {
     render(<App initialHousehold="H2" />);
     expect(screen.queryByText(/Flag as employer stock\?/)).toBeNull();
     await user().selectOptions(screen.getByLabelText('View'), 'advisor');

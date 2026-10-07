@@ -44,7 +44,6 @@ describe('F-F · screens', () => {
     await user().click(screen.getByRole('tab', { name: 'Data & Assumptions' }));
     await user().click(screen.getByRole('button', { name: 'Review and confirm' }));
     const ed = screen.getAllByLabelText('Grant editor').at(-1)!;
-    await user().click(within(ed).getByLabelText('No'));
     await user().click(within(ed).getByRole('button', { name: 'Confirm grant' }));
     expect(screen.queryByLabelText('Proposed grant')).toBeNull();
     await user().click(screen.getByRole('tab', { name: 'Financial health' }));
@@ -71,9 +70,9 @@ describe('F-F · screens', () => {
     await user().click(screen.getByRole('tab', { name: 'Questionnaire' }));
     await user().click(screen.getByRole('button', { name: '+ Stock compensation' }));
     await user().type(screen.getByLabelText('Employer'), 'Halden Robotics');
-    await user().click(screen.getByRole('button', { name: 'go to the documents step' }));
+    await user().click(screen.getByRole('button', { name: 'Back to Documents' }));
     await user().click(screen.getByLabelText(HALDEN));
-    await user().click(screen.getByRole('button', { name: 'Back to Income' }));
+    await user().click(screen.getByRole('button', { name: 'Continue to Income' }));
     await user().click(screen.getByRole('button', { name: 'Submit questionnaire' }));
     await user().selectOptions(screen.getByLabelText('View'), 'advisor');
     await user().click(screen.getByRole('tab', { name: 'Data & Assumptions' }));

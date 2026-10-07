@@ -25,15 +25,13 @@ const awaiting = (h: Household, g: Grant) => employerOf(h, g)?.listed === false 
 /** AC-B-28: complete when every field the figures need is there. */
 export function isComplete(h: Household, g: Grant): boolean {
   const e = employerOf(h, g);
-  const answer = h.incomeIncludesVests[g.ownerId];
   return (
     !!g.ownerId &&
     !!g.type &&
     !!e && e.listed && !!e.ticker &&
     !!g.units && g.units > 0 &&
     futureTranches(h, g).some((t) => t.units > 0) &&
-    (g.type === 'RSU' || !!(g.psu && g.psu.condition && g.psu.periodEnd)) &&
-    (answer === 'yes' || answer === 'no')
+    (g.type === 'RSU' || !!(g.psu && g.psu.condition && g.psu.periodEnd))
   );
 }
 

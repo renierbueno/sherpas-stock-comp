@@ -66,7 +66,7 @@ describe('F-F · proposals', () => {
     expect(household.accounts).toEqual(BASE.accounts);
     const after = confirmProposed(household, p);
     expect(after.accounts).toEqual(BASE.accounts);
-    expect(analyze({ ...after, incomeIncludesVests: { p1: 'no' } }, ON).lines.filter((l) => l.ac === 'AC-B-12')).toHaveLength(3);
+    expect(analyze(after, ON).lines.filter((l) => l.ac === 'AC-B-12')).toHaveLength(3);
   });
 
   it('AC-F-13 · a client upload in the questionnaire becomes the same proposal for the advisor to confirm', () => {

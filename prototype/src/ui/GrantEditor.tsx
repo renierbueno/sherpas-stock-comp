@@ -1,17 +1,16 @@
 // Advisor side: record a grant and its vests (F-B). Shown in Data & Assumptions and, from the
 // stock-pay block, in advisor mode (AC-B-01, AC-E-15).
 import { useState } from 'react';
-import { ADJUSTMENT_WARNING } from '../model/actions';
+import { ADJUSTMENT_WARNING, SALARY_CHECK } from '../model/actions';
 import { money } from '../model/format';
 import { generateTranches, PSU_DEFAULT_RANGE, statusOf, trancheUnitsMismatch } from '../model/grants';
 import { duplicateOf, NO_GRANTS, proposedLabel, SAMPLE_DOCUMENTS } from '../model/extraction';
 import { dateLabel } from '../model/format';
-import type { Employer, Grant, Household, IncomeAnswer, Tranche } from '../model/types';
+import type { Employer, Grant, Household, Tranche } from '../model/types';
 
 export interface GrantSave {
   grant: Grant;
   employer: Employer;
-  incomeAnswer: IncomeAnswer | undefined;
   generated?: Tranche[];
 }
 
@@ -27,7 +26,6 @@ function estimateText(g: Grant): string | null {
 export function GrantForm({ household, grant, onSave, onCancel, saveLabel = 'Save grant' }: { household: Household; grant: Grant; onSave: (s: GrantSave) => void; onCancel: () => void; saveLabel?: string }) {
   const [g, setG] = useState<Grant>(grant);
   const [employer, setEmployer] = useState<Employer>(household.employers.find((e) => e.id === grant.employerId) ?? household.employers[0]);
-  const [answer, setAnswer] = useState<IncomeAnswer | undefined>(household.incomeIncludesVests[grant.ownerId]);
   const [pattern, setPattern] = useState({ lengthMonths: 48, frequencyMonths: 3, cliffMonths: 12 });
   const [generated, setGenerated] = useState<Tranche[] | undefined>();
   const [confirming, setConfirming] = useState(false);
@@ -36,12 +34,11 @@ export function GrantForm({ household, grant, onSave, onCancel, saveLabel = 'Sav
   const setTranche = (id: string, patch: Partial<Tranche>) => set({ tranches: g.tranches.map((t) => (t.id === id ? { ...t, ...patch } : t)) });
   const mismatch = trancheUnitsMismatch(g);
   const estimate = estimateText(grant);
-  const owner = household.people.find((p) => p.id === g.ownerId)?.name;
   const num = (v: string) => (v === '' ? undefined : Number(v));
 
   const save = () => {
     if (household.manualAdjustment && !confirming) return setConfirming(true);
-    onSave({ grant: g, employer, incomeAnswer: answer, generated });
+    onSave({ grant: g, employer, generated });
   };
 
   return (
@@ -50,7 +47,7 @@ export function GrantForm({ household, grant, onSave, onCancel, saveLabel = 'Sav
       {estimate && <div className="notice" data-ac="AC-E-14">Client estimate, not used in the figures: {estimate}.</div>}
       <div className="row">
         <label>Owner
-          <select value={g.ownerId} onChange={(e) => { set({ ownerId: e.target.value }); setAnswer(household.incomeIncludesVests[e.target.value]); }}>
+          <select value={g.ownerId} onChange={(e) => set({ ownerId: e.target.value })}>
             {household.people.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
           </select>
         </label>
@@ -125,12 +122,7 @@ export function GrantForm({ household, grant, onSave, onCancel, saveLabel = 'Sav
           <span className="caps">From the paystub or plan statement</span>
         </label>
       )}
-      <fieldset>
-        <legend>Does the salary on file include stock that vested this year?{owner ? ` (${owner})` : ''}</legend>
-        {(['yes', 'no', 'not sure'] as const).map((v) => (
-          <label key={v} className="row"><input type="radio" name="income" checked={answer === v} onChange={() => setAnswer(v)} />{v === 'yes' ? 'Yes' : v === 'no' ? 'No' : 'Not sure'}</label>
-        ))}
-      </fieldset>
+      <div className="helper" role="note">{SALARY_CHECK}</div>
       {confirming && <div className="warning" role="alert">{ADJUSTMENT_WARNING}</div>}
       <div className="row">
         <button className="btn" onClick={save}>{confirming ? 'Save and reprocess' : saveLabel}</button>
@@ -217,8 +209,8 @@ export function GrantsPanel({ household, onSave, enabled, proposals, onDelete }:
                           <div className="row">
                             {dup ? (
                               <>
-                                <button className="btn" onClick={() => proposals.onConfirm({ grant: g, employer: household.employers.find((e) => e.id === g.employerId)!, incomeAnswer: household.incomeIncludesVests[g.ownerId] }, 'proposed')}>Keep extracted</button>
-                                <button className="btn secondary" onClick={() => proposals.onConfirm({ grant: g, employer: household.employers.find((e) => e.id === g.employerId)!, incomeAnswer: household.incomeIncludesVests[g.ownerId] }, 'existing')}>Keep existing</button>
+                                <button className="btn" onClick={() => proposals.onConfirm({ grant: g, employer: household.employers.find((e) => e.id === g.employerId)! }, 'proposed')}>Keep extracted</button>
+                                <button className="btn secondary" onClick={() => proposals.onConfirm({ grant: g, employer: household.employers.find((e) => e.id === g.employerId)! }, 'existing')}>Keep existing</button>
                               </>
                             ) : (
                               <button className="btn" onClick={() => setReviewing(g)}>Review and confirm</button>

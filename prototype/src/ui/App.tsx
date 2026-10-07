@@ -48,11 +48,10 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
   };
   const saveFlag = (f: EmployerFlag) => reprocess(afterSave(setFlag(household, f, firm, log)));
   const dropFlag = (positionId: string) => reprocess(afterSave(removeFlag(household, positionId, firm, log)));
-  const saveGrantEdit = ({ grant, employer, incomeAnswer, generated }: GrantSave) => {
+  const saveGrantEdit = ({ grant, employer, generated }: GrantSave) => {
     const base: Household = {
       ...household,
       employers: household.employers.map((e) => (e.id === employer.id ? employer : e)),
-      incomeIncludesVests: { ...household.incomeIncludesVests, [grant.ownerId]: incomeAnswer },
     };
     const isNew = !household.grants.some((g) => g.id === grant.id);
     const before = household.grants.find((g) => g.id === grant.id)?.stateWithholdingRate;
@@ -63,10 +62,9 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', household
 
   const proposals: ProposalActions = {
     onUpload: (doc) => reprocess(uploadStatement(household, doc, 'advisor', log).household),
-    onConfirm: ({ grant, employer, incomeAnswer }, keep) => reprocess(afterSave(confirmProposed({
+    onConfirm: ({ grant, employer }, keep) => reprocess(afterSave(confirmProposed({
       ...household,
       employers: household.employers.map((e) => (e.id === employer.id ? employer : e)),
-      incomeIncludesVests: { ...household.incomeIncludesVests, [grant.ownerId]: incomeAnswer },
     }, grant, log, keep))),
     onReject: (id) => reprocess(rejectProposed(household, id, log)),
   };

@@ -3,7 +3,7 @@
 // AC-F-13). Imitates the step seen on screen; our own code (D-012, D-015).
 import { useState } from 'react';
 import { SAMPLE_DOCUMENTS } from '../model/extraction';
-import { HELPER_LINE, INCOME_QUESTION, rowErrors, UPLOAD_PROMPT, type StockPayRow } from '../model/intake';
+import { HELPER_LINE, INCOME_QUESTION, INCOME_QUESTION_TODAY, rowErrors, type StockPayRow } from '../model/intake';
 import { money } from '../model/format';
 import type { Firm, Household } from '../model/types';
 
@@ -40,7 +40,7 @@ export function IncomeStep({ household, firm, template, onSubmit, onRowChange, i
           {Object.keys(SAMPLE_DOCUMENTS).map((d) => (
             <label key={d} className="row"><input type="checkbox" checked={docs.includes(d)} onChange={(e) => setDocs((x) => (e.target.checked ? [...x, d] : x.filter((y) => y !== d)))} />{d}</label>
           ))}
-          <div className="row"><button className="btn secondary" onClick={() => setStep('income')}>Back to Income</button></div>
+          <div className="row"><button className="btn secondary" onClick={() => setStep('income')}>Continue to Income</button></div>
         </section>
       </main>
     );
@@ -48,10 +48,10 @@ export function IncomeStep({ household, firm, template, onSubmit, onRowChange, i
   return (
     <main>
       <section className="section q" aria-label="Income step">
-        <div className="caps">{template} · Income</div>
+        <div className="row"><div className="caps">{template} · Income</div><button className="link" onClick={() => setStep('documents')}>Back to Documents</button>{docs.length > 0 && <span className="small">{docs.length} uploaded</span>}</div>
         {household.people.map((p) => (
           <div key={p.id} className="qfield">
-            <label>{p.name}: What is your total annual income before taxes?
+            <label>{p.name}: {firm.stockComp ? INCOME_QUESTION : INCOME_QUESTION_TODAY}
               <input readOnly value={money(household.salary[p.id] ?? 0)} />
             </label>
             {firm.stockComp && <div className="helper">{HELPER_LINE}</div>}
@@ -92,13 +92,6 @@ export function IncomeStep({ household, firm, template, onSubmit, onRowChange, i
                 </select>
               </label>
             </div>
-            <fieldset>
-              <legend>{INCOME_QUESTION}</legend>
-              {(['yes', 'no', 'not sure'] as const).map((v) => (
-                <label key={v} className="row"><input type="radio" name={`inc-${r.id}`} checked={r.incomeIncludesVests === v} onChange={() => set(r.id, { incomeIncludesVests: v })} />{v === 'yes' ? 'Yes' : v === 'no' ? 'No' : 'Not sure'}</label>
-              ))}
-            </fieldset>
-            <div className="small">{UPLOAD_PROMPT}: <button className="link" onClick={() => setStep('documents')}>go to the documents step</button>{docs.length > 0 && ` (${docs.length} uploaded)`}</div>
           </div>
         ))}
         <div className="row">

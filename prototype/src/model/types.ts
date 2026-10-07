@@ -52,8 +52,6 @@ export interface EmployerFlag {
   costBasis?: Money;
 }
 
-export type IncomeAnswer = 'yes' | 'no' | 'not sure';
-
 /** One vest of a grant (AC-B-07 to AC-B-14). A PSU tranche holds target units. */
 export interface Tranche {
   id: string;
@@ -124,8 +122,6 @@ export interface Household {
   employers: Employer[];
   flags: EmployerFlag[];
   grants: Grant[];
-  /** Per person: "Does the salary on file include stock that vested this year?" (AC-B-29, AC-E-05). */
-  incomeIncludesVests: Record<PersonId, IncomeAnswer | undefined>;
   goals: Goal[];
   /** SIMULATED yearly savings the projection adds today (the platform's projection is not public). */
   annualSavings: Money;

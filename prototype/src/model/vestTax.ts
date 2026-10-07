@@ -1,51 +1,25 @@
 // F-C · Tax at vest and the withholding gap (docs/spec/F-C_tax-at-vest.md), with the income
-// rules of F-E it depends on (AC-E-11, AC-E-12). Tax figures come from src/model/tax.ts
+// income rule of F-E it depends on (AC-E-12). Tax figures come from src/model/tax.ts
 // (real 2026 federal and FICA rules, SIMULATED state rate).
-import { countedFutureVests, countedGrants, type TrancheValue } from './grants';
-import { priceOf } from './market';
+import { countedFutureVests, type TrancheValue } from './grants';
 import { P_LIQ_HORIZON_MONTHS } from './params';
 import { householdTax, SUPPLEMENTAL, type TaxByLevel } from './tax';
 import type { Firm, Household, PersonId } from './types';
 
 const yearOf = (iso: string) => Number(iso.slice(0, 4));
 
-/** Value of a person's counted tranches dated in a year, past ones included, at today's price. */
-function vestValueInYear(h: Household, firm: Firm, personId: PersonId, year: number): number {
-  return countedGrants(h, firm)
-    .filter((g) => g.ownerId === personId)
-    .flatMap((g) => g.tranches.filter((t) => !t.forfeited && yearOf(t.date) === year).map((t) => t.units * (priceOf(h.employers.find((e) => e.id === g.employerId)?.ticker) ?? 0)))
-    .reduce((a, b) => a + b, 0);
-}
-
 /**
- * Wages per person for a year before this year's future vests are added.
- * AC-E-12 ("no"): reported salary; every future tranche adds on top.
- * AC-E-11 ("yes"): this year, reported salary already holds this year's vests, so the base is
- * the salary minus the future ones (which are then added back); later years, salary minus
- * this year's vest value.
+ * Wages per person for a year before the vests are added: the reported salary, which excludes
+ * company stock (AC-E-02, AC-E-12).
  */
-export function baseWages(h: Household, firm: Firm, year: number): Record<PersonId, number> {
-  const current = yearOf(h.analysisDate);
-  const out: Record<PersonId, number> = {};
-  for (const p of h.people) {
-    const salary = h.salary[p.id] ?? 0;
-    if (h.incomeIncludesVests[p.id] !== 'yes') { out[p.id] = salary; continue; }
-    const thisYear = vestValueInYear(h, firm, p.id, current);
-    if (year === current) {
-      const future = countedFutureVests(h, firm).filter((v) => v.grant.ownerId === p.id && yearOf(v.tranche.date) === current).reduce((s, v) => s + v.value, 0);
-      out[p.id] = salary - future;
-    } else {
-      out[p.id] = salary - thisYear;
-    }
-  }
-  return out;
+export function baseWages(h: Household, _firm: Firm, _year: number): Record<PersonId, number> {
+  return Object.fromEntries(h.people.map((p) => [p.id, h.salary[p.id] ?? 0]));
 }
 
-/** AC-E-11, AC-E-12: vest income that is added beside reported salary in a year. */
+/** AC-E-12: every future vest of a year is added beside the reported salary. */
 export function addedVestIncome(h: Household, firm: Firm, year: number): number {
-  const current = yearOf(h.analysisDate);
   return countedFutureVests(h, firm)
-    .filter((v) => yearOf(v.tranche.date) === year && !(year === current && h.incomeIncludesVests[v.grant.ownerId] === 'yes'))
+    .filter((v) => yearOf(v.tranche.date) === year)
     .reduce((s, v) => s + v.value, 0);
 }
 

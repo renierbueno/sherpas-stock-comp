@@ -2,9 +2,9 @@
 import type { EventLog } from './events';
 import { heldPositions } from './exposure';
 import { statusOf } from './grants';
-import type { ClientEstimate, Firm, Household, IncomeAnswer, IsoDate, PersonId } from './types';
+import type { ClientEstimate, Firm, Household, IsoDate, PersonId } from './types';
 
-/** One "Stock compensation" chip row (AC-E-03 to AC-E-05). Only the employer is required (AC-E-04). */
+/** One "Stock compensation" chip row (AC-E-03, AC-E-04). Only the employer is required (AC-E-04). */
 export interface StockPayRow {
   id: string;
   ownerId: PersonId;
@@ -13,12 +13,11 @@ export interface StockPayRow {
   type?: ClientEstimate['type'];
   unvestedValue?: number;
   frequency?: ClientEstimate['frequency'];
-  incomeIncludesVests?: IncomeAnswer;
 }
 
-export const HELPER_LINE = 'Paid partly in company stock? Add it below as Stock compensation.'; // AC-E-02
-export const INCOME_QUESTION = 'Does your employment income above include stock that vested this year?'; // AC-E-05
-export const UPLOAD_PROMPT = 'Upload your plan statement if you have it'; // AC-E-19
+export const INCOME_QUESTION = 'Total annual income before taxes, not counting company stock'; // AC-E-02
+export const INCOME_QUESTION_TODAY = 'What is your total annual income before taxes?';
+export const HELPER_LINE = 'Paid partly in company stock? Add it below as Stock compensation.'; // AC-E-25
 
 /** AC-E-04: the employer is the only required field. */
 export function rowErrors(row: StockPayRow): string[] {
@@ -45,7 +44,6 @@ export function submitQuestionnaire(h: Household, rows: StockPayRow[], firm: Fir
     next = {
       ...next,
       employers: known ? next.employers : [...next.employers, employer],
-      incomeIncludesVests: { ...next.incomeIncludesVests, [r.ownerId]: r.incomeIncludesVests ?? next.incomeIncludesVests[r.ownerId] },
       grants: [...next.grants, {
         id: `q-${r.id}`, category: 'stockCompensation', subType: 'RSU', ownerId: r.ownerId, type: r.type === 'PSU' ? 'PSU' : 'RSU',
         employerId: employer.id, tranches: [], source: 'questionnaire', reportedOn: submittedOn,

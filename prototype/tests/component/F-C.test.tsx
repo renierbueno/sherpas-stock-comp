@@ -12,7 +12,7 @@ const tab = (name: string) => user().click(screen.getByRole('tab', { name }));
 
 /** SIMULATED: a $100K vest in January 2027, household taxed at 32%, no state rate. */
 const NEAR: Household = {
-  ...H2, salary: { p1: 360_000, p2: 90_000 }, incomeIncludesVests: { p1: 'no' },
+  ...H2, salary: { p1: 360_000, p2: 90_000 },
   grants: [{ id: 'n', category: 'stockCompensation', subType: 'RSU', ownerId: 'p1', type: 'RSU', employerId: 'halden', grantDate: '2025-01-15',
     units: 2_000, tranches: [{ id: 't', date: '2027-01-15', units: 2_000 }], source: 'advisor' }],
 };

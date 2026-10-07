@@ -163,7 +163,7 @@ function Scene5({ scene }: { scene: Scene }) {
       <h3>What the client fills in (the questionnaire's Income step, SIMULATED answers)</h3>
       <div className="embed">
         <IncomeStep household={scene.after} firm={FIRM} template="Financial Health & Portfolio Questionnaire" onSubmit={() => {}}
-          initialRows={[{ id: 'r1', ownerId: g.ownerId, employer: 'Halden Robotics', ticker: 'HLDN', type: 'RSU', unvestedValue: g.clientEstimate?.unvestedValue, frequency: 'quarterly', incomeIncludesVests: 'no' }]} />
+          initialRows={[{ id: 'r1', ownerId: g.ownerId, employer: 'Halden Robotics', ticker: 'HLDN', type: 'RSU', unvestedValue: g.clientEstimate?.unvestedValue, frequency: 'quarterly' }]} />
       </div>
       <h3>What happens next</h3>
       <Steps steps={[

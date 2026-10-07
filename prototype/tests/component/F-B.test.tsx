@@ -64,11 +64,11 @@ describe('F-B · screens', () => {
     expect(within(ed).getByLabelText('Tranche 1 cost basis')).toHaveValue('31000');
   });
 
-  it('AC-B-29 · the income question is asked per person, prefilled with the client answer', async () => {
+  it('AC-F-17 · the grant review shows the fixed salary line and asks no income question', async () => {
     render(<App initialHousehold="H2" />);
     const ed = await openEditor();
-    expect(within(ed).getByText('Does the salary on file include stock that vested this year? (Maya)')).toBeInTheDocument();
-    expect(within(ed).getByLabelText('No')).toBeChecked();
+    expect(within(ed).getByText('Salary on file should exclude company stock. If it includes stock that vested, edit it.')).toBeInTheDocument();
+    expect(within(ed).queryByText(/vested this year\?/)).toBeNull();
   });
 
   it('AC-B-05 · AC-B-23 · AC-B-27 · AC-G-15 · saving reprocesses: the block lists future tranches after the asset totals, priced at the analysis date', async () => {
@@ -144,7 +144,6 @@ describe('F-B · screens', () => {
     change(within(ed).getByLabelText('Grant date'), '2026-01-15');
     change(within(ed).getByLabelText('Units'), '1000');
     await user().click(within(ed).getByRole('button', { name: 'Generate tranches' }));
-    await user().click(within(ed).getByLabelText('No'));
     await user().click(within(ed).getByRole('button', { name: 'Save grant' }));
     expect(within(ed).getByRole('alert')).toHaveTextContent('Saving reprocesses the analysis and replaces your manual score adjustment.');
     await user().click(within(ed).getByRole('button', { name: 'Save and reprocess' }));

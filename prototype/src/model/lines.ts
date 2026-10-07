@@ -257,16 +257,10 @@ export function linesFD(h: Household, firm: Firm): ReportLine[] {
   return out;
 }
 
-/** F-E advisor notices (AC-E-13, AC-E-16, AC-E-17); never shared (AC-G-11). */
+/** F-E advisor notices (AC-E-16, AC-E-17); never shared (AC-G-11). */
 export function linesFE(h: Household, firm: Firm): ReportLine[] {
   if (!firm.stockComp) return [];
   const out: ReportLine[] = [];
-  for (const p of h.people) {
-    if (h.incomeIncludesVests[p.id] === 'not sure' && h.grants.some((g) => g.ownerId === p.id && !g.proposed)) {
-      out.push({ id: `E-13-${p.id}`, ac: 'AC-E-13', surface: 'advisor.notices', audience: 'advisor',
-        text: 'Check whether the reported income includes stock that vested this year.' });
-    }
-  }
   for (const g of h.grants.filter((x) => x.clientEstimate?.type === 'other')) {
     out.push({ id: `E-16-${g.id}`, ac: 'AC-E-16', surface: 'advisor.notices', audience: 'advisor',
       text: 'This type is not modelled in this version; flag any shares already held as employer stock.' });
