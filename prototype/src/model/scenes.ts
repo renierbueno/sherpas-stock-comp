@@ -30,7 +30,7 @@ const H2_NO_GRANT: Household = { ...H2, grants: [] };
  * A household taxed at 32% with a $100K vest in January 2027 (EC-C-01 shape), holding $60K of
  * cash against $60K of near-term commitments: the case where the gap matters for Liquidity.
  */
-const H2_GAP: Household = {
+export const H2_GAP: Household = {
   ...H2_NO_GRANT,
   cash: 60_000,
   salary: { p1: 360_000, p2: 90_000 },
@@ -39,7 +39,7 @@ const H2_GAP: Household = {
 };
 
 /** Home purchase in 2028; vests of $40K in 2027 and 2028 (EC-D-01 shape). */
-const H2_GOAL: Household = {
+export const H2_GOAL: Household = {
   ...H2_COMPLETE,
   goals: [{ id: 'home', name: 'Home purchase', year: 2028, amount: 250_000 }],
   grants: [{ ...H2_COMPLETE.grants[0], units: 1_600, tranches: [{ id: 'a', date: '2027-06-01', units: 800 }, { id: 'b', date: '2028-06-01', units: 800 }] }],

@@ -36,27 +36,46 @@ describe('Start here and the scenes (D-065)', () => {
     expect(within(screen.getByLabelText('Key numbers')).getByText('was 20%')).toBeInTheDocument();
   });
 
-  it('scene 2: the tax gap is counted and Liquidity drops', async () => {
+  it('scene 2: the advisor saves the grant; the tax gap is counted and Liquidity drops', async () => {
     render(<Root />);
     await user().click(screen.getByRole('button', { name: /^2/ }));
+    await user().click(screen.getByRole('button', { name: 'Do it: Save the grant' }));
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
     const keys = screen.getByLabelText('Key numbers');
     expect(within(keys).getByText('was $0')).toBeInTheDocument();
     expect(within(keys).getByText('was 10 / 15')).toBeInTheDocument();
   });
 
-  it('next scene and "Try it yourself" lead somewhere', async () => {
+  it('scene 3: a scene that starts complete compares with the household without stock compensation', async () => {
     render(<Root />);
-    await user().click(screen.getByRole('button', { name: /^2/ }));
-    await user().click(screen.getByRole('button', { name: 'Next scene →' }));
-    expect(screen.getByText('Vests that help fund a goal')).toBeInTheDocument();
-    await user().click(screen.getByRole('button', { name: '← Previous' }));
-    await user().click(screen.getByRole('button', { name: 'Try it yourself' }));
-    expect(screen.getByLabelText('View')).toHaveDisplayValue('Advisor mode');
+    await user().click(screen.getByRole('button', { name: /^3/ }));
+    expect(within(screen.getByLabelText('Key numbers')).getByText(/^without stock compensation: 0 · \$0$/)).toBeInTheDocument();
+    expect(screen.getByLabelText('Projected net worth figure')).toBeInTheDocument();
   });
 
-  it('a before-and-after scene shows its inputs and its calculation, read from the model (D-071)', async () => {
+  it('scene 5: the existing client changes only after the advisor saves the grant, which replaces the manual adjustment', async () => {
+    render(<Root />);
+    await user().click(screen.getByRole('button', { name: /^5/ }));
+    expect(screen.queryByLabelText('Stock compensation not yet vested')).toBeNull();
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
+    await user().click(screen.getByRole('button', { name: 'Do it: Save the grant' }));
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
+    expect(screen.getByLabelText('Stock compensation not yet vested')).toBeInTheDocument();
+    expect(within(screen.getByLabelText('Key numbers')).getAllByText(/^was /).length).toBeGreaterThan(0);
+  });
+
+  it('the last step of a scene leads to the next scene', async () => {
+    render(<Root />);
+    await user().click(screen.getByRole('button', { name: /^3/ }));
+    await user().click(screen.getByRole('button', { name: 'Next step →' }));
+    await user().click(screen.getByRole('button', { name: 'Next scene →' }));
+    expect(screen.getByText('A PSU with a performance range')).toBeInTheDocument();
+  });
+
+  it('a scene keeps its inputs and calculation, read from the model, folded (D-071)', async () => {
     render(<Root />);
     await user().click(screen.getByRole('button', { name: /^2/ }));
+    expect(screen.getByText('How it is computed (inputs and calculation, SIMULATED)')).toBeInTheDocument();
     expect(screen.getByLabelText('How it is computed')).toBeInTheDocument();
   });
 

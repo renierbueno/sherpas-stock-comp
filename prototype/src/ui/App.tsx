@@ -4,7 +4,7 @@ import { analyze, type Analysis } from '../model/analysis';
 import { EventLog } from '../model/events';
 import { addGrant, saveGrant, setStateWithholding } from '../model/grants';
 import { HOUSEHOLDS } from '../model/households';
-import type { EmployerFlag, Firm, Household } from '../model/types';
+import type { EmployerFlag, Firm, Grant, Household } from '../model/types';
 import { Edits, FinancialHealth, Statements, visibleLines, type Mode } from './FinancialHealth';
 import { adjustScore, shareAnalysis, type LineEdits } from '../model/sharing';
 import { GrantsPanel, type GrantSave, type ProposalActions } from './GrantEditor';
@@ -26,7 +26,7 @@ export interface Steering {
   /** The client's answers, prefilled so the scene shows only what matters. */
   questionnaire?: { rows: StockCompensationRow[]; documents: string[]; start: 'documents' | 'income' };
   /** "Do it": the step's action, run once per id. */
-  run?: { id: number; kind: 'submit' | 'confirm' | 'share'; document?: string };
+  run?: { id: number; kind: 'submit' | 'confirm' | 'share' | 'addGrant'; document?: string; grant?: Grant };
 }
 
 export function App({ initialHousehold = 'H2', initialMode = 'client', initialTab = 'health', households: seed = HOUSEHOLDS, steer, onState }: {
@@ -113,6 +113,10 @@ export function App({ initialHousehold = 'H2', initialMode = 'client', initialTa
     ran.add(r.id);
     if (r.kind === 'submit' && steer?.questionnaire) { submitClient(steer.questionnaire); setSubmitted(true); }
     if (r.kind === 'confirm' && r.document) proposals.onConfirmAll(r.document);
+    if (r.kind === 'addGrant' && r.grant) {
+      const employer = household.employers.find((e) => e.id === r.grant!.employerId);
+      if (employer) saveGrantEdit({ grant: r.grant, employer });
+    }
     if (r.kind === 'share') { shareAnalysis(household, analysis.lines, lineEdits, log); setShared(hid); }
   }, [steer?.run?.id]);
 

@@ -1,137 +1,17 @@
-// "Start here" and the guided scenes (D-065): the prototype explains itself to someone who did
-// not build it. Each scene shows the client's shared view before and after, with new lines marked.
+// "Start here" and the guided scenes (D-065, D-117): the prototype explains itself to someone who
+// did not build it. Each scene is a guided walk on the live prototype, in flow order.
 import { useState } from 'react';
-import { analyze, sharedLines, type Analysis } from '../model/analysis';
-import { money, pct } from '../model/format';
-import { countedFutureVests, netWorth } from '../model/grants';
-import { projection, vestInflows } from '../model/projection';
-import { SCENES, type Scene } from '../model/scenes';
-import type { Firm, Household } from '../model/types';
 import { App } from './App';
-import { FinancialHealth, NewLines } from './FinancialHealth';
-import { SceneDetail } from './SceneDetail';
 import { Evidence } from './Evidence';
-import { FlowRail, GuideStrip } from './Guide';
+import { FlowRail } from './Guide';
 import { StoryView } from './Story';
-import { STORY_RSU, type Story } from '../model/stories';
+import { STORY_EXISTING, STORY_GAP, STORY_GOAL, STORY_PSU, STORY_RSU, type Story } from '../model/stories';
 
-const FIRM: Firm = { id: 'firm-sim', stockComp: true };
-
-interface KeyNumber { label: string; value: (h: Household, a: Analysis) => string }
-
-const area = (a: Analysis, name: string) => {
-  const x = a.score.areas.find((r) => r.area === name)!;
-  return `${Math.round(x.points)} / ${x.available}`;
-};
-
-const KEYS: Record<number, KeyNumber[]> = {
-  1: [
-    { label: 'Concentration check reads', value: (_, a) => pct(a.score.concentration.figure) },
-    { label: 'Investing area', value: (_, a) => area(a, 'investing') },
-    { label: 'Score', value: (_, a) => String(a.score.score) },
-  ],
-  2: [
-    { label: 'Future vests listed', value: (h) => { const v = countedFutureVests(h, FIRM); return `${v.length} · ${money(v.reduce((s, x) => s + x.value, 0))}`; } },
-    { label: 'Net worth', value: (h) => money(netWorth(h)) },
-    { label: 'Score', value: (_, a) => String(a.score.score) },
-  ],
-  3: [
-    { label: 'Tax gap counted (next 12 months)', value: (_, a) => money(a.score.liquidity.vestGaps) },
-    { label: 'Near-term commitments', value: (_, a) => money(a.score.liquidity.commitments) },
-    { label: 'Liquidity area', value: (_, a) => area(a, 'liquidity') },
-  ],
-  4: [
-    { label: 'Vests after tax, by 2028', value: (h) => money(vestInflows(h, FIRM).filter((i) => i.date < '2029').reduce((s, i) => s + i.after, 0)) },
-    { label: 'Projected net worth, 2028', value: (h) => money(projection(h, FIRM).find((p) => p.year === 2028)!.netWorth) },
-    { label: 'Score', value: (_, a) => String(a.score.score) },
-  ],
-  5: [],
-};
-
-function SceneView({ scene, pos, total, onNav, onTry }: { scene: Scene; pos: number; total: number; onNav: (n: number | 'start' | 'evidence') => void; onTry: () => void }) {
-  const [after, setAfter] = useState(true);
-  const before = analyze(scene.before, FIRM);
-  const now = analyze(scene.after, FIRM);
-  const known = new Set(sharedLines(before).map((l) => l.id));
-  const freshLines = sharedLines(now).filter((l) => !known.has(l.id));
-  const fresh = new Set(freshLines.map((l) => l.id));
-  // Lines that live in other tabs: named, since the scene shows the Financial health view.
-  const ELSEWHERE: Record<string, string> = { 'investment.snapshot': 'the Investment analysis tab', 'statements.cashflow': 'the cash flow statement' };
-  const elsewhere = [...new Set(freshLines.filter((l) => ELSEWHERE[l.surface]).map((l) => ELSEWHERE[l.surface]))];
-  const here = freshLines.filter((l) => !ELSEWHERE[l.surface]).length;
-  const shown = after ? now : before;
-  const household = after ? scene.after : scene.before;
-  return (
-    <>
-      <div className="scenebar" role="region" aria-label="Scene">
-        <div className="inner">
-          <div className="row">
-            <button className="link" onClick={() => onNav('start')}>← Start here</button>
-            <span className="caps">Scene {pos} of {total} · {scene.feature} · SIMULATED household</span>
-          </div>
-          <h2>{scene.title}</h2>
-          <GuideStrip guide={{ ...scene.guide, why: `Today: ${scene.problem}\nWith the change: ${scene.advisorDid}\n${scene.lookAt}` }} />
-          <div className="row">
-            <div className="toggle" role="group" aria-label="Before or after">
-              <button aria-pressed={!after} onClick={() => setAfter(false)}>Before (today)</button>
-              <button aria-pressed={after} onClick={() => setAfter(true)}>After</button>
-            </div>
-            {after && fresh.size > 0 && <span className="newbadge">New</span>}
-            {after && <span className="caps">{here} new lines below, marked with the requirement that defines them{elsewhere.length > 0 && `; also new in ${elsewhere.join(' and ')}`}</span>}
-          </div>
-          {KEYS[scene.id].length > 0 && (
-            <div className="keynums" aria-label="Key numbers">
-              {KEYS[scene.id].map((k) => {
-                const b = k.value(scene.before, before);
-                const a = k.value(scene.after, now);
-                return (
-                  <div className="card" key={k.label}>
-                    <div className="caps">{k.label}</div>
-                    <div className="v">{after ? a : b}</div>
-                    {after && <div className="delta">{a === b ? 'unchanged' : `was ${b}`}</div>}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          <div className="row">
-            {pos > 1 && <button className="btn secondary" onClick={() => onNav(pos - 1)}>← Previous</button>}
-            {pos < total && <button className="btn" onClick={() => onNav(pos + 1)}>Next scene →</button>}
-            <button className="link" onClick={onTry}>Try it yourself</button>
-            <button className="link" onClick={() => onNav('evidence')}>How we know it works</button>
-            <span className="caps">Spec: {scene.spec}</span>
-          </div>
-        </div>
-      </div>
-      {scene.ready && <SceneDetail scene={scene} />}
-      {scene.ready && <div className="divider"><span>The client's view and the shared PDF {after ? '(after)' : '(before, as today)'}</span></div>}
-      {scene.ready ? (
-        <NewLines.Provider value={after ? fresh : new Set()}>
-          <FinancialHealth household={household} analysis={shown} mode="print" />
-        </NewLines.Provider>
-      ) : (
-        <main><section className="section unchanged"><h2>Screens for this scene come later in the build</h2><div>The model and its tests are done; see the spec file above.</div></section></main>
-      )}
-    </>
-  );
-}
-
-/**
- * The scenes in flow order (D-117): guided walks on the live prototype. Scenes 2 and 3 are still
- * before-and-after views until they are rebuilt as walks; 4 and 5 come later in the build.
- */
-type Entry = { title: string } & ({ story: Story } | { scene: Scene } | { later: string });
-const TOUR: Entry[] = [
-  { title: STORY_RSU.title, story: STORY_RSU },
-  { title: SCENES[2].title, scene: SCENES[2] },
-  { title: SCENES[3].title, scene: SCENES[3] },
-  { title: 'A PSU with a performance range', later: 'walk later in the build' },
-  { title: 'An existing client: the advisor adds the grant', later: 'walk later in the build' },
-];
+/** The scenes in flow order (D-117): guided walks on the live prototype. */
+const TOUR: Story[] = [STORY_RSU, STORY_GAP, STORY_GOAL, STORY_PSU, STORY_EXISTING];
 
 export function Root() {
   const [at, setAt] = useState<number | 'start' | 'explore' | 'evidence'>('start');
-  const [tryIt, setTryIt] = useState<Scene['tryIt']>({ household: 'H2', mode: 'client' });
 
   if (at === 'evidence') return <><div className="sim-banner"><strong>SIMULATED prototype · not Sherpas code or data</strong></div><Evidence onBack={() => setAt('start')} /></>;
   if (at === 'explore') {
@@ -141,14 +21,12 @@ export function Root() {
           <button className="link" onClick={() => setAt('start')}>← Start here</button>
           <span className="caps">Explore freely: pick a household, switch between the client view, advisor mode and the shared PDF, and turn the firm setting on or off.</span>
         </div></div></div>
-        <App key={`${tryIt.household}-${tryIt.mode}-${tryIt.tab ?? ''}`} initialHousehold={tryIt.household} initialMode={tryIt.mode} initialTab={tryIt.tab} />
+        <App />
       </>
     );
   }
   if (typeof at === 'number') {
-    const e = TOUR[at - 1];
-    if ('story' in e) return <StoryView key={at} story={e.story} pos={at} total={TOUR.length} onNav={setAt} />;
-    if ('scene' in e) return <SceneView key={at} scene={e.scene} pos={at} total={TOUR.length} onNav={setAt} onTry={() => { setTryIt(e.scene.tryIt); setAt('explore'); }} />;
+    return <StoryView key={at} story={TOUR[at - 1]} pos={at} total={TOUR.length} onNav={setAt} />;
   }
   return (
     <>
@@ -163,10 +41,9 @@ export function Root() {
         <ol className="scenelist">
           {TOUR.map((e, i) => (
             <li key={e.title}>
-              <button onClick={() => setAt(i + 1)} disabled={'later' in e}>
+              <button onClick={() => setAt(i + 1)}>
                 <span className="n">{i + 1}</span>
                 <span>{e.title}</span>
-                {'later' in e && <span className="soon">{e.later}</span>}
               </button>
             </li>
           ))}

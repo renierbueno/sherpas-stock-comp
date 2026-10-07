@@ -193,3 +193,4 @@ fieldset { border: 1px solid var(--border); border-radius: var(--r); padding: 8p
 .sectionrail .shown { color: var(--muted); }
 .sectionrail .here { color: var(--text); font-weight: 600; }
 .figure { margin: 8px 0 0; font-size: 14px; }
+.scenebar details.calc { margin: 8px 0; } .scenebar details.calc summary { cursor: pointer; color: var(--blue); font-weight: 500; font-size: 14px; }

@@ -2,11 +2,11 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_WORDS, SCREEN_GUIDES, tabMarks } from '../../src/model/guide';
 import { SCENES } from '../../src/model/scenes';
-import { STORY_RSU } from '../../src/model/stories';
+import { STORY_EXISTING, STORY_GAP, STORY_GOAL, STORY_PSU, STORY_RSU } from '../../src/model/stories';
 
 const words = (s: string) => s.trim().split(/\s+/).length;
 const all = [...Object.entries(SCREEN_GUIDES), ...SCENES.map((s) => [`scene ${s.id}`, s.guide] as const),
-  ...STORY_RSU.steps.map((s, i) => [`walk 1 step ${i + 1}`, s.guide] as const)];
+  ...[STORY_RSU, STORY_GAP, STORY_GOAL, STORY_PSU, STORY_EXISTING].flatMap((st) => st.steps.map((s, i) => [`${st.id} step ${i + 1}`, s.guide] as const))];
 
 describe('Guide strip (D-114)', () => {
   it('covers every view and tab of Explore freely', () => {
